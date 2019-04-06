@@ -1,5 +1,7 @@
 import PropTypes from "prop-types";
 import Link from "next/link";
+import Router from "next/router";
+import NProgress from "nprogress";
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -8,6 +10,18 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Nav from "../nav/Nav.js";
 
+Router.onRouteChangeStart = () => {
+  NProgress.start();
+};
+
+Router.onRouteChangeComplete = () => {
+  NProgress.done();
+};
+
+Router.onRouteChangeError = () => {
+  NProgress.done();
+};
+
 const styles = {
   root: {
     flexGrow: 1,
@@ -15,6 +29,16 @@ const styles = {
   },
   grow: {
     flexGrow: 1
+  },
+  logo: {
+    fontSize: "2rem",
+    marginLeft: "2rem",
+    position: "relative",
+    zIndex: 2,
+    transform: "skew(-7deg)",
+    textTransform: "uppercase",
+    textDecoration: "none",
+    color: "orange"
   }
 };
 
@@ -24,9 +48,9 @@ const Header = props => {
     <div className={classes.root}>
       <AppBar position="static" className={classes.root}>
         <Toolbar>
-          <Typography variant="h6" color="orange" className={classes.grow}>
+          <Typography variant="h6" className={classes.grow}>
             <Link href="/">
-              <a style={{ textDecoration: "none" }}>ENTRA</a>
+              <a className={classes.logo}>ENTRA</a>
             </Link>
           </Typography>
           <Nav />
