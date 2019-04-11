@@ -17,3 +17,5 @@ yarn-error.log*
 # Next.js
 /.next
 .next
+.next
+git rm -r --cached .next
