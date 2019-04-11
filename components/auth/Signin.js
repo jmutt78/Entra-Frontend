@@ -1,39 +1,27 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import gql from "graphql-tag";
 import Error from "./../ErrorMessage.js";
 import { CURRENT_USER_QUERY } from "./User";
 
-const SIGNUP_MUTATION = gql`
-  mutation SIGNUP_MUTATION(
-    $email: String!
-    $name: String!
-    $password: String!
-    $displayName: String!
-  ) {
-    signup(
-      email: $email
-      name: $name
-      password: $password
-      displayName: $displayName
-    ) {
+const SIGNIN_MUTATION = gql`
+  mutation SIGNIN_MUTATION($email: String!, $password: String!) {
+    signin(email: $email, password: $password) {
       id
       email
       name
-      displayName
     }
   }
 `;
 
-class Signup extends Component {
+class Signin extends Component {
   state = {
     name: "",
     password: "",
-    email: "",
-    displayName: ""
+    email: ""
   };
   saveToState = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -41,7 +29,7 @@ class Signup extends Component {
   render() {
     return (
       <Mutation
-        mutation={SIGNUP_MUTATION}
+        mutation={SIGNIN_MUTATION}
         variables={this.state}
         refetchQueries={[{ query: CURRENT_USER_QUERY }]}
       >
@@ -53,16 +41,11 @@ class Signup extends Component {
               onSubmit={async e => {
                 e.preventDefault();
                 await signup();
-                this.setState({
-                  name: "",
-                  password: "",
-                  email: "",
-                  displayName: ""
-                });
+                this.setState({ name: "", email: "", password: "" });
               }}
             >
               <fieldset disabled={loading} aria-busy={loading}>
-                <h2>Sign Up!</h2>
+                <h2>Log In!</h2>
                 <Error error={error} />
                 <label htmlFor="email">
                   <TextField
@@ -70,24 +53,6 @@ class Signup extends Component {
                     name="email"
                     placeholder="email"
                     value={this.state.email}
-                    onChange={this.saveToState}
-                  />
-                </label>
-                <label htmlFor="name">
-                  <TextField
-                    type="text"
-                    name="name"
-                    placeholder="name"
-                    value={this.state.name}
-                    onChange={this.saveToState}
-                  />
-                </label>
-                <label htmlFor="display name">
-                  <TextField
-                    type="text"
-                    name="displayName"
-                    placeholder="display name"
-                    value={this.state.displayName}
                     onChange={this.saveToState}
                   />
                 </label>
@@ -101,7 +66,7 @@ class Signup extends Component {
                   />
                 </label>
                 <div>
-                  <Button type="submit">Sign Up!</Button>
+                  <Button type="submit">Log In!</Button>
                 </div>
               </fieldset>
             </form>
@@ -112,4 +77,4 @@ class Signup extends Component {
   }
 }
 
-export default Signup;
+export default Signin;
