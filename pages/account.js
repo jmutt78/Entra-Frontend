@@ -1,12 +1,9 @@
-import React from "react";
+import DisplayAccount from "../components/account/DisplayAccount";
 
-class Account extends React.Component {
-  render() {
-    return (
-      <div>
-        <p>Account</p>
-      </div>
-    );
-  }
-}
+const Account = props => (
+  <div>
+    <DisplayAccount />
+  </div>
+);
+
 export default Account;

@@ -7,8 +7,16 @@ const CURRENT_USER_QUERY = gql`
     me {
       id
       email
+      displayName
       name
       permissions
+      createdAt
+      updatedAt
+      location
+      aboutMe
+      industry
+      permissions
+      categories
     }
   }
 `;

@@ -100,6 +100,7 @@ class Signup extends Component {
                     onChange={this.saveToState}
                   />
                 </label>
+
                 <div>
                   <Button type="submit">Sign Up!</Button>
                 </div>
