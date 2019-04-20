@@ -25,6 +25,9 @@ const Nav = props => {
           {me && (
             <>
               <Signout />
+              <Link href="/account/myaccount">
+                <a>MY ACCOUNT</a>
+              </Link>
             </>
           )}
           {!me && (

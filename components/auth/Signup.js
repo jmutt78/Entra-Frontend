@@ -12,18 +12,13 @@ const SIGNUP_MUTATION = gql`
     $email: String!
     $name: String!
     $password: String!
-    $displayName: String!
+    $display: String!
   ) {
-    signup(
-      email: $email
-      name: $name
-      password: $password
-      displayName: $displayName
-    ) {
+    signup(email: $email, name: $name, password: $password, display: $display) {
       id
       email
       name
-      displayName
+      display
     }
   }
 `;
@@ -33,7 +28,7 @@ class Signup extends Component {
     name: "",
     password: "",
     email: "",
-    displayName: ""
+    display: ""
   };
   saveToState = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -57,7 +52,7 @@ class Signup extends Component {
                   name: "",
                   password: "",
                   email: "",
-                  displayName: ""
+                  display: ""
                 });
               }}
             >
@@ -85,9 +80,9 @@ class Signup extends Component {
                 <label htmlFor="display name">
                   <TextField
                     type="text"
-                    name="displayName"
+                    name="display"
                     placeholder="display name"
-                    value={this.state.displayName}
+                    value={this.state.display}
                     onChange={this.saveToState}
                   />
                 </label>

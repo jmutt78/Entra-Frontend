@@ -1,4 +1,4 @@
-import DisplayAccount from "../components/account/DisplayAccount";
+import DisplayAccount from "../../components/account/DisplayAccount.js";
 
 const Account = props => (
   <div>

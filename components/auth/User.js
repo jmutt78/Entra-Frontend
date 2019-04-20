@@ -7,23 +7,23 @@ const CURRENT_USER_QUERY = gql`
     me {
       id
       email
-      displayName
+      display
       name
       permissions
       createdAt
       updatedAt
       location
-      aboutMe
+      about
       industry
-      permissions
       categories
+      image
     }
   }
 `;
 
 const User = props => (
   <Query {...props} query={CURRENT_USER_QUERY}>
-    {payload => console.log(payload) || props.children(payload)}
+    {payload => props.children(payload)}
   </Query>
 );
 
