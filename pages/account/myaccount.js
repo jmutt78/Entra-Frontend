@@ -1,8 +1,11 @@
-import DisplayAccount from "../../components/account/DisplayAccount.js";
+import DisplayAccount from "../../components/account/DisplayAccount";
+import PleaseSignIn from "../../components/auth/PleaseSignIn";
 
 const Account = props => (
   <div>
-    <DisplayAccount />
+    <PleaseSignIn>
+      <DisplayAccount />
+    </PleaseSignIn>
   </div>
 );
 

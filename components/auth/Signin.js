@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Router from "next/router";
 import { Mutation } from "react-apollo";
 import Link from "next/link";
 import TextField from "@material-ui/core/TextField";
@@ -42,7 +43,9 @@ class Signin extends Component {
               onSubmit={async e => {
                 e.preventDefault();
                 await signup();
+
                 this.setState({ name: "", email: "", password: "" });
+                Router.push("/");
               }}
             >
               <fieldset disabled={loading} aria-busy={loading}>

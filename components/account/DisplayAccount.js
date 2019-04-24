@@ -5,20 +5,56 @@ import Link from "next/link";
 import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
 import { withStyles } from "@material-ui/core/styles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faAward } from "@fortawesome/free-solid-svg-icons";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
+import Divider from "@material-ui/core/Divider";
+import Card from "@material-ui/core/Card";
+import Icon from "@material-ui/core/Icon";
 
 import { CURRENT_USER_QUERY } from "../auth/User";
 
 const styles = theme => ({
   bigAvatar: {
-    margin: 10,
-    width: 80,
-    height: 80
+    width: 120,
+    height: 120
+  },
+  grid: {
+    margin: theme.spacing.unit
+  },
+  root: {
+    margin: theme.spacing.unit,
+    marginTop: 40
+  },
+  qaGrid: {
+    marginLeft: 50,
+    marginRight: 50
+  },
+  badge: {
+    marginLeft: 50,
+    marginRight: 50
+  },
+  badgeTitle: {
+    marginRight: 5,
+    marginTop: -30,
+    marginBottom: 30
+  },
+  card: {
+    width: "100%",
+    height: 400
+  },
+  awesome: {
+    justiftyContent: "center",
+    alignItems: "center",
+    margin: theme.spacing.unit * 2
   }
 });
 
 class DisplayAccount extends Component {
   handleImage(user, classes) {
-    console.log(user.image);
     if (user.image == null || user.image == "") {
       return (
         <div>
@@ -46,30 +82,130 @@ class DisplayAccount extends Component {
           const user = data.me;
           const dateToFormat = data.me.createdAt;
           return (
-            <div>
-              <div>
+            <Grid container className={classes.root} spacing={16}>
+              <Grid item xs={2} className={classes.grid} />
+              <Grid item xs={1} className={classes.grid}>
                 {this.handleImage(user, classes)}
-                <h2>{data.me.name}</h2>
-                <Link href="/account/editaccount">
-                  <a style={{ textDecoration: "none", color: "grey" }}>
-                    EDIT ACCOUNT INFO
-                  </a>
-                </Link>
-                <h3>{data.me.display}</h3>
-                <span>
+              </Grid>
+              <Grid item xs={4} className={classes.grid}>
+                <Typography variant="h4">{data.me.name}</Typography>
+                <Typography variant="h6">{data.me.display}</Typography>
+                <Typography variant="subheading">
+                  Location: {data.me.location}
+                </Typography>
+                <Typography variant="subheading">
+                  Industry: {data.me.industry}
+                </Typography>
+                <Typography>
                   Member Since {format(parseISO(dateToFormat), "MMMM dd, yyyy")}
-                </span>
-              </div>
-              <div>
-                <p>{data.me.about}</p>
-              </div>
-              <div>
-                <h3>Q&A Activity</h3>
-              </div>
-              <div>
-                <h3>Badges</h3>
-              </div>
-            </div>
+                </Typography>
+              </Grid>
+              <Grid item className={classes.grid} />
+              <Grid item className={classes.grid}>
+                <Typography>
+                  <Link href="/account/editaccount">
+                    <a style={{ textDecoration: "none", color: "grey" }}>
+                      EDIT ACCOUNT INFO
+                    </a>
+                  </Link>
+                </Typography>
+              </Grid>
+              <Grid item xs={2} className={classes.grid} />
+              <Grid item xs={2} className={classes.grid} />
+              <Grid item xs={7} className={classes.grid}>
+                <Typography>{data.me.about}</Typography>
+              </Grid>
+              <Grid item xs={2} className={classes.grid} />
+              <Grid item xs={2} className={classes.grid} />
+              <Grid item xs={7} className={classes.grid}>
+                <Divider variant="middle" />
+              </Grid>
+              <Grid item xs={2} className={classes.grid} />
+              <Grid item xs={2} className={classes.grid} />
+              <Grid item xs={6} className={classes.grid}>
+                <Typography variant="h4">Q&A Activity</Typography>
+              </Grid>
+              <Grid item xs={2} className={classes.grid}>
+                <Typography>
+                  <Link href="/">
+                    <a style={{ textDecoration: "none", color: "grey" }}>
+                      VIEW ALL
+                    </a>
+                  </Link>
+                </Typography>
+              </Grid>
+              <Grid item xs={2} className={classes.grid} />
+              <Grid item xs={1} className={classes.qaGrid}>
+                <Typography variant="h4" align="center">
+                  8
+                </Typography>
+                <Typography variant="h5" align="center">
+                  <Link href="/">
+                    <a style={{ textDecoration: "none", color: "grey" }}>
+                      Questions
+                    </a>
+                  </Link>
+                </Typography>
+              </Grid>
+              <Grid item xs={1} className={classes.qaGrid}>
+                <Typography variant="h4" align="center">
+                  13
+                </Typography>
+                <Typography variant="h5" align="center">
+                  <Link href="/">
+                    <a style={{ textDecoration: "none", color: "grey" }}>
+                      Answers
+                    </a>
+                  </Link>
+                </Typography>
+              </Grid>
+              <Grid item xs={1} className={classes.qaGrid}>
+                <Typography variant="h4" align="center">
+                  0
+                </Typography>
+                <Typography variant="h5" align="center">
+                  <Link href="/">
+                    <a style={{ textDecoration: "none", color: "grey" }}>
+                      Accepted Answers
+                    </a>
+                  </Link>
+                </Typography>
+              </Grid>
+              <Grid item xs={1} className={classes.qaGrid}>
+                <Typography variant="h4" align="center">
+                  2
+                </Typography>
+                <Typography variant="h5" align="center">
+                  <Link href="/">
+                    <a style={{ textDecoration: "none", color: "grey" }}>
+                      Badges
+                    </a>
+                  </Link>
+                </Typography>
+              </Grid>
+              <Grid item xs={2} className={classes.grid} />
+              <Grid item xs={2} className={classes.grid} />
+              <Grid item xs={7} className={classes.grid}>
+                <Card className={classes.card}>
+                  <Grid container className={classes.root} spacing={16}>
+                    <Grid item xs={11} className={classes.badgeTitle}>
+                      <Typography variant="h4">Badges</Typography>
+                    </Grid>
+                    <Grid item xs={1} className={classes.badge}>
+                      <Paper>
+                        <Icon className={classes.awesome} align="center">
+                          <FontAwesomeIcon size="2x" icon={faAward} />
+                        </Icon>
+                        <Typography variant="h6" align="center">
+                          First Question
+                        </Typography>
+                      </Paper>
+                    </Grid>
+                  </Grid>
+                </Card>
+              </Grid>
+              <Grid item xs={2} className={classes.grid} />
+            </Grid>
           );
         }}
       </Query>

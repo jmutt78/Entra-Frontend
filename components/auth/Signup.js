@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Router from "next/router";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import TextField from "@material-ui/core/TextField";
@@ -54,6 +55,7 @@ class Signup extends Component {
                   email: "",
                   display: ""
                 });
+                Router.push("/");
               }}
             >
               <fieldset disabled={loading} aria-busy={loading}>

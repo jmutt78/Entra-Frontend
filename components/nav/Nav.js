@@ -3,7 +3,6 @@ import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import User from "../auth/User.js";
-import Signout from "../auth/Signout";
 
 const styles = {
   menuButton: {
@@ -11,7 +10,23 @@ const styles = {
     marginRight: 20
   },
   button: {
-    margin: 10
+    margin: 10,
+    backgroundColor: "#E27D60"
+  },
+  nav: {
+    color: "white",
+    fontSize: "1.5rem",
+    marginLeft: "2rem",
+    marginRight: "2rem",
+    position: "relative",
+    zIndex: 2,
+    textDecoration: "none",
+    fontSize: 20,
+    fontWieght: "strong"
+  },
+  root: {
+    flexGrow: 1,
+    backgroundColor: "grey"
   }
 };
 
@@ -22,16 +37,14 @@ const Nav = props => {
     <User>
       {({ data: { me } }) => (
         <div>
-          {me && (
-            <>
-              <Signout />
-              <Link href="/account/myaccount">
-                <a>MY ACCOUNT</a>
-              </Link>
-            </>
-          )}
+          {me && <></>}
           {!me && (
-            <>
+            <div>
+              <Link href="/signin">
+                <a variant="outlined" color="secondary" className={classes.nav}>
+                  Login
+                </a>
+              </Link>
               <Link href="/signup">
                 <Button
                   variant="contained"
@@ -41,16 +54,7 @@ const Nav = props => {
                   Signup
                 </Button>
               </Link>
-              <Link href="/signin">
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  className={classes.button}
-                >
-                  Login
-                </Button>
-              </Link>
-            </>
+            </div>
           )}
         </div>
       )}
