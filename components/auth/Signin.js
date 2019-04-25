@@ -1,64 +1,79 @@
 import React, { Component } from "react";
 import Router from "next/router";
 import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
+import Link from "next/link";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import PropTypes from "prop-types";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import gql from "graphql-tag";
 import Error from "./../ErrorMessage.js";
 import { CURRENT_USER_QUERY } from "./User";
 
-const SIGNUP_MUTATION = gql`
-  mutation SIGNUP_MUTATION(
-    $email: String!
-    $name: String!
-    $password: String!
-    $display: String!
-  ) {
-    signup(email: $email, name: $name, password: $password, display: $display) {
+const SIGNIN_MUTATION = gql`
+  mutation SIGNIN_MUTATION($email: String!, $password: String!) {
+    signin(email: $email, password: $password) {
       id
       email
       name
-      display
     }
   }
 `;
-const styles = theme => ({
-  container: {
-    display: "flex",
 
-    width: 100
-  },
+const styles = theme => ({
   root: {
     marginTop: theme.spacing.unit * 10,
     marginLeft: theme.spacing.unit * 5
   },
+  container: {
+    display: "flex",
 
-  smallField: {
-    marginLeft: 0,
-    marginRight: 0,
-    width: 500,
+    width: 80
+  },
+  textField: {
+    marginLeft: 15,
+    marginRight: 15,
+    width: 700,
     marginBottom: 30
   },
-
+  smallField: {
+    marginLeft: 0,
+    marginRight: 15,
+    width: 400,
+    marginBottom: 30
+  },
+  top: {
+    width: 400,
+    backgroundColor: "#85BDCB",
+    boxShadow: "none",
+    marginBottom: theme.spacing.unit
+  },
   button: {
-    marginBottom: theme.spacing.unit,
-    backgroundColor: "#E27D60"
+    marginBottom: theme.spacing.unit
   },
   text: {
-    marginBottom: 20
+    color: "grey",
+    marginBottom: theme.spacing.unit
+  },
+  buttonTop: {
+    backgroundColor: "#E27D60",
+    marginLeft: theme.spacing.unit * 4
+  },
+  textTop: {
+    color: "white",
+    fontSize: 20
   }
 });
 
-class Signup extends Component {
+class Signin extends Component {
   state = {
     name: "",
     password: "",
-    email: "",
-    display: ""
+    email: ""
   };
   saveToState = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -67,7 +82,7 @@ class Signup extends Component {
     const { classes } = this.props;
     return (
       <Mutation
-        mutation={SIGNUP_MUTATION}
+        mutation={SIGNIN_MUTATION}
         variables={this.state}
         refetchQueries={[{ query: CURRENT_USER_QUERY }]}
       >
@@ -80,12 +95,8 @@ class Signup extends Component {
                 onSubmit={async e => {
                   e.preventDefault();
                   await signup();
-                  this.setState({
-                    name: "",
-                    password: "",
-                    email: "",
-                    display: ""
-                  });
+
+                  this.setState({ name: "", email: "", password: "" });
                   Router.push("/");
                 }}
               >
@@ -96,21 +107,22 @@ class Signup extends Component {
                     borderWidth: "0px"
                   }}
                 >
-                  <Typography variant="h4" className={classes.text}>
-                    Sign up for an account
-                  </Typography>
+                  <AppBar className={classes.top} position="static">
+                    <Toolbar>
+                      <Typography className={classes.textTop}>
+                        Don't have an account?
+                      </Typography>
+                      <Link href="/signup">
+                        <Button size="medium" className={classes.buttonTop}>
+                          SIGN UP NOW
+                        </Button>
+                      </Link>
+                    </Toolbar>
+                  </AppBar>
                   <Error error={error} />
-                  <label htmlFor="name">
-                    <TextField
-                      type="text"
-                      name="name"
-                      placeholder="name"
-                      value={this.state.name}
-                      onChange={this.saveToState}
-                      variant="filled"
-                      className={classes.smallField}
-                    />
-                  </label>
+                  <Typography variant="h4" className={classes.text}>
+                    Login
+                  </Typography>
                   <label htmlFor="email">
                     <TextField
                       type="email"
@@ -118,42 +130,39 @@ class Signup extends Component {
                       placeholder="email"
                       variant="filled"
                       value={this.state.email}
-                      onChange={this.saveToState}
                       className={classes.smallField}
-                    />
-                  </label>
-
-                  <label htmlFor="display name">
-                    <TextField
-                      type="text"
-                      name="display"
-                      placeholder="display name"
-                      variant="filled"
-                      value={this.state.display}
                       onChange={this.saveToState}
-                      className={classes.smallField}
                     />
                   </label>
                   <label htmlFor="password">
                     <TextField
                       type="password"
                       name="password"
-                      variant="filled"
                       placeholder="password"
+                      variant="filled"
                       value={this.state.password}
                       onChange={this.saveToState}
                       className={classes.smallField}
                     />
                   </label>
-
                   <div>
-                    <Button
-                      size="large"
-                      className={classes.button}
-                      type="submit"
-                    >
-                      Sign Up!
-                    </Button>
+                    <Typography>
+                      <Button type="submit" size="large" variant="outlined">
+                        Log In!
+                      </Button>
+                      <Link href="/resetpage">
+                        <a
+                          style={{
+                            textDecoration: "none",
+                            color: "grey",
+                            marginLeft: 150
+                          }}
+                        >
+                          FORGOT PASSWORD?
+                        </a>
+                      </Link>
+                    </Typography>
+                    <div />
                   </div>
                 </fieldset>
               </form>
@@ -166,8 +175,8 @@ class Signup extends Component {
   }
 }
 
-Signup.propTypes = {
+Signin.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Signup);
+export default withStyles(styles)(Signin);
