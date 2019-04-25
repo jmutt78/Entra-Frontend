@@ -21,7 +21,6 @@ const UPDATE_USER_MUTATION = gql`
     $location: String
     $about: String
     $industry: String
-    $categories: String
     $image: String
   ) {
     updateUser(
@@ -32,7 +31,6 @@ const UPDATE_USER_MUTATION = gql`
       location: $location
       about: $about
       industry: $industry
-      categories: $categories
       image: $image
     ) {
       id
@@ -44,7 +42,6 @@ const UPDATE_USER_MUTATION = gql`
       location
       about
       industry
-      categories
       image
     }
   }
