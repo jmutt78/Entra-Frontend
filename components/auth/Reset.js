@@ -5,6 +5,8 @@ import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import gql from "graphql-tag";
 import PropTypes from "prop-types";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
 import Error from "./../ErrorMessage.js";
 import { CURRENT_USER_QUERY } from "./User";
 
@@ -25,6 +27,46 @@ const RESET_MUTATION = gql`
     }
   }
 `;
+
+const styles = theme => ({
+  container: {
+    display: "flex",
+
+    width: 100
+  },
+  root: {
+    marginTop: theme.spacing.unit * 10,
+    marginLeft: theme.spacing.unit * 5
+  },
+  textField: {
+    marginLeft: 0,
+    marginRight: 0,
+    width: 500,
+    marginBottom: 30
+  },
+  smallField: {
+    marginLeft: 0,
+    marginRight: 0,
+    width: 500,
+    marginBottom: 30
+  },
+
+  bigAvatar: {
+    margin: 10,
+    width: 100,
+    height: 100
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit
+  },
+  button: {
+    marginBottom: theme.spacing.unit,
+    backgroundColor: "#E27D60"
+  },
+  text: {
+    marginBottom: 20
+  }
+});
 
 class Reset extends Component {
   static propTypes = {
@@ -51,7 +93,6 @@ class Reset extends Component {
         {(reset, { error, loading, called }) => (
           <div style={{ width: "50%", margin: "0 auto", padding: "50px" }}>
             <form
-              align="center"
               method="post"
               onSubmit={async e => {
                 e.preventDefault();
@@ -59,7 +100,13 @@ class Reset extends Component {
                 this.setState({ password: "", confirmPassword: "" });
               }}
             >
-              <fieldset disabled={loading} aria-busy={loading}>
+              <fieldset
+                disabled={loading}
+                aria-busy={loading}
+                style={{
+                  borderWidth: "0px"
+                }}
+              >
                 <h2>Reset Password</h2>
                 <Error error={error} />
                 <label htmlFor="email">
@@ -92,4 +139,8 @@ class Reset extends Component {
   }
 }
 
-export default Reset;
+Reset.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(Reset);

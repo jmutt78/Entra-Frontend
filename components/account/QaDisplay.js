@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Query } from "react-apollo";
 import { format, parseISO } from "date-fns";
 import Link from "next/link";
 import PropTypes from "prop-types";
@@ -7,35 +6,39 @@ import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
-import { CURRENT_USER_QUERY } from "../auth/User";
-
 const styles = theme => ({
   grid: {
-    margin: theme.spacing.unit
+    marginBottom: theme.spacing.unit * 4,
+    marginLeft: theme.spacing.unit * 2
   },
   root: {
-    margin: theme.spacing.unit,
+    marginBottom: theme.spacing.unit,
     marginTop: 40
   },
   qaGrid: {
-    marginLeft: 50,
-    marginRight: 50
-  }
+    marginLeft: theme.spacing.unit * 9,
+    marginRight: theme.spacing.unit * 9
+  },
+  link: {
+    textDecoration: "none",
+    color: "grey"
+  },
+  linkGrid: {}
 });
 
 class QaDisplay extends Component {
   render() {
     const { classes } = this.props;
-    const user = data.me;
+    const user = this.props.data.me;
     return (
       <Grid container className={classes.root} spacing={16}>
-        <Grid item xs={6} className={classes.grid}>
+        <Grid item xs={8} className={classes.grid}>
           <Typography variant="h4">Q&A Activity</Typography>
         </Grid>
-        <Grid item xs={2} className={classes.grid}>
+        <Grid className={classes.linkGrid}>
           <Typography>
             <Link href="/">
-              <a style={{ textDecoration: "none", color: "grey" }}>VIEW ALL</a>
+              <a className={classes.link}>VIEW ALL</a>
             </Link>
           </Typography>
         </Grid>
@@ -46,7 +49,7 @@ class QaDisplay extends Component {
           </Typography>
           <Typography variant="h5" align="center">
             <Link href="/">
-              <a style={{ textDecoration: "none", color: "grey" }}>Questions</a>
+              <a className={classes.link}>Questions</a>
             </Link>
           </Typography>
         </Grid>
@@ -56,7 +59,7 @@ class QaDisplay extends Component {
           </Typography>
           <Typography variant="h5" align="center">
             <Link href="/">
-              <a style={{ textDecoration: "none", color: "grey" }}>Answers</a>
+              <a className={classes.link}>Answers</a>
             </Link>
           </Typography>
         </Grid>
@@ -66,9 +69,7 @@ class QaDisplay extends Component {
           </Typography>
           <Typography variant="h5" align="center">
             <Link href="/">
-              <a style={{ textDecoration: "none", color: "grey" }}>
-                Accepted Answers
-              </a>
+              <a className={classes.link}>Accepted Answers</a>
             </Link>
           </Typography>
         </Grid>
@@ -78,7 +79,7 @@ class QaDisplay extends Component {
           </Typography>
           <Typography variant="h5" align="center">
             <Link href="/">
-              <a style={{ textDecoration: "none", color: "grey" }}>Badges</a>
+              <a className={classes.link}>Badges</a>
             </Link>
           </Typography>
         </Grid>

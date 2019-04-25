@@ -51,7 +51,7 @@ const Nav = props => {
                   color="secondary"
                   className={classes.button}
                 >
-                  Signup
+                  Sign up
                 </Button>
               </Link>
             </div>
