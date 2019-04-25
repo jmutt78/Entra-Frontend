@@ -28,7 +28,7 @@ const Signout = props => (
         <Button
           style={{ marginLeft: "2rem" }}
           color="default"
-          onClick={signout}
+          onClick={e => signout(e, push)}
         >
           Sign Out
         </Button>

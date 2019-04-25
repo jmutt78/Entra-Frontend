@@ -15,7 +15,6 @@ const CURRENT_USER_QUERY = gql`
       location
       about
       industry
-      categories
       image
     }
   }
