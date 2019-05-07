@@ -77,12 +77,12 @@ class NavTop extends Component {
                         <p>{me.name}</p>
                       </Typography>
                       <Typography>
-                        <Link href="/">
+                        <Link href="/question/myquestion">
                           <a className={classes.navText}>My Questions</a>
                         </Link>
                       </Typography>
                       <Typography>
-                        <Link href="/">
+                        <Link href="/bookmark/mybookmark">
                           <a className={classes.navText}>My Bookmark</a>
                         </Link>
                       </Typography>

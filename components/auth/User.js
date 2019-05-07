@@ -16,6 +16,15 @@ const CURRENT_USER_QUERY = gql`
       about
       industry
       image
+      myQuestions {
+        id
+        title
+        description
+        tags {
+          id
+          name
+        }
+      }
     }
   }
 `;
