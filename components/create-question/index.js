@@ -63,17 +63,6 @@ const CREATE_QUESTION_MUTATION = gql`
   }
 `;
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 700
-    }
-  }
-};
-
 class CreateQuestion extends React.Component {
   state = {
     showCreateTagModal: false,
@@ -186,7 +175,6 @@ class CreateQuestion extends React.Component {
                                     />
                                   }
                                   renderValue={selected => selected.join(", ")}
-                                  MenuProps={MenuProps}
                                 >
                                   {data.tags.map(tag => (
                                     <MenuItem key={tag.name} value={tag.name}>
