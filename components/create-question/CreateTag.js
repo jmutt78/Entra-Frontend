@@ -1,4 +1,6 @@
 import React from "react";
+import { Mutation } from "react-apollo";
+import gql from "graphql-tag";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -9,6 +11,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
+import { TAGS_QUERY } from "./Tags";
 
 const DialogTitle = withStyles(theme => ({
   root: {
@@ -59,33 +62,65 @@ const styles = {
   }
 };
 
+const CREATE_TAG_MUTATION = gql`
+  mutation CREATE_TAG_MUTATION($name: String!) {
+    createTag(name: $name) {
+      id
+      name
+    }
+  }
+`;
+
 class CreateTag extends React.Component {
+  state = {
+    name: ""
+  };
+  handleChange = e => {
+    this.setState({
+      name: e.target.value
+    });
+  };
   render() {
     const { open, onClose, classes } = this.props;
     return (
-      <Dialog aria-labelledby="customized-dialog-title" open={open}>
-        <DialogTitle id="customized-dialog-title" onClose={onClose}>
-          Add Tag
-        </DialogTitle>
-        <DialogContent>
-          <label htmlFor="location">
-            <TextField
-              label="Tag name"
-              type="text"
-              name="tagName"
-              variant="filled"
-              value=""
-              onChange={this.handleChange}
-              className={classes.textField}
-            />
-          </label>
-        </DialogContent>
-        <DialogActions>
-          <Button variant="contained" onClick={onClose}>
-            Save changes
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <Mutation
+        mutation={CREATE_TAG_MUTATION}
+        variables={this.state}
+        refetchQueries={[{ query: TAGS_QUERY }]}
+      >
+        {(createTag, { error, loading }) => (
+          <Dialog aria-labelledby="customized-dialog-title" open={open}>
+            <DialogTitle id="customized-dialog-title" onClose={onClose}>
+              Add Tag
+            </DialogTitle>
+            <DialogContent>
+              <label htmlFor="location">
+                <TextField
+                  label="Tag name"
+                  type="text"
+                  name="name"
+                  variant="filled"
+                  value={this.state.name}
+                  onChange={this.handleChange}
+                  className={classes.textField}
+                />
+              </label>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                variant="contained"
+                onClick={async () => {
+                  await createTag();
+                  this.setState({ name: "" });
+                  onClose();
+                }}
+              >
+                Save tag
+              </Button>
+            </DialogActions>
+          </Dialog>
+        )}
+      </Mutation>
     );
   }
 }

@@ -1,7 +1,9 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import CreateTag from "./CreateTag";
+import Tags from "./Tags";
 
 const styles = theme => ({
   grid: {
@@ -27,8 +29,15 @@ class CreateQuestion extends React.Component {
     const { classes } = this.props;
     return (
       <Grid container className={classes.root} spacing={16}>
-        <h1>Ask a question</h1>
-        <button onClick={this.openCreateTagModal}>ADD NEW TAG</button>
+        <div>
+          <h1>Ask a question</h1>
+          <Tags />
+        </div>
+        <div>
+          <Button variant="link" onClick={this.openCreateTagModal}>
+            ADD NEW TAG
+          </Button>
+        </div>
         <CreateTag
           open={this.state.showCreateTagModal}
           onClose={this.closeCreateTagModal}
