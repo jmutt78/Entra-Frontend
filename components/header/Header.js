@@ -82,7 +82,7 @@ const Header = props => {
             </Link>
           </Typography>
           <Grid item xs={2}>
-            <AppBar position="left" className={classes.bar}>
+            <AppBar position="static" className={classes.bar}>
               <Nav />
             </AppBar>
           </Grid>

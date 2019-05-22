@@ -35,6 +35,7 @@
     "graphql-tag": "^2.9.2",
     "i": "^0.3.6",
     "jss": "latest",
+    "jss-rtl": "^0.2.3",
     "lodash.debounce": "^4.0.8",
     "material-ui-icons": "^1.0.0-beta.36",
     "moment": "^2.24.0",
