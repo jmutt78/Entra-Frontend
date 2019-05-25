@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faAward } from "@fortawesome/free-solid-svg-icons";
+import { faAward, faBook } from "@fortawesome/free-solid-svg-icons";
 import Card from "@material-ui/core/Card";
 import Icon from "@material-ui/core/Icon";
 
@@ -56,7 +56,7 @@ class BadgesDisplay extends Component {
     return (
       <Grid container className={classes.root} spacing={16}>
         <Grid item xs={2} className={classes.grid} />
-        <Grid item xs={7} className={classes.badgeTitle}>
+        <Grid item xs={8} className={classes.badgeTitle}>
           <Card className={classes.card}>
             <Grid container className={classes.root} spacing={16}>
               <Grid item xs={11} className={classes.badgeTitle}>
@@ -64,10 +64,10 @@ class BadgesDisplay extends Component {
               </Grid>
               <Grid item xs={1} className={classes.badge}>
                 <Icon className={classes.awesomeAward} align="center">
-                  <FontAwesomeIcon size="2x" icon={faAward} />
+                  <FontAwesomeIcon size="2x" icon={faBook} />
                 </Icon>
                 <Typography variant="h6" align="center">
-                  First Question
+                  Autobiographer
                 </Typography>
               </Grid>
               <Grid item xs={1} className={classes.badge}>
@@ -75,7 +75,7 @@ class BadgesDisplay extends Component {
                   <FontAwesomeIcon size="2x" icon={faAward} />
                 </Icon>
                 <Typography variant="h6" align="center">
-                  10 Questions
+                  Provoker
                 </Typography>
               </Grid>
               <Grid item xs={1} className={classes.badge}>
@@ -83,7 +83,7 @@ class BadgesDisplay extends Component {
                   <FontAwesomeIcon size="2x" icon={faAward} />
                 </Icon>
                 <Typography variant="h6" align="center">
-                  25 Question
+                  Commentator
                 </Typography>
               </Grid>
               <Grid item xs={1} className={classes.badge}>
@@ -91,7 +91,7 @@ class BadgesDisplay extends Component {
                   <FontAwesomeIcon size="2x" icon={faAward} />
                 </Icon>
                 <Typography variant="h6" align="center">
-                  50 Questions
+                  Frequent Flyer
                 </Typography>
               </Grid>
               <Grid item xs={1} className={classes.badge}>
@@ -99,7 +99,7 @@ class BadgesDisplay extends Component {
                   <FontAwesomeIcon size="2x" icon={faAward} />
                 </Icon>
                 <Typography variant="h6" align="center">
-                  75 Questions
+                  Patron
                 </Typography>
               </Grid>
               <Grid item xs={1} className={classes.badge}>
@@ -107,7 +107,7 @@ class BadgesDisplay extends Component {
                   <FontAwesomeIcon size="2x" icon={faAward} />
                 </Icon>
                 <Typography variant="h6" align="center">
-                  100 Questions
+                  Power Voter
                 </Typography>
               </Grid>
               <Grid item xs={1} className={classes.badge}>
@@ -115,7 +115,7 @@ class BadgesDisplay extends Component {
                   <FontAwesomeIcon size="2x" icon={faAward} />
                 </Icon>
                 <Typography variant="h6" align="center">
-                  First Answer
+                  Critic
                 </Typography>
               </Grid>
               <Grid item xs={1} className={classes.badge}>
@@ -123,7 +123,7 @@ class BadgesDisplay extends Component {
                   <FontAwesomeIcon size="2x" icon={faAward} />
                 </Icon>
                 <Typography variant="h6" align="center">
-                  10 Answers
+                  Reviewer
                 </Typography>
               </Grid>
               <Grid item xs={1} className={classes.badge}>
@@ -131,7 +131,7 @@ class BadgesDisplay extends Component {
                   <FontAwesomeIcon size="2x" icon={faAward} />
                 </Icon>
                 <Typography variant="h6" align="center">
-                  25 Answers
+                  Analyst
                 </Typography>
               </Grid>
               <Grid item xs={1} className={classes.badge}>
@@ -139,7 +139,7 @@ class BadgesDisplay extends Component {
                   <FontAwesomeIcon size="2x" icon={faAward} />
                 </Icon>
                 <Typography variant="h6" align="center">
-                  50 Answers
+                  Nice Answer
                 </Typography>
               </Grid>
               <Grid item xs={1} className={classes.badge}>
@@ -147,7 +147,7 @@ class BadgesDisplay extends Component {
                   <FontAwesomeIcon size="2x" icon={faAward} />
                 </Icon>
                 <Typography variant="h6" align="center">
-                  75 Answers
+                  Expert
                 </Typography>
               </Grid>
               <Grid item xs={1} className={classes.badge}>
@@ -155,7 +155,23 @@ class BadgesDisplay extends Component {
                   <FontAwesomeIcon size="2x" icon={faAward} />
                 </Icon>
                 <Typography variant="h6" align="center">
-                  100 Answers
+                  Teacher
+                </Typography>
+              </Grid>
+              <Grid item xs={1} className={classes.badge}>
+                <Icon className={classes.awesome} align="center">
+                  <FontAwesomeIcon size="2x" icon={faAward} />
+                </Icon>
+                <Typography variant="h6" align="center">
+                  Pundit
+                </Typography>
+              </Grid>
+              <Grid item xs={1} className={classes.badge}>
+                <Icon className={classes.awesome} align="center">
+                  <FontAwesomeIcon size="2x" icon={faAward} />
+                </Icon>
+                <Typography variant="h6" align="center">
+                  Moderator
                 </Typography>
               </Grid>
             </Grid>
