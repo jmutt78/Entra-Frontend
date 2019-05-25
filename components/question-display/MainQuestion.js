@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { format, parseISO } from "date-fns";
 import { Query } from "react-apollo";
-import gql from "graphql-tag";
 import Link from "next/link";
 
 import PropTypes from "prop-types";
@@ -10,31 +9,6 @@ import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-
-const SINGLE_QUESTION_QUERY = gql`
-  query SINGLE_QUESTION_QUERY($id: ID!) {
-    question(where: { id: $id }) {
-      id
-      title
-      description
-      askedBy {
-        id
-        display
-        image
-        name
-      }
-      createdAt
-      answers {
-        id
-        body
-      }
-      tags {
-        id
-        name
-      }
-    }
-  }
-`;
 
 const styles = theme => ({
   bigAvatar: {
@@ -107,55 +81,38 @@ class MainQuestion extends Component {
 
   render() {
     const { classes } = this.props;
-
+    const question = this.props.question;
+    const askedby = this.props.question.askedBy[0];
+    console.log(question);
     return (
-      <Query
-        query={SINGLE_QUESTION_QUERY}
-        variables={{
-          id: this.props.id
-        }}
-      >
-        {({ data, loading }) => {
-          if (loading) return <p>Loading...</p>;
-
-          const question = data.question;
-          const askedby = data.question.askedBy[0];
-
-          return (
-            <Grid container className={classes.root} spacing={3}>
-              <Grid item xs />
-              <Grid item xs={7} className={classes.grid}>
-                <Paper className={classes.paper}>
-                  <Typography className={classes.title} variant="h5">
-                    <strong>{question.title}</strong>
-                  </Typography>
-                  <div className={classes.photoTitle}>
-                    {this.handleImage(askedby, classes)}
-                    <Typography style={{ paddingTop: 20, marginLeft: 10 }}>
-                      {" "}
-                      <strong>{askedby.display}</strong> asks:
-                    </Typography>
-                  </div>
-                  <Typography className={classes.description}>
-                    {question.description}{" "}
-                  </Typography>
-                  <Typography className={classes.date}>
-                    Posted{" "}
-                    {format(parseISO(question.createdAt), "MMMM dd, yyyy")}
-                  </Typography>
-                  <Typography
-                    style={{ display: "inline-flex", marginRight: 10 }}
-                  >
-                    <strong> Tags:</strong>
-                  </Typography>{" "}
-                  {this.tagsList(question.tags, classes)}
-                </Paper>
-              </Grid>
-              <Grid item xs />
-            </Grid>
-          );
-        }}
-      </Query>
+      <Grid container className={classes.root} spacing={3}>
+        <Grid item xs />
+        <Grid item xs={7} className={classes.grid}>
+          <Paper className={classes.paper}>
+            <Typography className={classes.title} variant="h5">
+              <strong>{question.title}</strong>
+            </Typography>
+            <div className={classes.photoTitle}>
+              {this.handleImage(askedby, classes)}
+              <Typography style={{ paddingTop: 20, marginLeft: 10 }}>
+                {" "}
+                <strong>{askedby.display}</strong> asks:
+              </Typography>
+            </div>
+            <Typography className={classes.description}>
+              {question.description}{" "}
+            </Typography>
+            <Typography className={classes.date}>
+              Posted {format(parseISO(question.createdAt), "MMMM dd, yyyy")}
+            </Typography>
+            <Typography style={{ display: "inline-flex", marginRight: 10 }}>
+              <strong> Tags:</strong>
+            </Typography>{" "}
+            {this.tagsList(question.tags, classes)}
+          </Paper>
+        </Grid>
+        <Grid item xs />
+      </Grid>
     );
   }
 }

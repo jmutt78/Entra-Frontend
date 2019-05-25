@@ -92,3 +92,29 @@ const Pagination = props => (
 
 export default Pagination;
 export { PAGINATION_QUERY };
+
+{
+  answers.map(answers => (
+    <div key={answers.id}>
+      <Grid container className={classes.root} spacing={3}>
+        <Grid item xs />
+        <Grid item xs={7} className={classes.grid}>
+          <div className={classes.photoTitle}>
+            {this.handleImage(askedby, classes)}
+            <Typography style={{ paddingTop: 20, marginLeft: 10 }}>
+              {" "}
+              <strong>{answers.display}</strong> asks:
+            </Typography>
+          </div>
+          <Typography className={classes.description}>
+            {answers.answeredBy.body}{" "}
+          </Typography>
+          <Typography className={classes.date}>
+            Posted {format(parseISO(answers.createdAt), "MMMM dd, yyyy")}
+          </Typography>
+        </Grid>
+        <Grid item xs />
+      </Grid>
+    </div>
+  ));
+}
