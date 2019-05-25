@@ -17,7 +17,7 @@ import Typography from "@material-ui/core/Typography";
 
 const MYQUESTIONS_QUERY = gql`
   query MYQUESTIONS_QUERY($skip: Int = 0, $first: Int = ${perPage}) {
-    questions(first: $first, skip: $skip, orderBy: createdAt_ASC) {
+    questions(first: $first, skip: $skip, orderBy: createdAt_DESC) {
       id
       title
       description
@@ -26,7 +26,6 @@ const MYQUESTIONS_QUERY = gql`
         id
         body
       }
-
       tags {
         id
         name
@@ -75,6 +74,7 @@ class MyQuestions extends Component {
 
   render() {
     const { classes } = this.props;
+
     const customColumnStyle = {
       maxWidth: ".3px"
     };
@@ -88,8 +88,6 @@ class MyQuestions extends Component {
         }}
       >
         {({ data: { questions }, loading }) => {
-          console.log(this.props);
-
           if (loading) return <p>Loading...</p>;
 
           return (

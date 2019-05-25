@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Query } from "react-apollo";
 import { format, parseISO } from "date-fns";
 import MainQuestion from "./MainQuestion.js";
+import CreateAnswer from "../create-answer";
 
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
@@ -13,30 +14,6 @@ import styled from "styled-components";
 import Head from "next/head";
 
 import { CURRENT_USER_QUERY } from "../auth/User";
-
-const SINGLE_QUESTION_QUERY = gql`
-  query SINGLE_QUESTION_QUERY($id: ID!) {
-    item(where: { id: $id }) {
-      id
-      title
-      description
-      askedBy {
-        id
-        display
-        image
-      }
-      createdAt
-      answers {
-        id
-        body
-      }
-      tags {
-        id
-        name
-      }
-    }
-  }
-`;
 
 const styles = theme => ({
   grid: {
@@ -59,17 +36,12 @@ class DisplayQuestion extends Component {
           const dateToFormat = data.me.createdAt;
           return (
             <Grid container className={classes.root} spacing={16}>
-              <Grid item xs={12}>
-                <MainQuestion />
-              </Grid>
-              <Grid item xs={2} className={classes.grid} />
-              <Grid item xs={9} className={classes.grid}>
-                Hold for Answer Display
+              <Grid item xs={12} className={classes.grid}>
+                <MainQuestion id={this.props.id} />
               </Grid>
               <Grid item xs={12} className={classes.grid}>
-                Hold for Answer
+                <CreateAnswer id={this.props.id} />
               </Grid>
-              <Grid item xs={2} className={classes.grid} />
             </Grid>
           );
         }}

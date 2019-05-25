@@ -18,8 +18,8 @@ import Typography from "@material-ui/core/Typography";
 import Error from "../ErrorMessage";
 
 const PAGINATION_QUERY = gql`
-  query PAGINATION_QUERY {
-    questionsConnection {
+  query PAGINATION_QUERY($skip: Int = 0, $first: Int = 0) {
+    questionsConnection(first: $first, skip: $skip, orderBy: createdAt_DESC) {
       aggregate {
         count
       }
@@ -32,7 +32,7 @@ const Pagination = props => (
     {({ data, loading, error }) => {
       if (loading) return <p>Loading...</p>;
       if (error) return <Error error={error} />;
-
+      console.log(data.questionsConnection.aggregate.count);
       const count = data.questionsConnection.aggregate.count;
       const pages = Math.ceil(count / perPage);
       const page = props.page;

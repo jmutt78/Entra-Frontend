@@ -34,17 +34,24 @@ const styles = theme => ({
 class QaDisplay extends Component {
   render() {
     const { classes } = this.props;
-
+    console.log(this.props.data.me.id);
     return (
-      <Query query={PAGINATION_QUERY} fetchPolicy="network-only">
+      <Query
+        query={PAGINATION_QUERY}
+        variables={{
+          id: "5cc2033924aa9a000712bb1e"
+        }}
+        fetchPolicy="network-only"
+      >
         {({ data, loading }) => {
           if (loading) return <p>Loading...</p>;
           const user = this.props.data.me;
           const question = data.questionsConnection.aggregate.count;
+          console.log(data.questionsConnection.aggregate);
           return (
             <Grid container className={classes.root} spacing={16}>
               <Grid item xs={8} className={classes.grid}>
-                <Typography variant="h4">Q&A Activity</Typography>
+                <Typography variant="h4">Activity</Typography>
               </Grid>
               <Grid className={classes.linkGrid}>
                 <Typography>
@@ -90,7 +97,7 @@ class QaDisplay extends Component {
                 </Typography>
                 <Typography variant="h5" align="center">
                   <Link href="/">
-                    <a className={classes.link}>Badges</a>
+                    <a className={classes.link}>Points</a>
                   </Link>
                 </Typography>
               </Grid>
