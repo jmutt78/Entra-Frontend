@@ -30,9 +30,7 @@ const MYQUESTIONS_QUERY = gql`
         id
         name
       }
-      views {
-        id
-      }
+      views
       upVotes
       downVotes
     }
@@ -151,9 +149,7 @@ class MyQuestions extends Component {
                             {this.tagsList(question.tags)}
                           </TableCell>
                           <TableCell>{question.answers.length}</TableCell>
-                          <CustomTableCell>
-                            {question.views.length}
-                          </CustomTableCell>
+                          <CustomTableCell>{question.views}</CustomTableCell>
                           <CustomTableCell>{question.upVotes}</CustomTableCell>
                           <CustomTableCell>
                             {question.downVotes}
