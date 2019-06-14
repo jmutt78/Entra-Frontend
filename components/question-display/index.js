@@ -13,38 +13,7 @@ import gql from "graphql-tag";
 import Error from "../ErrorMessage";
 import styled from "styled-components";
 import Head from "next/head";
-
-const SINGLE_QUESTION_QUERY = gql`
-  query SINGLE_QUESTION_QUERY($id: ID!) {
-    question(where: { id: $id }) {
-      id
-      title
-      description
-      askedBy {
-        id
-        display
-        image
-        name
-      }
-      createdAt
-      answers {
-        id
-        body
-        createdAt
-        answeredBy: answeredBy {
-          id
-          display
-          image
-          createdAt
-        }
-      }
-      tags {
-        id
-        name
-      }
-    }
-  }
-`;
+import questionQuery from "./questionQuery";
 
 const CREATE_QUESTION_VIEW_MUTATION = gql`
   mutation CREATE_QUESTION_VIEW_MUTATION($questionId: ID!) {
@@ -67,7 +36,7 @@ class DisplayQuestion extends Component {
     const { classes } = this.props;
     return (
       <Query
-        query={SINGLE_QUESTION_QUERY}
+        query={questionQuery}
         variables={{
           id: this.props.id
         }}

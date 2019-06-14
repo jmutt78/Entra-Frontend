@@ -11,6 +11,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import { withApollo } from "react-apollo";
+import questionQuery from "./questionQuery";
 
 const styles = theme => ({
   bigAvatar: {
@@ -66,7 +67,10 @@ class MainQuestion extends Component {
       variables: {
         questionId: this.props.id,
         vote: "up"
-      }
+      },
+      refetchQueries: [
+        { query: questionQuery, variables: { id: this.props.id } }
+      ]
     });
   };
   downVote = () => {
@@ -75,7 +79,10 @@ class MainQuestion extends Component {
       variables: {
         questionId: this.props.id,
         vote: "down"
-      }
+      },
+      refetchQueries: [
+        { query: questionQuery, variables: { id: this.props.id } }
+      ]
     });
   };
   handleImage(askedby, classes) {
@@ -128,10 +135,16 @@ class MainQuestion extends Component {
                 <strong>{askedby.display}</strong> asks:
               </Typography>
             </div>
-            <div>
-              <button onClick={this.upVote}>up</button>
-              <button onClick={this.downVote}>down</button>
-            </div>
+            <Grid container>
+              <Grid item>
+                <img onClick={this.upVote} src="/static/thumb_up.png" />
+                <div>{question.upVotes}</div>
+              </Grid>
+              <Grid item>
+                <img onClick={this.downVote} src="/static/thumb_down.png" />
+                <div>{question.downVotes}</div>
+              </Grid>
+            </Grid>
             <Typography className={classes.description}>
               {question.description}{" "}
             </Typography>
