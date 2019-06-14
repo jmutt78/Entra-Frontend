@@ -49,6 +49,9 @@ const styles = theme => ({
 });
 
 class MainQuestion extends Component {
+  componentDidMount() {
+    this.props.createQuestionView();
+  }
   handleImage(askedby, classes) {
     if (askedby.image == null || askedby.image == "") {
       return (
