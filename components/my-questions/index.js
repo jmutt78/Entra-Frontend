@@ -33,6 +33,9 @@ const MYQUESTIONS_QUERY = gql`
       views {
         id
       }
+      votes {
+        vote
+      }
     }
   }
 `;
@@ -92,7 +95,6 @@ class MyQuestions extends Component {
       >
         {({ data: { questions }, loading }) => {
           if (loading) return <p>Loading...</p>;
-
           return (
             <Grid container className={classes.root} spacing={16}>
               <Grid item xs={3} className={classes.grid} />
@@ -124,38 +126,46 @@ class MyQuestions extends Component {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {questions.map(questions => (
-                      <TableRow key={questions.id}>
-                        <TableCell component="th" scope="row">
-                          <Typography>
-                            <Link
-                              href={{
-                                pathname: "/question",
-                                query: { id: questions.id }
-                              }}
-                            >
-                              <a className={classes.link}>
-                                <div>{questions.title}</div>
-                              </a>
-                            </Link>
-                          </Typography>
-                          <Typography>
-                            Posted{" "}
-                            {format(
-                              parseISO(questions.createdAt),
-                              "MMMM dd, yyyy"
-                            )}
-                          </Typography>
-                          {this.tagsList(questions.tags)}
-                        </TableCell>
-                        <TableCell>{questions.answers.length}</TableCell>
-                        <CustomTableCell>
-                          {questions.views.length}
-                        </CustomTableCell>
-                        <CustomTableCell>0</CustomTableCell>
-                        <CustomTableCell>0</CustomTableCell>
-                      </TableRow>
-                    ))}
+                    {questions.map(question => {
+                      const upVotes = question.votes.filter(
+                        vote => vote.vote === "up"
+                      );
+                      const downVotes = question.votes.filter(
+                        vote => vote.vote === "down"
+                      );
+                      return (
+                        <TableRow key={question.id}>
+                          <TableCell component="th" scope="row">
+                            <Typography>
+                              <Link
+                                href={{
+                                  pathname: "/question",
+                                  query: { id: question.id }
+                                }}
+                              >
+                                <a className={classes.link}>
+                                  <div>{question.title}</div>
+                                </a>
+                              </Link>
+                            </Typography>
+                            <Typography>
+                              Posted{" "}
+                              {format(
+                                parseISO(question.createdAt),
+                                "MMMM dd, yyyy"
+                              )}
+                            </Typography>
+                            {this.tagsList(question.tags)}
+                          </TableCell>
+                          <TableCell>{question.answers.length}</TableCell>
+                          <CustomTableCell>
+                            {question.views.length}
+                          </CustomTableCell>
+                          <CustomTableCell>{upVotes.length}</CustomTableCell>
+                          <CustomTableCell>{downVotes.length}</CustomTableCell>
+                        </TableRow>
+                      );
+                    })}
                   </TableBody>
                 </Table>
                 <Pagination page={this.props.page} />
