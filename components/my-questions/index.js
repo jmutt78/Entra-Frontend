@@ -30,6 +30,9 @@ const MYQUESTIONS_QUERY = gql`
         id
         name
       }
+      views {
+        id
+      }
     }
   }
 `;
@@ -147,7 +150,9 @@ class MyQuestions extends Component {
                         </TableCell>
                         <TableCell>{questions.answers.length}</TableCell>
                         <CustomTableCell>0</CustomTableCell>
-                        <CustomTableCell>0</CustomTableCell>
+                        <CustomTableCell>
+                          {questions.views.length}
+                        </CustomTableCell>
                         <CustomTableCell>0</CustomTableCell>
                       </TableRow>
                     ))}
