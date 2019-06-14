@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { format, parseISO } from "date-fns";
 import { Query } from "react-apollo";
 import Link from "next/link";
+import gql from "graphql-tag";
 
 import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
@@ -9,6 +10,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
+import { withApollo } from "react-apollo";
 
 const styles = theme => ({
   bigAvatar: {
@@ -48,10 +50,34 @@ const styles = theme => ({
   }
 });
 
+const CREATE_QUESTION_VOTE_MUTATION = gql`
+  mutation CREATE_QUESTION_VOTE_MUTATION($questionId: ID!, $vote: String) {
+    createQuestionVote(questionId: $questionId, vote: $vote)
+  }
+`;
+
 class MainQuestion extends Component {
   componentDidMount() {
     this.props.createQuestionView();
   }
+  upVote = () => {
+    this.props.client.mutate({
+      mutation: CREATE_QUESTION_VOTE_MUTATION,
+      variables: {
+        questionId: this.props.id,
+        vote: "up"
+      }
+    });
+  };
+  downVote = () => {
+    this.props.client.mutate({
+      mutation: CREATE_QUESTION_VOTE_MUTATION,
+      variables: {
+        questionId: this.props.id,
+        vote: "down"
+      }
+    });
+  };
   handleImage(askedby, classes) {
     if (askedby.image == null || askedby.image == "") {
       return (
@@ -102,6 +128,10 @@ class MainQuestion extends Component {
                 <strong>{askedby.display}</strong> asks:
               </Typography>
             </div>
+            <div>
+              <button onClick={this.upVote}>up</button>
+              <button onClick={this.downVote}>down</button>
+            </div>
             <Typography className={classes.description}>
               {question.description}{" "}
             </Typography>
@@ -124,4 +154,4 @@ MainQuestion.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(MainQuestion);
+export default withStyles(styles)(withApollo(MainQuestion));
