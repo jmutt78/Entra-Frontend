@@ -33,9 +33,8 @@ const MYQUESTIONS_QUERY = gql`
       views {
         id
       }
-      votes {
-        vote
-      }
+      upVotes
+      downVotes
     }
   }
 `;
@@ -127,12 +126,6 @@ class MyQuestions extends Component {
                   </TableHead>
                   <TableBody>
                     {questions.map(question => {
-                      const upVotes = question.votes.filter(
-                        vote => vote.vote === "up"
-                      );
-                      const downVotes = question.votes.filter(
-                        vote => vote.vote === "down"
-                      );
                       return (
                         <TableRow key={question.id}>
                           <TableCell component="th" scope="row">
@@ -161,8 +154,10 @@ class MyQuestions extends Component {
                           <CustomTableCell>
                             {question.views.length}
                           </CustomTableCell>
-                          <CustomTableCell>{upVotes.length}</CustomTableCell>
-                          <CustomTableCell>{downVotes.length}</CustomTableCell>
+                          <CustomTableCell>{question.upVotes}</CustomTableCell>
+                          <CustomTableCell>
+                            {question.downVotes}
+                          </CustomTableCell>
                         </TableRow>
                       );
                     })}
