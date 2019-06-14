@@ -149,10 +149,10 @@ class MyQuestions extends Component {
                           {this.tagsList(questions.tags)}
                         </TableCell>
                         <TableCell>{questions.answers.length}</TableCell>
-                        <CustomTableCell>0</CustomTableCell>
                         <CustomTableCell>
                           {questions.views.length}
                         </CustomTableCell>
+                        <CustomTableCell>0</CustomTableCell>
                         <CustomTableCell>0</CustomTableCell>
                       </TableRow>
                     ))}
