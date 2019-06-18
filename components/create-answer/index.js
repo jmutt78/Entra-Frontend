@@ -15,6 +15,8 @@ import FormControl from "@material-ui/core/FormControl";
 import Paper from "@material-ui/core/Paper";
 import Divider from "@material-ui/core/Divider";
 
+import questionQuery from "../question-display/questionQuery.js";
+
 const styles = theme => ({
   grid: {
     margin: theme.spacing.unit
@@ -50,6 +52,7 @@ export const CREATE_ANSWER = gql`
   mutation creatAnswer($questionId: ID!, $body: String!) {
     createAnswer(questionId: $questionId, body: $body) {
       id
+      body
     }
   }
 `;
@@ -75,6 +78,9 @@ class CreateAnswer extends React.Component {
           questionId: this.props.id,
           body
         }}
+        refetchQueries={[
+          { query: questionQuery, variables: { id: this.props.id } }
+        ]}
       >
         {(createQuestion, { error, loading }) => {
           return (
