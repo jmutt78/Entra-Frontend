@@ -136,18 +136,22 @@ class MainQuestion extends Component {
               </Typography>
             </div>
             <Grid container>
-              <Grid item>
-                <img onClick={this.upVote} src="/static/thumb_up.png" />
-                <div>{question.upVotes}</div>
+              <Grid item xs={10}>
+                <Typography className={classes.description}>
+                  {question.description}{" "}
+                </Typography>
               </Grid>
-              <Grid item>
-                <img onClick={this.downVote} src="/static/thumb_down.png" />
-                <div>{question.downVotes}</div>
+              <Grid item xs={2} container>
+                <Grid item xs={6}>
+                  <img onClick={this.upVote} src="/static/thumb_up.png" />
+                  <div>{question.upVotes}</div>
+                </Grid>
+                <Grid item xs={6}>
+                  <img onClick={this.downVote} src="/static/thumb_down.png" />
+                  <div>{question.downVotes}</div>
+                </Grid>
               </Grid>
             </Grid>
-            <Typography className={classes.description}>
-              {question.description}{" "}
-            </Typography>
             <Typography className={classes.date}>
               Posted {format(parseISO(question.createdAt), "MMMM dd, yyyy")}
             </Typography>
