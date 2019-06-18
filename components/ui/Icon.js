@@ -9,8 +9,9 @@ const styles = theme => ({
 
 class Icon extends React.Component {
   render() {
-    const { classes, src, onClick } = this.props;
-    return <img onClick={onClick} src={src} className={classes.icon} />;
+    const { classes, src, onClick, className } = this.props;
+    const finalClassName = `${classes.icon} ${className || ""}`;
+    return <img onClick={onClick} src={src} className={finalClassName} />;
   }
 }
 

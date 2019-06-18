@@ -140,6 +140,29 @@ class MainQuestion extends Component {
                 <Typography className={classes.description}>
                   {question.description}{" "}
                 </Typography>
+                <Grid
+                  container
+                  direction="row"
+                  justify="space-between"
+                  className={classes.date}
+                >
+                  <Typography>
+                    Posted{" "}
+                    {format(parseISO(question.createdAt), "MMMM dd, yyyy")}
+                  </Typography>
+                  <div>
+                    <Grid container alignItems="center">
+                      <Icon src="/static/visibility.svg" />{" "}
+                      <span style={{ paddingLeft: 10 }}>
+                        {question.views} views
+                      </span>
+                    </Grid>
+                  </div>
+                </Grid>
+                <Typography style={{ display: "inline-flex", marginRight: 10 }}>
+                  <strong> Tags:</strong>
+                </Typography>{" "}
+                {this.tagsList(question.tags, classes)}
               </Grid>
               <Grid item xs={2} container>
                 <Grid item xs={6}>
@@ -152,13 +175,6 @@ class MainQuestion extends Component {
                 </Grid>
               </Grid>
             </Grid>
-            <Typography className={classes.date}>
-              Posted {format(parseISO(question.createdAt), "MMMM dd, yyyy")}
-            </Typography>
-            <Typography style={{ display: "inline-flex", marginRight: 10 }}>
-              <strong> Tags:</strong>
-            </Typography>{" "}
-            {this.tagsList(question.tags, classes)}
           </Paper>
         </Grid>
         <Grid item xs />
