@@ -165,12 +165,12 @@ class MainQuestion extends Component {
                 {this.tagsList(question.tags, classes)}
               </Grid>
               <Grid item xs={2} container>
-                <Grid item xs={6}>
-                  <Icon onClick={this.upVote} src="/static/thumb_up.png" />
+                <Grid item xs={4}>
+                  <Icon onClick={this.upVote} src="/static/thumb_up.svg" />
                   <div>{question.upVotes}</div>
                 </Grid>
-                <Grid item xs={6}>
-                  <Icon onClick={this.downVote} src="/static/thumb_down.png" />
+                <Grid item xs={4}>
+                  <Icon onClick={this.downVote} src="/static/thumb_down.svg" />
                   <div>{question.downVotes}</div>
                 </Grid>
               </Grid>
