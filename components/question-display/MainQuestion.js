@@ -12,6 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import { withApollo } from "react-apollo";
 import questionQuery from "./questionQuery";
+import Icon from "../ui/Icon";
 
 const styles = theme => ({
   bigAvatar: {
@@ -119,7 +120,6 @@ class MainQuestion extends Component {
     const { classes } = this.props;
     const question = this.props.question;
     const askedby = this.props.question.askedBy[0];
-    console.log(question);
     return (
       <Grid container className={classes.root} spacing={3}>
         <Grid item xs />
@@ -136,25 +136,45 @@ class MainQuestion extends Component {
               </Typography>
             </div>
             <Grid container>
-              <Grid item>
-                <img onClick={this.upVote} src="/static/thumb_up.png" />
-                <div>{question.upVotes}</div>
+              <Grid item xs={10}>
+                <Typography className={classes.description}>
+                  {question.description}{" "}
+                </Typography>
+                <Grid
+                  container
+                  direction="row"
+                  justify="space-between"
+                  className={classes.date}
+                >
+                  <Typography>
+                    Posted{" "}
+                    {format(parseISO(question.createdAt), "MMMM dd, yyyy")}
+                  </Typography>
+                  <div>
+                    <Grid container alignItems="center">
+                      <Icon src="/static/visibility.svg" />{" "}
+                      <span style={{ paddingLeft: 10 }}>
+                        {question.views} views
+                      </span>
+                    </Grid>
+                  </div>
+                </Grid>
+                <Typography style={{ display: "inline-flex", marginRight: 10 }}>
+                  <strong> Tags:</strong>
+                </Typography>{" "}
+                {this.tagsList(question.tags, classes)}
               </Grid>
-              <Grid item>
-                <img onClick={this.downVote} src="/static/thumb_down.png" />
-                <div>{question.downVotes}</div>
+              <Grid item xs={2} container>
+                <Grid item xs={4}>
+                  <Icon onClick={this.upVote} src="/static/thumb_up.svg" />
+                  <div>{question.upVotes}</div>
+                </Grid>
+                <Grid item xs={4}>
+                  <Icon onClick={this.downVote} src="/static/thumb_down.svg" />
+                  <div>{question.downVotes}</div>
+                </Grid>
               </Grid>
             </Grid>
-            <Typography className={classes.description}>
-              {question.description}{" "}
-            </Typography>
-            <Typography className={classes.date}>
-              Posted {format(parseISO(question.createdAt), "MMMM dd, yyyy")}
-            </Typography>
-            <Typography style={{ display: "inline-flex", marginRight: 10 }}>
-              <strong> Tags:</strong>
-            </Typography>{" "}
-            {this.tagsList(question.tags, classes)}
           </Paper>
         </Grid>
         <Grid item xs />
