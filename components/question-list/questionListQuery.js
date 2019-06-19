@@ -2,8 +2,8 @@ import gql from "graphql-tag";
 import { perPage } from "../../config.js";
 
 const QUESTION_LIST_QUERY = gql`
-  query MYQUESTIONS_QUERY($skip: Int = 0, $first: Int = ${perPage}) {
-    questions(first: $first, skip: $skip, orderBy: createdAt_DESC) {
+  query MYQUESTIONS_QUERY($filter: String!, $skip: Int = 0, $first: Int = ${perPage}) {
+    questions(filter: $filter, first: $first, skip: $skip, orderBy: createdAt_DESC) {
       id
       title
       description

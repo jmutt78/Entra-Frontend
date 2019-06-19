@@ -12,6 +12,7 @@ class Questions extends Component {
         query={questionListQuery}
         fetchPolicy="network-only"
         variables={{
+          filter,
           skip: this.props.page * perPage - perPage,
           first: perPage
         }}
