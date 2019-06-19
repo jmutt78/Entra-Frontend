@@ -13,8 +13,7 @@ class Questions extends Component {
         fetchPolicy="network-only"
         variables={{
           skip: this.props.page * perPage - perPage,
-          first: perPage,
-          filter
+          first: perPage
         }}
       >
         {({ data: { questions }, loading }) => {
