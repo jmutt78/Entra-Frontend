@@ -20,7 +20,9 @@ class MyQuestions extends Component {
         {({ data: { questions }, loading }) => {
           console.log(questions);
           if (loading) return <p>Loading...</p>;
+
           return <QuestionList questions={questions} filter={filter} />;
+
         }}
       </Query>
     );
