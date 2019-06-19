@@ -17,12 +17,6 @@ import questionQuery from "./questionQuery";
 
 import { SINGLE_QUESTION_QUERY } from "../question-display/questionQuery.js";
 
-const CREATE_QUESTION_VIEW_MUTATION = gql`
-  mutation CREATE_QUESTION_VIEW_MUTATION($questionId: ID!) {
-    createQuestionView(questionId: $questionId)
-  }
-`;
-
 const styles = theme => ({
   grid: {
     margin: theme.spacing.unit
@@ -45,33 +39,19 @@ class DisplayQuestion extends Component {
       >
         {({ data: { question }, loading }) => {
           if (loading) return <p>Loading...</p>;
+
           return (
-            <Mutation
-              mutation={CREATE_QUESTION_VIEW_MUTATION}
-              variables={{
-                questionId: this.props.id
-              }}
-            >
-              {(createQuestionView, { error, loading }) => {
-                return (
-                  <Grid container className={classes.root} spacing={16}>
-                    <Grid item xs={12} className={classes.grid}>
-                      <MainQuestion
-                        id={this.props.id}
-                        question={question}
-                        createQuestionView={createQuestionView}
-                      />
-                    </Grid>
-                    <Grid item xs={12} className={classes.grid}>
-                      <Answers id={this.props.id} question={question} />
-                    </Grid>
-                    <Grid item xs={12} className={classes.grid}>
-                      <CreateAnswer id={this.props.id} />
-                    </Grid>
-                  </Grid>
-                );
-              }}
-            </Mutation>
+            <Grid container className={classes.root} spacing={16}>
+              <Grid item xs={12} className={classes.grid}>
+                <MainQuestion id={this.props.id} question={question} />
+              </Grid>
+              <Grid item xs={12} className={classes.grid}>
+                <Answers id={this.props.id} question={question} />
+              </Grid>
+              <Grid item xs={12} className={classes.grid}>
+                <CreateAnswer id={this.props.id} />
+              </Grid>
+            </Grid>
           );
         }}
       </Query>

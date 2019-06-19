@@ -58,9 +58,23 @@ const CREATE_QUESTION_VOTE_MUTATION = gql`
   }
 `;
 
+const CREATE_QUESTION_VIEW_MUTATION = gql`
+  mutation CREATE_QUESTION_VIEW_MUTATION($questionId: ID!) {
+    createQuestionView(questionId: $questionId)
+  }
+`;
+
 class MainQuestion extends Component {
   componentDidMount() {
-    this.props.createQuestionView();
+    this.props.client.mutate({
+      mutation: CREATE_QUESTION_VIEW_MUTATION,
+      variables: {
+        questionId: this.props.id
+      },
+      refetchQueries: [
+        { query: questionQuery, variables: { id: this.props.id } }
+      ]
+    });
   }
   upVote = () => {
     this.props.client.mutate({
