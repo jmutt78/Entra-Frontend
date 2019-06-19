@@ -4,9 +4,9 @@ import { perPage } from "../../config.js";
 import QuestionList from "../question-list";
 import questionListQuery from "../question-list/questionListQuery";
 
-class MyQuestions extends Component {
+class Questions extends Component {
   render() {
-    const filter = "my";
+    const filter = "all";
     return (
       <Query
         query={questionListQuery}
@@ -20,13 +20,11 @@ class MyQuestions extends Component {
         {({ data: { questions }, loading }) => {
           console.log(questions);
           if (loading) return <p>Loading...</p>;
-
           return <QuestionList questions={questions} filter={filter} />;
-
         }}
       </Query>
     );
   }
 }
 
-export default MyQuestions;
+export default Questions;

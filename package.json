@@ -36,6 +36,7 @@
     "i": "^0.3.6",
     "jss": "latest",
     "jss-rtl": "^0.2.3",
+    "lodash": "^4.17.11",
     "lodash.debounce": "^4.0.8",
     "material-ui-icons": "^1.0.0-beta.36",
     "moment": "^2.24.0",
@@ -55,10 +56,18 @@
     "waait": "^1.0.2"
   },
   "devDependencies": {
+    "babel-eslint": "^9.0.0",
     "babel-jest": "^23.6.0",
     "babel-plugin-module-resolver": "^3.1.1",
     "casual": "^1.5.19",
     "enzyme-to-json": "^3.3.4",
+    "eslint": "^5.16.0",
+    "eslint-config-react-app": "^4.0.1",
+    "eslint-plugin-flowtype": "^2.50.3",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.13.0",
+    "eslint-plugin-react-hooks": "^1.5.0",
     "graphql-tools": "^4.0.0",
     "jest": "^23.6.0",
     "jest-transform-graphql": "^2.1.0"
