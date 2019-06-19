@@ -45,6 +45,7 @@ class DisplayQuestion extends Component {
       >
         {({ data: { question }, loading }) => {
           if (loading) return <p>Loading...</p>;
+          console.log(question);
           return (
             <Mutation
               mutation={CREATE_QUESTION_VIEW_MUTATION}

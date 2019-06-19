@@ -92,6 +92,7 @@ class MyQuestions extends Component {
       >
         {({ data: { questions }, loading }) => {
           if (loading) return <p>Loading...</p>;
+          console.log(questions);
           return (
             <Grid container className={classes.root} spacing={16}>
               <Grid item xs={3} className={classes.grid} />

@@ -1,6 +1,7 @@
 import React from "react";
 import { Mutation, Query } from "react-apollo";
 import gql from "graphql-tag";
+import Router from "next/router";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -59,6 +60,7 @@ const CREATE_QUESTION_MUTATION = gql`
         id
         name
       }
+      id
     }
   }
 `;
@@ -118,7 +120,12 @@ class CreateQuestion extends React.Component {
                         method="post"
                         onSubmit={async e => {
                           e.preventDefault();
-                          await createQuestion();
+                          const res = await createQuestion();
+
+                          Router.push({
+                            pathname: "/question",
+                            query: { id: res.data.createQuestion.id }
+                          });
 
                           this.setState({
                             title: "",
