@@ -11,6 +11,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Typography from "@material-ui/core/Typography";
+import { upperFirst } from "lodash";
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -39,7 +40,7 @@ const styles = theme => ({
   }
 });
 
-class MyQuestions extends Component {
+class QuestionList extends Component {
   tagsList(tags) {
     return tags.map(tags => (
       <div key={tags.id} style={{ display: "inline-flex", marginRight: 10 }}>
@@ -51,7 +52,7 @@ class MyQuestions extends Component {
   }
 
   render() {
-    const { classes, questions } = this.props;
+    const { classes, questions, filter } = this.props;
 
     const customColumnStyle = {
       maxWidth: ".3px"
@@ -66,7 +67,7 @@ class MyQuestions extends Component {
               <TableRow>
                 <TableCell>
                   <Typography variant="display3" className={classes.title}>
-                    My Questions
+                    {upperFirst(filter)} Questions
                   </Typography>
                 </TableCell>
                 <CustomTableCell style={customColumnStyle}>A</CustomTableCell>
@@ -114,4 +115,4 @@ class MyQuestions extends Component {
   }
 }
 
-export default withStyles(styles)(MyQuestions);
+export default withStyles(styles)(QuestionList);

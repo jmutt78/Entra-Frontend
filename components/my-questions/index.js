@@ -6,6 +6,7 @@ import questionListQuery from "../question-list/questionListQuery";
 
 class MyQuestions extends Component {
   render() {
+    const filter = "my";
     return (
       <Query
         query={questionListQuery}
@@ -18,7 +19,7 @@ class MyQuestions extends Component {
         {({ data: { questions }, loading }) => {
           console.log(questions);
           if (loading) return <p>Loading...</p>;
-          return <QuestionList questions={questions} />;
+          return <QuestionList questions={questions} filter={filter} />;
         }}
       </Query>
     );
