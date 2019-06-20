@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { format, parseISO } from "date-fns";
 import Link from "next/link";
+import { Query } from "react-apollo";
 
 import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
@@ -8,6 +9,8 @@ import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
+
+import { CURRENT_USER_QUERY } from "../auth/User";
 
 const styles = theme => ({
   bigAvatar: {
@@ -80,41 +83,68 @@ class Answers extends Component {
     );
   }
 
+  handleEdit(answers, user) {
+    if (answers.answeredBy.id == user.id) {
+      return (
+        <Typography>
+          <Link
+            href={{
+              pathname: "/edit-answer",
+              query: { id: answers.id }
+            }}
+          >
+            <a style={{ textDecoration: "none", color: "grey" }}>EDIT</a>
+          </Link>
+        </Typography>
+      );
+    }
+  }
+
   render() {
     const { classes } = this.props;
     const answers = this.props.question.answers;
 
-    console.log(answers);
     return (
-      <div>
-        <Grid container className={classes.root} spacing={3}>
-          <Grid item xs />
-          <Grid item xs={7} className={classes.grid}>
-            {this.handleTitle(answers)}
-            {answers.map(answers => (
-              <div key={answers.id} className={classes.info}>
-                <div className={classes.photoTitle}>
-                  {this.handleImage(
-                    answers.answeredBy.image,
-                    answers.answeredBy.display,
-                    classes
-                  )}
-                  <Typography style={{ paddingTop: 20, marginLeft: 10 }}>
-                    <strong>{answers.answeredBy.display}</strong> says:
-                  </Typography>
-                </div>
-                <Typography className={classes.description}>
-                  {answers.body}
-                </Typography>
-                <Typography className={classes.date}>
-                  Posted {format(parseISO(answers.createdAt), "MMMM dd, yyyy")}
-                </Typography>
-              </div>
-            ))}
-          </Grid>
-          <Grid item xs />
-        </Grid>
-      </div>
+      <Query query={CURRENT_USER_QUERY}>
+        {({ data, loading }) => {
+          if (loading) return <p>Loading...</p>;
+          const user = data.me;
+          return (
+            <div>
+              <Grid container className={classes.root} spacing={3}>
+                <Grid item xs />
+                <Grid item xs={7} className={classes.grid}>
+                  {this.handleTitle(answers)}
+                  {answers.map(answers => (
+                    <div key={answers.id} className={classes.info}>
+                      <div className={classes.photoTitle}>
+                        {this.handleImage(
+                          answers.answeredBy.image,
+                          answers.answeredBy.display,
+                          classes
+                        )}
+                        <Typography style={{ paddingTop: 20, marginLeft: 10 }}>
+                          <strong>{answers.answeredBy.display}</strong> says:
+                        </Typography>
+                      </div>
+                      <Typography className={classes.description}>
+                        {answers.body}
+                      </Typography>
+                      <Typography className={classes.date}>
+                        Posted{" "}
+                        {format(parseISO(answers.createdAt), "MMMM dd, yyyy")}
+                      </Typography>
+
+                      {this.handleEdit(answers, user)}
+                    </div>
+                  ))}
+                </Grid>
+                <Grid item xs />
+              </Grid>
+            </div>
+          );
+        }}
+      </Query>
     );
   }
 }

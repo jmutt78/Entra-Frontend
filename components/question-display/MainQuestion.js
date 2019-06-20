@@ -133,7 +133,6 @@ class MainQuestion extends Component {
   render() {
     const { classes } = this.props;
     const question = this.props.question;
-    console.log(question);
     const askedby = this.props.question.askedBy[0];
     return (
       <Grid container className={classes.root} spacing={3}>

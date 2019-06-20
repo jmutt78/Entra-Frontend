@@ -1,10 +1,13 @@
-import React from "react";
-import { Mutation, Query } from "react-apollo";
+import React, { Component } from "react";
+import { Query, Mutation } from "react-apollo";
 import gql from "graphql-tag";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
+import Router from "next/router";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Error from "./../ErrorMessage.js";
+import PropTypes from "prop-types";
+import Grid from "@material-ui/core/Grid";
 import FilledInput from "@material-ui/core/FilledInput";
 import MenuItem from "@material-ui/core/MenuItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -14,8 +17,6 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControl from "@material-ui/core/FormControl";
 import Paper from "@material-ui/core/Paper";
 import Divider from "@material-ui/core/Divider";
-
-import questionQuery from "../question-display/questionQuery.js";
 
 const styles = theme => ({
   grid: {
@@ -48,18 +49,21 @@ const styles = theme => ({
   }
 });
 
-export const CREATE_ANSWER = gql`
-  mutation creatAnswer($questionId: ID!, $body: String!) {
-    createAnswer(questionId: $questionId, body: $body) {
+const UPDATE_ANSWER_MUTATION = gql`
+  mutation updateAnswer($id: ID!, $body: String!) {
+    updateAnswer(id: $id, body: $body) {
       id
       body
+      answeredTo {
+        id
+      }
     }
   }
 `;
 
-class CreateAnswer extends React.Component {
+class AnswerForm extends Component {
   state = {
-    body: ""
+    body: this.props.answer.body
   };
 
   handleDescriptionChange = e => {
@@ -67,21 +71,29 @@ class CreateAnswer extends React.Component {
       body: e.target.value
     });
   };
+
+  updateForm = async (e, updateAnswer) => {
+    e.preventDefault();
+    const res = await updateAnswer({
+      variables: {
+        id: this.props.answer.id,
+        ...this.state
+      }
+    });
+
+    console.log("Updated!!");
+    Router.push({
+      pathname: "/question",
+      query: { id: this.props.answer.answeredTo[0].id }
+    });
+  };
+
   render() {
     const { classes } = this.props;
     const { body } = this.state;
     return (
-      <Mutation
-        mutation={CREATE_ANSWER}
-        variables={{
-          questionId: this.props.id,
-          body
-        }}
-        refetchQueries={[
-          { query: questionQuery, variables: { id: this.props.id } }
-        ]}
-      >
-        {(createQuestion, { error, loading }) => {
+      <Mutation mutation={UPDATE_ANSWER_MUTATION} variables={this.state}>
+        {(updateAnswer, { error, loading }) => {
           return (
             <Grid container className={classes.root} spacing={3}>
               <Grid item xs />
@@ -89,14 +101,7 @@ class CreateAnswer extends React.Component {
                 <Divider variant="middle" />
                 <form
                   method="post"
-                  onSubmit={async e => {
-                    e.preventDefault();
-                    await createQuestion();
-
-                    this.setState({
-                      body: ""
-                    });
-                  }}
+                  onSubmit={e => this.updateForm(e, updateAnswer)}
                 >
                   <fieldset
                     disabled={loading}
@@ -107,7 +112,7 @@ class CreateAnswer extends React.Component {
                   >
                     <div>
                       <div>
-                        <h1>Have an Answer?</h1>
+                        <h1>Edit Answer?</h1>
                       </div>
                       <div>
                         <FormControl>
@@ -145,4 +150,4 @@ class CreateAnswer extends React.Component {
   }
 }
 
-export default withStyles(styles)(CreateAnswer);
+export default withStyles(styles)(AnswerForm);
