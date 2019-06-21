@@ -13,8 +13,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControl from "@material-ui/core/FormControl";
-import CreateTag from "./CreateTag";
-import { TAGS_QUERY } from "./Tags";
+import CreateTag from "../create-question/CreateTag.js";
+import { TAGS_QUERY } from "../create-question/Tags";
 
 const styles = theme => ({
   grid: {
@@ -47,13 +47,19 @@ const styles = theme => ({
   }
 });
 
-const CREATE_QUESTION_MUTATION = gql`
-  mutation createQuestion(
+const UPDATE_QUESTION_MUTATION = gql`
+  mutation updateQuestion(
+    $id: ID!
     $title: String!
     $description: String
     $tags: [TagInput!]!
   ) {
-    createQuestion(title: $title, description: $description, tags: $tags) {
+    updateQuestion(
+      id: $id
+      title: $title
+      description: $description
+      tags: $tags
+    ) {
       id
       title
       tags {
@@ -65,13 +71,14 @@ const CREATE_QUESTION_MUTATION = gql`
   }
 `;
 
-class CreateQuestion extends React.Component {
+class QuestionForm extends React.Component {
   state = {
     showCreateTagModal: false,
-    title: "",
-    description: "",
+    title: this.props.question.title,
+    description: this.props.question.description,
     tags: []
   };
+
   openCreateTagModal = () => {
     this.setState({ showCreateTagModal: true });
   };
@@ -93,9 +100,29 @@ class CreateQuestion extends React.Component {
       tags: e.target.value
     });
   };
+
+  updateForm = async (e, updateQuestion) => {
+    console.log(this.state.tags);
+    e.preventDefault();
+    const res = await updateQuestion({
+      variables: {
+        id: this.props.question.id,
+
+        ...this.state
+      }
+    });
+
+    console.log("Updated!!");
+    Router.push({
+      pathname: "/question",
+      query: { id: this.props.question.id }
+    });
+  };
+
   render() {
     const { classes } = this.props;
     const { title, description, tags, showCreateTagModal } = this.state;
+    console.log(this.props);
     return (
       <Query query={TAGS_QUERY}>
         {({ loading, data }) => {
@@ -104,36 +131,17 @@ class CreateQuestion extends React.Component {
           }
           return (
             <Mutation
-              mutation={CREATE_QUESTION_MUTATION}
-              variables={{
-                title,
-                description,
-                tags: tags.map(tag => ({ name: tag }))
-              }}
+              mutation={UPDATE_QUESTION_MUTATION}
+              variables={this.state}
             >
-              {(createQuestion, { error, loading }) => {
+              {(updateQuestion, { error, loading }) => {
                 return (
                   <Grid container className={classes.root} spacing={16}>
                     <Grid item xs={2} />
                     <Grid item xs={6}>
                       <form
                         method="post"
-                        onSubmit={async e => {
-                          console.log(tags);
-                          e.preventDefault();
-                          const res = await createQuestion();
-
-                          Router.push({
-                            pathname: "/question",
-                            query: { id: res.data.createQuestion.id }
-                          });
-
-                          this.setState({
-                            title: "",
-                            description: "",
-                            tags: []
-                          });
-                        }}
+                        onSubmit={e => this.updateForm(e, updateQuestion)}
                       >
                         <fieldset
                           disabled={loading}
@@ -144,7 +152,7 @@ class CreateQuestion extends React.Component {
                         >
                           <div>
                             <div>
-                              <h1>Ask a question</h1>
+                              <h1>Edit your question?</h1>
                             </div>
                             <div>
                               <FormControl>
@@ -161,48 +169,6 @@ class CreateQuestion extends React.Component {
                                 </label>
                               </FormControl>
 
-                              <FormControl
-                                variant="filed"
-                                className={classes.inputField}
-                              >
-                                <InputLabel
-                                  htmlFor="tags"
-                                  className={classes.label}
-                                >
-                                  Tag(s)
-                                </InputLabel>
-                                <Select
-                                  multiple
-                                  value={tags}
-                                  name="tags"
-                                  onChange={this.handleTagsChange}
-                                  input={
-                                    <FilledInput
-                                      name="tab"
-                                      id="filled-age-native-simple"
-                                    />
-                                  }
-                                  renderValue={selected => selected.join(", ")}
-                                >
-                                  {data.tags.map(tag => (
-                                    <MenuItem key={tag.name} value={tag.name}>
-                                      <Checkbox
-                                        checked={
-                                          this.state.tags.indexOf(tag.name) > -1
-                                        }
-                                      />
-                                      <ListItemText primary={tag.name} />
-                                    </MenuItem>
-                                  ))}
-                                </Select>
-                              </FormControl>
-                              <Button
-                                variant="text"
-                                onClick={this.openCreateTagModal}
-                                className={classes.addNewTag}
-                              >
-                                ADD NEW TAG
-                              </Button>
                               <FormControl>
                                 <label htmlFor="description">
                                   <TextField
@@ -246,4 +212,4 @@ class CreateQuestion extends React.Component {
   }
 }
 
-export default withStyles(styles)(CreateQuestion);
+export default withStyles(styles)(QuestionForm);

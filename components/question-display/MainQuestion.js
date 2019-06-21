@@ -14,6 +14,8 @@ import { withApollo } from "react-apollo";
 import questionQuery from "./questionQuery";
 import Icon from "../ui/Icon";
 
+import { CURRENT_USER_QUERY } from "../auth/User";
+
 const styles = theme => ({
   bigAvatar: {
     width: 70,
@@ -75,6 +77,10 @@ class MainQuestion extends Component {
         { query: questionQuery, variables: { id: this.props.id } }
       ]
     });
+
+    this.props.client.query({
+      query: CURRENT_USER_QUERY
+    });
   }
   upVote = () => {
     this.props.client.mutate({
@@ -130,69 +136,108 @@ class MainQuestion extends Component {
     ));
   }
 
+  handleEdit(question, user) {
+    if (question.askedBy[0].id == user.id) {
+      return (
+        <Typography>
+          <Link
+            href={{
+              pathname: "/edit-question",
+              query: { id: question.id }
+            }}
+          >
+            <a style={{ textDecoration: "none", color: "grey" }}>EDIT</a>
+          </Link>
+        </Typography>
+      );
+    }
+  }
+
   render() {
     const { classes } = this.props;
     const question = this.props.question;
+    console.log(question.askedBy[0].id);
     const askedby = this.props.question.askedBy[0];
     return (
-      <Grid container className={classes.root} spacing={3}>
-        <Grid item xs />
-        <Grid item xs={7} className={classes.grid}>
-          <Paper className={classes.paper}>
-            <Typography className={classes.title} variant="h5">
-              <strong>{question.title}</strong>
-            </Typography>
-            <div className={classes.photoTitle}>
-              {this.handleImage(askedby, classes)}
-              <Typography style={{ paddingTop: 20, marginLeft: 10 }}>
-                {" "}
-                <strong>{askedby.display}</strong> asks:
-              </Typography>
-            </div>
-            <Grid container>
-              <Grid item xs={10}>
-                <Typography className={classes.description}>
-                  {question.description}{" "}
-                </Typography>
-                <Grid
-                  container
-                  direction="row"
-                  justify="space-between"
-                  className={classes.date}
-                >
-                  <Typography>
-                    Posted{" "}
-                    {format(parseISO(question.createdAt), "MMMM dd, yyyy")}
+      <Query query={CURRENT_USER_QUERY}>
+        {({ data, loading }) => {
+          if (loading) return <p>Loading...</p>;
+          const user = data.me;
+          console.log(user);
+          return (
+            <Grid container className={classes.root} spacing={3}>
+              <Grid item xs />
+              <Grid item xs={7} className={classes.grid}>
+                <Paper className={classes.paper}>
+                  <Typography className={classes.title} variant="h5">
+                    <strong>{question.title}</strong>
                   </Typography>
-                  <div>
-                    <Grid container alignItems="center">
-                      <Icon src="/static/visibility.svg" />{" "}
-                      <span style={{ paddingLeft: 10 }}>
-                        {question.views} views
-                      </span>
-                    </Grid>
+                  <div className={classes.photoTitle}>
+                    {this.handleImage(askedby, classes)}
+                    <Typography style={{ paddingTop: 20, marginLeft: 10 }}>
+                      {" "}
+                      <strong>{askedby.display}</strong> asks:
+                    </Typography>
                   </div>
-                </Grid>
-                <Typography style={{ display: "inline-flex", marginRight: 10 }}>
-                  <strong> Tags:</strong>
-                </Typography>{" "}
-                {this.tagsList(question.tags, classes)}
+                  <Grid container>
+                    <Grid item xs={10}>
+                      <Typography className={classes.description}>
+                        {question.description}{" "}
+                      </Typography>
+                      <Grid
+                        container
+                        direction="row"
+                        justify="space-between"
+                        className={classes.date}
+                      >
+                        <Typography>
+                          Posted{" "}
+                          {format(
+                            parseISO(question.createdAt),
+                            "MMMM dd, yyyy"
+                          )}
+                        </Typography>
+                        <div>
+                          <Grid container alignItems="center">
+                            <Icon src="/static/visibility.svg" />{" "}
+                            <span style={{ paddingLeft: 10 }}>
+                              {question.views} views
+                            </span>
+                          </Grid>
+                        </div>
+                      </Grid>
+                      <Typography
+                        style={{ display: "inline-flex", marginRight: 10 }}
+                      >
+                        <strong> Tags:</strong>
+                      </Typography>{" "}
+                      {this.tagsList(question.tags, classes)}
+                      {this.handleEdit(question, user)}
+                    </Grid>
+                    <Grid item xs={2} container>
+                      <Grid item xs={4}>
+                        <Icon
+                          onClick={this.upVote}
+                          src="/static/thumb_up.svg"
+                        />
+                        <div>{question.upVotes}</div>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Icon
+                          onClick={this.downVote}
+                          src="/static/thumb_down.svg"
+                        />
+                        <div>{question.downVotes}</div>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Paper>
               </Grid>
-              <Grid item xs={2} container>
-                <Grid item xs={4}>
-                  <Icon onClick={this.upVote} src="/static/thumb_up.svg" />
-                  <div>{question.upVotes}</div>
-                </Grid>
-                <Grid item xs={4}>
-                  <Icon onClick={this.downVote} src="/static/thumb_down.svg" />
-                  <div>{question.downVotes}</div>
-                </Grid>
-              </Grid>
+              <Grid item xs />
             </Grid>
-          </Paper>
-        </Grid>
-        <Grid item xs />
-      </Grid>
+          );
+        }}
+      </Query>
     );
   }
 }

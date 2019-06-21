@@ -15,8 +15,6 @@ import styled from "styled-components";
 import Head from "next/head";
 import questionQuery from "./questionQuery";
 
-import { SINGLE_QUESTION_QUERY } from "../question-display/questionQuery.js";
-
 const styles = theme => ({
   grid: {
     margin: theme.spacing.unit
