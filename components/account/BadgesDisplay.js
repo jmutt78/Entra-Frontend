@@ -17,6 +17,7 @@ import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import RateReviewIcon from "@material-ui/icons/RateReview";
 import ThreeSixtyIcon from "@material-ui/icons/ThreeSixty";
 import CommentIcon from "@material-ui/icons/Comment";
+import FlightIcon from "@material-ui/icons/Flight";
 
 const styles = theme => ({
   grid: {
@@ -78,6 +79,10 @@ const badgesConfig = {
   commentor: {
     title: "Commentor",
     icon: CommentIcon
+  },
+  frequentFlyer: {
+    title: "Frequent Flyer",
+    icon: FlightIcon
   }
 };
 

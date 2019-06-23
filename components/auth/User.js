@@ -23,6 +23,7 @@ const CURRENT_USER_QUERY = gql`
         reviewer
         analyst
         commentor
+        frequentFlyer
       }
     }
   }
