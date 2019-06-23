@@ -21,6 +21,7 @@ const CURRENT_USER_QUERY = gql`
         critic
         patron
         reviewer
+        analyst
       }
     }
   }

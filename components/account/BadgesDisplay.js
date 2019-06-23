@@ -15,7 +15,7 @@ import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import RateReviewIcon from "@material-ui/icons/RateReview";
-
+import ThreeSixtyIcon from "@material-ui/icons/ThreeSixty";
 const styles = theme => ({
   grid: {
     margin: theme.spacing.unit
@@ -68,6 +68,10 @@ const badgesConfig = {
   reviewer: {
     title: "Reviewer",
     icon: RateReviewIcon
+  },
+  analyst: {
+    title: "Analyst",
+    icon: ThreeSixtyIcon
   }
 };
 
