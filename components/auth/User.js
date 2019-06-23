@@ -19,6 +19,7 @@ const CURRENT_USER_QUERY = gql`
       badges {
         autobiographer
         critic
+        patron
       }
     }
   }

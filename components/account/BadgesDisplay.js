@@ -13,6 +13,7 @@ import Icon from "@material-ui/core/Icon";
 import { pickBy } from "lodash";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
+import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 
 const styles = theme => ({
   grid: {
@@ -58,6 +59,10 @@ const badgesConfig = {
   critic: {
     title: "Critic",
     icon: ThumbDownIcon
+  },
+  patron: {
+    title: "Patron",
+    icon: ThumbUpIcon
   }
 };
 
