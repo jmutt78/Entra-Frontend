@@ -12,6 +12,7 @@ import Card from "@material-ui/core/Card";
 import Icon from "@material-ui/core/Icon";
 import { pickBy } from "lodash";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 
 const styles = theme => ({
   grid: {
@@ -53,17 +54,21 @@ const badgesConfig = {
   autobiographer: {
     title: "Autobiographer",
     icon: LibraryBooksIcon
+  },
+  critic: {
+    title: "Critic",
+    icon: ThumbDownIcon
   }
 };
 
 function BadgeItem({ type, classes }) {
   const badgeConfig = badgesConfig[type];
-  const Icon = badgeConfig.icon;
+  const { title, icon: Icon } = badgeConfig;
   return (
     <Grid container item xs={2} className={classes.badge} direction="column">
       <Icon style={{ fontSize: 64 }} />
       <Typography variant="h6" align="center">
-        Autobiographer
+        {title}
       </Typography>
     </Grid>
   );

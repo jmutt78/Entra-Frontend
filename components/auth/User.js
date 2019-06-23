@@ -18,6 +18,7 @@ const CURRENT_USER_QUERY = gql`
       image
       badges {
         autobiographer
+        critic
       }
     }
   }
