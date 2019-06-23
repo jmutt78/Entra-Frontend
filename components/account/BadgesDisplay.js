@@ -10,6 +10,8 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faAward, faBook } from "@fortawesome/free-solid-svg-icons";
 import Card from "@material-ui/core/Card";
 import Icon from "@material-ui/core/Icon";
+import { values, some } from "lodash";
+import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 
 const styles = theme => ({
   grid: {
@@ -49,10 +51,48 @@ const styles = theme => ({
   }
 });
 
+const badgesConfig = {
+  autobiographer: {
+    title: "Autobiographer",
+    icon: LibraryBooksIcon
+  }
+};
+
+function BadgeItem({ type, classes }) {
+  const badgeConfig = badgesConfig[type];
+  const Icon = badgeConfig.icon;
+  return (
+    <Grid item xs={1} className={classes.badge}>
+      <Icon style={{ fontSize: 30 }} />
+      <Typography variant="h6" align="center">
+        Autobiographer
+      </Typography>
+    </Grid>
+  );
+}
+
+function BadgesList({ badges, classes }) {
+  let badgeNodes = [];
+  if (badges.autobiographer) {
+    badgeNodes = badgeNodes.concat(
+      <BadgeItem type="autobiographer" classes={classes} />
+    );
+  }
+  if (!badgeNodes.length) {
+    return (
+      <Typography variant="h6" align="center">
+        No bages yet
+      </Typography>
+    );
+  }
+  return <Grid container>{badgeNodes}</Grid>;
+}
+
 class BadgesDisplay extends Component {
   render() {
     const { classes } = this.props;
     const user = this.props.data.me;
+    console.log(some(values(user.badges)), user.badges);
     return (
       <Grid container className={classes.root} spacing={16}>
         <Grid item xs={2} className={classes.grid} />
@@ -62,7 +102,9 @@ class BadgesDisplay extends Component {
               <Grid item xs={11} className={classes.badgeTitle}>
                 <Typography variant="h4">Badges</Typography>
               </Grid>
-              <Grid item xs={1} className={classes.badge}>
+            </Grid>
+            <BadgesList badges={user.badges} classes={classes} />
+            {/*<Grid item xs={1} className={classes.badge}>
                 <Icon className={classes.awesomeAward} align="center">
                   <FontAwesomeIcon size="2x" icon={faBook} />
                 </Icon>
@@ -70,6 +112,7 @@ class BadgesDisplay extends Component {
                   Autobiographer
                 </Typography>
               </Grid>
+
               <Grid item xs={1} className={classes.badge}>
                 <Icon className={classes.awesomeAward} align="center">
                   <FontAwesomeIcon size="2x" icon={faAward} />
@@ -173,8 +216,7 @@ class BadgesDisplay extends Component {
                 <Typography variant="h6" align="center">
                   Moderator
                 </Typography>
-              </Grid>
-            </Grid>
+              </Grid> */}
           </Card>
         </Grid>
       </Grid>

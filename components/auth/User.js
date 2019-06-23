@@ -16,6 +16,9 @@ const CURRENT_USER_QUERY = gql`
       about
       industry
       image
+      badges {
+        autobiographer
+      }
     }
   }
 `;
