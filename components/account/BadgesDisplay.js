@@ -14,6 +14,7 @@ import { pickBy } from "lodash";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
+import RateReviewIcon from "@material-ui/icons/RateReview";
 
 const styles = theme => ({
   grid: {
@@ -63,6 +64,10 @@ const badgesConfig = {
   patron: {
     title: "Patron",
     icon: ThumbUpIcon
+  },
+  reviewer: {
+    title: "Reviewer",
+    icon: RateReviewIcon
   }
 };
 

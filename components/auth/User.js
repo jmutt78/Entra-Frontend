@@ -20,6 +20,7 @@ const CURRENT_USER_QUERY = gql`
         autobiographer
         critic
         patron
+        reviewer
       }
     }
   }
