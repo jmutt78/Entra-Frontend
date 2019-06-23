@@ -10,7 +10,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faAward, faBook } from "@fortawesome/free-solid-svg-icons";
 import Card from "@material-ui/core/Card";
 import Icon from "@material-ui/core/Icon";
-import { values, some } from "lodash";
+import { pickBy } from "lodash";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 
 const styles = theme => ({
@@ -72,27 +72,28 @@ function BadgeItem({ type, classes }) {
 }
 
 function BadgesList({ badges, classes }) {
-  let badgeNodes = [];
-  if (badges.autobiographer) {
-    badgeNodes = badgeNodes.concat(
-      <BadgeItem type="autobiographer" classes={classes} />
-    );
-  }
-  if (!badgeNodes.length) {
+  const yourBadges = pickBy(badges, value => value === true);
+  const badgeKeys = Object.keys(yourBadges);
+  if (!badgeKeys.length) {
     return (
       <Typography variant="h6" align="center">
         No bages yet
       </Typography>
     );
   }
-  return <Grid container>{badgeNodes}</Grid>;
+  return (
+    <Grid container>
+      {badgeKeys.map(badge => (
+        <BadgeItem key={badge} type={badge} classes={classes} />
+      ))}
+    </Grid>
+  );
 }
 
 class BadgesDisplay extends Component {
   render() {
     const { classes } = this.props;
     const user = this.props.data.me;
-    console.log(some(values(user.badges)), user.badges);
     return (
       <Grid container className={classes.root} spacing={16}>
         <Grid item xs={2} className={classes.grid} />
