@@ -21,10 +21,8 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     marginTop: 40
   },
-
   badge: {
-    marginLeft: 30,
-    marginRight: 30
+    alignItems: "center"
   },
   badgeTitle: {
     marginRight: 5,
@@ -62,8 +60,8 @@ function BadgeItem({ type, classes }) {
   const badgeConfig = badgesConfig[type];
   const Icon = badgeConfig.icon;
   return (
-    <Grid item xs={1} className={classes.badge}>
-      <Icon style={{ fontSize: 30 }} />
+    <Grid container item xs={2} className={classes.badge} direction="column">
+      <Icon style={{ fontSize: 64 }} />
       <Typography variant="h6" align="center">
         Autobiographer
       </Typography>
