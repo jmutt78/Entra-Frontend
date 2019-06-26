@@ -156,7 +156,6 @@ class MainQuestion extends Component {
   render() {
     const { classes } = this.props;
     const question = this.props.question;
-    console.log(question.askedBy[0].id);
     const askedby = this.props.question.askedBy[0];
     return (
       <Query query={CURRENT_USER_QUERY}>

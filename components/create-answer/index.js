@@ -81,7 +81,6 @@ class CreateAnswer extends React.Component {
     this.setState({
       body: ""
     });
-    console.log("Updated!!");
   };
 
   handleQuestion(id, myAnswers, body, classes, loading, createQuestion) {
@@ -91,6 +90,7 @@ class CreateAnswer extends React.Component {
       arr.push(answers);
     }
     const num = arr.some(element => element[0].id === id);
+
     if (num === true) {
       return <div />;
     } else {
@@ -151,15 +151,7 @@ class CreateAnswer extends React.Component {
     const { body } = this.state;
 
     return (
-      <Query
-        query={CURRENT_USER_QUERY}
-        refetchQueries={[
-          {
-            query: questionQuery,
-            variables: { id: this.props.question.id }
-          }
-        ]}
-      >
+      <Query query={CURRENT_USER_QUERY}>
         {({ data, loading }) => {
           if (loading) return <p>Loading...</p>;
           const user = data.me;
@@ -174,7 +166,8 @@ class CreateAnswer extends React.Component {
                 {
                   query: questionQuery,
                   variables: { id: this.props.question.id }
-                }
+                },
+                { query: CURRENT_USER_QUERY }
               ]}
             >
               {(createQuestion, { error, loading }) => {
