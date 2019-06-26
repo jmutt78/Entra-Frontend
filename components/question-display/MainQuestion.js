@@ -163,7 +163,7 @@ class MainQuestion extends Component {
         {({ data, loading }) => {
           if (loading) return <p>Loading...</p>;
           const user = data.me;
-          console.log(user);
+
           return (
             <Grid container className={classes.root} spacing={3}>
               <Grid item xs />

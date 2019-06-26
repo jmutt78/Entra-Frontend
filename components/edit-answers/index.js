@@ -41,3 +41,4 @@ class UpdateAnswer extends Component {
 }
 
 export default UpdateAnswer;
+export { SINGLE_ANSWER_QUERY };

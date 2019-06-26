@@ -28,6 +28,7 @@ const styles = theme => ({
 class DisplayQuestion extends Component {
   render() {
     const { classes } = this.props;
+
     return (
       <Query
         query={questionQuery}
@@ -37,7 +38,7 @@ class DisplayQuestion extends Component {
       >
         {({ data: { question }, loading }) => {
           if (loading) return <p>Loading...</p>;
-
+          console.log(this.props);
           return (
             <Grid container className={classes.root} spacing={16}>
               <Grid item xs={12} className={classes.grid}>
@@ -47,7 +48,7 @@ class DisplayQuestion extends Component {
                 <Answers id={this.props.id} question={question} />
               </Grid>
               <Grid item xs={12} className={classes.grid}>
-                <CreateAnswer id={this.props.id} />
+                <CreateAnswer question={question} />
               </Grid>
             </Grid>
           );

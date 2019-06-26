@@ -16,6 +16,12 @@ const CURRENT_USER_QUERY = gql`
       about
       industry
       image
+      __typename
+      myAnswers {
+        answeredTo {
+          id
+        }
+      }
     }
   }
 `;

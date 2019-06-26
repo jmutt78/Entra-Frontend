@@ -131,9 +131,7 @@ class AnswerForm extends Component {
                           </label>
                         </FormControl>
                       </div>
-
                       <div className={classes.flex1} />
-
                       <Button variant="contained" type="submit">
                         Post Answer
                       </Button>
