@@ -16,7 +16,6 @@ const CURRENT_USER_QUERY = gql`
       about
       industry
       image
-
       badges {
         autobiographer
         critic
@@ -25,12 +24,11 @@ const CURRENT_USER_QUERY = gql`
         analyst
         commentor
         frequentFlyer
-
+      }
       myAnswers {
         answeredTo {
           id
         }
-
       }
     }
   }
