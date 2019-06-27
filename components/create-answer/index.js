@@ -16,6 +16,7 @@ import Paper from "@material-ui/core/Paper";
 import Divider from "@material-ui/core/Divider";
 
 import questionQuery from "../question-display/questionQuery.js";
+import { CURRENT_USER_QUERY } from "../auth/User";
 
 const styles = theme => ({
   grid: {
@@ -67,80 +68,126 @@ class CreateAnswer extends React.Component {
       body: e.target.value
     });
   };
+
+  submitForm = async (e, createQuestion) => {
+    e.preventDefault();
+    const res = await createQuestion({
+      variables: {
+        questionId: this.props.question.id,
+        ...this.state
+      }
+    });
+
+    this.setState({
+      body: ""
+    });
+  };
+
+  handleQuestion(id, myAnswers, body, classes, loading, createQuestion) {
+    const arr = [];
+    for (var i = 0; i < myAnswers.length; i++) {
+      const answers = [myAnswers[i].answeredTo[0]];
+      arr.push(answers);
+    }
+    const num = arr.some(element => element[0].id === id);
+
+    if (num === true) {
+      return <div />;
+    } else {
+      return (
+        <Grid container className={classes.root} spacing={3}>
+          <Grid item xs />
+          <Grid item xs={7} className={classes.grid}>
+            <Divider variant="middle" />
+            <form
+              method="post"
+              onSubmit={e => this.submitForm(e, createQuestion)}
+            >
+              <fieldset
+                disabled={loading}
+                aria-busy={loading}
+                style={{
+                  borderWidth: "0px"
+                }}
+              >
+                <div>
+                  <div>
+                    <h1>Have an Answer?</h1>
+                  </div>
+                  <div>
+                    <FormControl>
+                      <label htmlFor="body">
+                        <TextField
+                          label="Answer"
+                          type="text"
+                          name="body"
+                          variant="filled"
+                          multiline
+                          rows={4}
+                          value={body}
+                          onChange={this.handleDescriptionChange}
+                          className={classes.inputField}
+                        />
+                      </label>
+                    </FormControl>
+                  </div>
+
+                  <div className={classes.flex1} />
+                  <Button variant="contained" type="submit">
+                    Post Answer
+                  </Button>
+                </div>
+              </fieldset>
+            </form>
+          </Grid>
+          <Grid item xs />
+        </Grid>
+      );
+    }
+  }
+
   render() {
     const { classes } = this.props;
     const { body } = this.state;
+
     return (
-      <Mutation
-        mutation={CREATE_ANSWER}
-        variables={{
-          questionId: this.props.id,
-          body
-        }}
-        refetchQueries={[
-          { query: questionQuery, variables: { id: this.props.id } }
-        ]}
-      >
-        {(createQuestion, { error, loading }) => {
+      <Query query={CURRENT_USER_QUERY}>
+        {({ data, loading }) => {
+          if (loading) return <p>Loading...</p>;
+          const user = data.me;
+          const myAnswers = user.myAnswers;
+          const id = this.props.question.id;
+
           return (
-            <Grid container className={classes.root} spacing={3}>
-              <Grid item xs />
-              <Grid item xs={7} className={classes.grid}>
-                <Divider variant="middle" />
-                <form
-                  method="post"
-                  onSubmit={async e => {
-                    e.preventDefault();
-                    await createQuestion();
-
-                    this.setState({
-                      body: ""
-                    });
-                  }}
-                >
-                  <fieldset
-                    disabled={loading}
-                    aria-busy={loading}
-                    style={{
-                      borderWidth: "0px"
-                    }}
-                  >
-                    <div>
-                      <div>
-                        <h1>Have an Answer?</h1>
-                      </div>
-                      <div>
-                        <FormControl>
-                          <label htmlFor="body">
-                            <TextField
-                              label="Answer"
-                              type="text"
-                              name="body"
-                              variant="filled"
-                              multiline
-                              rows={4}
-                              value={body}
-                              onChange={this.handleDescriptionChange}
-                              className={classes.inputField}
-                            />
-                          </label>
-                        </FormControl>
-                      </div>
-
-                      <div className={classes.flex1} />
-
-                      <Button variant="contained" type="submit">
-                        Post Answer
-                      </Button>
-                    </div>
-                  </fieldset>
-                </form>
-              </Grid>
-              <Grid item xs />
-            </Grid>
+            <Mutation
+              mutation={CREATE_ANSWER}
+              variables={this.state}
+              refetchQueries={[
+                {
+                  query: questionQuery,
+                  variables: { id: this.props.question.id }
+                },
+                { query: CURRENT_USER_QUERY }
+              ]}
+            >
+              {(createQuestion, { error, loading }) => {
+                return (
+                  <div>
+                    {this.handleQuestion(
+                      id,
+                      myAnswers,
+                      body,
+                      classes,
+                      loading,
+                      createQuestion
+                    )}
+                  </div>
+                );
+              }}
+            </Mutation>
           );
         }}
-      </Mutation>
+      </Query>
     );
   }
 }
