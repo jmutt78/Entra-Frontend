@@ -16,11 +16,21 @@ const CURRENT_USER_QUERY = gql`
       about
       industry
       image
-      __typename
+
+      badges {
+        autobiographer
+        critic
+        patron
+        reviewer
+        analyst
+        commentor
+        frequentFlyer
+
       myAnswers {
         answeredTo {
           id
         }
+
       }
     }
   }

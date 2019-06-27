@@ -10,6 +10,14 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faAward, faBook } from "@fortawesome/free-solid-svg-icons";
 import Card from "@material-ui/core/Card";
 import Icon from "@material-ui/core/Icon";
+import { pickBy } from "lodash";
+import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import ThumbDownIcon from "@material-ui/icons/ThumbDown";
+import ThumbUpIcon from "@material-ui/icons/ThumbUp";
+import RateReviewIcon from "@material-ui/icons/RateReview";
+import ThreeSixtyIcon from "@material-ui/icons/ThreeSixty";
+import CommentIcon from "@material-ui/icons/Comment";
+import FlightIcon from "@material-ui/icons/Flight";
 
 const styles = theme => ({
   grid: {
@@ -19,10 +27,8 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     marginTop: 40
   },
-
   badge: {
-    marginLeft: 30,
-    marginRight: 30
+    alignItems: "center"
   },
   badgeTitle: {
     marginRight: 5,
@@ -49,6 +55,69 @@ const styles = theme => ({
   }
 });
 
+const badgesConfig = {
+  autobiographer: {
+    title: "Autobiographer",
+    icon: LibraryBooksIcon
+  },
+  critic: {
+    title: "Critic",
+    icon: ThumbDownIcon
+  },
+  patron: {
+    title: "Patron",
+    icon: ThumbUpIcon
+  },
+  reviewer: {
+    title: "Reviewer",
+    icon: RateReviewIcon
+  },
+  analyst: {
+    title: "Analyst",
+    icon: ThreeSixtyIcon
+  },
+  commentor: {
+    title: "Commentor",
+    icon: CommentIcon
+  },
+  frequentFlyer: {
+    title: "Frequent Flyer",
+    icon: FlightIcon
+  }
+};
+
+function BadgeItem({ type, classes }) {
+  const badgeConfig = badgesConfig[type];
+  const { title, icon: Icon } = badgeConfig;
+  return (
+    <Grid container item xs={2} className={classes.badge} direction="column">
+      <Icon style={{ fontSize: 64 }} />
+      <Typography variant="h6" align="center">
+        {title}
+      </Typography>
+    </Grid>
+  );
+}
+
+function BadgesList({ badges, classes }) {
+  const yourBadges = pickBy(badges, value => value === true);
+  const badgeKeys = Object.keys(yourBadges);
+  if (!badgeKeys.length) {
+    return (
+      <Typography variant="h6" align="center">
+        No bages yet
+      </Typography>
+    );
+  }
+  return (
+    <Grid container>
+      {badgeKeys.map(badge => (
+        <BadgeItem key={badge} type={badge} classes={classes} />
+      ))}
+    </Grid>
+  );
+}
+
 class BadgesDisplay extends Component {
   render() {
     const { classes } = this.props;
@@ -62,7 +131,9 @@ class BadgesDisplay extends Component {
               <Grid item xs={11} className={classes.badgeTitle}>
                 <Typography variant="h4">Badges</Typography>
               </Grid>
-              <Grid item xs={1} className={classes.badge}>
+            </Grid>
+            <BadgesList badges={user.badges} classes={classes} />
+            {/*<Grid item xs={1} className={classes.badge}>
                 <Icon className={classes.awesomeAward} align="center">
                   <FontAwesomeIcon size="2x" icon={faBook} />
                 </Icon>
@@ -70,6 +141,7 @@ class BadgesDisplay extends Component {
                   Autobiographer
                 </Typography>
               </Grid>
+
               <Grid item xs={1} className={classes.badge}>
                 <Icon className={classes.awesomeAward} align="center">
                   <FontAwesomeIcon size="2x" icon={faAward} />
@@ -173,8 +245,7 @@ class BadgesDisplay extends Component {
                 <Typography variant="h6" align="center">
                   Moderator
                 </Typography>
-              </Grid>
-            </Grid>
+              </Grid> */}
           </Card>
         </Grid>
       </Grid>
