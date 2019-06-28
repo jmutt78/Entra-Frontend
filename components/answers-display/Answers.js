@@ -103,50 +103,72 @@ class Answers extends Component {
   render() {
     const { classes } = this.props;
     const answers = this.props.question.answers;
-    console.log(answers);
 
-    return (
-      <Query query={CURRENT_USER_QUERY}>
-        {({ data, loading }) => {
-          if (loading) return <p>Loading...</p>;
-          const user = data.me;
-          return (
-            <div>
-              <Grid container className={classes.root} spacing={3}>
-                <Grid item xs />
-                <Grid item xs={7} className={classes.grid}>
-                  {this.handleTitle(answers)}
-                  {answers.map(answers => (
-                    <div key={answers.id} className={classes.info}>
-                      <div className={classes.photoTitle}>
-                        {this.handleImage(
-                          answers.answeredBy.image,
-                          answers.answeredBy.display,
-                          classes
-                        )}
-                        <Typography style={{ paddingTop: 20, marginLeft: 10 }}>
-                          <strong>{answers.answeredBy.display}</strong> says:
-                        </Typography>
-                      </div>
-                      <Typography className={classes.description}>
-                        {answers.body}
-                      </Typography>
-                      <Typography className={classes.date}>
-                        Posted{" "}
-                        {format(parseISO(answers.createdAt), "MMMM dd, yyyy")}
-                      </Typography>
+    if (this.props.question.answers.length === 0) {
+      return <div />;
+    } else {
+      return (
+        <Query query={CURRENT_USER_QUERY}>
+          {({ data, loading }) => {
+            if (loading) return <p>Loading...</p>;
+            const user = data.me;
 
-                      {this.handleEdit(answers, user)}
-                    </div>
-                  ))}
+            return (
+              <div>
+                <Grid container className={classes.root} spacing={3}>
+                  <Grid item xs />
+                  <Grid item xs={7} className={classes.grid}>
+                    {this.handleTitle(answers)}
+                    {answers.map(answers => {
+                      const answeredBy = answers.answeredBy.id;
+                      const ownsAnswer = answeredBy === user.id;
+                      const isApproved = answers.approval === true;
+                      const hasPermissions = user.permissions.some(permission =>
+                        ["ADMIN", "MODERATOR"].includes(permission)
+                      );
+
+                      if (!ownsAnswer && !hasPermissions && !isApproved) {
+                        return <div />;
+                      }
+                      return (
+                        <div key={answers.id} className={classes.info}>
+                          <div className={classes.photoTitle}>
+                            {this.handleImage(
+                              answers.answeredBy.image,
+                              answers.answeredBy.display,
+                              classes
+                            )}
+                            <Typography
+                              style={{ paddingTop: 20, marginLeft: 10 }}
+                            >
+                              <strong>{answers.answeredBy.display}</strong>{" "}
+                              says:
+                            </Typography>
+                          </div>
+                          <Typography className={classes.description}>
+                            {answers.body}
+                          </Typography>
+                          <Typography className={classes.date}>
+                            Posted{" "}
+                            {format(
+                              parseISO(answers.createdAt),
+                              "MMMM dd, yyyy"
+                            )}
+                          </Typography>
+
+                          {this.handleEdit(answers, user)}
+                        </div>
+                      );
+                    })}
+                  </Grid>
+                  <Grid item xs />
                 </Grid>
-                <Grid item xs />
-              </Grid>
-            </div>
-          );
-        }}
-      </Query>
-    );
+              </div>
+            );
+          }}
+        </Query>
+      );
+    }
   }
 }
 

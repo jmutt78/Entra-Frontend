@@ -6,6 +6,7 @@ const SINGLE_QUESTION_QUERY = gql`
       id
       title
       description
+      approval
       askedBy {
         id
         display

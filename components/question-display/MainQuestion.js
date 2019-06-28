@@ -3,6 +3,7 @@ import { format, parseISO } from "date-fns";
 import { Query } from "react-apollo";
 import Link from "next/link";
 import gql from "graphql-tag";
+import NoQuestion from "./NoQuestion";
 
 import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
@@ -162,7 +163,15 @@ class MainQuestion extends Component {
         {({ data, loading }) => {
           if (loading) return <p>Loading...</p>;
           const user = data.me;
+          const hasPermissions = user.permissions.some(permission =>
+            ["ADMIN", "MODERATOR"].includes(permission)
+          );
+          const ownsQuestion = askedby.id === user.id;
+          const isApproved = question.approval === true;
 
+          if (!ownsQuestion && !hasPermissions && !isApproved) {
+            return <NoQuestion />;
+          }
           return (
             <Grid container className={classes.root} spacing={3}>
               <Grid item xs />
