@@ -50,8 +50,8 @@ const styles = theme => ({
 });
 
 const UPDATE_ANSWER_MUTATION = gql`
-  mutation updateAnswer($id: ID!, $body: String!) {
-    updateAnswer(id: $id, body: $body) {
+  mutation updateAnswer($id: ID!, $body: String!, $approval: Boolean) {
+    updateAnswer(id: $id, body: $body, approval: $approval) {
       id
       body
       answeredTo {
@@ -77,6 +77,7 @@ class AnswerForm extends Component {
     const res = await updateAnswer({
       variables: {
         id: this.props.answer.id,
+        approval: false,
         ...this.state
       }
     });

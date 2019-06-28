@@ -103,7 +103,6 @@ class Answers extends Component {
   render() {
     const { classes } = this.props;
     const answers = this.props.question.answers;
-
     if (this.props.question.answers.length === 0) {
       return <div />;
     } else {
@@ -155,7 +154,6 @@ class Answers extends Component {
                               "MMMM dd, yyyy"
                             )}
                           </Typography>
-
                           {this.handleEdit(answers, user)}
                         </div>
                       );

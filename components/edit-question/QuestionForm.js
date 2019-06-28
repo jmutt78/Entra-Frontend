@@ -53,12 +53,14 @@ const UPDATE_QUESTION_MUTATION = gql`
     $title: String!
     $description: String
     $tags: [TagInput!]!
+    $approval: Boolean
   ) {
     updateQuestion(
       id: $id
       title: $title
       description: $description
       tags: $tags
+      approval: $approval
     ) {
       id
       title
@@ -107,6 +109,7 @@ class QuestionForm extends React.Component {
     const res = await updateQuestion({
       variables: {
         id: this.props.question.id,
+        approval: false,
 
         ...this.state
       }
