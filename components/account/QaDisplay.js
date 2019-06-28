@@ -76,7 +76,7 @@ class QaDisplay extends Component {
                   0
                 </Typography>
                 <Typography variant="h5" align="center">
-                  <Link href="/">
+                  <Link href="/myanswers">
                     <a className={classes.link}>Answers</a>
                   </Link>
                 </Typography>

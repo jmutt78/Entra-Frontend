@@ -119,7 +119,6 @@ class CreateQuestion extends React.Component {
                       <form
                         method="post"
                         onSubmit={async e => {
-                          console.log(tags);
                           e.preventDefault();
                           const res = await createQuestion();
 

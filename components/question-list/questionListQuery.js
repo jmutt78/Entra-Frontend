@@ -8,6 +8,7 @@ const QUESTION_LIST_QUERY = gql`
       title
       description
       createdAt
+      approval
       answers {
         id
         body

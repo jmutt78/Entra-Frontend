@@ -14,6 +14,7 @@ const SINGLE_ANSWER_QUERY = gql`
     answer(where: { id: $id }) {
       id
       body
+      approval
       answeredTo {
         id
       }

@@ -103,6 +103,7 @@ class Answers extends Component {
   render() {
     const { classes } = this.props;
     const answers = this.props.question.answers;
+    console.log(answers);
 
     return (
       <Query query={CURRENT_USER_QUERY}>

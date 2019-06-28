@@ -17,6 +17,7 @@ const SINGLE_QUESTION_QUERY = gql`
         id
         body
         createdAt
+        approval
         answeredBy: answeredBy {
           id
           display
