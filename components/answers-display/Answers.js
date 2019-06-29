@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { format, parseISO } from "date-fns";
 import Link from "next/link";
 import { Query } from "react-apollo";
+import ApproveAnswers from "../approval/AppoveAnswers.js";
 
 import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
@@ -119,6 +120,7 @@ class Answers extends Component {
                   <Grid item xs={7} className={classes.grid}>
                     {this.handleTitle(answers)}
                     {answers.map(answers => {
+                      console.log(answers);
                       const answeredBy = answers.answeredBy.id;
                       const ownsAnswer = answeredBy === user.id;
                       const isApproved = answers.approval === true;
@@ -155,6 +157,13 @@ class Answers extends Component {
                             )}
                           </Typography>
                           {this.handleEdit(answers, user)}
+
+                          <ApproveAnswers
+                            hasPermissions={hasPermissions}
+                            isApproved={isApproved}
+                            approval={answers.approval}
+                            id={answers.id}
+                          />
                         </div>
                       );
                     })}

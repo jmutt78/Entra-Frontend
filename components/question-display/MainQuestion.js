@@ -4,6 +4,7 @@ import { Query } from "react-apollo";
 import Link from "next/link";
 import gql from "graphql-tag";
 import NoQuestion from "./NoQuestion";
+import ApproveQuestion from "../approval/AppoveQuestion.js";
 
 import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
@@ -168,6 +169,7 @@ class MainQuestion extends Component {
           );
           const ownsQuestion = askedby.id === user.id;
           const isApproved = question.approval === true;
+          console.log(this.props);
 
           if (!ownsQuestion && !hasPermissions && !isApproved) {
             return <NoQuestion />;
@@ -221,6 +223,12 @@ class MainQuestion extends Component {
                       </Typography>{" "}
                       {this.tagsList(question.tags, classes)}
                       {this.handleEdit(question, user)}
+                      <ApproveQuestion
+                        hasPermissions={hasPermissions}
+                        isApproved={isApproved}
+                        id={this.props.id}
+                        approval={this.props.question.approval}
+                      />
                     </Grid>
                     <Grid item xs={2} container>
                       <Grid item xs={4}>

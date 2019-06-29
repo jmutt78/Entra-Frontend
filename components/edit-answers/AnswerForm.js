@@ -57,6 +57,9 @@ const UPDATE_ANSWER_MUTATION = gql`
       answeredTo {
         id
       }
+      answeredBy {
+        id
+      }
     }
   }
 `;
@@ -150,3 +153,4 @@ class AnswerForm extends Component {
 }
 
 export default withStyles(styles)(AnswerForm);
+export { UPDATE_ANSWER_MUTATION };

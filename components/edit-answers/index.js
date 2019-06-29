@@ -11,11 +11,14 @@ import PropTypes from "prop-types";
 
 const SINGLE_ANSWER_QUERY = gql`
   query SINGLE_ANSWER_QUERY($id: ID!) {
-    answer(where: { id: $id }) {
+    answer(id: $id) {
       id
       body
       approval
       answeredTo {
+        id
+      }
+      answeredBy {
         id
       }
     }
@@ -25,13 +28,9 @@ const SINGLE_ANSWER_QUERY = gql`
 class UpdateAnswer extends Component {
   render() {
     return (
-      <Query
-        query={SINGLE_ANSWER_QUERY}
-        variables={{
-          id: this.props.id
-        }}
-      >
+      <Query query={SINGLE_ANSWER_QUERY} variables={{ id: this.props.id }}>
         {({ data: { answer }, loading }) => {
+          console.log(answer);
           if (loading) return <p>Loading...</p>;
 
           return <AnswerForm answer={answer} />;

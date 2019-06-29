@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 
 const SINGLE_QUESTION_QUERY = gql`
   query SINGLE_QUESTION_QUERY($id: ID!) {
-    question(where: { id: $id }) {
+    question(id: $id) {
       id
       title
       description
