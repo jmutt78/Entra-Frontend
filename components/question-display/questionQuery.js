@@ -22,6 +22,8 @@ const SINGLE_QUESTION_QUERY = gql`
         body
         createdAt
         approval
+        upVotes
+        downVotes
         answeredBy: answeredBy {
           id
           display

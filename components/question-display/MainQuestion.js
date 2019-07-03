@@ -52,7 +52,8 @@ const styles = theme => ({
     marginTop: 20
   },
   description: {
-    fontSize: 17
+    fontSize: 17,
+    minHeight: 20
   }
 });
 
