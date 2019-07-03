@@ -10,6 +10,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
+import Icon from "../ui/Icon";
 
 import { CURRENT_USER_QUERY } from "../auth/User";
 
@@ -140,7 +141,10 @@ class Answers extends Component {
                               classes
                             )}
                             <Typography
-                              style={{ paddingTop: 20, marginLeft: 10 }}
+                              style={{
+                                paddingTop: 20,
+                                marginLeft: 10
+                              }}
                             >
                               <strong>{answers.answeredBy.display}</strong>{" "}
                               says:
@@ -149,6 +153,22 @@ class Answers extends Component {
                           <Typography className={classes.description}>
                             {answers.body}
                           </Typography>
+                          <Grid item xs={2} container>
+                            <Grid item xs={4}>
+                              <Icon
+                                onClick={this.upVote}
+                                src="/static/thumb_up.svg"
+                              />
+                              <div>{10}</div>
+                            </Grid>
+                            <Grid item xs={4}>
+                              <Icon
+                                onClick={this.downVote}
+                                src="/static/thumb_down.svg"
+                              />
+                              <div>{10}</div>
+                            </Grid>
+                          </Grid>
                           <Typography className={classes.date}>
                             Posted{" "}
                             {format(
