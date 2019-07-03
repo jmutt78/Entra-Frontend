@@ -59,6 +59,33 @@ class NavTop extends Component {
       </div>
     );
   }
+
+  handleApproval(me, classes) {
+    console.log(me);
+    const hasPermissions = me.permissions.some(permission =>
+      ["ADMIN", "MODERATOR"].includes(permission)
+    );
+    console.log(hasPermissions);
+    if (!hasPermissions) {
+      return <div />;
+    }
+    return (
+      <Toolbar>
+        <Typography>
+          <Link href="/approval/question-list">
+            <a className={classes.navText}>Approve Questions</a>
+          </Link>
+        </Typography>
+
+        <Typography>
+          <Link href="/approval/answer-list">
+            <a className={classes.navText}>Approve Answers</a>
+          </Link>
+        </Typography>
+      </Toolbar>
+    );
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -76,6 +103,7 @@ class NavTop extends Component {
                       <Typography variant="h5" className={classes.text}>
                         <p>{me.name}</p>
                       </Typography>
+                      {this.handleApproval(me, classes)}
                       <Typography>
                         <Link href="/questions">
                           <a className={classes.navText}>Questions</a>
