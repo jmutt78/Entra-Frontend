@@ -1,18 +1,28 @@
 import React, { Component } from "react";
 import { format, parseISO } from "date-fns";
+import { withApollo } from "react-apollo";
 import Link from "next/link";
 import { Query } from "react-apollo";
 import ApproveAnswers from "../approval/AppoveAnswers.js";
-
 import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
+import gql from "graphql-tag";
 import Icon from "../ui/Icon";
+import questionQuery from "../question-display/questionQuery";
 
 import { CURRENT_USER_QUERY } from "../auth/User";
+
+const CREATE_ANSWER_VOTE_MUTATION = gql`
+  mutation CREATE_ANSWER_VOTE_MUTATION($answerId: ID!, $vote: String) {
+    createAnswerVote(answerId: $answerId, vote: $vote) {
+      id
+    }
+  }
+`;
 
 const styles = theme => ({
   bigAvatar: {
@@ -102,6 +112,31 @@ class Answers extends Component {
     }
   }
 
+  upVote = answerId => {
+    this.props.client.mutate({
+      mutation: CREATE_ANSWER_VOTE_MUTATION,
+      variables: {
+        answerId,
+        vote: "up"
+      },
+      refetchQueries: [
+        { query: questionQuery, variables: { id: this.props.id } }
+      ]
+    });
+  };
+  downVote = answerId => {
+    this.props.client.mutate({
+      mutation: CREATE_ANSWER_VOTE_MUTATION,
+      variables: {
+        answerId,
+        vote: "down"
+      },
+      refetchQueries: [
+        { query: questionQuery, variables: { id: this.props.id } }
+      ]
+    });
+  };
+
   render() {
     const { classes } = this.props;
     const answers = this.props.question.answers;
@@ -156,14 +191,14 @@ class Answers extends Component {
                           <Grid item xs={2} container>
                             <Grid item xs={4}>
                               <Icon
-                                onClick={this.upVote}
+                                onClick={() => this.upVote(answers.id)}
                                 src="/static/thumb_up.svg"
                               />
                               <div>{answers.upVotes}</div>
                             </Grid>
                             <Grid item xs={4}>
                               <Icon
-                                onClick={this.downVote}
+                                onClick={() => this.downVote(answers.id)}
                                 src="/static/thumb_down.svg"
                               />
                               <div>{answers.downVotes}</div>
@@ -203,4 +238,4 @@ Answers.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Answers);
+export default withStyles(styles)(withApollo(Answers));
