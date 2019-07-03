@@ -15,6 +15,9 @@ const SINGLE_QUESTION_QUERY = gql`
       }
       createdAt
       answers {
+        answeredTo {
+          id
+        }
         id
         body
         createdAt

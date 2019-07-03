@@ -80,7 +80,7 @@ class AnswerForm extends Component {
     const res = await updateAnswer({
       variables: {
         id: this.props.answer.id,
-        approval: false,
+        approval: null,
         ...this.state
       }
     });

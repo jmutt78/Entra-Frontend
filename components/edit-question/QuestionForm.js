@@ -109,7 +109,7 @@ class QuestionForm extends React.Component {
     const res = await updateQuestion({
       variables: {
         id: this.props.question.id,
-        approval: false,
+        approval: null,
 
         ...this.state
       }

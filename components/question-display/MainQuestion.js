@@ -169,7 +169,6 @@ class MainQuestion extends Component {
           );
           const ownsQuestion = askedby.id === user.id;
           const isApproved = question.approval === true;
-          console.log(this.props);
 
           if (!ownsQuestion && !hasPermissions && !isApproved) {
             return <NoQuestion />;

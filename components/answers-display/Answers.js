@@ -120,10 +120,11 @@ class Answers extends Component {
                   <Grid item xs={7} className={classes.grid}>
                     {this.handleTitle(answers)}
                     {answers.map(answers => {
-                      console.log(answers);
                       const answeredBy = answers.answeredBy.id;
                       const ownsAnswer = answeredBy === user.id;
                       const isApproved = answers.approval === true;
+                      const questionId = answers.answeredTo[0].id;
+
                       const hasPermissions = user.permissions.some(permission =>
                         ["ADMIN", "MODERATOR"].includes(permission)
                       );
@@ -163,6 +164,7 @@ class Answers extends Component {
                             isApproved={isApproved}
                             approval={answers.approval}
                             id={answers.id}
+                            questionId={questionId}
                           />
                         </div>
                       );
