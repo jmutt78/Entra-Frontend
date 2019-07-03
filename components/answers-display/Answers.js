@@ -159,14 +159,14 @@ class Answers extends Component {
                                 onClick={this.upVote}
                                 src="/static/thumb_up.svg"
                               />
-                              <div>{10}</div>
+                              <div>{answers.upVotes}</div>
                             </Grid>
                             <Grid item xs={4}>
                               <Icon
                                 onClick={this.downVote}
                                 src="/static/thumb_down.svg"
                               />
-                              <div>{10}</div>
+                              <div>{answers.downVotes}</div>
                             </Grid>
                           </Grid>
                           <Typography className={classes.date}>
