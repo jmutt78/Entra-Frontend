@@ -3,6 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { format, parseISO } from "date-fns";
 import Link from "next/link";
 import Pagination from "../pagination";
+import QuestionSearch from "../search/QuestionSearch.js";
 
 import Grid from "@material-ui/core/Grid";
 import Table from "@material-ui/core/Table";
@@ -62,6 +63,7 @@ class QuestionList extends Component {
         <Grid item xs={3} className={classes.grid} />
         <Grid item xs={7} className={classes.grid}>
           {" "}
+          <QuestionSearch />
           <Table className={classes.table}>
             <TableHead>
               <TableRow>

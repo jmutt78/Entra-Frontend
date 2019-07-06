@@ -5,6 +5,7 @@ import Link from "next/link";
 import gql from "graphql-tag";
 import NoQuestion from "./NoQuestion";
 import ApproveQuestion from "../approval/AppoveQuestion.js";
+import DeleteQuestion from "../delete-question";
 
 import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
@@ -142,16 +143,20 @@ class MainQuestion extends Component {
   handleEdit(question, user) {
     if (question.askedBy[0].id == user.id) {
       return (
-        <Typography>
-          <Link
-            href={{
-              pathname: "/edit-question",
-              query: { id: question.id }
-            }}
-          >
-            <a style={{ textDecoration: "none", color: "grey" }}>EDIT</a>
-          </Link>
-        </Typography>
+        <div>
+          <Typography>
+            <Link
+              href={{
+                pathname: "/edit-question",
+                query: { id: question.id }
+              }}
+            >
+              <a style={{ textDecoration: "none", color: "grey" }}>EDIT</a>
+            </Link>
+          </Typography>
+          <DeleteQuestion id={question.id} />
+          <div />
+        </div>
       );
     }
   }

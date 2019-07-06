@@ -14,7 +14,8 @@ const SIGN_OUT_MUTATION = gql`
   }
 `;
 
-function push() {
+function push(e) {
+  e.preventDefault();
   Router.push("/");
 }
 
@@ -24,15 +25,13 @@ const Signout = props => (
     refetchQueries={[{ query: CURRENT_USER_QUERY }]}
   >
     {signout => (
-      <Link href="/">
-        <Button
-          style={{ marginLeft: "2rem" }}
-          color="default"
-          onClick={e => signout(e, push)}
-        >
-          Sign Out
-        </Button>
-      </Link>
+      <Button
+        style={{ marginLeft: "2rem" }}
+        color="default"
+        onClick={e => signout(e, push)}
+      >
+        Sign Out
+      </Button>
     )}
   </Mutation>
 );

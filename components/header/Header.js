@@ -73,7 +73,7 @@ const Header = props => {
           </Typography>
           <Typography>
             <Link href="/qa">
-              <a className={classes.navLinks}>Q&A</a>
+              <a className={classes.navLinks}>Ask a Question</a>
             </Link>
           </Typography>
           <Typography>
