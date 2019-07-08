@@ -3,7 +3,7 @@ import { format, parseISO } from "date-fns";
 import { withApollo } from "react-apollo";
 import Link from "next/link";
 import { Query } from "react-apollo";
-import ApproveAnswers from "../approval/AppoveAnswers.js";
+import ApproveAnswer from "../approval/AppoveAnswer.js";
 import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
 import { withStyles } from "@material-ui/core/styles";
@@ -95,14 +95,14 @@ class Answers extends Component {
     );
   }
 
-  handleEdit(answers, user) {
-    if (answers.answeredBy.id == user.id) {
+  handleEdit(answer, user) {
+    if (answer.answeredBy.id == user.id) {
       return (
         <Typography>
           <Link
             href={{
               pathname: "/edit-answer",
-              query: { id: answers.id }
+              query: { id: answer.id }
             }}
           >
             <a style={{ textDecoration: "none", color: "grey" }}>EDIT</a>
@@ -155,11 +155,11 @@ class Answers extends Component {
                   <Grid item xs />
                   <Grid item xs={7} className={classes.grid}>
                     {this.handleTitle(answers)}
-                    {answers.map(answers => {
-                      const answeredBy = answers.answeredBy.id;
+                    {answers.map(answer => {
+                      const answeredBy = answer.answeredBy.id;
                       const ownsAnswer = answeredBy === user.id;
-                      const isApproved = answers.approval === true;
-                      const questionId = answers.answeredTo[0].id;
+                      const isApproved = answer.approval === true;
+                      const questionId = answer.answeredTo[0].id;
 
                       const hasPermissions = user.permissions.some(permission =>
                         ["ADMIN", "MODERATOR"].includes(permission)
@@ -169,11 +169,11 @@ class Answers extends Component {
                         return <div />;
                       }
                       return (
-                        <div key={answers.id} className={classes.info}>
+                        <div key={answer.id} className={classes.info}>
                           <div className={classes.photoTitle}>
                             {this.handleImage(
-                              answers.answeredBy.image,
-                              answers.answeredBy.display,
+                              answer.answeredBy.image,
+                              answer.answeredBy.display,
                               classes
                             )}
                             <Typography
@@ -182,43 +182,44 @@ class Answers extends Component {
                                 marginLeft: 10
                               }}
                             >
-                              <strong>{answers.answeredBy.display}</strong>{" "}
-                              says:
+                              <strong>{answer.answeredBy.display}</strong> says:
                             </Typography>
                           </div>
                           <Typography className={classes.description}>
-                            {answers.body}
+                            {answer.body}
                           </Typography>
                           <Grid item xs={2} container>
                             <Grid item xs={4}>
                               <Icon
-                                onClick={() => this.upVote(answers.id)}
+                                onClick={() => this.upVote(answer.id)}
                                 src="/static/thumb_up.svg"
                               />
-                              <div>{answers.upVotes}</div>
+                              <div>{answer.upVotes}</div>
                             </Grid>
                             <Grid item xs={4}>
                               <Icon
-                                onClick={() => this.downVote(answers.id)}
+                                onClick={() => this.downVote(answer.id)}
                                 src="/static/thumb_down.svg"
                               />
-                              <div>{answers.downVotes}</div>
+                              <div>{answer.downVotes}</div>
                             </Grid>
                           </Grid>
                           <Typography className={classes.date}>
                             Posted{" "}
                             {format(
-                              parseISO(answers.createdAt),
+                              parseISO(answer.createdAt),
                               "MMMM dd, yyyy"
                             )}
                           </Typography>
-                          {this.handleEdit(answers, user)}
+                          {this.handleEdit(answer, user)}
 
-                          <ApproveAnswers
-                            hasPermissions={hasPermissions}
+                          <ApproveAnswer
+                            hasPermissions={
+                              this.props.question.askedBy[0].id === user.id
+                            }
                             isApproved={isApproved}
-                            approval={answers.approval}
-                            id={answers.id}
+                            approval={answer.approval}
+                            id={answer.id}
                             questionId={questionId}
                           />
                         </div>
