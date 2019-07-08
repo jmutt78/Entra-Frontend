@@ -70,9 +70,16 @@ class ApproveAnswers extends Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const isApproved = this.props.isApproved;
-    const approval = this.props.approval;
+    const { classes, isApproved, approval, hasPermissions } = this.props;
+    if (!hasPermissions) {
+      if (approval === null) {
+        return <div />;
+      } else if (!isApproved) {
+        return <div>Rejected</div>;
+      } else {
+        return <div>Approved</div>;
+      }
+    }
     return (
       <Mutation
         mutation={APPROVE_ANSWER_MUTATION}

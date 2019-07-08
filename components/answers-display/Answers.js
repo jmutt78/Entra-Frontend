@@ -214,7 +214,9 @@ class Answers extends Component {
                           {this.handleEdit(answer, user)}
 
                           <ApproveAnswer
-                            hasPermissions={hasPermissions}
+                            hasPermissions={
+                              this.props.question.askedBy[0].id === user.id
+                            }
                             isApproved={isApproved}
                             approval={answer.approval}
                             id={answer.id}
