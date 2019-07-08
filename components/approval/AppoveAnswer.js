@@ -6,8 +6,8 @@ import gql from "graphql-tag";
 import Button from "@material-ui/core/Button";
 
 const APPROVE_ANSWER_MUTATION = gql`
-  mutation updateAnswer($id: ID!, $approval: Boolean) {
-    updateAnswer(id: $id, approval: $approval) {
+  mutation updateAnswerApproval($id: ID!, $approval: Boolean!) {
+    updateAnswerApproval(id: $id, approval: $approval) {
       id
       body
       answeredTo {
@@ -45,17 +45,12 @@ const styles = {
 };
 
 class ApproveAnswers extends Component {
-  state = {
-    id: this.props.id
-  };
-
   handleApproval = async (e, updateAnswer) => {
     e.preventDefault();
     const res = await updateAnswer({
       variables: {
         id: this.props.id,
-        approval: true,
-        ...this.state
+        approval: true
       }
     });
 
@@ -67,8 +62,7 @@ class ApproveAnswers extends Component {
     const res = await updateAnswer({
       variables: {
         id: this.props.id,
-        approval: false,
-        ...this.state
+        approval: false
       }
     });
 
@@ -77,16 +71,11 @@ class ApproveAnswers extends Component {
 
   render() {
     const { classes } = this.props;
-    const hasPermissions = this.props.hasPermissions;
     const isApproved = this.props.isApproved;
     const approval = this.props.approval;
-    if (!hasPermissions) {
-      return <div />;
-    }
     return (
       <Mutation
         mutation={APPROVE_ANSWER_MUTATION}
-        variables={this.state}
         refetchQueries={[
           {
             query: questionQuery,
