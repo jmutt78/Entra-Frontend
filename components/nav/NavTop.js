@@ -72,6 +72,11 @@ class NavTop extends Component {
     return (
       <Toolbar>
         <Typography>
+          <Link href="/create-draft">
+            <a className={classes.navText}>Create Blog Post</a>
+          </Link>
+        </Typography>
+        <Typography>
           <Link href="/approval/question-list">
             <a className={classes.navText}>Approve Questions</a>
           </Link>
@@ -105,8 +110,8 @@ class NavTop extends Component {
                       </Typography>
                       {this.handleApproval(me, classes)}
                       <Typography>
-                        <Link href="/questions">
-                          <a className={classes.navText}>Questions</a>
+                        <Link href="/myquestions">
+                          <a className={classes.navText}>My Questions</a>
                         </Link>
                       </Typography>
                       <Typography>

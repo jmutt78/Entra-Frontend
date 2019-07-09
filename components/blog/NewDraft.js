@@ -5,16 +5,11 @@ import Router from "next/router";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import { withStyles } from "@material-ui/core/styles";
-import FilledInput from "@material-ui/core/FilledInput";
-import MenuItem from "@material-ui/core/MenuItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import Checkbox from "@material-ui/core/Checkbox";
 import FormControl from "@material-ui/core/FormControl";
-import CreateTag from "./CreateTag";
-import { TAGS_QUERY } from "./Tags";
+import { withStyles } from "@material-ui/core/styles";
+import { Editor, EditorState } from "draft-js";
+
+import { CURRENT_USER_QUERY } from "../auth/User";
 
 const styles = theme => ({
   grid: {
@@ -67,17 +62,10 @@ const CREATE_QUESTION_MUTATION = gql`
 
 class CreateQuestion extends React.Component {
   state = {
-    showCreateTagModal: false,
     title: "",
-    description: "",
-    tags: []
+    description: ""
   };
-  openCreateTagModal = () => {
-    this.setState({ showCreateTagModal: true });
-  };
-  closeCreateTagModal = () => {
-    this.setState({ showCreateTagModal: false });
-  };
+
   handleTitleChange = e => {
     this.setState({
       title: e.target.value
@@ -88,27 +76,23 @@ class CreateQuestion extends React.Component {
       description: e.target.value
     });
   };
-  handleTagsChange = e => {
-    this.setState({
-      tags: e.target.value
-    });
-  };
+
   render() {
     const { classes } = this.props;
-    const { title, description, tags, showCreateTagModal } = this.state;
+    const { title, description } = this.state;
     return (
-      <Query query={TAGS_QUERY}>
+      <Query query={CURRENT_USER_QUERY}>
         {({ loading, data }) => {
           if (loading) {
             return null;
           }
+          const user = data.me;
           return (
             <Mutation
               mutation={CREATE_QUESTION_MUTATION}
               variables={{
                 title,
-                description,
-                tags: tags.map(tag => ({ name: tag }))
+                description
               }}
             >
               {(createQuestion, { error, loading }) => {
@@ -129,8 +113,7 @@ class CreateQuestion extends React.Component {
 
                           this.setState({
                             title: "",
-                            description: "",
-                            tags: []
+                            description: ""
                           });
                         }}
                       >
@@ -143,7 +126,7 @@ class CreateQuestion extends React.Component {
                         >
                           <div>
                             <div>
-                              <h1>Ask a question</h1>
+                              <h1>Create a Post</h1>
                             </div>
                             <div>
                               <FormControl>
@@ -160,57 +143,15 @@ class CreateQuestion extends React.Component {
                                 </label>
                               </FormControl>
 
-                              <FormControl
-                                variant="filed"
-                                className={classes.inputField}
-                              >
-                                <InputLabel
-                                  htmlFor="tags"
-                                  className={classes.label}
-                                >
-                                  Tag(s)
-                                </InputLabel>
-                                <Select
-                                  multiple
-                                  value={tags}
-                                  name="tags"
-                                  onChange={this.handleTagsChange}
-                                  input={
-                                    <FilledInput
-                                      name="tab"
-                                      id="filled-age-native-simple"
-                                    />
-                                  }
-                                  renderValue={selected => selected.join(", ")}
-                                >
-                                  {data.tags.map(tag => (
-                                    <MenuItem key={tag.name} value={tag.name}>
-                                      <Checkbox
-                                        checked={
-                                          this.state.tags.indexOf(tag.name) > -1
-                                        }
-                                      />
-                                      <ListItemText primary={tag.name} />
-                                    </MenuItem>
-                                  ))}
-                                </Select>
-                              </FormControl>
-                              <Button
-                                variant="text"
-                                onClick={this.openCreateTagModal}
-                                className={classes.addNewTag}
-                              >
-                                ADD NEW TAG
-                              </Button>
                               <FormControl>
-                                <label htmlFor="description">
+                                <label htmlFor="body">
                                   <TextField
-                                    label="Description"
+                                    label="Body"
                                     type="text"
                                     name="description"
                                     variant="filled"
                                     multiline
-                                    rows={4}
+                                    rows={40}
                                     value={description}
                                     onChange={this.handleDescriptionChange}
                                     className={classes.inputField}
@@ -218,14 +159,11 @@ class CreateQuestion extends React.Component {
                                 </label>
                               </FormControl>
                             </div>
-                            <CreateTag
-                              open={showCreateTagModal}
-                              onClose={this.closeCreateTagModal}
-                            />
+
                             <div className={classes.container}>
                               <div className={classes.flex1}>
                                 <Button variant="contained" type="submit">
-                                  Post Question
+                                  Post
                                 </Button>
                               </div>
                             </div>

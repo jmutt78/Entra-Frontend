@@ -78,7 +78,7 @@ const Header = props => {
           </Typography>
           <Typography>
             <Link href="/">
-              <a className={classes.navLinks}>Stories</a>
+              <a className={classes.navLinks}>Blog</a>
             </Link>
           </Typography>
           <Grid item xs={2}>
