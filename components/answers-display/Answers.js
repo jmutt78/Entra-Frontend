@@ -4,6 +4,7 @@ import { withApollo } from "react-apollo";
 import Link from "next/link";
 import { Query } from "react-apollo";
 import ApproveAnswer from "../approval/AppoveAnswer.js";
+import SelectAnswer from "../approval/SelectAnswer";
 import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
 import { withStyles } from "@material-ui/core/styles";
@@ -214,11 +215,17 @@ class Answers extends Component {
                           {this.handleEdit(answer, user)}
 
                           <ApproveAnswer
-                            hasPermissions={
-                              this.props.question.askedBy[0].id === user.id
-                            }
+                            hasPermissions={hasPermissions}
                             isApproved={isApproved}
                             approval={answer.approval}
+                            id={answer.id}
+                            questionId={questionId}
+                          />
+                          <SelectAnswer
+                            canSelect={
+                              this.props.question.askedBy[0].id === user.id
+                            }
+                            selected={answer.selected}
                             id={answer.id}
                             questionId={questionId}
                           />

@@ -6,8 +6,8 @@ import gql from "graphql-tag";
 import Button from "@material-ui/core/Button";
 
 const APPROVE_ANSWER_MUTATION = gql`
-  mutation updateAnswerApproval($id: ID!, $approval: Boolean!) {
-    updateAnswerApproval(id: $id, approval: $approval) {
+  mutation updateAnswer($id: ID!, $approval: Boolean) {
+    updateAnswer(id: $id, approval: $approval) {
       id
       body
       answeredTo {
@@ -44,13 +44,18 @@ const styles = {
   }
 };
 
-class ApproveAnswers extends Component {
+class ApproveAnswer extends Component {
+  state = {
+    id: this.props.id
+  };
+
   handleApproval = async (e, updateAnswer) => {
     e.preventDefault();
     const res = await updateAnswer({
       variables: {
         id: this.props.id,
-        approval: true
+        approval: true,
+        ...this.state
       }
     });
 
@@ -62,7 +67,8 @@ class ApproveAnswers extends Component {
     const res = await updateAnswer({
       variables: {
         id: this.props.id,
-        approval: false
+        approval: false,
+        ...this.state
       }
     });
 
@@ -70,19 +76,17 @@ class ApproveAnswers extends Component {
   };
 
   render() {
-    const { classes, isApproved, approval, hasPermissions } = this.props;
+    const { classes } = this.props;
+    const hasPermissions = this.props.hasPermissions;
+    const isApproved = this.props.isApproved;
+    const approval = this.props.approval;
     if (!hasPermissions) {
-      if (approval === null) {
-        return <div />;
-      } else if (!isApproved) {
-        return <div>Rejected</div>;
-      } else {
-        return <div>Approved</div>;
-      }
+      return <div />;
     }
     return (
       <Mutation
         mutation={APPROVE_ANSWER_MUTATION}
+        variables={this.state}
         refetchQueries={[
           {
             query: questionQuery,
@@ -141,4 +145,4 @@ class ApproveAnswers extends Component {
   }
 }
 
-export default withStyles(styles)(ApproveAnswers);
+export default withStyles(styles)(ApproveAnswer);

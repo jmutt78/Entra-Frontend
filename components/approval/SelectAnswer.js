@@ -17,6 +17,10 @@ const styles = {
   buttonAccept: {
     backgroundColor: "#85BDCB",
     marginTop: 10
+  },
+  acceptedText: {
+    marginTop: 10,
+    marginRight: 10
   }
 };
 
@@ -31,9 +35,12 @@ class SelectAnswer extends Component {
   };
 
   render() {
-    const { classes, questionId, selected, hasPermissions } = this.props;
-    if (!hasPermissions || selected) {
-      return <div>Selected</div>;
+    const { classes, questionId, selected, canSelect } = this.props;
+    if (selected) {
+      return <div className={classes.acceptedText}>Selected</div>;
+    }
+    if (!canSelect) {
+      return null;
     }
     return (
       <Mutation
