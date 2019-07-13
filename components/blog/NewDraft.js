@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
 import { withStyles } from "@material-ui/core/styles";
-import { Editor, EditorState } from "draft-js";
+import { Editor, EditorState, RichUtils } from "draft-js";
 
 import { CURRENT_USER_QUERY } from "../auth/User";
 
@@ -61,6 +61,11 @@ const CREATE_QUESTION_MUTATION = gql`
 `;
 
 class CreateQuestion extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { editorState: EditorState.createEmpty() };
+  }
+
   state = {
     title: "",
     description: ""
@@ -129,6 +134,12 @@ class CreateQuestion extends React.Component {
                               <h1>Create a Post</h1>
                             </div>
                             <div>
+                              <Editor
+                                editorState={this.state.editorState}
+                                handleKeyCommand={this.handleKeyCommand}
+                                onChange={this.onChange}
+                              />
+
                               <FormControl>
                                 <label htmlFor="title">
                                   <TextField
@@ -146,7 +157,7 @@ class CreateQuestion extends React.Component {
                               <FormControl>
                                 <label htmlFor="body">
                                   <TextField
-                                    label="Body"
+                                    label="Tell a Story..."
                                     type="text"
                                     name="description"
                                     variant="filled"

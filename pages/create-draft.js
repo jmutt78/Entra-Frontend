@@ -1,6 +1,6 @@
 import React from "react";
-import NewDraft from "../components/blog/NewDraft";
+import Draft from "../components/blog/Draft";
 
-const DraftBlog = props => <NewDraft />;
+const DraftBlog = props => <Draft />;
 
 export default DraftBlog;

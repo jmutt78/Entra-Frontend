@@ -1,15 +1,12 @@
 import React, { Component } from "react";
-import { format, parseISO } from "date-fns";
+
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faAward, faBook } from "@fortawesome/free-solid-svg-icons";
+
 import Card from "@material-ui/core/Card";
-import Icon from "@material-ui/core/Icon";
+
 import { pickBy } from "lodash";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
