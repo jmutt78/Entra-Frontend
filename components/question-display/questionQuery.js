@@ -14,7 +14,7 @@ const SINGLE_QUESTION_QUERY = gql`
         name
       }
       createdAt
-      answers {
+      answers(orderBy: selected_DESC) {
         answeredTo {
           id
         }
@@ -22,6 +22,7 @@ const SINGLE_QUESTION_QUERY = gql`
         body
         createdAt
         approval
+        selected
         upVotes
         downVotes
         answeredBy: answeredBy {
