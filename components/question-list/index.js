@@ -90,9 +90,7 @@ class QuestionList extends Component {
                             query: { id: question.id }
                           }}
                         >
-                          <a className={classes.link}>
-                            <div>{question.title}</div>
-                          </a>
+                          <a className={classes.link}>{question.title}</a>
                         </Link>
                       </Typography>
                       <Typography>
