@@ -19,8 +19,8 @@ import Typography from "@material-ui/core/Typography";
 import Error from "../ErrorMessage";
 
 const PAGINATION_QUERY = gql`
-  query PAGINATION_QUERY {
-    questionsConnection {
+  query PAGINATION_QUERY($filter: String!) {
+    questionsConnection(filter: $filter) {
       aggregate {
         count
       }
@@ -31,7 +31,7 @@ const PAGINATION_QUERY = gql`
 function Pagination(props) {
   const router = useRouter();
   return (
-    <Query query={PAGINATION_QUERY}>
+    <Query query={PAGINATION_QUERY} variables={{ filter: props.filter }}>
       {({ data, loading, error }) => {
         if (loading) return <p>Loading...</p>;
         if (error) return <Error error={error} />;

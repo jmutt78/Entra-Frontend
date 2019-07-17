@@ -107,7 +107,7 @@ function QuestionList(props) {
             })}
           </TableBody>
         </Table>
-        <Pagination page={page} />
+        <Pagination page={page} filter={filter} />
       </Grid>
     </Grid>
   );
