@@ -77,7 +77,7 @@ const Header = props => {
             </Link>
           </Typography>
           <Typography>
-            <Link href="/">
+            <Link href="/blogs">
               <a className={classes.navLinks}>Blog</a>
             </Link>
           </Typography>

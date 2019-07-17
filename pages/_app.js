@@ -1,6 +1,7 @@
 import App, { Container } from "next/app";
 import { ApolloProvider } from "react-apollo";
 import withData from "../lib/withData";
+import withApolloClient from "../lib/with-apollo-client";
 import Page from "../components/page/Page";
 
 import React from "react";
@@ -33,10 +34,10 @@ class MyApp extends App {
   }
 
   render() {
-    const { Component, pageProps, apollo } = this.props;
+    const { Component, pageProps, apolloClient } = this.props;
     return (
       <Container>
-        <ApolloProvider client={apollo}>
+        <ApolloProvider client={apolloClient}>
           <JssProvider
             registry={this.pageContext.sheetsRegistry}
             generateClassName={this.pageContext.generateClassName}
@@ -57,4 +58,4 @@ class MyApp extends App {
   }
 }
 
-export default withData(MyApp);
+export default withApolloClient(MyApp);

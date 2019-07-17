@@ -48,6 +48,7 @@
     "react": "^16.8.6",
     "react-adopt": "^0.6.0",
     "react-apollo": "^2.2.1",
+    "react-apollo-hooks": "^0.5.0",
     "react-dom": "^16.8.6",
     "react-jss": "^8.1.0",
     "react-stripe-checkout": "^2.6.3",

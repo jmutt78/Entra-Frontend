@@ -64,17 +64,12 @@ class NavTop extends Component {
     const hasPermissions = me.permissions.some(permission =>
       ["ADMIN", "MODERATOR"].includes(permission)
     );
-    console.log(hasPermissions);
+    console.log(me);
     if (!hasPermissions) {
       return <div />;
     }
     return (
       <Toolbar>
-        <Typography>
-          <Link href="/create-draft">
-            <a className={classes.navText}>Create Blog Post</a>
-          </Link>
-        </Typography>
         <Typography>
           <Link href="/approval/question-list">
             <a className={classes.navText}>Approve Questions</a>
