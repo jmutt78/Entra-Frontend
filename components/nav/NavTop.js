@@ -61,7 +61,6 @@ class NavTop extends Component {
   }
 
   handleApproval(me, classes) {
-    console.log(me);
     const hasPermissions = me.permissions.some(permission =>
       ["ADMIN", "MODERATOR"].includes(permission)
     );

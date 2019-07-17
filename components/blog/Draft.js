@@ -1,4 +1,6 @@
 import React from "react";
+import { Mutation, Query } from "react-apollo";
+import gql from "graphql-tag";
 import {
   Editor,
   EditorState,
@@ -11,6 +13,20 @@ import BlockStyleControls from "../style-control/BlockStyle";
 import InlineStyleControls from "../style-control/InlineStyle";
 import Grid from "@material-ui/core/Grid";
 import FormControl from "@material-ui/core/FormControl";
+
+const CREATE_BLOG_MUTATION = gql`
+  mutation createBlog($blocks: [BlocksWhereInput!]!) {
+    createBlog(blocks: $blocks) {
+      id
+      blocks {
+        id
+        text
+        type
+        depth
+      }
+    }
+  }
+`;
 
 const styles = theme => ({
   root: {
@@ -64,11 +80,17 @@ class MyEditor extends React.Component {
     return JSON.stringify(raw, null, 2);
   }
 
-  saveContent() {
+  handleBlog = async createBlog => {
     const json = this.getContentAsRawJson();
     console.log(json);
-    return json;
-  }
+    const res = await createBlog({
+      variables: {
+        json
+      }
+    });
+
+    console.log("saved!!");
+  };
 
   _onTab(e) {
     const maxDepth = 4;
@@ -88,36 +110,45 @@ class MyEditor extends React.Component {
     const { classes } = this.props;
     const ClientEditor = this.state.editor;
     const { editorState } = this.state;
+    console.log(this.state);
     return (
-      <Grid container className={classes.root} spacing={16}>
-        <Grid item xs={2} />
-        <Grid item xs={6}>
-          <BlockStyleControls
-            editorState={editorState}
-            onToggle={this.toggleBlockType}
-          />
-          <InlineStyleControls
-            editorState={editorState}
-            onToggle={this.toggleInlineStyle}
-          />
+      <Mutation mutation={CREATE_BLOG_MUTATION}>
+        {(createBlog, { error, loading }) => {
+          return (
+            <Grid container className={classes.root} spacing={16}>
+              <Grid item xs={2} />
+              <Grid item xs={6}>
+                <BlockStyleControls
+                  editorState={editorState}
+                  onToggle={this.toggleBlockType}
+                />
+                <InlineStyleControls
+                  editorState={editorState}
+                  onToggle={this.toggleInlineStyle}
+                />
 
-          <div className={classes.RichEditorRoot}>
-            {this.state.editor ? (
-              <ClientEditor
-                editorState={editorState}
-                handleKeyCommand={this.handleKeyCommand}
-                onChange={this.onChange}
-                onTab={this.onTab}
-                placeholder="Tell a story..."
-                ref="editor"
-                spellCheck={true}
-              />
-            ) : null}
-          </div>
+                <div className={classes.RichEditorRoot}>
+                  {this.state.editor ? (
+                    <ClientEditor
+                      editorState={editorState}
+                      handleKeyCommand={this.handleKeyCommand}
+                      onChange={this.onChange}
+                      onTab={this.onTab}
+                      placeholder="Tell a story..."
+                      ref="editor"
+                      spellCheck={true}
+                    />
+                  ) : null}
+                </div>
 
-          <button onClick={this.saveContent.bind(this)}>Save content</button>
-        </Grid>
-      </Grid>
+                <button onClick={this.handleBlog.bind(this, createBlog)}>
+                  Save content
+                </button>
+              </Grid>
+            </Grid>
+          );
+        }}
+      </Mutation>
     );
   }
 }
