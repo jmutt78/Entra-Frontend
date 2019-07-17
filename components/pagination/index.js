@@ -19,8 +19,8 @@ import Typography from "@material-ui/core/Typography";
 import Error from "../ErrorMessage";
 
 const PAGINATION_QUERY = gql`
-  query PAGINATION_QUERY($skip: Int = 0, $first: Int = 0) {
-    questionsConnection(first: $first, skip: $skip, orderBy: createdAt_DESC) {
+  query PAGINATION_QUERY {
+    questionsConnection {
       aggregate {
         count
       }
