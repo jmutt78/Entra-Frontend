@@ -8,6 +8,8 @@ const ANSWER_LIST_QUERY = gql`
       body
       approval
       createdAt
+      upVotes
+      downVotes
       answeredTo {
         id
       }

@@ -42,7 +42,7 @@ const styles = theme => ({
 
 class AnswerList extends Component {
   render() {
-    const { classes, answers, filter } = this.props;
+    const { classes, answers, filter, page } = this.props;
 
     const customColumnStyle = {
       maxWidth: ".3px"
@@ -89,14 +89,14 @@ class AnswerList extends Component {
                         {format(parseISO(answer.createdAt), "MMMM dd, yyyy")}
                       </Typography>
                     </TableCell>
-                    <CustomTableCell>0</CustomTableCell>
-                    <CustomTableCell>0</CustomTableCell>
+                    <CustomTableCell>{answer.upVotes}</CustomTableCell>
+                    <CustomTableCell>{answer.downVotes}</CustomTableCell>
                   </TableRow>
                 );
               })}
             </TableBody>
           </Table>
-          <Pagination page={this.props.page} />
+          <Pagination page={page} filter={filter} />
         </Grid>
       </Grid>
     );

@@ -46,8 +46,8 @@ class QaDisplay extends Component {
         {({ data, loading }) => {
           if (loading) return <p>Loading...</p>;
           const user = this.props.data.me;
-          const question = data.questionsConnection.aggregate.count;
-          console.log(data.questionsConnection.aggregate);
+          //const question = data.questionsConnection.aggregate.count;
+          //console.log(data.questionsConnection.aggregate);
           return (
             <Grid container className={classes.root} spacing={16}>
               <Grid item xs={8} className={classes.grid}>
@@ -63,7 +63,7 @@ class QaDisplay extends Component {
               <Grid item xs={2} className={classes.grid} />
               <Grid item xs={1} className={classes.qaGrid}>
                 <Typography variant="h4" align="center">
-                  {question}
+                  0
                 </Typography>
                 <Typography variant="h5" align="center">
                   <Link href="/myquestions">
