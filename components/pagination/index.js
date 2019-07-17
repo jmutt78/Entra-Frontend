@@ -51,20 +51,18 @@ const Pagination = props => (
             <Link
               prefetch
               href={{
-                pathname: "myquestions",
+                pathname: window.location.pathname,
                 query: { page: page - 1 }
               }}
             >
               <IconButton disabled={page <= 1}>
-                <a />
-
                 <KeyboardArrowLeft />
               </IconButton>
             </Link>
             <Link
               prefetch
               href={{
-                pathname: "myquestions",
+                pathname: window.location.pathname,
                 query: { page: page + 1 }
               }}
             >
