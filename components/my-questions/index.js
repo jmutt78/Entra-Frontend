@@ -7,20 +7,22 @@ import questionListQuery from "../question-list/questionListQuery";
 class MyQuestions extends Component {
   render() {
     const filter = "my";
+    const { page } = this.props;
     return (
       <Query
         query={questionListQuery}
-        fetchPolicy="network-only"
         variables={{
           filter,
-          skip: this.props.page * perPage - perPage,
+          skip: page * perPage - perPage,
           first: perPage
         }}
       >
         {({ data: { questions }, loading }) => {
           if (loading) return <p>Loading...</p>;
 
-          return <QuestionList questions={questions} filter={filter} />;
+          return (
+            <QuestionList questions={questions} filter={filter} page={page} />
+          );
         }}
       </Query>
     );

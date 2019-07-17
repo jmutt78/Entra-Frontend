@@ -1,13 +1,11 @@
 import React from "react";
 import Questions from "../components/questions";
 
-class Home extends React.Component {
-  render() {
-    return (
-      <div>
-        <Questions />
-      </div>
-    );
-  }
+function Home(props) {
+  return (
+    <div>
+      <Questions page={parseFloat(props.query.page) || 1} />
+    </div>
+  );
 }
 export default Home;
