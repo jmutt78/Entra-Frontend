@@ -44,14 +44,15 @@ const styles = theme => ({
     margin: theme.spacing.unit
   },
   container: {
-    display: "flex"
+    display: "flex",
+    margin: theme.spacing.unit * 4
   },
   root: {
     margin: theme.spacing.unit,
     marginTop: 40
   },
   card: {
-    maxWidth: 1000,
+    maxWidth: 2000,
     margin: theme.spacing.unit * 4
   },
   media: {
@@ -76,14 +77,19 @@ class Blogs extends Component {
     return (
       <Query query={BLOG_LIST_QUERY} context={{ clientName: "second" }}>
         {({ data, loading }) => {
-          console.log(data);
-          console.log(data.posts.edges);
           const posts = data.posts.edges;
           if (loading) return <p>Loading...</p>;
           return (
             <Grid container className={classes.root} spacing={16}>
               <Grid item xs={2} />
               <Grid item xs={6}>
+                <Typography
+                  variant="display3"
+                  align="center"
+                  className={classes.container}
+                >
+                  Our Blog
+                </Typography>
                 {posts.map(post => {
                   return (
                     <div key={post.node.id}>
@@ -124,8 +130,7 @@ class Blogs extends Component {
                           <Link
                             href={{
                               pathname: "/blog",
-                              query: { id: post.node.id },
-                              as: post.node.slug
+                              query: { id: post.node.id }
                             }}
                           >
                             <Button size="small" color="primary">
