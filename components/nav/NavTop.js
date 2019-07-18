@@ -64,7 +64,7 @@ class NavTop extends Component {
     const hasPermissions = me.permissions.some(permission =>
       ["ADMIN", "MODERATOR"].includes(permission)
     );
-    console.log(me);
+
     if (!hasPermissions) {
       return <div />;
     }
