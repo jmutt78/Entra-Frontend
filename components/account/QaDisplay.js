@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { format, parseISO } from "date-fns";
 import Link from "next/link";
-import Pagination from "../pagination";
+
 import { Query } from "react-apollo";
 
 import PropTypes from "prop-types";
@@ -34,7 +34,7 @@ const styles = theme => ({
 class QaDisplay extends Component {
   render() {
     const { classes } = this.props;
-    console.log(this.props.data.me.id);
+
     return (
       <Query
         query={PAGINATION_QUERY}
@@ -45,7 +45,7 @@ class QaDisplay extends Component {
       >
         {({ data, loading }) => {
           if (loading) return <p>Loading...</p>;
-          const user = this.props.data.me;
+          const user = this.props.user;
           //const question = data.questionsConnection.aggregate.count;
           //console.log(data.questionsConnection.aggregate);
           return (

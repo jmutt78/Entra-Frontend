@@ -118,7 +118,8 @@ function BadgesList({ badges, classes }) {
 class BadgesDisplay extends Component {
   render() {
     const { classes } = this.props;
-    const user = this.props.data.me;
+    const user = this.props.user;
+
     return (
       <Grid container className={classes.root} spacing={16}>
         <Grid item xs={2} className={classes.grid} />
