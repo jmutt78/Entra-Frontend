@@ -22,7 +22,8 @@ import { CURRENT_USER_QUERY } from "../auth/User";
 const styles = theme => ({
   bigAvatar: {
     width: 70,
-    height: 70
+    height: 70,
+    cursor: "pointer"
   },
   grid: {
     margin: theme.spacing.unit
@@ -114,18 +115,32 @@ class MainQuestion extends Component {
     if (askedby.image == null || askedby.image == "") {
       return (
         <div>
-          <Avatar className={classes.bigAvatar}>{askedby.name[0]}</Avatar>
+          <Link
+            href={{
+              pathname: "/user",
+              query: { id: askedby.id }
+            }}
+          >
+            <Avatar className={classes.bigAvatar}>{askedby.name[0]}</Avatar>
+          </Link>
         </div>
       );
     }
 
     return (
       <div>
-        <Avatar
-          alt="Remy Sharp"
-          src={askedby.image}
-          className={classes.bigAvatar}
-        />
+        <Link
+          href={{
+            pathname: "/user",
+            query: { id: askedby.id }
+          }}
+        >
+          <Avatar
+            alt="Remy Sharp"
+            src={askedby.image}
+            className={classes.bigAvatar}
+          />
+        </Link>
       </div>
     );
   }

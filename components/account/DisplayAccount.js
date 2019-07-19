@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import { Query } from "react-apollo";
-import { format, parseISO } from "date-fns";
 import QaDisplay from "./QaDisplay";
 import MainInfoDisplay from "./MainInfoDisplay";
 import BadgesDisplay from "./BadgesDisplay";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 
 import { CURRENT_USER_QUERY } from "../auth/User";
 
@@ -29,18 +27,18 @@ class DisplayAccount extends Component {
         {({ data, loading }) => {
           if (loading) return <p>Loading...</p>;
           const user = data.me;
-          const dateToFormat = data.me.createdAt;
+
           return (
             <Grid container className={classes.root} spacing={16}>
               <Grid item xs={12}>
-                <MainInfoDisplay data={data} />
+                <MainInfoDisplay user={user} />
               </Grid>
               <Grid item xs={2} className={classes.grid} />
               <Grid item xs={9} className={classes.grid}>
-                <QaDisplay data={data} />
+                <QaDisplay user={user} />
               </Grid>
               <Grid item xs={12} className={classes.grid}>
-                <BadgesDisplay data={data} />
+                <BadgesDisplay user={user} />
               </Grid>
               <Grid item xs={2} className={classes.grid} />
             </Grid>

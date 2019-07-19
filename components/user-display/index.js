@@ -1,12 +1,45 @@
 import React, { Component } from "react";
 import { Query } from "react-apollo";
 import { format, parseISO } from "date-fns";
-import QaDisplay from "./QaDisplay";
-import MainInfoDisplay from "./MainInfoDisplay";
-import BadgesDisplay from "./BadgesDisplay";
+import QaDisplay from "../account/QaDisplay";
+import MainInfoDisplay from "../account/MainInfoDisplay";
+import BadgesDisplay from "../account/BadgesDisplay";
 
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
+import gql from "graphql-tag";
+
+const USER_QUERY = gql`
+  query USER_QUERY($id: ID!) {
+    user(id: $id) {
+      id
+      email
+      display
+      name
+      permissions
+      createdAt
+      updatedAt
+      location
+      about
+      industry
+      image
+      badges {
+        autobiographer
+        critic
+        patron
+        reviewer
+        analyst
+        commentor
+        frequentFlyer
+      }
+      myAnswers {
+        answeredTo {
+          id
+        }
+      }
+    }
+  }
+`;
 
 const styles = theme => ({
   grid: {
@@ -22,22 +55,27 @@ class DisplayUser extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <Query query={CURRENT_USER_QUERY}>
-        {({ data, loading }) => {
+      <Query
+        query={USER_QUERY}
+        variables={{
+          id: this.props.id
+        }}
+      >
+        {({ data, loading, variables }) => {
           if (loading) return <p>Loading...</p>;
-          const user = data.me;
-          const dateToFormat = data.me.createdAt;
+
+          const user = data.user;
           return (
             <Grid container className={classes.root} spacing={16}>
               <Grid item xs={12}>
-                <MainInfoDisplay data={data} />
+                <MainInfoDisplay user={user} />
               </Grid>
               <Grid item xs={2} className={classes.grid} />
               <Grid item xs={9} className={classes.grid}>
-                <QaDisplay data={data} />
+                <QaDisplay user={user} />
               </Grid>
               <Grid item xs={12} className={classes.grid}>
-                <BadgesDisplay data={data} />
+                <BadgesDisplay user={user} />
               </Grid>
               <Grid item xs={2} className={classes.grid} />
             </Grid>
