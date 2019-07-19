@@ -212,14 +212,6 @@ class MainQuestion extends Component {
                             "MMMM dd, yyyy"
                           )}
                         </Typography>
-                        <div>
-                          <Grid container alignItems="center">
-                            <Icon src="/static/visibility.svg" />{" "}
-                            <span style={{ paddingLeft: 10 }}>
-                              {question.views} views
-                            </span>
-                          </Grid>
-                        </div>
                       </Grid>
                       <Typography
                         style={{ display: "inline-flex", marginRight: 10 }}
@@ -250,6 +242,14 @@ class MainQuestion extends Component {
                         />
                         <div>{question.downVotes}</div>
                       </Grid>
+                      <div>
+                        <Grid container alignItems="center">
+                          <Icon src="/static/visibility.svg" />{" "}
+                          <span style={{ paddingLeft: 10 }}>
+                            {question.views} views
+                          </span>
+                        </Grid>
+                      </div>
                     </Grid>
                   </Grid>
                 </Paper>

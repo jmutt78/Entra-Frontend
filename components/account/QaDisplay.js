@@ -53,13 +53,7 @@ class QaDisplay extends Component {
               <Grid item xs={8} className={classes.grid}>
                 <Typography variant="h4">Activity</Typography>
               </Grid>
-              <Grid className={classes.linkGrid}>
-                <Typography>
-                  <Link href="/myquestions">
-                    <a className={classes.link}>VIEW ALL</a>
-                  </Link>
-                </Typography>
-              </Grid>
+
               <Grid item xs={2} className={classes.grid} />
               <Grid item xs={1} className={classes.qaGrid}>
                 <Typography variant="h4" align="center">

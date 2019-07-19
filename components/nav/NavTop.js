@@ -71,11 +71,6 @@ class NavTop extends Component {
     return (
       <Toolbar>
         <Typography>
-          <Link href="/create-draft">
-            <a className={classes.navText}>Create Blog Post</a>
-          </Link>
-        </Typography>
-        <Typography>
           <Link href="/approval/question-list">
             <a className={classes.navText}>Approve Questions</a>
           </Link>
