@@ -119,6 +119,7 @@ class BadgesDisplay extends Component {
   render() {
     const { classes } = this.props;
     const user = this.props.user;
+    console.log(user.badges);
 
     return (
       <Grid container className={classes.root} spacing={16}>
@@ -137,9 +138,5 @@ class BadgesDisplay extends Component {
     );
   }
 }
-
-BadgesDisplay.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(BadgesDisplay);

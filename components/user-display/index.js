@@ -41,6 +41,8 @@ const USER_QUERY = gql`
   }
 `;
 
+// TODO: badge dispaly is not working properly
+
 const styles = theme => ({
   grid: {
     margin: theme.spacing.unit
@@ -63,8 +65,9 @@ class DisplayUser extends Component {
       >
         {({ data, loading, variables }) => {
           if (loading) return <p>Loading...</p>;
-
+          console.log(data);
           const user = data.user;
+          console.log(user.badges);
           return (
             <Grid container className={classes.root} spacing={16}>
               <Grid item xs={12}>
