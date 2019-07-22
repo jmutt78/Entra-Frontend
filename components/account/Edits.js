@@ -11,6 +11,7 @@ import Icon from "@material-ui/core/Icon";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import { CURRENT_USER_QUERY } from "../auth/User";
 
 const UPDATE_USER_MUTATION = gql`
   mutation UPDATE_USER_MUTATION(
@@ -104,7 +105,8 @@ class UpdateUser extends Component {
       variables: {
         id,
         ...this.state
-      }
+      },
+      refetchQueries: [{ query: CURRENT_USER_QUERY }]
     });
 
     console.log("Updated!!");
