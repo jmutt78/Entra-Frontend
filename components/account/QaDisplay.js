@@ -39,7 +39,7 @@ class QaDisplay extends Component {
       <Query
         query={PAGINATION_QUERY}
         variables={{
-          id: "5cc2033924aa9a000712bb1e"
+          filter: "my"
         }}
         fetchPolicy="network-only"
       >
