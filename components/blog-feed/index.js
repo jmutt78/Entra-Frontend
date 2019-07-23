@@ -77,8 +77,8 @@ class Blogs extends Component {
     return (
       <Query query={BLOG_LIST_QUERY} context={{ clientName: "second" }}>
         {({ data, loading }) => {
-          const posts = data.posts.edges;
           if (loading) return <p>Loading...</p>;
+          const posts = data.posts.edges;
           return (
             <Grid container className={classes.root} spacing={16}>
               <Grid item xs={2} />
