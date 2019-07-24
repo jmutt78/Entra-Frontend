@@ -3,7 +3,6 @@ import { Query } from "react-apollo";
 import QaDisplay from "./QaDisplay";
 import MainInfoDisplay from "./MainInfoDisplay";
 import BadgesDisplay from "./BadgesDisplay";
-import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 
@@ -48,9 +47,5 @@ class DisplayAccount extends Component {
     );
   }
 }
-
-DisplayAccount.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(DisplayAccount);

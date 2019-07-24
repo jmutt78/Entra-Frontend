@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Query } from "react-apollo";
 import ApproveAnswer from "../approval/AppoveAnswer.js";
 import SelectAnswer from "../approval/SelectAnswer";
+import DeleteAnswer from "../delete-answer";
 import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
 import { withStyles } from "@material-ui/core/styles";
@@ -115,19 +116,22 @@ class Answers extends Component {
     );
   }
 
-  handleEdit(answer, user) {
+  handleEdit(answer, user, questionId) {
     if (answer.answeredBy.id == user.id) {
       return (
-        <Typography>
-          <Link
-            href={{
-              pathname: "/edit-answer",
-              query: { id: answer.id }
-            }}
-          >
-            <a style={{ textDecoration: "none", color: "grey" }}>EDIT</a>
-          </Link>
-        </Typography>
+        <div>
+          <Typography>
+            <Link
+              href={{
+                pathname: "/edit-answer",
+                query: { id: answer.id }
+              }}
+            >
+              <a style={{ textDecoration: "none", color: "grey" }}>EDIT</a>
+            </Link>
+          </Typography>
+          <DeleteAnswer id={answer.id} questionId={questionId} />
+        </div>
       );
     }
   }
@@ -160,6 +164,8 @@ class Answers extends Component {
   render() {
     const { classes } = this.props;
     const answers = this.props.question.answers;
+
+    const questionId = this.props.question.id;
     if (this.props.question.answers.length === 0) {
       return <div />;
     } else {
@@ -232,7 +238,7 @@ class Answers extends Component {
                               "MMMM dd, yyyy"
                             )}
                           </Typography>
-                          {this.handleEdit(answer, user)}
+                          {this.handleEdit(answer, user, questionId)}
 
                           <ApproveAnswer
                             hasPermissions={hasPermissions}

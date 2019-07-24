@@ -1,12 +1,9 @@
 import React, { Component } from "react";
 
-import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-
 import Card from "@material-ui/core/Card";
-
 import { pickBy } from "lodash";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
@@ -119,7 +116,6 @@ class BadgesDisplay extends Component {
   render() {
     const { classes } = this.props;
     const user = this.props.user;
-    console.log(user.badges);
 
     return (
       <Grid container className={classes.root} spacing={16}>

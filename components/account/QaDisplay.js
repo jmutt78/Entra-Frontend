@@ -1,9 +1,6 @@
 import React, { Component } from "react";
-import { format, parseISO } from "date-fns";
 import Link from "next/link";
-
 import { Query } from "react-apollo";
-
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";

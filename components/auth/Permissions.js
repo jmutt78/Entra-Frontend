@@ -55,28 +55,26 @@ class Permissions extends Component {
     const { classes } = this.props;
     return (
       <Query query={ALL_USERS_QUERY}>
-        {({ data, loading, error }) =>
-          console.log(data) || (
-            <Paper className={classes.root}>
-              <Table className={classes.table}>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Dispaly</TableCell>
-                    <TableCell>Email</TableCell>
-                    {possiblePermissions.map(permission => (
-                      <TableCell key={permission}>{permission}</TableCell>
-                    ))}
-                    <TableCell>👇🏻</TableCell>
-                  </TableRow>
-                </TableHead>
+        {({ data, loading, error }) => (
+          <Paper className={classes.root}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Dispaly</TableCell>
+                  <TableCell>Email</TableCell>
+                  {possiblePermissions.map(permission => (
+                    <TableCell key={permission}>{permission}</TableCell>
+                  ))}
+                  <TableCell>👇🏻</TableCell>
+                </TableRow>
+              </TableHead>
 
-                {data.users.map(users => (
-                  <UserPermissions user={users} key={users.id} />
-                ))}
-              </Table>
-            </Paper>
-          )
-        }
+              {data.users.map(users => (
+                <UserPermissions user={users} key={users.id} />
+              ))}
+            </Table>
+          </Paper>
+        )}
       </Query>
     );
   }

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { withStyles } from "@material-ui/core/styles";
-import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import User from "../auth/User.js";
 
@@ -60,10 +59,6 @@ const Nav = props => {
       )}
     </User>
   );
-};
-
-Nav.propTypes = {
-  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(Nav);

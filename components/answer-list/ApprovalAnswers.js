@@ -18,7 +18,6 @@ class AprrovalAnswers extends Component {
         }}
       >
         {({ data: { answers }, loading }) => {
-          console.log(answers);
           if (loading) return <p>Loading...</p>;
           return <AnswerList answers={answers} filter={filter} />;
         }}

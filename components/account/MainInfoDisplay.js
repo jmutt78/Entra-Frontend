@@ -2,12 +2,10 @@ import React, { Component } from "react";
 import { format, parseISO } from "date-fns";
 import { Query } from "react-apollo";
 import Link from "next/link";
-import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
 import Divider from "@material-ui/core/Divider";
 
 import { CURRENT_USER_QUERY } from "../auth/User";

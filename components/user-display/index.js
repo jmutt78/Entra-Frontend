@@ -65,9 +65,7 @@ class DisplayUser extends Component {
       >
         {({ data, loading, variables }) => {
           if (loading) return <p>Loading...</p>;
-          console.log(data);
           const user = data.user;
-          console.log(user.badges);
           return (
             <Grid container className={classes.root} spacing={16}>
               <Grid item xs={12}>
