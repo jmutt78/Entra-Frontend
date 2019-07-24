@@ -9,7 +9,7 @@ const styles = {
     marginRight: 20
   },
   button: {
-    margin: 10,
+    margin: 22,
     backgroundColor: "#E27D60"
   },
   nav: {
@@ -25,7 +25,7 @@ const styles = {
   },
   root: {
     flexGrow: 1,
-    backgroundColor: "grey"
+    backgroundColor: "#85BDCB"
   }
 };
 

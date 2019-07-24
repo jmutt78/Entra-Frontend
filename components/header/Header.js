@@ -28,7 +28,7 @@ const styles = {
     backgroundColor: "#F2F4EF"
   },
   bar: {
-    backgroundColor: "grey",
+    backgroundColor: "#85BDCB",
     marginLeft: "2rem",
     marginTop: ".5rem"
   },
@@ -36,14 +36,12 @@ const styles = {
     flexGrow: 1
   },
   logo: {
-    fontSize: "2rem",
+    marginTop: "1rem",
     marginLeft: "2rem",
-    position: "relative",
-    zIndex: 2,
-    transform: "skew(-7deg)",
-    textTransform: "uppercase",
-    textDecoration: "none",
-    color: "#E8A87C"
+    maxHeight: "60px",
+    maxWidth: "170px",
+    width: "170px",
+    height: "60px"
   },
   navLinks: {
     fontSize: "1.5rem",
@@ -66,7 +64,14 @@ const Header = props => {
         <Toolbar>
           <Typography variant="h6" className={classes.grow}>
             <Link href="/">
-              <a className={classes.logo}>ENTRA</a>
+              <a>
+                {
+                  <img
+                    className={classes.logo}
+                    src="static/Screen Shot 2019-05-07 at 10.37.21 AM.jpg"
+                  />
+                }
+              </a>
             </Link>
           </Typography>
           <Typography>
@@ -75,7 +80,7 @@ const Header = props => {
             </Link>
           </Typography>
           <Typography>
-            <Link href="/">
+            <Link href="/blogs">
               <a className={classes.navLinks}>Blog</a>
             </Link>
           </Typography>
