@@ -3,7 +3,6 @@ import { withStyles } from "@material-ui/core/styles";
 import { format, parseISO } from "date-fns";
 import Link from "next/link";
 import Pagination from "../pagination";
-
 import Grid from "@material-ui/core/Grid";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -68,7 +67,6 @@ class AnswerList extends Component {
             </TableHead>
             <TableBody>
               {answers.map(answer => {
-                console.log(answer.answeredTo[0].id);
                 return (
                   <TableRow key={answer.id}>
                     <TableCell component="th" scope="row">

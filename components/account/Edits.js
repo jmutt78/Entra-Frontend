@@ -5,12 +5,12 @@ import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Error from "./../ErrorMessage.js";
-import PropTypes from "prop-types";
+
 import Avatar from "@material-ui/core/Avatar";
-import Icon from "@material-ui/core/Icon";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import { CURRENT_USER_QUERY } from "../auth/User";
 
 const UPDATE_USER_MUTATION = gql`
   mutation UPDATE_USER_MUTATION(
@@ -97,14 +97,15 @@ class UpdateUser extends Component {
 
   updateUser = async (e, id, updateUserMutation) => {
     e.preventDefault();
-    console.log(this.props.data.me.image);
+
     console.log("Updating Item!!");
 
     const res = await updateUserMutation({
       variables: {
         id,
         ...this.state
-      }
+      },
+      refetchQueries: [{ query: CURRENT_USER_QUERY }]
     });
 
     console.log("Updated!!");
@@ -127,7 +128,7 @@ class UpdateUser extends Component {
     );
 
     const file = await res.json();
-    console.log(file);
+
     this.setState({
       image: file.secure_url
     });
@@ -315,10 +316,6 @@ class UpdateUser extends Component {
     );
   }
 }
-
-UpdateUser.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(UpdateUser);
 export { UPDATE_USER_MUTATION };

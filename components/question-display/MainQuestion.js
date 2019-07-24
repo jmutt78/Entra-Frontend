@@ -5,7 +5,6 @@ import Link from "next/link";
 import gql from "graphql-tag";
 import NoQuestion from "./NoQuestion";
 import ApproveQuestion from "../approval/AppoveQuestion.js";
-import DeleteQuestion from "../delete-question";
 
 import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
@@ -22,7 +21,8 @@ import { CURRENT_USER_QUERY } from "../auth/User";
 const styles = theme => ({
   bigAvatar: {
     width: 70,
-    height: 70
+    height: 70,
+    cursor: "pointer"
   },
   grid: {
     margin: theme.spacing.unit
@@ -114,18 +114,32 @@ class MainQuestion extends Component {
     if (askedby.image == null || askedby.image == "") {
       return (
         <div>
-          <Avatar className={classes.bigAvatar}>{askedby.name[0]}</Avatar>
+          <Link
+            href={{
+              pathname: "/user",
+              query: { id: askedby.id }
+            }}
+          >
+            <Avatar className={classes.bigAvatar}>{askedby.name[0]}</Avatar>
+          </Link>
         </div>
       );
     }
 
     return (
       <div>
-        <Avatar
-          alt="Remy Sharp"
-          src={askedby.image}
-          className={classes.bigAvatar}
-        />
+        <Link
+          href={{
+            pathname: "/user",
+            query: { id: askedby.id }
+          }}
+        >
+          <Avatar
+            alt="Remy Sharp"
+            src={askedby.image}
+            className={classes.bigAvatar}
+          />
+        </Link>
       </div>
     );
   }
@@ -154,7 +168,7 @@ class MainQuestion extends Component {
               <a style={{ textDecoration: "none", color: "grey" }}>EDIT</a>
             </Link>
           </Typography>
-          <DeleteQuestion id={question.id} />
+
           <div />
         </div>
       );
@@ -212,14 +226,6 @@ class MainQuestion extends Component {
                             "MMMM dd, yyyy"
                           )}
                         </Typography>
-                        <div>
-                          <Grid container alignItems="center">
-                            <Icon src="/static/visibility.svg" />{" "}
-                            <span style={{ paddingLeft: 10 }}>
-                              {question.views} views
-                            </span>
-                          </Grid>
-                        </div>
                       </Grid>
                       <Typography
                         style={{ display: "inline-flex", marginRight: 10 }}
@@ -250,6 +256,14 @@ class MainQuestion extends Component {
                         />
                         <div>{question.downVotes}</div>
                       </Grid>
+                      <div>
+                        <Grid container alignItems="center">
+                          <Icon src="/static/visibility.svg" />{" "}
+                          <span style={{ paddingLeft: 10 }}>
+                            {question.views} views
+                          </span>
+                        </Grid>
+                      </div>
                     </Grid>
                   </Grid>
                 </Paper>

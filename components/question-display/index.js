@@ -1,18 +1,12 @@
 import React, { Component } from "react";
-import { Query, Mutation } from "react-apollo";
-import { format, parseISO } from "date-fns";
+import { Query } from "react-apollo";
 import MainQuestion from "./MainQuestion.js";
 import CreateAnswer from "../create-answer";
 import Answers from "../answers-display/Answers.js";
 
-import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import gql from "graphql-tag";
-import Error from "../ErrorMessage";
-import styled from "styled-components";
-import Head from "next/head";
+
 import questionQuery from "./questionQuery";
 
 const styles = theme => ({
@@ -56,9 +50,5 @@ class DisplayQuestion extends Component {
     );
   }
 }
-
-DisplayQuestion.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(DisplayQuestion);

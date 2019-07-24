@@ -36,7 +36,7 @@ class QuestionSearch extends React.Component {
       query: SEARCH_QUESTIONS_QUERY,
       variables: { searchTerm: e.target.value }
     });
-    console.log(res.data);
+
     this.setState({
       questions: res.data.questions,
       loading: false

@@ -1,9 +1,6 @@
 import React, { Component } from "react";
-import { format, parseISO } from "date-fns";
 import Link from "next/link";
-import Pagination from "../pagination";
 import { Query } from "react-apollo";
-
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -34,18 +31,18 @@ const styles = theme => ({
 class QaDisplay extends Component {
   render() {
     const { classes } = this.props;
-    console.log(this.props.data.me.id);
+
     return (
       <Query
         query={PAGINATION_QUERY}
         variables={{
-          id: "5cc2033924aa9a000712bb1e"
+          filter: "my"
         }}
         fetchPolicy="network-only"
       >
         {({ data, loading }) => {
           if (loading) return <p>Loading...</p>;
-          const user = this.props.data.me;
+          const user = this.props.user;
           //const question = data.questionsConnection.aggregate.count;
           //console.log(data.questionsConnection.aggregate);
           return (
@@ -53,13 +50,7 @@ class QaDisplay extends Component {
               <Grid item xs={8} className={classes.grid}>
                 <Typography variant="h4">Activity</Typography>
               </Grid>
-              <Grid className={classes.linkGrid}>
-                <Typography>
-                  <Link href="/myquestions">
-                    <a className={classes.link}>VIEW ALL</a>
-                  </Link>
-                </Typography>
-              </Grid>
+
               <Grid item xs={2} className={classes.grid} />
               <Grid item xs={1} className={classes.qaGrid}>
                 <Typography variant="h4" align="center">

@@ -110,7 +110,7 @@ class MyEditor extends React.Component {
     const { classes } = this.props;
     const ClientEditor = this.state.editor;
     const { editorState } = this.state;
-    console.log(this.state);
+
     return (
       <Mutation mutation={CREATE_BLOG_MUTATION}>
         {(createBlog, { error, loading }) => {

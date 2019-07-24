@@ -1,12 +1,47 @@
 import React, { Component } from "react";
 import { Query } from "react-apollo";
-import QaDisplay from "./QaDisplay";
-import MainInfoDisplay from "./MainInfoDisplay";
-import BadgesDisplay from "./BadgesDisplay";
+import { format, parseISO } from "date-fns";
+import QaDisplay from "../account/QaDisplay";
+import MainInfoDisplay from "../account/MainInfoDisplay";
+import BadgesDisplay from "../account/BadgesDisplay";
+
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
+import gql from "graphql-tag";
 
-import { CURRENT_USER_QUERY } from "../auth/User";
+const USER_QUERY = gql`
+  query USER_QUERY($id: ID!) {
+    user(id: $id) {
+      id
+      email
+      display
+      name
+      permissions
+      createdAt
+      updatedAt
+      location
+      about
+      industry
+      image
+      badges {
+        autobiographer
+        critic
+        patron
+        reviewer
+        analyst
+        commentor
+        frequentFlyer
+      }
+      myAnswers {
+        answeredTo {
+          id
+        }
+      }
+    }
+  }
+`;
+
+// TODO: badge dispaly is not working properly
 
 const styles = theme => ({
   grid: {
@@ -18,15 +53,19 @@ const styles = theme => ({
   }
 });
 
-class DisplayAccount extends Component {
+class DisplayUser extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <Query query={CURRENT_USER_QUERY}>
-        {({ data, loading }) => {
+      <Query
+        query={USER_QUERY}
+        variables={{
+          id: this.props.id
+        }}
+      >
+        {({ data, loading, variables }) => {
           if (loading) return <p>Loading...</p>;
-          const user = data.me;
-
+          const user = data.user;
           return (
             <Grid container className={classes.root} spacing={16}>
               <Grid item xs={12}>
@@ -48,4 +87,4 @@ class DisplayAccount extends Component {
   }
 }
 
-export default withStyles(styles)(DisplayAccount);
+export default withStyles(styles)(DisplayUser);

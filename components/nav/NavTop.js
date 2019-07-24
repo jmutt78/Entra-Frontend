@@ -1,17 +1,12 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import User from "../auth/User.js";
 import Signout from "../auth/Signout";
 import Link from "next/link";
-import Router from "next/router";
-import NProgress from "nprogress";
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 
 const styles = {
   top: {
@@ -131,9 +126,5 @@ class NavTop extends Component {
     );
   }
 }
-
-NavTop.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(NavTop);

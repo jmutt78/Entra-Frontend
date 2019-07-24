@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Query } from "react-apollo";
 import ApproveAnswer from "../approval/AppoveAnswer.js";
 import SelectAnswer from "../approval/SelectAnswer";
+import DeleteAnswer from "../delete-answer";
 import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
 import { withStyles } from "@material-ui/core/styles";
@@ -28,7 +29,8 @@ const CREATE_ANSWER_VOTE_MUTATION = gql`
 const styles = theme => ({
   bigAvatar: {
     width: 70,
-    height: 70
+    height: 70,
+    cursor: "pointer"
   },
   grid: {
     margin: theme.spacing.unit
@@ -68,18 +70,36 @@ const styles = theme => ({
 });
 
 class Answers extends Component {
-  handleImage(askedby, name, classes) {
+  handleImage(askedby, name, classes, answeredBy) {
     if (askedby == null || askedby == "") {
       return (
         <div>
-          <Avatar className={classes.bigAvatar}>{name[0]}</Avatar>
+          <Link
+            href={{
+              pathname: "/user",
+              query: { id: answeredBy }
+            }}
+          >
+            <Avatar className={classes.bigAvatar}>{name[0]}</Avatar>
+          </Link>
         </div>
       );
     }
 
     return (
       <div>
-        <Avatar alt="Remy Sharp" src={askedby} className={classes.bigAvatar} />
+        <Link
+          href={{
+            pathname: "/user",
+            query: { id: answeredBy }
+          }}
+        >
+          <Avatar
+            alt="Remy Sharp"
+            src={askedby}
+            className={classes.bigAvatar}
+          />
+        </Link>
       </div>
     );
   }
@@ -96,19 +116,22 @@ class Answers extends Component {
     );
   }
 
-  handleEdit(answer, user) {
+  handleEdit(answer, user, questionId) {
     if (answer.answeredBy.id == user.id) {
       return (
-        <Typography>
-          <Link
-            href={{
-              pathname: "/edit-answer",
-              query: { id: answer.id }
-            }}
-          >
-            <a style={{ textDecoration: "none", color: "grey" }}>EDIT</a>
-          </Link>
-        </Typography>
+        <div>
+          <Typography>
+            <Link
+              href={{
+                pathname: "/edit-answer",
+                query: { id: answer.id }
+              }}
+            >
+              <a style={{ textDecoration: "none", color: "grey" }}>EDIT</a>
+            </Link>
+          </Typography>
+          <DeleteAnswer id={answer.id} questionId={questionId} />
+        </div>
       );
     }
   }
@@ -141,6 +164,8 @@ class Answers extends Component {
   render() {
     const { classes } = this.props;
     const answers = this.props.question.answers;
+
+    const questionId = this.props.question.id;
     if (this.props.question.answers.length === 0) {
       return <div />;
     } else {
@@ -175,7 +200,8 @@ class Answers extends Component {
                             {this.handleImage(
                               answer.answeredBy.image,
                               answer.answeredBy.display,
-                              classes
+                              classes,
+                              answeredBy
                             )}
                             <Typography
                               style={{
@@ -212,7 +238,7 @@ class Answers extends Component {
                               "MMMM dd, yyyy"
                             )}
                           </Typography>
-                          {this.handleEdit(answer, user)}
+                          {this.handleEdit(answer, user, questionId)}
 
                           <ApproveAnswer
                             hasPermissions={hasPermissions}

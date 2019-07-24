@@ -6,12 +6,6 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
-import FilledInput from "@material-ui/core/FilledInput";
-import MenuItem from "@material-ui/core/MenuItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import Checkbox from "@material-ui/core/Checkbox";
 import FormControl from "@material-ui/core/FormControl";
 import CreateTag from "../create-question/CreateTag.js";
 import { TAGS_QUERY } from "../create-question/Tags";
@@ -104,7 +98,6 @@ class QuestionForm extends React.Component {
   };
 
   updateForm = async (e, updateQuestion) => {
-    console.log(this.state.tags);
     e.preventDefault();
     const res = await updateQuestion({
       variables: {
@@ -125,7 +118,6 @@ class QuestionForm extends React.Component {
   render() {
     const { classes } = this.props;
     const { title, description, tags, showCreateTagModal } = this.state;
-    console.log(this.props);
     return (
       <Query query={TAGS_QUERY}>
         {({ loading, data }) => {
