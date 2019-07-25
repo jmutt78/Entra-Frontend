@@ -28,6 +28,22 @@ const styles = theme => ({
 });
 
 class QaDisplay extends Component {
+  handlePointCount(questions, answers) {
+    const allQuestions = questions.map(data => data.questionVote);
+    const flatQuestionVotes = allQuestions.reduce(
+      (acc, vote) => [...acc, ...vote],
+      []
+    );
+    const questionVotes = flatQuestionVotes.map(data => data.vote);
+    const questionCount = questionVotes.reduce((n, x) => n + (x === "up"), 0);
+
+    const allAnswers = answers.map(data => data.answerVote);
+    const flatVotes = allAnswers.reduce((acc, vote) => [...acc, ...vote], []);
+    const answerVote = flatVotes.map(data => data.vote);
+    const answerCount = answerVote.reduce((n, x) => n + (x === "up"), 0);
+    const count = answerCount + questionCount;
+    return count;
+  }
   render() {
     const { classes } = this.props;
 
@@ -43,15 +59,10 @@ class QaDisplay extends Component {
           if (loading) return <p>Loading...</p>;
           const user = this.props.user;
           const answers = user.myAnswers;
-          //const question = data.questionsConnection.aggregate.count;
-          //console.log(data.questionsConnection.aggregate);
-          const allAnswers = answers.map(data => data.answerVote);
-          const flatVotes = allAnswers.reduce(
-            (acc, vote) => [...acc, ...vote],
-            []
-          );
-          const votes = flatVotes.map(data => data.vote);
-          const count = votes.reduce((n, x) => n + (x === "up"), 0);
+
+          const questions = user.myQuestions;
+          // //const question = data.questionsConnection.aggregate.count;
+          // //console.log(data.questionsConnection.aggregate);
 
           return (
             <Grid container className={classes.root} spacing={16}>
@@ -96,7 +107,7 @@ class QaDisplay extends Component {
               </Grid>
               <Grid item xs={1} className={classes.qaGrid}>
                 <Typography variant="h4" align="center">
-                  {count}
+                  {this.handlePointCount(questions, answers)}
                 </Typography>
                 <Typography variant="h5" align="center">
                   <Link href="/">

@@ -18,6 +18,10 @@ const CURRENT_USER_QUERY = gql`
       image
       myQuestions {
         id
+        questionVote {
+          id
+          vote
+        }
       }
       badges {
         autobiographer
@@ -31,6 +35,10 @@ const CURRENT_USER_QUERY = gql`
       myAnswers {
         id
         selected
+        answerVote {
+          id
+          vote
+        }
         answeredTo {
           id
         }

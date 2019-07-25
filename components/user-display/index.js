@@ -25,6 +25,10 @@ const USER_QUERY = gql`
       image
       myQuestions {
         id
+        questionVote {
+          id
+          vote
+        }
       }
       badges {
         autobiographer
