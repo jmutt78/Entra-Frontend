@@ -31,10 +31,6 @@ const CURRENT_USER_QUERY = gql`
       myAnswers {
         id
         selected
-        answerVote {
-          id
-          vote
-        }
         answeredTo {
           id
         }
