@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import User from "../auth/User.js";
 import Signout from "../auth/Signout";
+import MyProfile from "./MyProfile.js";
 import Link from "next/link";
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
