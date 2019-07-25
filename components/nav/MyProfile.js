@@ -1,80 +1,85 @@
 import React from "react";
+import Link from "next/link";
+import Signout from "../auth/Signout";
 import Button from "@material-ui/core/Button";
-import Menu, { MenuItem } from "@material-ui/core/Menu";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import { withStyles } from "@material-ui/core/styles";
+import Avatar from "@material-ui/core/Avatar";
+import Typography from "@material-ui/core/Typography";
 
-const timeoutLength = 300;
+const styles = {
+  bigAvatar: {
+    margin: 15,
+    width: 50,
+    height: 50,
+    cursor: "pointer"
+  }
+};
 
 class MyProfile extends React.Component {
   state = {
-    anchorEl: null,
-
-    // Keep track of whether the mouse is over the button or menu
-    mouseOverButton: false,
-    mouseOverMenu: false
+    anchorEl: null
   };
 
   handleClick = event => {
-    this.setState({ open: true, anchorEl: event.currentTarget });
+    this.setState({ anchorEl: event.currentTarget });
   };
 
   handleClose = () => {
-    this.setState({ mouseOverButton: false, mouseOverMenu: false });
+    this.setState({ anchorEl: null });
   };
 
-  enterButton = () => {
-    this.setState({ mouseOverButton: true });
-  };
-
-  leaveButton = () => {
-    // Set a timeout so that the menu doesn't close before the user has time to
-    // move their mouse over it
-    setTimeout(() => {
-      this.setState({ mouseOverButton: false });
-    }, timeoutLength);
-  };
-
-  enterMenu = () => {
-    this.setState({ mouseOverMenu: true });
-  };
-
-  leaveMenu = () => {
-    setTimeout(() => {
-      this.setState({ mouseOverMenu: false });
-    }, timeoutLength);
-  };
+  handleImage(me, classes) {
+    if (me.image == null || me.image == "") {
+      return (
+        <div>
+          <Avatar className={classes.bigAvatar}>{me.name[0]}</Avatar>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <Avatar alt="Remy Sharp" src={me.image} className={classes.bigAvatar} />
+      </div>
+    );
+  }
 
   render() {
-    // Calculate open state based on mouse location
-    const open = this.state.mouseOverButton || this.state.mouseOverMenu;
+    const { anchorEl } = this.state;
+    const { classes } = this.props;
+    const me = this.props.me;
 
     return (
       <div>
-        <Button
-          aria-owns={this.state.open ? "simple-menu" : null}
-          aria-haspopup="true"
+        <Typography
+          variant="h5"
+          className={classes.grow}
           onClick={this.handleClick}
-          onMouseEnter={this.enterButton}
-          onMouseLeave={this.leaveButton}
         >
-          Open Menu
-        </Button>
+          {this.handleImage(me, classes)}
+        </Typography>
+
         <Menu
           id="simple-menu"
-          anchorEl={this.state.anchorEl}
-          open={open}
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
           onClose={this.handleClose}
-          MenuListProps={{
-            onMouseEnter: this.enterMenu,
-            onMouseLeave: this.leaveMenu
-          }}
         >
-          <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-          <MenuItem onClick={this.handleClose}>My account</MenuItem>
-          <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+          <Link href="/account/myaccount">
+            <MenuItem onClick={this.handleClose}>My Profile</MenuItem>
+          </Link>
+          <Link href="/account/editaccount">
+            <MenuItem onClick={this.handleClose}>Edit Account</MenuItem>
+          </Link>
+
+          <MenuItem>
+            <Signout />
+          </MenuItem>
         </Menu>
       </div>
     );
   }
 }
 
-export default MyProfile;
+export default withStyles(styles)(MyProfile);

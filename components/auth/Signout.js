@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
-import Button from "@material-ui/core/Button";
+import MenuItem from "@material-ui/core/MenuItem";
+import Typography from "@material-ui/core/Typography";
 
 import Router from "next/router";
 import { CURRENT_USER_QUERY } from "./User";
@@ -32,13 +33,9 @@ class Signout extends React.Component {
       >
         {(signout, { error, loading }) => {
           return (
-            <Button
-              style={{ marginLeft: "2rem" }}
-              color="default"
-              onClick={e => this.handleSignout(e, signout)}
-            >
+            <Typography onClick={e => this.handleSignout(e, signout)}>
               Sign Out
-            </Button>
+            </Typography>
           );
         }}
       </Mutation>

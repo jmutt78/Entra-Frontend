@@ -31,31 +31,10 @@ const styles = {
     textDecoration: "none",
     fontSize: 20,
     fontWieght: "strong"
-  },
-
-  bigAvatar: {
-    margin: 10,
-    width: 40,
-    height: 40
   }
 };
 
 class NavTop extends Component {
-  handleImage(me, classes) {
-    if (me.image == null || me.image == "") {
-      return (
-        <div>
-          <Avatar className={classes.bigAvatar}>{me.name[0]}</Avatar>
-        </div>
-      );
-    }
-    return (
-      <div>
-        <Avatar alt="Remy Sharp" src={me.image} className={classes.bigAvatar} />
-      </div>
-    );
-  }
-
   handleApproval(me, classes) {
     const hasPermissions = me.permissions.some(permission =>
       ["ADMIN", "MODERATOR"].includes(permission)
@@ -92,9 +71,7 @@ class NavTop extends Component {
                 <div>
                   <AppBar className={classes.top} position="static">
                     <Toolbar>
-                      <Typography variant="h5" className={classes.grow}>
-                        {this.handleImage(me, classes)}
-                      </Typography>
+                      <MyProfile me={me} />
                       <Typography variant="h5" className={classes.text}>
                         <p>{me.name}</p>
                       </Typography>
@@ -109,12 +86,6 @@ class NavTop extends Component {
                           <a className={classes.navText}>My Bookmark</a>
                         </Link>
                       </Typography>
-                      <Typography>
-                        <Link href="/account/myaccount">
-                          <a className={classes.navText}>My Profile</a>
-                        </Link>
-                      </Typography>
-                      <Signout />
                     </Toolbar>
                   </AppBar>
                 </div>
