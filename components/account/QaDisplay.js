@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Link from "next/link";
 import { Query } from "react-apollo";
-import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -43,8 +42,17 @@ class QaDisplay extends Component {
         {({ data, loading }) => {
           if (loading) return <p>Loading...</p>;
           const user = this.props.user;
+          const answers = user.myAnswers;
           //const question = data.questionsConnection.aggregate.count;
           //console.log(data.questionsConnection.aggregate);
+          const allAnswers = answers.map(data => data.answerVote);
+          const flatVotes = allAnswers.reduce(
+            (acc, vote) => [...acc, ...vote],
+            []
+          );
+          const votes = flatVotes.map(data => data.vote);
+          const count = votes.reduce((n, x) => n + (x === "up"), 0);
+
           return (
             <Grid container className={classes.root} spacing={16}>
               <Grid item xs={8} className={classes.grid}>
@@ -54,7 +62,7 @@ class QaDisplay extends Component {
               <Grid item xs={2} className={classes.grid} />
               <Grid item xs={1} className={classes.qaGrid}>
                 <Typography variant="h4" align="center">
-                  0
+                  {user.myQuestions.length}
                 </Typography>
                 <Typography variant="h5" align="center">
                   <Link href="/myquestions">
@@ -64,7 +72,7 @@ class QaDisplay extends Component {
               </Grid>
               <Grid item xs={1} className={classes.qaGrid}>
                 <Typography variant="h4" align="center">
-                  0
+                  {user.myAnswers.length}
                 </Typography>
                 <Typography variant="h5" align="center">
                   <Link href="/myanswers">
@@ -74,7 +82,11 @@ class QaDisplay extends Component {
               </Grid>
               <Grid item xs={1} className={classes.qaGrid}>
                 <Typography variant="h4" align="center">
-                  0
+                  {
+                    answers.filter((x, i) => {
+                      return x.selected;
+                    }).length
+                  }
                 </Typography>
                 <Typography variant="h5" align="center">
                   <Link href="/">
@@ -84,7 +96,7 @@ class QaDisplay extends Component {
               </Grid>
               <Grid item xs={1} className={classes.qaGrid}>
                 <Typography variant="h4" align="center">
-                  2
+                  {count}
                 </Typography>
                 <Typography variant="h5" align="center">
                   <Link href="/">
@@ -99,9 +111,5 @@ class QaDisplay extends Component {
     );
   }
 }
-
-QaDisplay.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(QaDisplay);

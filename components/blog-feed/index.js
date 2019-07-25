@@ -45,7 +45,9 @@ const styles = theme => ({
   },
   container: {
     display: "flex",
-    margin: theme.spacing.unit * 4
+    margin: theme.spacing.unit * 4,
+    textAlign: "center",
+    flexGrow: 1
   },
   root: {
     margin: theme.spacing.unit,
@@ -53,7 +55,8 @@ const styles = theme => ({
   },
   card: {
     maxWidth: 2000,
-    margin: theme.spacing.unit * 4
+    margin: theme.spacing.unit * 5,
+    cursor: "pointer"
   },
   media: {
     height: 0,
@@ -81,11 +84,11 @@ class Blogs extends Component {
           const posts = data.posts.edges;
           return (
             <Grid container className={classes.root} spacing={16}>
-              <Grid item xs={2} />
+              <Grid item xs={3} />
               <Grid item xs={6}>
                 <Typography
                   variant="display3"
-                  align="center"
+                  centered
                   className={classes.container}
                 >
                   Our Blog
@@ -93,52 +96,52 @@ class Blogs extends Component {
                 {posts.map(post => {
                   return (
                     <div key={post.node.id}>
-                      <Card className={classes.card}>
-                        <CardHeader
-                          avatar={
-                            <Avatar
-                              aria-label="Recipe"
-                              className={classes.avatar}
-                              src="/static/Screen Shot 2019-07-17 at 2.47.56 PM.jpg"
-                            />
-                          }
-                          title={post.node.title}
-                          subheader={format(
-                            parseISO(post.node.date),
-                            "MMMM dd, yyyy"
-                          )}
-                        />
-                        <CardMedia
-                          className={classes.media}
-                          image={post.node.featuredImage.sourceUrl}
-                          title="Paella dish"
-                        />
-                        <CardContent>
-                          <Typography
-                            variant="body2"
-                            color="textSecondary"
-                            component="p"
-                          >
-                            <div
-                              dangerouslySetInnerHTML={{
-                                __html: post.node.excerpt
-                              }}
-                            />
-                          </Typography>
-                        </CardContent>
-                        <CardActions>
-                          <Link
-                            href={{
-                              pathname: "/blog",
-                              query: { id: post.node.id }
-                            }}
-                          >
+                      <Link
+                        href={{
+                          pathname: "/blog",
+                          query: { id: post.node.id }
+                        }}
+                      >
+                        <Card className={classes.card}>
+                          <CardHeader
+                            avatar={
+                              <Avatar
+                                aria-label="Recipe"
+                                className={classes.avatar}
+                                src="/static/Screen Shot 2019-07-17 at 2.47.56 PM.jpg"
+                              />
+                            }
+                            title={post.node.title}
+                            subheader={format(
+                              parseISO(post.node.date),
+                              "MMMM dd, yyyy"
+                            )}
+                          />
+                          <CardMedia
+                            className={classes.media}
+                            image={post.node.featuredImage.sourceUrl}
+                            title="Paella dish"
+                          />
+                          <CardContent>
+                            <Typography
+                              variant="body2"
+                              color="textSecondary"
+                              component="p"
+                            >
+                              <div
+                                dangerouslySetInnerHTML={{
+                                  __html: post.node.excerpt
+                                }}
+                              />
+                            </Typography>
+                          </CardContent>
+                          <CardActions>
                             <Button size="small" color="primary">
                               Read More
                             </Button>
-                          </Link>
-                        </CardActions>
-                      </Card>
+                          </CardActions>
+                        </Card>
+                      </Link>
                     </div>
                   );
                 })}
