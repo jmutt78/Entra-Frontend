@@ -12,6 +12,12 @@ import RateReviewIcon from "@material-ui/icons/RateReview";
 import ThreeSixtyIcon from "@material-ui/icons/ThreeSixty";
 import CommentIcon from "@material-ui/icons/Comment";
 import FlightIcon from "@material-ui/icons/Flight";
+import HowToVote from "@material-ui/icons/HowToVote";
+import Whatshot from "@material-ui/icons/Whatshot";
+import HowToReg from "@material-ui/icons/HowToReg";
+import School from "@material-ui/icons/School";
+import Favorite from "@material-ui/icons/Favorite";
+import Cached from "@material-ui/icons/Cached";
 
 const styles = theme => ({
   grid: {
@@ -77,6 +83,30 @@ const badgesConfig = {
   frequentFlyer: {
     title: "Frequent Flyer",
     icon: FlightIcon
+  },
+  niceAnswer: {
+    title: "Nice Answer",
+    icon: Whatshot
+  },
+  expert: {
+    title: "Expert",
+    icon: HowToReg
+  },
+  teacher: {
+    title: "Teacher",
+    icon: School
+  },
+  pundit: {
+    title: "Pundit",
+    icon: Favorite
+  },
+  powerVoter: {
+    title: "Power Voter",
+    icon: HowToVote
+  },
+  provoker: {
+    title: "Provoker",
+    icon: Cached
   }
 };
 

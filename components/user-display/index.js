@@ -44,6 +44,12 @@ const USER_QUERY = gql`
         analyst
         commentor
         frequentFlyer
+        niceAnswer
+        expert
+        teacher
+        pundit
+        powerVoter
+        provoker
       }
       myAnswers {
         id
