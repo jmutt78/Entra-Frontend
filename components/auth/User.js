@@ -16,6 +16,12 @@ const CURRENT_USER_QUERY = gql`
       about
       industry
       image
+      myBookMarks {
+        id
+        questions {
+          id
+        }
+      }
       myQuestions {
         id
         questionVote {

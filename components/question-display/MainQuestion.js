@@ -5,6 +5,7 @@ import Link from "next/link";
 import gql from "graphql-tag";
 import NoQuestion from "./NoQuestion";
 import ApproveQuestion from "../approval/AppoveQuestion.js";
+import CreatBookMark from "../bookmark/CreateBookMark.js";
 
 import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
@@ -179,6 +180,7 @@ class MainQuestion extends Component {
     const { classes } = this.props;
     const question = this.props.question;
     const askedby = this.props.question.askedBy[0];
+
     return (
       <Query query={CURRENT_USER_QUERY}>
         {({ data, loading }) => {
@@ -262,6 +264,7 @@ class MainQuestion extends Component {
                           <span style={{ paddingLeft: 10 }}>
                             {question.views} views
                           </span>
+                          <CreatBookMark user={user} question={question} />
                         </Grid>
                       </div>
                     </Grid>

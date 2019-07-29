@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import User from "../auth/User.js";
-import Signout from "../auth/Signout";
 import MyProfile from "./MyProfile.js";
 import Link from "next/link";
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import Avatar from "@material-ui/core/Avatar";
 
 const styles = {
   top: {
@@ -79,6 +77,11 @@ class NavTop extends Component {
                       <Typography>
                         <Link href="/myquestions">
                           <a className={classes.navText}>My Questions</a>
+                        </Link>
+                      </Typography>
+                      <Typography>
+                        <Link href="/myanswers">
+                          <a className={classes.navText}>My Answers</a>
                         </Link>
                       </Typography>
                       <Typography>

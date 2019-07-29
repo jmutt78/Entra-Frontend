@@ -61,7 +61,7 @@ const styles = theme => ({
   },
   buttonTop: {
     backgroundColor: "#E27D60",
-    marginLeft: theme.spacing.unit * 4
+    marginLeft: theme.spacing.unit * 2
   },
   textTop: {
     color: "white",
