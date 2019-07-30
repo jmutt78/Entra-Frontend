@@ -85,7 +85,7 @@ class NavTop extends Component {
                         </Link>
                       </Typography>
                       <Typography>
-                        <Link href="/">
+                        <Link href="/mybookmarks">
                           <a className={classes.navText}>My Bookmark</a>
                         </Link>
                       </Typography>

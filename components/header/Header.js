@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+import User from "../auth/User.js";
 import Link from "next/link";
 import Router from "next/router";
 import NProgress from "nprogress";
@@ -56,47 +56,56 @@ const styles = {
 const Header = props => {
   const { classes } = props;
   return (
-    <Grid container className={classes.root} spacing={16}>
-      <AppBar position="static" className={classes.root}>
-        <TopNav />
-      </AppBar>
-      <AppBar position="static" className={classes.root}>
-        <Toolbar>
-          <Typography variant="h6" className={classes.grow}>
-            <Link href="/">
-              <a>
-                {
-                  <img
-                    className={classes.logo}
-                    src="static/Screen Shot 2019-05-07 at 10.37.21 AM.jpg"
-                  />
-                }
-              </a>
-            </Link>
-          </Typography>
-          <Typography>
-            <Link href="/qa">
-              <a className={classes.navLinks}>Ask a Question</a>
-            </Link>
-          </Typography>
-          <Typography>
-            <Link href="/blogs">
-              <a className={classes.navLinks}>Blog</a>
-            </Link>
-          </Typography>
-          <Grid item xs={2}>
-            <AppBar position="static" className={classes.bar}>
-              <Nav />
-            </AppBar>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-    </Grid>
-  );
-};
+    <User>
+      {({ data: { me } }) => (
+        <Grid container className={classes.root} spacing={16}>
+          <AppBar position="static" className={classes.root}>
+            <TopNav />
+          </AppBar>
+          <AppBar position="static" className={classes.root}>
+            <Toolbar>
+              <Typography variant="h6" className={classes.grow}>
+                <Link href="/">
+                  <a>
+                    {
+                      <img
+                        className={classes.logo}
+                        src="static/Screen Shot 2019-05-07 at 10.37.21 AM.jpg"
+                      />
+                    }
+                  </a>
+                </Link>
+              </Typography>
+              {!me ? (
+                <Typography>
+                  <Link href="/signup">
+                    <a className={classes.navLinks}>Ask a Question</a>
+                  </Link>
+                </Typography>
+              ) : (
+                <Typography>
+                  <Link href="/qa">
+                    <a className={classes.navLinks}>Ask a Question</a>
+                  </Link>
+                </Typography>
+              )}
 
-Header.propTypes = {
-  classes: PropTypes.object.isRequired
+              <Typography>
+                <Link href="/blogs">
+                  <a className={classes.navLinks}>Blog</a>
+                </Link>
+              </Typography>
+              <Grid item xs={2}>
+                <AppBar position="static" className={classes.bar}>
+                  <Nav />
+                </AppBar>
+              </Grid>
+            </Toolbar>
+          </AppBar>
+        </Grid>
+      )}
+    </User>
+  );
 };
 
 export default withStyles(styles)(Header);

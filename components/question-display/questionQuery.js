@@ -14,6 +14,9 @@ const SINGLE_QUESTION_QUERY = gql`
         name
       }
       createdAt
+      bookMark {
+        id
+      }
       answers(orderBy: selected_DESC) {
         answeredTo {
           id

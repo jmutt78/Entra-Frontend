@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
-import questionQuery from "../question-display/questionQuery.js";
+import DeleteBookMark from "./UpdateBookMark";
+import questionListQuery from "../question-list/questionListQuery";
 import gql from "graphql-tag";
 import Button from "@material-ui/core/Button";
+import BookmarkBorder from "@material-ui/icons/BookmarkBorder";
 import { CURRENT_USER_QUERY } from "../auth/User";
 
 const CREATE_BOOKMARK_MUTATION = gql`
@@ -35,6 +37,12 @@ const styles = {
   buttonRejected: {
     backgroundColor: "#E27D60",
     marginTop: 10
+  },
+  icon: {
+    fontSize: 30,
+    cursor: "pointer",
+    marginLeft: 20,
+    marginTop: 10
   }
 };
 
@@ -51,54 +59,39 @@ class CreatBookMark extends Component {
 
   handleBookMark(user, question, classes, createBookMark) {
     const questionId = question.id;
+    const allBookMarks = user.myBookMarks.map(data => data.id);
+    const questionBookmarks = question.bookMark;
+    const flatQuestionBookMark = questionBookmarks.map(data => data.id);
+    //---------------Test-------------------//
     const allQuestions = user.myBookMarks.map(data => data.questions);
     const flatQuestionId = allQuestions.reduce(
       (acc, id) => [...acc, ...id],
       []
     );
-
     var result = flatQuestionId.filter(obj => {
       return obj.id === questionId;
     });
-    console.log(result[0]);
 
     if (!result[0]) {
-      console.log("und");
       return (
         <div>
-          <Button
-            className={classes.buttonReject}
-            variant="contained"
+          <BookmarkBorder
+            className={classes.icon}
             onClick={e => this.submitForm(e, createBookMark)}
           >
             Mark
-          </Button>
+          </BookmarkBorder>
         </div>
       );
     } else {
-      return <div />;
-    }
+      //---------------Find bookmarkId-------------------//
 
-    // if (result === null) {
-    //   return <div />;
-    // } else {
-    //   if (result[0].id === questionId) {
-    //     return <div />;
-    //   } else {
-    //     return (
-    //       <div>
-    //         {this.handleBookMark(user, question, classes)}
-    //         <Button
-    //           className={classes.buttonReject}
-    //           variant="contained"
-    //           onClick={e => this.submitForm(e, createBookMark)}
-    //         >
-    //           Mark
-    //         </Button>
-    //       </div>
-    //     );
-    //   }
-    // }
+      const id = allBookMarks.filter(element =>
+        flatQuestionBookMark.includes(element)
+      );
+
+      return <DeleteBookMark id={id} />;
+    }
   }
 
   render() {
@@ -114,8 +107,8 @@ class CreatBookMark extends Component {
         variables={this.state}
         refetchQueries={[
           {
-            query: questionQuery,
-            variables: { id: this.props.question.id }
+            query: questionListQuery,
+            variables: { filter: "My BookMarked" }
           },
           { query: CURRENT_USER_QUERY }
         ]}

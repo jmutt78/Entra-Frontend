@@ -20,6 +20,9 @@ const QUESTION_LIST_QUERY = gql`
       views
       upVotes
       downVotes
+      bookMark {
+        id
+      }
     }
   }
 `;
