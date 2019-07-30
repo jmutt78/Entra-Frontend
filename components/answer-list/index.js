@@ -56,13 +56,17 @@ class AnswerList extends Component {
             <TableHead>
               <TableRow>
                 <TableCell>
-                  <Typography variant="display3" className={classes.body}>
+                  <Typography variant="display3" className={classes.title}>
                     {upperFirst(filter)} Answers
                   </Typography>
                 </TableCell>
 
-                <CustomTableCell style={customColumnStyle}>U</CustomTableCell>
-                <CustomTableCell style={customColumnStyle}>D</CustomTableCell>
+                <CustomTableCell style={customColumnStyle}>
+                  <img src="/static/thumb_up.svg" />
+                </CustomTableCell>
+                <CustomTableCell style={customColumnStyle}>
+                  <img src="/static/thumb_down.svg" />
+                </CustomTableCell>
               </TableRow>
             </TableHead>
             <TableBody>

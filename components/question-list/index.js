@@ -4,7 +4,7 @@ import { format, parseISO } from "date-fns";
 import Link from "next/link";
 import Pagination from "../pagination";
 import QuestionSearch from "../search/QuestionSearch.js";
-
+import QuestionAnswer from "@material-ui/icons/QuestionAnswer";
 import Grid from "@material-ui/core/Grid";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -38,6 +38,9 @@ const styles = theme => ({
   link: {
     textDecoration: "none",
     color: "rgba(0, 0, 0, 0.87)"
+  },
+  icon: {
+    color: "black"
   }
 });
 
@@ -62,7 +65,6 @@ function QuestionList(props) {
       <Grid item xs={3} className={classes.grid} />
       <Grid item xs={7} className={classes.grid}>
         {" "}
-        <QuestionSearch />
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
@@ -71,10 +73,18 @@ function QuestionList(props) {
                   {upperFirst(filter)} Questions
                 </Typography>
               </TableCell>
-              <CustomTableCell style={customColumnStyle}>A</CustomTableCell>
-              <CustomTableCell style={customColumnStyle}>V</CustomTableCell>
-              <CustomTableCell style={customColumnStyle}>U</CustomTableCell>
-              <CustomTableCell style={customColumnStyle}>D</CustomTableCell>
+              <CustomTableCell style={customColumnStyle}>
+                <QuestionAnswer className={classes.icon} />
+              </CustomTableCell>
+              <CustomTableCell style={customColumnStyle}>
+                <img src="/static/visibility.svg" />
+              </CustomTableCell>
+              <CustomTableCell style={customColumnStyle}>
+                <img src="/static/thumb_up.svg" />
+              </CustomTableCell>
+              <CustomTableCell style={customColumnStyle}>
+                <img src="/static/thumb_down.svg" />
+              </CustomTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
