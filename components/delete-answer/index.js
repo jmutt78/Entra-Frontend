@@ -31,17 +31,22 @@ class DeleteAnswer extends Component {
         update={this.update}
       >
         {(deleteAnswer, { error }) => (
-          <Button
-            onClick={() => {
-              if (confirm("Are you sure you want to delete this item?")) {
-                deleteAnswer();
-              }
-            }}
-          >
-            {" "}
-            Delete
-            {this.props.children}
-          </Button>
+          <div>
+            <Button
+              onClick={() => {
+                if (confirm("Are you sure you want to delete this item?")) {
+                  deleteAnswer();
+                }
+              }}
+            >
+              {" "}
+              Delete
+              {this.props.children}
+            </Button>
+            <div style={{ color: "red" }}>
+              {error && error.message.replace("GraphQL error: ", "")}
+            </div>
+          </div>
         )}
       </Mutation>
     );
