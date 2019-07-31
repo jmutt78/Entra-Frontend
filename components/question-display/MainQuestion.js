@@ -16,6 +16,7 @@ import Paper from "@material-ui/core/Paper";
 import { withApollo } from "react-apollo";
 import questionQuery from "./questionQuery";
 import Icon from "../ui/Icon";
+import DeleteQuestion from "../delete-question";
 
 import { CURRENT_USER_QUERY } from "../auth/User";
 
@@ -169,7 +170,7 @@ class MainQuestion extends Component {
               <a style={{ textDecoration: "none", color: "grey" }}>EDIT</a>
             </Link>
           </Typography>
-
+          <DeleteQuestion id={question.id} />
           <div />
         </div>
       );

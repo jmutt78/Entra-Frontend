@@ -32,6 +32,9 @@ class DisplayQuestion extends Component {
       >
         {({ data: { question }, loading }) => {
           if (loading) return <p>Loading...</p>;
+          if (!question) {
+            return <p>Question not found</p>;
+          }
           return (
             <Grid container className={classes.root} spacing={16}>
               <Grid item xs={12} className={classes.grid}>
