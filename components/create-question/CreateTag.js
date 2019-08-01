@@ -100,12 +100,17 @@ class CreateTag extends React.Component {
                   type="text"
                   name="name"
                   variant="filled"
+                  error={Boolean(error)}
                   value={this.state.name}
                   onChange={this.handleChange}
                   className={classes.textField}
                 />
               </label>
+              <div style={{ color: "red" }}>
+                {error && error.message.replace("GraphQL error: ", "")}
+              </div>
             </DialogContent>
+
             <DialogActions>
               <Button
                 variant="contained"
