@@ -10,6 +10,12 @@ import FormControl from "@material-ui/core/FormControl";
 import CreateTag from "../create-question/CreateTag.js";
 import questionListQuery from "../question-list/questionListQuery";
 import { TAGS_QUERY } from "../create-question/Tags";
+import FilledInput from "@material-ui/core/FilledInput";
+import MenuItem from "@material-ui/core/MenuItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import Checkbox from "@material-ui/core/Checkbox";
 
 const styles = theme => ({
   grid: {
@@ -73,7 +79,7 @@ class QuestionForm extends React.Component {
     showCreateTagModal: false,
     title: this.props.question.title,
     description: this.props.question.description,
-    tags: []
+    tags: this.props.question.tags.map(tag => tag.name)
   };
 
   openCreateTagModal = () => {
@@ -105,7 +111,10 @@ class QuestionForm extends React.Component {
         id: this.props.question.id,
         approval: null,
 
-        ...this.state
+        ...this.state,
+        tags: this.state.tags.map(tag => ({
+          name: tag
+        }))
       }
     });
 
@@ -126,9 +135,8 @@ class QuestionForm extends React.Component {
             return null;
           }
           return (
-            <Mutation
-              mutation={UPDATE_QUESTION_MUTATION}
-              variables={this.state}
+
+            <Mutation mutation={UPDATE_QUESTION_MUTATION}>
               refetchQueries={[
                 {
                   query: questionListQuery,
@@ -136,6 +144,7 @@ class QuestionForm extends React.Component {
                 }
               ]}
             >
+
               {(updateQuestion, { error, loading }) => {
                 return (
                   <Grid container className={classes.root} spacing={16}>
@@ -170,6 +179,48 @@ class QuestionForm extends React.Component {
                                   />
                                 </label>
                               </FormControl>
+                              <FormControl
+                                variant="filed"
+                                className={classes.inputField}
+                              >
+                                <InputLabel
+                                  htmlFor="tags"
+                                  className={classes.label}
+                                >
+                                  Tag(s)
+                                </InputLabel>
+                                <Select
+                                  multiple
+                                  value={tags}
+                                  name="tags"
+                                  onChange={this.handleTagsChange}
+                                  input={
+                                    <FilledInput
+                                      name="tab"
+                                      id="filled-age-native-simple"
+                                    />
+                                  }
+                                  renderValue={selected => selected.join(", ")}
+                                >
+                                  {data.tags.map(tag => (
+                                    <MenuItem key={tag.name} value={tag.name}>
+                                      <Checkbox
+                                        checked={
+                                          this.state.tags.indexOf(tag.name) > -1
+                                        }
+                                      />
+                                      <ListItemText primary={tag.name} />
+                                    </MenuItem>
+                                  ))}
+                                </Select>
+                              </FormControl>
+                              <Button
+                                variant="text"
+                                onClick={this.openCreateTagModal}
+                                className={classes.addNewTag}
+                              >
+                                ADD NEW TAG
+                              </Button>
 
                               <FormControl>
                                 <label htmlFor="description">
