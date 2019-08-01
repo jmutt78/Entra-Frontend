@@ -8,6 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
 import CreateTag from "../create-question/CreateTag.js";
+import questionListQuery from "../question-list/questionListQuery";
 import { TAGS_QUERY } from "../create-question/Tags";
 import FilledInput from "@material-ui/core/FilledInput";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -134,7 +135,16 @@ class QuestionForm extends React.Component {
             return null;
           }
           return (
+
             <Mutation mutation={UPDATE_QUESTION_MUTATION}>
+              refetchQueries={[
+                {
+                  query: questionListQuery,
+                  variables: { filter: ["my", "all"] }
+                }
+              ]}
+            >
+
               {(updateQuestion, { error, loading }) => {
                 return (
                   <Grid container className={classes.root} spacing={16}>

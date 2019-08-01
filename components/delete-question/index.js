@@ -2,6 +2,7 @@ import React from "react";
 import { Mutation } from "react-apollo";
 import Button from "@material-ui/core/Button";
 import gql from "graphql-tag";
+import questionListQuery from "../question-list/questionListQuery";
 import { useRouter } from "next/router";
 
 const DELETE_QUESTION_MUTATION = gql`
@@ -20,7 +21,16 @@ function DeleteQuestion(props) {
     }
   }
   return (
-    <Mutation mutation={DELETE_QUESTION_MUTATION} variables={{ id: props.id }}>
+    <Mutation
+      mutation={DELETE_QUESTION_MUTATION}
+      variables={{ id: props.id }}
+      refetchQueries={[
+        {
+          query: questionListQuery,
+          variables: { filter: ["my", "all"] }
+        }
+      ]}
+    >
       {(deleteQuestion, { error }) => (
         <div>
           <Button onClick={() => handleDelete(deleteQuestion)}>

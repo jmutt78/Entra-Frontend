@@ -3,6 +3,7 @@ import { Mutation } from "react-apollo";
 import Button from "@material-ui/core/Button";
 import gql from "graphql-tag";
 import questionQuery from "../question-display/questionQuery.js";
+import answersListQuery from "../answer-list/answerListQuery";
 import { CURRENT_USER_QUERY } from "../auth/User";
 
 const DELETE_ANSWER_MUTATION = gql`
@@ -26,6 +27,9 @@ class DeleteAnswer extends Component {
           },
           {
             query: CURRENT_USER_QUERY
+          },
+          {
+            query: answersListQuery
           }
         ]}
         update={this.update}
