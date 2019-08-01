@@ -8,6 +8,8 @@ import { withStyles } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
 import Divider from "@material-ui/core/Divider";
 
+import Link from "next/link";
+
 import questionQuery from "../question-display/questionQuery.js";
 import { CURRENT_USER_QUERY } from "../auth/User";
 
@@ -39,6 +41,10 @@ const styles = theme => ({
   },
   postQuestionButton: {
     alignItems: "flex-end"
+  },
+  button: {
+    backgroundColor: "#E27D60",
+    marginLeft: theme.spacing.unit * 2
   }
 });
 
@@ -148,9 +154,11 @@ class CreateAnswer extends React.Component {
         {({ data, loading }) => {
           if (loading) return <p>Loading...</p>;
           const user = data.me;
+          if (!user) {
+            return <div />;
+          }
           const myAnswers = user.myAnswers;
           const id = this.props.question.id;
-
           return (
             <Mutation
               mutation={CREATE_ANSWER}

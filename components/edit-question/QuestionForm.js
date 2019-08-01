@@ -8,6 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
 import CreateTag from "../create-question/CreateTag.js";
+import questionListQuery from "../question-list/questionListQuery";
 import { TAGS_QUERY } from "../create-question/Tags";
 
 const styles = theme => ({
@@ -128,6 +129,12 @@ class QuestionForm extends React.Component {
             <Mutation
               mutation={UPDATE_QUESTION_MUTATION}
               variables={this.state}
+              refetchQueries={[
+                {
+                  query: questionListQuery,
+                  variables: { filter: ["my", "all"] }
+                }
+              ]}
             >
               {(updateQuestion, { error, loading }) => {
                 return (

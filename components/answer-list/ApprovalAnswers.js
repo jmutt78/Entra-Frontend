@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Query } from "react-apollo";
 import { perPage } from "../../config.js";
 import AnswerList from "./index";
-import answersListQuery from "./answerListQuery.js";
+import answersListQuery from "./answerListQuery";
 
 class AprrovalAnswers extends Component {
   render() {
