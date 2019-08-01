@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Header from "../header/Header.js";
 import Meta from "../meta/Meta.js";
+import Footer from "../footer";
 
 class Page extends Component {
   render() {
@@ -9,6 +10,7 @@ class Page extends Component {
         <Meta />
         <Header />
         {this.props.children}
+        <Footer />
       </div>
     );
   }
