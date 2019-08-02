@@ -135,16 +135,15 @@ class QuestionForm extends React.Component {
             return null;
           }
           return (
-
-            <Mutation mutation={UPDATE_QUESTION_MUTATION}>
+            <Mutation
+              mutation={UPDATE_QUESTION_MUTATION}
               refetchQueries={[
                 {
                   query: questionListQuery,
-                  variables: { filter: ["my", "all"] }
+                  variables: { filter: "my" }
                 }
               ]}
             >
-
               {(updateQuestion, { error, loading }) => {
                 return (
                   <Grid container className={classes.root} spacing={16}>
