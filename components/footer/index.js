@@ -29,7 +29,8 @@ const styles = theme => ({
     fontSize: 14
   },
   menu: {
-    color: "grey"
+    cursor: "pointer",
+    color: "white"
   }
 });
 
@@ -44,14 +45,17 @@ const Footer = props => {
         </Typography>
 
         <List component="nav">
-          <ListItem button>
+          <ListItem>
             <ListItemText
               className={classes.menu}
-              primary="Terms and Conditions"
+              secondary="Terms and Conditions"
             />
           </ListItem>
-          <ListItem button>
-            <ListItemText primary="GDPR Privacy Policy" />
+          <ListItem>
+            <ListItemText
+              className={classes.menu}
+              secondary="GDPR Privacy Policy"
+            />
           </ListItem>
         </List>
       </Grid>
@@ -61,11 +65,11 @@ const Footer = props => {
         </Typography>
 
         <List component="nav">
-          <ListItem button>
-            <ListItemText primary="Blog" />
+          <ListItem>
+            <ListItemText className={classes.menu} secondary="Blog" />
           </ListItem>
-          <ListItem button>
-            <ListItemText primary="Our Team" />
+          <ListItem>
+            <ListItemText className={classes.menu} secondary="Our Team" />
           </ListItem>
         </List>
       </Grid>
