@@ -19,18 +19,24 @@ import Divider from "@material-ui/core/Divider";
 const styles = theme => ({
   root: {
     display: "flex",
-    backgroundColor: "#85BDCB",
+    backgroundColor: "#F2F4EF",
     marginTop: theme.spacing.unit * 7
   },
   grid: { marginTop: theme.spacing.unit * 5 },
   bottom: { marginTop: theme.spacing.unit * 5, backgroundColor: "black" },
   text: {
-    color: "white",
+    color: "#85BDCB",
     fontSize: 14
   },
   menu: {
-    cursor: "pointer",
-    color: "white"
+    color: "#grey",
+    fontSize: 16,
+    cursor: "pointer"
+  },
+  img: {
+    marginRight: 15,
+    width: 30,
+    color: "grey"
   }
 });
 
@@ -38,7 +44,7 @@ const Footer = props => {
   const { classes } = props;
   return (
     <Grid container className={classes.root} spacing={16}>
-      <Grid item xs={3} className={classes.grid} />
+      <Grid item xs={2} className={classes.grid} />
       <Grid item xs={3} className={classes.grid}>
         <Typography color="secondary" className={classes.text}>
           <h3>LEGAL</h3>
@@ -46,16 +52,14 @@ const Footer = props => {
 
         <List component="nav">
           <ListItem>
-            <ListItemText
-              className={classes.menu}
-              secondary="Terms and Conditions"
-            />
+            <Typography className={classes.menu}>
+              Terms and Conditions
+            </Typography>
           </ListItem>
           <ListItem>
-            <ListItemText
-              className={classes.menu}
-              secondary="GDPR Privacy Policy"
-            />
+            <Typography className={classes.menu}>
+              GDPR Privacy Policy
+            </Typography>
           </ListItem>
         </List>
       </Grid>
@@ -66,10 +70,10 @@ const Footer = props => {
 
         <List component="nav">
           <ListItem>
-            <ListItemText className={classes.menu} secondary="Blog" />
+            <Typography className={classes.menu}>Blog</Typography>
           </ListItem>
           <ListItem>
-            <ListItemText className={classes.menu} secondary="Our Team" />
+            <Typography className={classes.menu}>Our Team</Typography>
           </ListItem>
         </List>
       </Grid>
@@ -77,8 +81,43 @@ const Footer = props => {
         <Typography color="secondary" className={classes.text}>
           <h3>CONNECT WITH US</h3>
         </Typography>
+        <List component="nav">
+          <ListItem>
+            <a href="https://www.facebook.com/Entra-463274424415901">
+              <img
+                className={classes.img}
+                src="static/icons8-facebook-circled-48.png"
+              />
+            </a>
+            <a href="https://www.instagram.com/entra.io/">
+              <img
+                className={classes.img}
+                src="static/icons8-instagram-old-50.png"
+              />
+            </a>
+            <a href="https://www.linkedin.com/company/entraio/about">
+              <img
+                className={classes.img}
+                src="static/icons8-linkedin-48.png"
+              />
+            </a>
+            <a href="https://www.linkedin.com/company/entraio/about">
+              <img
+                className={classes.img}
+                src="static/icons8-twitter-squared-48.png"
+              />
+            </a>
+          </ListItem>
+        </List>
       </Grid>
-      <Grid item xs={12} className={classes.bottom} />
+      <Grid container xs={12} className={classes.bottom}>
+        <Grid xs={5}></Grid>
+        <Grid xs={6}>
+          <Typography color="secondary" className={classes.text}>
+            <h3>@ Copyright {new Date().getFullYear()} Entra </h3>
+          </Typography>
+        </Grid>
+      </Grid>
     </Grid>
   );
 };
