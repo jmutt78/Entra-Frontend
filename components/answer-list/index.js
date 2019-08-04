@@ -10,6 +10,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
 import { upperFirst } from "lodash";
 
 const CustomTableCell = withStyles(theme => ({
@@ -60,13 +61,16 @@ class AnswerList extends Component {
                     {upperFirst(filter)} Answers
                   </Typography>
                 </TableCell>
-
-                <CustomTableCell style={customColumnStyle}>
-                  <img src="/static/thumb_up.svg" />
-                </CustomTableCell>
-                <CustomTableCell style={customColumnStyle}>
-                  <img src="/static/thumb_down.svg" />
-                </CustomTableCell>
+                <Tooltip title="Up Votes" placement="top">
+                  <CustomTableCell style={customColumnStyle}>
+                    <img src="/static/thumb_up.svg" />
+                  </CustomTableCell>
+                </Tooltip>
+                <Tooltip title="Down Votes" placement="top">
+                  <CustomTableCell style={customColumnStyle}>
+                    <img src="/static/thumb_down.svg" />
+                  </CustomTableCell>
+                </Tooltip>
               </TableRow>
             </TableHead>
             <TableBody>
