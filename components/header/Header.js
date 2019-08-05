@@ -1,14 +1,15 @@
+import React from 'react'
 import User from '../auth/User.js'
 import Link from 'next/link'
 import Router from 'next/router'
 import NProgress from 'nprogress'
 import Nav from '../nav/Nav'
 import TopNav from '../nav/NavTop'
-import { withStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
+import { makeStyles, createStyles } from '@material-ui/styles'
 
 Router.onRouteChangeStart = () => {
   NProgress.start()
@@ -22,7 +23,8 @@ Router.onRouteChangeError = () => {
   NProgress.done()
 }
 
-const styles = {
+const useStyles = makeStyles(({ layout }) =>
+  createStyles({
   root: {
     flexGrow: 1,
     backgroundColor: '#F2F4EF',
@@ -51,9 +53,12 @@ const styles = {
     textDecoration: 'none',
     color: 'black',
   },
-}
+  })
+)
 
 const Navbar = () => {
+  const classes = useStyles()
+
   return (
     <AppBar position="static" className={classes.root}>
       <TopNav />
@@ -62,6 +67,8 @@ const Navbar = () => {
 }
 
 const Appbar = () => {
+  const classes = useStyles()
+
   return (
     <AppBar position="static" className={classes.root}>
       <Toolbar>
@@ -100,7 +107,7 @@ const Appbar = () => {
 }
 
 const Header = props => {
-  const { classes } = props
+  const classes = useStyles()
 
   return (
     <User>
@@ -114,4 +121,4 @@ const Header = props => {
   )
 }
 
-export default withStyles(styles)(Header)
+export default Header
