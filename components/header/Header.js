@@ -37,6 +37,10 @@ const useStyles = makeStyles(({ layout }) =>
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
+      flexDirection: 'row',
+    },
+    flexContainerMedia: {
+      flexDirection: 'column',
     },
     subContainer: {
       display: 'flex',
@@ -60,13 +64,14 @@ const useStyles = makeStyles(({ layout }) =>
       width: '170px',
       height: '60px',
     },
-    navLinks: {
-      fontSize: '1.5rem',
-      marginLeft: '2rem',
-      position: 'relative',
-      zIndex: 2,
-      textDecoration: 'none',
-      color: 'black',
+    spacing: {
+      width: 25,
+    },
+    navLink: {
+      fontSize: '1.4rem',
+      padding: '4px 0 0 0',
+      cursor: 'pointer',
+      fontWeight: 500,
     },
   })
 )
@@ -88,7 +93,7 @@ const Appbar = ({ isLoggedIn }) => {
     <AppBar position="static" className={classes.root}>
       <Toolbar>
         <div className={classes.flexContainer}>
-          <div className={ classes.subContainer }>
+          <div className={classes.subContainer}>
             <Typography variant="h6">
               <Link href="/">
                 <a>
@@ -98,21 +103,21 @@ const Appbar = ({ isLoggedIn }) => {
             </Typography>
           </div>
 
-          <div className={ classes.subContainer }>
+          <div className={classes.subContainer}>
             <Typography>
               <Link href={isLoggedIn ? '/qa' : '/signup'}>
-                <a className={classes.navLinks}>Ask a Question</a>
+                <h3 className={classes.navLink}>Ask a Question</h3>
               </Link>
             </Typography>
-
+            <div className={classes.spacing} />
             <Typography>
               <Link href="/blogs">
-                <a className={classes.navLinks}>Blog</a>
+                <h3 className={classes.navLink}>Blog</h3>
               </Link>
             </Typography>
           </div>
 
-          <div className={ classes.subContainer }>
+          <div className={classes.subContainer}>
             <Link href="/login">
               <Button variant="contained" color="secondary" className={[classes.button, classes.loginButton]}>
                 Login
