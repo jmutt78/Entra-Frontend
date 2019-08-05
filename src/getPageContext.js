@@ -23,6 +23,11 @@ const theme = createMuiTheme({
   },
   typography: {
     useNextVariants: true
+  },
+  layout: {
+    width: '100vw',
+    minHeight: '100vh',
+    headerHeight: 120,
   }
 });
 

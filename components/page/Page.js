@@ -2,28 +2,32 @@ import React from 'react'
 import Header from '../header/Header.js'
 import Meta from '../meta/Meta.js'
 import Footer from '../footer'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, createStyles } from '@material-ui/styles'
 
-const styles = {
-  mainLayout: {
-    width: '100vw',
-    height: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  contentContainer: {
-    flex: 1,
-  },
-}
+const useStyles = makeStyles(({ layout }) =>
+  createStyles({
+    root: {
+      width: '100vw',
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    contentContainer: {
+      flex: 1,
+      // should come from layout - `calc(100vh - (headerHeight + navHeight))`
+      minHeight: `calc(100vh - 200px)`,
+    },
+  })
+)
 
 const Page = ({ children }) => {
-  const { mainLayout, contentContainer } = styles
+  const classes = useStyles()
 
   return (
-    <div style={mainLayout}>
+    <div className={classes.root}>
       <Meta />
       <Header />
-      <div style={contentContainer}>{children}</div>
+      <div className={classes.contentContainer}>{children}</div>
       <Footer />
     </div>
   )
