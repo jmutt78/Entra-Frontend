@@ -1,0 +1,7 @@
+.style-target svg {
+  display: none !important;
+}
+
+.style-target span {
+  font-size: 1rem;
+}

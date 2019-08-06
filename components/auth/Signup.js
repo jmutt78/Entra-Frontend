@@ -33,8 +33,8 @@ const styles = theme => ({
     width: 100
   },
   root: {
-    marginTop: theme.spacing.unit * 10,
-    marginLeft: theme.spacing.unit * 5
+    // marginTop: theme.spacing.unit * 10,
+    // marginLeft: theme.spacing.unit * 5
   },
 
   smallField: {
