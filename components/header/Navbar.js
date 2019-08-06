@@ -2,9 +2,12 @@ import React, { Component } from 'react'
 
 import AppBar from '@material-ui/core/AppBar'
 import Link from 'next/link'
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
+import PhoneIcon from '@material-ui/icons/Phone'
 
 import Avatar from './Avatar'
 import User from '../auth/User.js'
@@ -44,79 +47,124 @@ const styles = ({ layout, palette }) => ({
   },
   navigationContainer: {
     flex: 1,
+    alignSelf: 'flex-end',
   },
 })
 
-class NavTop extends Component {
-  handleApproval(me, classes) {
-    const hasPermissions = me.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission))
+const Navbar = ({ classes }) => {
+  const [value, setValue] = React.useState(2)
 
-    if (!hasPermissions) {
-      return <div />
-    }
-    return (
-      <Toolbar>
-        <Typography>
-          <Link href="/approval/question-list">
-            <a className={classes.navText}>Approve Questions</a>
-          </Link>
-        </Typography>
-
-        <Typography>
-          <Link href="/approval/answer-list">
-            <a className={classes.navText}>Approve Answers</a>
-          </Link>
-        </Typography>
-      </Toolbar>
-    )
+  const handleChange = (event, newValue) => {
+    setValue(newValue)
   }
 
-  render() {
-    const { classes } = this.props
-    return (
-      <User>
-        {({ data: { me } }) => (
-          <AppBar className={classes.appbar} position="static">
-            <div className={classes.container}>
-              <div className={classes.navigationContainer}>
-                {`hi`}
-              </div>
-              <div className={classes.avatarContainer}>
-                <Avatar me={me} />
-                <Typography variant="h4" className={classes.text}>
-                  <p>{me.name}</p>
-                </Typography>
-              </div>
+  const navLinks = [
+    {
+      name: 'My Questions',
+      target: '/myquestions',
+    },
+    {
+      name: 'My Answers',
+      target: '/myanswers',
+    },
+    {
+      name: 'My Bookmarks',
+      target: '/mybookmarks',
+    },
+  ]
+
+  const adminLinks = [
+    {
+      name: 'Approve Questions',
+      target: '/approval/question-list',
+    },
+    {
+      name: 'Approve Answers',
+      target: '/approval/answer-list',
+    },
+  ]
+
+  return (
+    <User>
+      {({ data: { me } }) => (
+        <AppBar className={classes.appbar} position="static">
+          <div className={classes.container}>
+            <div className={classes.navigationContainer}>
+              <Tabs
+                value={value}
+                indicatorColor="primary"
+                textColor="primary"
+                onChange={handleChange}
+                aria-label="disabled tabs example"
+              >
+                {me.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission)) && adminLinks.map(({ name, target }) => (
+                  <Tab icon={<PhoneIcon />} label={name} />
+                ))}
+
+                {navLinks.map(({ name, target }) => (
+                  <Tab icon={<PhoneIcon />} label={name} />
+                ))}
+
+              </Tabs>
             </div>
-
-          </AppBar>
-        )}
-      </User>
-    )
-  }
+            <div className={classes.avatarContainer}>
+              <Avatar me={me} />
+              <Typography variant="h4" className={classes.text}>
+                <p>{me.name}</p>
+              </Typography>
+            </div>
+          </div>
+        </AppBar>
+      )}
+    </User>
+  )
 }
 
-export default withStyles(styles)(NavTop)
+export default withStyles(styles)(Navbar)
+
+// handleApproval(me, classes) {
+//   const hasPermissions =
+//
+//   if (!hasPermissions) {
+//     return <div />
+//   }
+//   return (
+//     <Toolbar>
+//       <Typography>
+//         <Link href="">
+//           <a className={classes.navText}></a>
+//         </Link>
+//       </Typography>
+//
+//       <Typography>
+//         <Link href="">
+//           <a className={classes.navText}></a>
+//         </Link>
+//       </Typography>
+//     </Toolbar>
+//   )
+// }
 
 // <Toolbar>
-//   <Avatar me={me} />
-//   <Typography variant="h5" className={classes.text}>
-//     <p>{me.name}</p>
-//   </Typography>
+
 //   {this.handleApproval(me, classes)}
+
 //   <Typography>
 //     <Link href="/myquestions">
-//       <a className={classes.navText}>My Questions</a>
+//       <a className={classes.navText}></a>
 //     </Link>
 //   </Typography>
+
 //   <Typography>
 //     <Link href="/myanswers">
 //       <a className={classes.navText}>My Answers</a>
 //     </Link>
 //   </Typography>
+
 //   <Typography>
-//     <Link href="/mybookmarks">
+//     <Link href="">
 //       <a className={classes.navText}>My Bookmark</a>
 //     </Link>
 //   </Typography>
+
 // </Toolbar>
