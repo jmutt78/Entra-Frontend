@@ -52,12 +52,9 @@ const styles = ({ layout, palette }) => ({
     width: '170px',
     height: '60px',
   },
-  spacing: {
-    width: 25,
-  },
   navLink: {
     fontSize: '1.4rem',
-    padding: '4px 0 0 0',
+    padding: '4px 25px 0 0',
     cursor: 'pointer',
     fontWeight: 500,
     color: palette.accent.dark,
@@ -65,6 +62,17 @@ const styles = ({ layout, palette }) => ({
 })
 
 const Appbar = ({ isLoggedIn, classes }) => {
+  const navlinks = [
+    {
+      name: 'Ask a question',
+      target: isLoggedIn ? '/qa' : '/signup',
+    },
+    {
+      name: 'Blog',
+      target: '/blogs',
+    },
+  ]
+
   return (
     <MaterialAppBar position="static" className={classes.root}>
       <Toolbar>
@@ -79,21 +87,15 @@ const Appbar = ({ isLoggedIn, classes }) => {
             </Typography>
           </div>
 
-          <div className={classes.subContainer}>
-            <Typography>
-              <Link href={isLoggedIn ? '/qa' : '/signup'}>
-                <h3 className={classes.navLink}>Ask a Question</h3>
-              </Link>
-            </Typography>
-
-            <div className={classes.spacing} />
-
-            <Typography>
-              <Link href="/blogs">
-                <h3 className={classes.navLink}>Blog</h3>
-              </Link>
-            </Typography>
-          </div>
+          <Typography>
+            <div className={classes.subContainer}>
+              {navlinks.map(({ name, target }) => (
+                <Link href={target}>
+                  <h3 className={classes.navLink}>{name}</h3>
+                </Link>
+              ))}
+            </div>
+          </Typography>
 
           <div className={classes.subContainer}>
             <Link href="/login">
