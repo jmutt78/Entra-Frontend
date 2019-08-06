@@ -1,61 +1,32 @@
-import { SheetsRegistry } from "jss";
-import {
-  createMuiTheme,
-  createGenerateClassName
-} from "@material-ui/core/styles";
-import purple from "@material-ui/core/colors/purple";
-import red from "@material-ui/core/colors/red";
-
-// A theme with custom primary and secondary color.
-// It's optional.
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: purple[300],
-      main: purple[500],
-      dark: purple[700]
-    },
-    secondary: {
-      light: red[300],
-      main: red[500],
-      dark: red[700]
-    }
-  },
-  typography: {
-    useNextVariants: true
-  },
-  layout: {
-    width: '100vw',
-    minHeight: '100vh',
-    headerHeight: 120,
-  }
-});
+import { SheetsRegistry } from 'jss'
+import { createMuiTheme, createGenerateClassName } from '@material-ui/core/styles'
+import theme from './theme'
 
 function createPageContext() {
   return {
-    theme,
+    theme: createMuiTheme(theme),
     // This is needed in order to deduplicate the injection of CSS in the page.
     sheetsManager: new Map(),
     // This is needed in order to inject the critical CSS.
     sheetsRegistry: new SheetsRegistry(),
     // The standard class name generator.
-    generateClassName: createGenerateClassName()
-  };
+    generateClassName: createGenerateClassName(),
+  }
 }
 
-let pageContext;
+let pageContext
 
 export default function getPageContext() {
   // Make sure to create a new context for every server-side request so that data
   // isn't shared between connections (which would be bad).
   if (!process.browser) {
-    return createPageContext();
+    return createPageContext()
   }
 
   // Reuse context on the client-side.
   if (!pageContext) {
-    pageContext = createPageContext();
+    pageContext = createPageContext()
   }
 
-  return pageContext;
+  return pageContext
 }
