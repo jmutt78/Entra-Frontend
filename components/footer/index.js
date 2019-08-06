@@ -68,7 +68,9 @@ const Footer = props => {
 
         <List component="nav">
           <ListItem>
-            <Typography className={classes.menu}>Blog</Typography>
+            <Typography className={classes.menu}>
+              <Link href="/blogs">Blog</Link>
+            </Typography>
           </ListItem>
           <ListItem>
             <Typography className={classes.menu}>Our Team</Typography>
