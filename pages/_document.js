@@ -6,7 +6,7 @@ import theme from '../src/theme'
 class MyDocument extends Document {
   render() {
     return (
-      <html lang="en">
+      <html lang="en" style={{width: theme.layout.width, height: theme.layout.height}}>
         <Head>
           <meta charSet="utf-8" />
           {/* Use minimum-scale=1 to enable GPU rasterization */}
@@ -21,7 +21,7 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
         </Head>
-        <body>
+        <body style={{width: theme.layout.width, height: theme.layout.height}}>
           <Main />
           <NextScript />
         </body>
