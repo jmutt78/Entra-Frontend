@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from '../header/Header.js'
+import Header from '../header'
 import Meta from '../meta/Meta.js'
 import Footer from '../footer'
 import { withStyles } from "@material-ui/core/styles";

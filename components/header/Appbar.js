@@ -1,30 +1,12 @@
 import React from 'react'
 
-import AppBar from '@material-ui/core/AppBar'
-import Grid from '@material-ui/core/Grid'
+import MaterialAppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 
 import Button from '@material-ui/core/Button'
 import Link from 'next/link'
-import NProgress from 'nprogress'
-import Nav from '../nav/Nav'
-import Router from 'next/router'
-import TopNav from '../nav/NavTop'
-import User from '../auth/User.js'
-
-Router.onRouteChangeStart = () => {
-  NProgress.start()
-}
-
-Router.onRouteChangeComplete = () => {
-  NProgress.done()
-}
-
-Router.onRouteChangeError = () => {
-  NProgress.done()
-}
 
 const styles = ({ layout, palette }) => ({
   root: {
@@ -38,6 +20,7 @@ const styles = ({ layout, palette }) => ({
     alignItems: 'center',
     flexDirection: 'row',
   },
+  // TODO do this in plain css
   flexContainerMedia: {
     flexDirection: 'column',
   },
@@ -81,17 +64,9 @@ const styles = ({ layout, palette }) => ({
   },
 })
 
-const Navbar = ({ classes }) => {
-  return (
-    <AppBar position="static" className={classes.root}>
-      <TopNav />
-    </AppBar>
-  )
-}
-
 const Appbar = ({ isLoggedIn, classes }) => {
   return (
-    <AppBar position="static" className={classes.root}>
+    <MaterialAppBar position="static" className={classes.root}>
       <Toolbar>
         <div className={classes.flexContainer}>
           <div className={classes.subContainer}>
@@ -139,21 +114,8 @@ const Appbar = ({ isLoggedIn, classes }) => {
           </div>
         </div>
       </Toolbar>
-    </AppBar>
+    </MaterialAppBar>
   )
 }
 
-const Header = ({ classes }) => {
-  return (
-    <User>
-      {({ data: { me } }) => (
-        <Grid container className={classes.root} spacing={16}>
-          <Navbar classes={classes} />
-          <Appbar isLoggedIn={!!me} classes={classes} />
-        </Grid>
-      )}
-    </User>
-  )
-}
-
-export default withStyles(styles)(Header)
+export default withStyles(styles)(Appbar)
