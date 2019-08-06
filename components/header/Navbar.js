@@ -1,10 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import AppBar from '@material-ui/core/AppBar'
-import Link from 'next/link'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
-import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import PhoneIcon from '@material-ui/icons/Phone'
@@ -45,11 +43,12 @@ const styles = ({ layout, palette }) => ({
   avatarContainer: {
     display: 'flex',
     alignItems: 'center',
-    padding: '5px 20px 0 0',
+    padding: '10px 20px 0 0',
   },
   navigationContainer: {
     flex: 1,
     alignSelf: 'flex-end',
+    padding: '0 25px'
   },
 })
 
@@ -87,7 +86,7 @@ const Navbar = ({ classes }) => {
   ]
 
   return (
-    <div className="style-target">
+    <div className="style-target" style={{ width: '100%' }}>
       <User>
         {({ data: { me } }) => (
           <AppBar className={classes.appbar} position="static">
@@ -110,7 +109,7 @@ const Navbar = ({ classes }) => {
               </div>
               <div className={classes.avatarContainer}>
                 <Avatar me={me} />
-                <Typography variant="h4" className={classes.text}>
+                <Typography variant="h4" className={classes.text} style={{paddingTop: 3}}>
                   <p>{me.name}</p>
                 </Typography>
               </div>
@@ -123,50 +122,3 @@ const Navbar = ({ classes }) => {
 }
 
 export default withStyles(styles)(Navbar)
-
-// handleApproval(me, classes) {
-//   const hasPermissions =
-//
-//   if (!hasPermissions) {
-//     return <div />
-//   }
-//   return (
-//     <Toolbar>
-//       <Typography>
-//         <Link href="">
-//           <a className={classes.navText}></a>
-//         </Link>
-//       </Typography>
-//
-//       <Typography>
-//         <Link href="">
-//           <a className={classes.navText}></a>
-//         </Link>
-//       </Typography>
-//     </Toolbar>
-//   )
-// }
-
-// <Toolbar>
-
-//   {this.handleApproval(me, classes)}
-
-//   <Typography>
-//     <Link href="/myquestions">
-//       <a className={classes.navText}></a>
-//     </Link>
-//   </Typography>
-
-//   <Typography>
-//     <Link href="/myanswers">
-//       <a className={classes.navText}>My Answers</a>
-//     </Link>
-//   </Typography>
-
-//   <Typography>
-//     <Link href="">
-//       <a className={classes.navText}>My Bookmark</a>
-//     </Link>
-//   </Typography>
-
-// </Toolbar>
