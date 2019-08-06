@@ -12,6 +12,8 @@ import PhoneIcon from '@material-ui/icons/Phone'
 import Avatar from './Avatar'
 import User from '../auth/User.js'
 
+import './Navbar.css'
+
 const styles = ({ layout, palette }) => ({
   appbar: {
     background: '#85BDCB',
@@ -85,38 +87,38 @@ const Navbar = ({ classes }) => {
   ]
 
   return (
-    <User>
-      {({ data: { me } }) => (
-        <AppBar className={classes.appbar} position="static">
-          <div className={classes.container}>
-            <div className={classes.navigationContainer}>
-              <Tabs
-                value={value}
-                indicatorColor="primary"
-                textColor="primary"
-                onChange={handleChange}
-                aria-label="disabled tabs example"
-              >
-                {me.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission)) && adminLinks.map(({ name, target }) => (
-                  <Tab icon={<PhoneIcon />} label={name} />
-                ))}
+    <div className="style-target">
+      <User>
+        {({ data: { me } }) => (
+          <AppBar className={classes.appbar} position="static">
+            <div className={classes.container}>
+              <div className={classes.navigationContainer}>
+                <Tabs
+                  value={value}
+                  indicatorColor="primary"
+                  textColor="primary"
+                  onChange={handleChange}
+                  aria-label="disabled tabs example"
+                >
+                  {me.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission)) &&
+                    adminLinks.map(({ name, target }) => <Tab icon={<PhoneIcon />} label={name} />)}
 
-                {navLinks.map(({ name, target }) => (
-                  <Tab icon={<PhoneIcon />} label={name} />
-                ))}
-
-              </Tabs>
+                  {navLinks.map(({ name, target }) => (
+                    <Tab icon={<PhoneIcon />} label={name} />
+                  ))}
+                </Tabs>
+              </div>
+              <div className={classes.avatarContainer}>
+                <Avatar me={me} />
+                <Typography variant="h4" className={classes.text}>
+                  <p>{me.name}</p>
+                </Typography>
+              </div>
             </div>
-            <div className={classes.avatarContainer}>
-              <Avatar me={me} />
-              <Typography variant="h4" className={classes.text}>
-                <p>{me.name}</p>
-              </Typography>
-            </div>
-          </div>
-        </AppBar>
-      )}
-    </User>
+          </AppBar>
+        )}
+      </User>
+    </div>
   )
 }
 
