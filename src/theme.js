@@ -12,7 +12,6 @@ export default {
       // bg from logo
       main: '#f2f4ef',
       // this is "sour lemon" from https://flatuicolors.com/palette/us
-      // ideally the nav + copyright footer will be in this color
       dark: '#ffeaa7',
     },
     accent: {
@@ -20,6 +19,7 @@ export default {
       dark: '#2d3436',
       // for secondary buttons etc
       grey: '#b2bec3',
+      blue: '#85bdcb',
     }
   },
   typography: {

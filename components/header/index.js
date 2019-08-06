@@ -27,7 +27,7 @@ const Header = ({ classes }) => {
     <User>
       {({ data: { me } }) => (
         <Grid container spacing={16}>
-          <Navbar />
+          { me &&  <Navbar />}
           <Appbar isLoggedIn={!!me} />
         </Grid>
       )}

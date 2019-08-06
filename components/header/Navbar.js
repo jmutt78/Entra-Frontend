@@ -9,13 +9,10 @@ import { withStyles } from '@material-ui/core/styles'
 import Avatar from './Avatar'
 import User from '../auth/User.js'
 
-const styles = {
-  top: {
-    backgroundColor: '#85BDCB',
+const styles = ({ layout, palette }) => ({
+  appbar: {
+    background: '#85BDCB',
     boxShadow: 'none',
-  },
-  grow: {
-    flexGrow: 1,
   },
   text: {
     flexGrow: 100,
@@ -32,7 +29,23 @@ const styles = {
     fontSize: 20,
     fontWieght: 'strong',
   },
-}
+
+  // own
+  container: {
+    width: layout.width,
+    height: layout.navHeight,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  avatarContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '5px 20px 0 0',
+  },
+  navigationContainer: {
+    flex: 1,
+  },
+})
 
 class NavTop extends Component {
   handleApproval(me, classes) {
@@ -63,39 +76,20 @@ class NavTop extends Component {
     return (
       <User>
         {({ data: { me } }) => (
-          <div>
-            {me && (
-              <>
-                <div>
-                  <AppBar className={classes.top} position="static">
-                    <Toolbar>
-                      <Avatar me={me} />
-                      <Typography variant="h5" className={classes.text}>
-                        <p>{me.name}</p>
-                      </Typography>
-                      {this.handleApproval(me, classes)}
-                      <Typography>
-                        <Link href="/myquestions">
-                          <a className={classes.navText}>My Questions</a>
-                        </Link>
-                      </Typography>
-                      <Typography>
-                        <Link href="/myanswers">
-                          <a className={classes.navText}>My Answers</a>
-                        </Link>
-                      </Typography>
-                      <Typography>
-                        <Link href="/mybookmarks">
-                          <a className={classes.navText}>My Bookmark</a>
-                        </Link>
-                      </Typography>
-                    </Toolbar>
-                  </AppBar>
-                </div>
-              </>
-            )}
-            {!me && <></>}
-          </div>
+          <AppBar className={classes.appbar} position="static">
+            <div className={classes.container}>
+              <div className={classes.navigationContainer}>
+                {`hi`}
+              </div>
+              <div className={classes.avatarContainer}>
+                <Avatar me={me} />
+                <Typography variant="h4" className={classes.text}>
+                  <p>{me.name}</p>
+                </Typography>
+              </div>
+            </div>
+
+          </AppBar>
         )}
       </User>
     )
@@ -103,3 +97,26 @@ class NavTop extends Component {
 }
 
 export default withStyles(styles)(NavTop)
+
+// <Toolbar>
+//   <Avatar me={me} />
+//   <Typography variant="h5" className={classes.text}>
+//     <p>{me.name}</p>
+//   </Typography>
+//   {this.handleApproval(me, classes)}
+//   <Typography>
+//     <Link href="/myquestions">
+//       <a className={classes.navText}>My Questions</a>
+//     </Link>
+//   </Typography>
+//   <Typography>
+//     <Link href="/myanswers">
+//       <a className={classes.navText}>My Answers</a>
+//     </Link>
+//   </Typography>
+//   <Typography>
+//     <Link href="/mybookmarks">
+//       <a className={classes.navText}>My Bookmark</a>
+//     </Link>
+//   </Typography>
+// </Toolbar>
