@@ -4,7 +4,7 @@ import AppBar from '@material-ui/core/AppBar'
 import Grid from '@material-ui/core/Grid'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import { makeStyles, createStyles } from '@material-ui/styles'
+import { withStyles } from '@material-ui/core/styles'
 
 import Button from '@material-ui/core/Button'
 import Link from 'next/link'
@@ -26,59 +26,62 @@ Router.onRouteChangeError = () => {
   NProgress.done()
 }
 
-const useStyles = makeStyles(({ layout }) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-      backgroundColor: '#F2F4EF',
+const styles = ({ layout, palette }) => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: '#F2F4EF',
+  },
+  flexContainer: {
+    width: layout.width,
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  flexContainerMedia: {
+    flexDirection: 'column',
+  },
+  subContainer: {
+    display: 'flex',
+    height: '100%',
+    alignItems: 'center',
+  },
+  button: {
+    margin: 12,
+  },
+  signupButton: {
+    backgroundColor: palette.primary.dark,
+    '&:hover': {
+      backgroundColor: palette.primary.main,
     },
-    flexContainer: {
-      width: '100vw',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      flexDirection: 'row',
+  },
+  loginButton: {
+    backgroundColor: palette.accent.grey,
+    '&:hover': {
+      backgroundColor: palette.primary.main,
     },
-    flexContainerMedia: {
-      flexDirection: 'column',
-    },
-    subContainer: {
-      display: 'flex',
-      height: '100%',
-      alignItems: 'center',
-    },
-    button: {
-      margin: 12,
-    },
-    signupButton: {
-      backgroundColor: '#E27D60',
-    },
-    loginButton: {
-      backgroundColor: '#b2bec3',
-    },
-    logo: {
-      marginTop: '1rem',
-      marginLeft: '2rem',
-      maxHeight: '60px',
-      maxWidth: '170px',
-      width: '170px',
-      height: '60px',
-    },
-    spacing: {
-      width: 25,
-    },
-    navLink: {
-      fontSize: '1.4rem',
-      padding: '4px 0 0 0',
-      cursor: 'pointer',
-      fontWeight: 500,
-    },
-  })
-)
+  },
+  logo: {
+    marginTop: '1rem',
+    marginLeft: '2rem',
+    maxHeight: '60px',
+    maxWidth: '170px',
+    width: '170px',
+    height: '60px',
+  },
+  spacing: {
+    width: 25,
+  },
+  navLink: {
+    fontSize: '1.4rem',
+    padding: '4px 0 0 0',
+    cursor: 'pointer',
+    fontWeight: 500,
+    color: palette.accent.dark,
+  },
+})
 
-const Navbar = () => {
-  const classes = useStyles()
-
+const Navbar = ({ classes }) => {
   return (
     <AppBar position="static" className={classes.root}>
       <TopNav />
@@ -86,9 +89,7 @@ const Navbar = () => {
   )
 }
 
-const Appbar = ({ isLoggedIn }) => {
-  const classes = useStyles()
-
+const Appbar = ({ isLoggedIn, classes }) => {
   return (
     <AppBar position="static" className={classes.root}>
       <Toolbar>
@@ -109,7 +110,9 @@ const Appbar = ({ isLoggedIn }) => {
                 <h3 className={classes.navLink}>Ask a Question</h3>
               </Link>
             </Typography>
+
             <div className={classes.spacing} />
+
             <Typography>
               <Link href="/blogs">
                 <h3 className={classes.navLink}>Blog</h3>
@@ -140,19 +143,17 @@ const Appbar = ({ isLoggedIn }) => {
   )
 }
 
-const Header = props => {
-  const classes = useStyles()
-
+const Header = ({ classes }) => {
   return (
     <User>
       {({ data: { me } }) => (
         <Grid container className={classes.root} spacing={16}>
-          <Navbar />
-          <Appbar isLoggedIn={!!me} />
+          <Navbar classes={classes} />
+          <Appbar isLoggedIn={!!me} classes={classes} />
         </Grid>
       )}
     </User>
   )
 }
 
-export default Header
+export default withStyles(styles)(Header)

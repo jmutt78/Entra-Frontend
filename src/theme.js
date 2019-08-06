@@ -17,7 +17,9 @@ export default {
     },
     accent: {
       // "dracula orchid" from the us pallete. for text
-      dark: '#2d3436'
+      dark: '#2d3436',
+      // for secondary buttons etc
+      grey: '#b2bec3',
     }
   },
   typography: {
