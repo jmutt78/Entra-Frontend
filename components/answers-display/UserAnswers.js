@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { format, parseISO } from "date-fns";
+import { format, parseISO, differenceInDays } from "date-fns";
 import { withApollo } from "react-apollo";
 import Link from "next/link";
 import ApproveAnswer from "../approval/AppoveAnswer.js";
@@ -114,7 +114,13 @@ class UserAnswers extends Component {
   }
 
   handleEdit(answer, user, questionId) {
-    if (answer.answeredBy.id == user.id) {
+    const selected = answer.selected;
+    console.log(selected);
+    const date1 = new Date(answer.createdAt);
+    const date2 = new Date();
+    const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
+
+    if (answer.answeredBy.id == user.id && diffDays <= 2 && selected === null) {
       return (
         <div>
           <Typography>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { format, parseISO } from "date-fns";
+import { format, parseISO, differenceInDays } from "date-fns";
 import { Query } from "react-apollo";
 import Link from "next/link";
 import gql from "graphql-tag";
@@ -157,7 +157,13 @@ class UserQuestion extends Component {
   }
 
   handleEdit(question, user) {
-    if (question.askedBy[0].id == user.id) {
+    console.log(question.answers);
+    const answers = question.answers.length;
+    const date1 = new Date(question.createdAt);
+    const date2 = new Date();
+    const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
+
+    if (question.askedBy[0].id == user.id && diffDays <= 1 && !answers) {
       return (
         <div>
           <Typography>

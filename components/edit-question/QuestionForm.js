@@ -252,6 +252,9 @@ class QuestionForm extends React.Component {
                           </div>
                         </fieldset>
                       </form>
+                      <div style={{ color: "red" }}>
+                        {error && error.message.replace("GraphQL error: ", "")}
+                      </div>
                     </Grid>
                   </Grid>
                 );
