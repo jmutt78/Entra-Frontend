@@ -6,6 +6,7 @@ import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import PhoneIcon from '@material-ui/icons/Phone'
+import NavLink from './NavLink'
 
 import Avatar from './Avatar'
 import User from '../auth/User.js'
@@ -46,9 +47,27 @@ const styles = ({ layout, palette }) => ({
     padding: '10px 20px 0 0',
   },
   navigationContainer: {
+    height: layout.navHeight,
+    display: 'flex',
     flex: 1,
     alignSelf: 'flex-end',
-    padding: '0 25px'
+    alignItems: 'center',
+  },
+  navLink: {
+    fontSize: '1.2rem',
+    color: palette.secondary.light,
+    padding: 10,
+    textDecoration: 'none',
+    '&:hover': {
+      color: palette.primary.dark,
+    },
+  },
+  navLinkActive: {
+    height: layout.navHeight,
+    display: 'flex',
+    alignItems: 'center',
+    color: palette.primary.main,
+    background: palette.secondary.main,
   },
 })
 
@@ -56,6 +75,7 @@ const Navbar = ({ classes }) => {
   const [value, setValue] = React.useState(2)
 
   const handleChange = (event, newValue) => {
+    alert(newValue)
     setValue(newValue)
   }
 
@@ -92,24 +112,26 @@ const Navbar = ({ classes }) => {
           <AppBar className={classes.appbar} position="static">
             <div className={classes.container}>
               <div className={classes.navigationContainer}>
-                <Tabs
-                  value={value}
-                  indicatorColor="primary"
-                  textColor="primary"
-                  onChange={handleChange}
-                  aria-label="disabled tabs example"
-                >
-                  {me.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission)) &&
-                    adminLinks.map(({ name, target }) => <Tab icon={<PhoneIcon />} label={name} />)}
-
-                  {navLinks.map(({ name, target }) => (
-                    <Tab icon={<PhoneIcon />} label={name} />
+                {me.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission)) &&
+                  adminLinks.map(({ name, target }) => (
+                    <Typography>
+                      <NavLink activeClassName={classes.navLinkActive} href={target}>
+                        <a className={classes.navLink}>{name}</a>
+                      </NavLink>
+                    </Typography>
                   ))}
-                </Tabs>
+
+                {navLinks.map(({ name, target }) => (
+                  <Typography>
+                    <NavLink activeClassName={classes.navLinkActive} href={target}>
+                      <a className={classes.navLink}>{name}</a>
+                    </NavLink>
+                  </Typography>
+                ))}
               </div>
               <div className={classes.avatarContainer}>
                 <Avatar me={me} />
-                <Typography variant="h4" className={classes.text} style={{paddingTop: 3}}>
+                <Typography variant="h4" className={classes.text} style={{ paddingTop: 3 }}>
                   <p>{me.name}</p>
                 </Typography>
               </div>
