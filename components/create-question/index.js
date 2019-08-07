@@ -1,51 +1,65 @@
 import React from 'react'
-import { Mutation, Query } from 'react-apollo'
-import gql from 'graphql-tag'
 import Router from 'next/router'
-import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+import gql from 'graphql-tag'
+import { Mutation, Query } from 'react-apollo'
+
+import AddIcon from '@material-ui/icons/Add'
 import Button from '@material-ui/core/Button'
+import Checkbox from '@material-ui/core/Checkbox'
+import Fab from '@material-ui/core/Fab'
+import FilledInput from '@material-ui/core/FilledInput'
+import FormControl from '@material-ui/core/FormControl'
+import Grid from '@material-ui/core/Grid'
+import InputLabel from '@material-ui/core/InputLabel'
+import ListItemText from '@material-ui/core/ListItemText'
+import MenuItem from '@material-ui/core/MenuItem'
+import Select from '@material-ui/core/Select'
 import TextField from '@material-ui/core/TextField'
 import { withStyles } from '@material-ui/core/styles'
-import FilledInput from '@material-ui/core/FilledInput'
-import MenuItem from '@material-ui/core/MenuItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import InputLabel from '@material-ui/core/InputLabel'
-import Select from '@material-ui/core/Select'
-import Checkbox from '@material-ui/core/Checkbox'
-import FormControl from '@material-ui/core/FormControl'
+
 import CreateTag from './CreateTag'
 import { TAGS_QUERY } from './Tags'
 
-const styles = theme => ({
-  // grid: {
-  //   margin: theme.spacing.unit
-  // },
-  // container: {
-  //   display: "flex"
-  // },
-  // flex1: {
-  //   flex: 1
-  // },
-  // root: {
-  //   margin: theme.spacing.unit,
-  //   marginTop: 40
-  // },
+const styles = ({ layout, palette }) => ({
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
   inputField: {
-    width: 700,
+    width: '100%',
     marginBottom: 30,
   },
-  // addNewTag: {
-  //   marginTop: -15,
-  //   marginBottom: 30
-  // },
   label: {
     marginLeft: 10,
     marginBotom: 10,
   },
-  // postQuestionButton: {
-  //   alignItems: "flex-end"
-  // }
+  form: {
+    width: '100%',
+    maxWidth: 500,
+  },
+  fieldset: {
+    border: 0,
+    padding: 0,
+    margin: 0,
+  },
+  formControl: {
+    width: '100%',
+  },
+  tagsContainer: {
+    display: 'flex',
+  },
+  tagButton: {
+    marginLeft: 10,
+    background: '#e3e3e3',
+  },
+  buttonContainer: {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'flex-end',
+  }
 })
+
 
 const CREATE_QUESTION_MUTATION = gql`
   mutation createQuestion($title: String!, $description: String, $tags: [TagInput!]!) {
@@ -109,7 +123,7 @@ class CreateQuestion extends React.Component {
             >
               {(createQuestion, { error, loading }) => {
                 return (
-                  <Grid container>
+                  <Grid container className={ classes.container }>
                     <form
                       method="post"
                       onSubmit={async e => {
@@ -127,84 +141,84 @@ class CreateQuestion extends React.Component {
                           tags: [],
                         })
                       }}
+                      className={classes.form}
                     >
-                      <fieldset
-                        disabled={loading}
-                        aria-busy={loading}
-                        style={{
-                          borderWidth: '0px',
-                        }}
-                      >
-                        <div>
-                          <div>
-                            <h1>Ask a question</h1>
-                          </div>
-                          <div>
-                            <FormControl>
-                              <label htmlFor="title">
-                                <TextField
-                                  label="Title"
-                                  type="text"
-                                  name="title"
-                                  variant="filled"
-                                  value={title}
-                                  onChange={this.handleTitleChange}
-                                  className={classes.inputField}
-                                />
-                              </label>
-                            </FormControl>
+                      <Typography>
+                        <h1>Ask a question</h1>
+                      </Typography>
 
-                            <FormControl variant="filed" className={classes.inputField}>
-                              <InputLabel htmlFor="tags" className={classes.label}>
-                                Tag(s)
-                              </InputLabel>
-                              <Select
-                                multiple
-                                value={tags}
-                                name="tags"
-                                onChange={this.handleTagsChange}
-                                input={<FilledInput name="tab" id="filled-age-native-simple" />}
-                                renderValue={selected => selected.join(', ')}
-                              >
-                                {data.tags.map(tag => (
-                                  <MenuItem key={tag.name} value={tag.name}>
-                                    <Checkbox checked={this.state.tags.indexOf(tag.name) > -1} />
-                                    <ListItemText primary={tag.name} />
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            </FormControl>
-                            <Button
-                              variant="text"
-                              onClick={this.openCreateTagModal}
-                              className={classes.addNewTag}
+                      <fieldset disabled={loading} aria-busy={loading} className={classes.fieldset}>
+                        <FormControl className={classes.formControl}>
+                          <label htmlFor="title">
+                            <TextField
+                              label="Title"
+                              type="text"
+                              name="title"
+                              variant="filled"
+                              value={title}
+                              onChange={this.handleTitleChange}
+                              className={classes.inputField}
+                            />
+                          </label>
+                        </FormControl>
+
+                        <div className={classes.tagsContainer}>
+                          <FormControl className={classes.formControl}>
+                            <InputLabel htmlFor="tags" className={classes.label}>
+                              Tag(s)
+                            </InputLabel>
+                            <Select
+                              multiple
+                              value={tags}
+                              name="tags"
+                              onChange={this.handleTagsChange}
+                              input={<FilledInput name="tab" id="filled-age-native-simple" />}
+                              renderValue={selected => selected.join(', ')}
+                              className={classes.inputField}
                             >
-                              ADD NEW TAG
-                            </Button>
-                            <FormControl>
-                              <label htmlFor="description">
-                                <TextField
-                                  label="Description"
-                                  type="text"
-                                  name="description"
-                                  variant="filled"
-                                  multiline
-                                  rows={4}
-                                  value={description}
-                                  onChange={this.handleDescriptionChange}
-                                  className={classes.inputField}
-                                />
-                              </label>
-                            </FormControl>
+                              {data.tags.map(tag => (
+                                <MenuItem key={tag.name} value={tag.name}>
+                                  <Checkbox checked={this.state.tags.indexOf(tag.name) > -1} />
+                                  <ListItemText primary={tag.name} />
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+
+                          <div>
+                            <Fab
+                              color="primary"
+                              aria-label="add"
+                              onClick={this.openCreateTagModal}
+                              className={classes.tagButton}
+                            >
+                              <AddIcon />
+                            </Fab>
                           </div>
-                          <CreateTag open={showCreateTagModal} onClose={this.closeCreateTagModal} />
-                          <div className={classes.container}>
-                            <div className={classes.flex1}>
-                              <Button variant="contained" type="submit">
-                                Post Question
-                              </Button>
-                            </div>
-                          </div>
+                        </div>
+
+                        <FormControl className={classes.formControl}>
+                          <label htmlFor="description">
+                            <TextField
+                              label="Description"
+                              type="text"
+                              name="description"
+                              variant="filled"
+                              multiline
+                              rows={4}
+                              value={description}
+                              onChange={this.handleDescriptionChange}
+                              className={classes.inputField}
+                            />
+                          </label>
+                        </FormControl>
+
+                        <CreateTag open={showCreateTagModal} onClose={this.closeCreateTagModal} />
+
+                        <div className={classes.buttonContainer}>
+                          <Button variant="contained" type="submit">
+                            Post Question
+                          </Button>
                         </div>
                       </fieldset>
                     </form>

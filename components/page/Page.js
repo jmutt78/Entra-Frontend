@@ -13,6 +13,8 @@ const styles = ({ layout }) => {
     flexDirection: 'column',
   },
   contentContainer: {
+    display: 'flex',
+    padding: '2rem',
     flex: 1,
     minHeight: `calc(${layout.height} - ${layout.headerHeight}px - ${layout.navHeight}px)`,
   },
