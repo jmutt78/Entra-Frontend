@@ -72,13 +72,6 @@ const styles = ({ layout, palette }) => ({
 })
 
 const Navbar = ({ classes }) => {
-  const [value, setValue] = React.useState(2)
-
-  const handleChange = (event, newValue) => {
-    alert(newValue)
-    setValue(newValue)
-  }
-
   const navLinks = [
     {
       name: 'My Questions',
