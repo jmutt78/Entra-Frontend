@@ -56,7 +56,7 @@ const styles = ({ layout, palette }) => ({
   navLink: {
     fontSize: '1.2rem',
     color: palette.secondary.light,
-    padding: 10,
+    padding: '12px 10px 8px 10px',
     textDecoration: 'none',
     '&:hover': {
       color: palette.primary.dark,
