@@ -157,3 +157,4 @@ const Appbar = ({ isLoggedIn, classes }) => {
 }
 
 export default withStyles(styles)(Appbar)
+

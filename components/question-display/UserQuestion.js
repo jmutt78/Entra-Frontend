@@ -193,6 +193,7 @@ class UserQuestion extends Component {
     );
     const ownsQuestion = askedby.id === user.id;
     const isApproved = question.approval === true;
+    console.log(this.props.question.id);
 
     if (!ownsQuestion && !hasPermissions && !isApproved) {
       return <NoQuestion />;
@@ -237,7 +238,7 @@ class UserQuestion extends Component {
                 <ApproveQuestion
                   hasPermissions={hasPermissions}
                   isApproved={isApproved}
-                  id={this.props.id}
+                  id={this.props.question.id}
                   approval={this.props.question.approval}
                 />
               </Grid>
