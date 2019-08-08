@@ -57,8 +57,10 @@ const styles = ({ layout, palette }) => ({
     height: '60px',
   },
   navLink: {
-    fontSize: '1.2rem',
+    display: 'flex',
+    alignItems: 'center',
     color: palette.accent.dark,
+    fontSize: '1.2rem',
     padding: '12px 10px 8px 10px',
     textDecoration: 'none',
     '&:hover': {
@@ -66,11 +68,13 @@ const styles = ({ layout, palette }) => ({
     },
   },
   navLinkActive: {
-    height: layout.headerHeight,
+    alignItems: 'center',
     color: palette.primary.dark,
     display: 'flex',
-    alignItems: 'center',
+    fontSize: '1.2rem',
     fontWeight: 500,
+    height: layout.headerHeight,
+    padding: '12px 10px 8px 10px',
   },
 })
 
