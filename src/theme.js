@@ -28,7 +28,7 @@ export default {
   layout: {
     width: '100vw',
     height: '100vh',
-    headerHeight: 120,
+    headerHeight: 80,
     navHeight: 80,
   },
 }

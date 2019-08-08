@@ -1,11 +1,9 @@
 import React from 'react'
 
 import AppBar from '@material-ui/core/AppBar'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
-import PhoneIcon from '@material-ui/icons/Phone'
+import NavLink from './NavLink'
 
 import Avatar from './Avatar'
 import User from '../auth/User.js'
@@ -17,14 +15,8 @@ const styles = ({ layout, palette }) => ({
     background: '#85BDCB',
     boxShadow: 'none',
   },
-  text: {
-    flexGrow: 100,
-    color: 'white',
-    fontSize: 16,
-  },
   navText: {
     color: 'white',
-    fontSize: '1.5rem',
     marginLeft: '2rem',
     position: 'relative',
     zIndex: 2,
@@ -43,22 +35,40 @@ const styles = ({ layout, palette }) => ({
   avatarContainer: {
     display: 'flex',
     alignItems: 'center',
-    padding: '10px 20px 0 0',
+    padding: '5px 10px 0 0',
+
+    color: 'white',
+    fontSize: '1.1rem',
+
   },
   navigationContainer: {
+    height: layout.navHeight,
+    display: 'flex',
     flex: 1,
     alignSelf: 'flex-end',
-    padding: '0 25px'
+    alignItems: 'center',
+    padding: '0 0 0 20px',
+  },
+  navLink: {
+    fontSize: '1.2rem',
+    color: palette.secondary.light,
+    padding: '12px 10px 8px 10px',
+    textDecoration: 'none',
+    '&:hover': {
+      color: palette.primary.dark,
+    },
+  },
+  navLinkActive: {
+    height: layout.navHeight,
+    display: 'flex',
+    alignItems: 'center',
+    color: palette.primary.main,
+    background: palette.secondary.main,
+    fontWeight: 500,
   },
 })
 
 const Navbar = ({ classes }) => {
-  const [value, setValue] = React.useState(2)
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue)
-  }
-
   const navLinks = [
     {
       name: 'My Questions',
@@ -91,28 +101,24 @@ const Navbar = ({ classes }) => {
         {({ data: { me } }) => (
           <AppBar className={classes.appbar} position="static">
             <div className={classes.container}>
-              <div className={classes.navigationContainer}>
-                <Tabs
-                  value={value}
-                  indicatorColor="primary"
-                  textColor="primary"
-                  onChange={handleChange}
-                  aria-label="disabled tabs example"
-                >
-                  {me.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission)) &&
-                    adminLinks.map(({ name, target }) => <Tab icon={<PhoneIcon />} label={name} />)}
-
-                  {navLinks.map(({ name, target }) => (
-                    <Tab icon={<PhoneIcon />} label={name} />
+              <Typography className={classes.navigationContainer}>
+                {me.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission)) &&
+                  adminLinks.map(({ name, target }) => (
+                    <NavLink activeClassName={classes.navLinkActive} href={target}>
+                      <a className={classes.navLink}>{name}</a>
+                    </NavLink>
                   ))}
-                </Tabs>
-              </div>
-              <div className={classes.avatarContainer}>
-                <Avatar me={me} />
-                <Typography variant="h4" className={classes.text} style={{paddingTop: 3}}>
+
+                {navLinks.map(({ name, target }) => (
+                  <NavLink activeClassName={classes.navLinkActive} href={target}>
+                    <a className={classes.navLink}>{name}</a>
+                  </NavLink>
+                ))}
+              </Typography>
+              <Typography className={classes.avatarContainer}>
+                  <Avatar me={me} />
                   <p>{me.name}</p>
-                </Typography>
-              </div>
+              </Typography>
             </div>
           </AppBar>
         )}
