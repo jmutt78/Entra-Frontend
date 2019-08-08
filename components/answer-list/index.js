@@ -20,15 +20,10 @@ const CustomTableCell = withStyles(theme => ({
 }))(TableCell);
 
 const styles = theme => ({
-  grid: {
-    margin: theme.spacing.unit
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
   },
-
-  root: {
-    margin: theme.spacing.unit,
-    marginTop: 40
-  },
-
   title: {
     fontSize: "40px",
     textAlign: "Left",
@@ -49,10 +44,7 @@ class AnswerList extends Component {
     };
 
     return (
-      <Grid container className={classes.root} spacing={16}>
-        <Grid item xs={3} className={classes.grid} />
-        <Grid item xs={7} className={classes.grid}>
-          {" "}
+    <Grid container className={classes.container}>
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
@@ -104,7 +96,6 @@ class AnswerList extends Component {
           </Table>
           <Pagination page={page} filter={filter} />
         </Grid>
-      </Grid>
     );
   }
 }
