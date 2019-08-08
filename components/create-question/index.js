@@ -4,6 +4,12 @@ import Typography from '@material-ui/core/Typography'
 import gql from 'graphql-tag'
 import { Mutation, Query } from 'react-apollo'
 
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
+
 import AddIcon from '@material-ui/icons/Add'
 import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
@@ -24,7 +30,14 @@ import { TAGS_QUERY } from './Tags'
 const styles = ({ layout, palette }) => ({
   container: {
     display: 'flex',
-    justifyContent: 'center',
+    flexDirection: 'column',
+  },
+  table: {
+  },
+  title: {
+    fontSize: '40px',
+    textAlign: 'Left',
+    color: 'rgba(0, 0, 0, 0.87)',
   },
   inputField: {
     width: '100%',
@@ -37,6 +50,7 @@ const styles = ({ layout, palette }) => ({
   form: {
     width: '100%',
     maxWidth: 500,
+    padding: '50px 0 0 0',
   },
   fieldset: {
     border: 0,
@@ -57,9 +71,8 @@ const styles = ({ layout, palette }) => ({
     display: 'flex',
     width: '100%',
     justifyContent: 'flex-end',
-  }
+  },
 })
-
 
 const CREATE_QUESTION_MUTATION = gql`
   mutation createQuestion($title: String!, $description: String, $tags: [TagInput!]!) {
@@ -123,7 +136,19 @@ class CreateQuestion extends React.Component {
             >
               {(createQuestion, { error, loading }) => {
                 return (
-                  <Grid container className={ classes.container }>
+                  <Grid container className={classes.container}>
+                    <Table className={classes.table}>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>
+                            <Typography variant="display3" className={classes.title}>
+                              Ask a question
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                      </TableHead>
+                    </Table>
+
                     <form
                       method="post"
                       onSubmit={async e => {
@@ -143,10 +168,6 @@ class CreateQuestion extends React.Component {
                       }}
                       className={classes.form}
                     >
-                      <Typography>
-                        <h1>Ask a question</h1>
-                      </Typography>
-
                       <fieldset disabled={loading} aria-busy={loading} className={classes.fieldset}>
                         <FormControl className={classes.formControl}>
                           <label htmlFor="title">
