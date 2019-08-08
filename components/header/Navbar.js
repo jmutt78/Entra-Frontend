@@ -1,11 +1,8 @@
 import React from 'react'
 
 import AppBar from '@material-ui/core/AppBar'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
-import PhoneIcon from '@material-ui/icons/Phone'
 import NavLink from './NavLink'
 
 import Avatar from './Avatar'
@@ -17,11 +14,6 @@ const styles = ({ layout, palette }) => ({
   appbar: {
     background: '#85BDCB',
     boxShadow: 'none',
-  },
-  text: {
-    flexGrow: 100,
-    color: 'white',
-    fontSize: 16,
   },
   navText: {
     color: 'white',
@@ -44,6 +36,10 @@ const styles = ({ layout, palette }) => ({
     display: 'flex',
     alignItems: 'center',
     padding: '5px 10px 0 0',
+
+    color: 'white',
+    fontSize: '1.1rem',
+
   },
   navigationContainer: {
     height: layout.navHeight,
@@ -106,25 +102,23 @@ const Navbar = ({ classes }) => {
           <AppBar className={classes.appbar} position="static">
             <div className={classes.container}>
               <Typography className={classes.navigationContainer}>
-                  {me.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission)) &&
-                    adminLinks.map(({ name, target }) => (
-                      <NavLink activeClassName={classes.navLinkActive} href={target}>
-                        <a className={classes.navLink}>{name}</a>
-                      </NavLink>
-                    ))}
-
-                  {navLinks.map(({ name, target }) => (
+                {me.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission)) &&
+                  adminLinks.map(({ name, target }) => (
                     <NavLink activeClassName={classes.navLinkActive} href={target}>
                       <a className={classes.navLink}>{name}</a>
                     </NavLink>
                   ))}
+
+                {navLinks.map(({ name, target }) => (
+                  <NavLink activeClassName={classes.navLinkActive} href={target}>
+                    <a className={classes.navLink}>{name}</a>
+                  </NavLink>
+                ))}
               </Typography>
-              <div className={classes.avatarContainer}>
-                <Avatar me={me} />
-                <Typography variant="h4" className={classes.text} style={{ paddingTop: 3 }}>
+              <Typography className={classes.avatarContainer}>
+                  <Avatar me={me} />
                   <p>{me.name}</p>
-                </Typography>
-              </div>
+              </Typography>
             </div>
           </AppBar>
         )}

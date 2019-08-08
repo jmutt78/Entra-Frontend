@@ -5,6 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 
+import User from '../auth/User.js'
 import Button from '@material-ui/core/Button'
 import Link from 'next/link'
 import NavLink from './NavLink'
@@ -76,6 +77,9 @@ const styles = ({ layout, palette }) => ({
     height: layout.headerHeight,
     padding: '12px 10px 8px 10px',
   },
+  invisible: {
+    visibility: 'hidden',
+  },
 })
 
 const Appbar = ({ isLoggedIn, classes }) => {
@@ -107,30 +111,45 @@ const Appbar = ({ isLoggedIn, classes }) => {
           <Typography>
             <div className={classes.subContainer}>
               {navLinks.map(({ name, target }) => (
-                  <NavLink activeClassName={classes.navLinkActive} href={target}>
-                    <a className={classes.navLink}>{name}</a>
-                  </NavLink>
+                <NavLink activeClassName={classes.navLinkActive} href={target}>
+                  <a className={classes.navLink}>{name}</a>
+                </NavLink>
               ))}
             </div>
           </Typography>
 
-          <div className={classes.subContainer}>
-            <Link href="/login">
-              <Button variant="contained" color="secondary" className={[classes.button, classes.loginButton]}>
-                Login
-              </Button>
-            </Link>
+          <User>
+            {({ data: { me } }) => {
+              if (!me) {
+                return (
+                  <Typography
+                    className={me ? classes.subContainer : [classes.subContainer, classes.invisible]}
+                  >
+                    <Link href="/login">
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        className={[classes.button, classes.loginButton]}
+                      >
+                        Login
+                      </Button>
+                    </Link>
 
-            <Link href="/signup">
-              <Button
-                variant="contained"
-                color="secondary"
-                className={[classes.button, classes.signupButton]}
-              >
-                Sign up
-              </Button>
-            </Link>
-          </div>
+                    <Link href="/signup">
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        className={[classes.button, classes.signupButton]}
+                      >
+                        Sign up
+                      </Button>
+                    </Link>
+                  </Typography>
+                )
+              }
+              return null
+            }}
+          </User>
         </div>
       </Toolbar>
     </MaterialAppBar>
