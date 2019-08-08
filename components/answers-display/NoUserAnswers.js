@@ -114,7 +114,7 @@ class NoUserAnswers extends Component {
     } else {
       return (
         <div>
-          <Grid container className={classes.root} spacing={3}>
+          <Grid container className={classes.root} spacing={16}>
             <Grid item xs />
             <Grid item xs={7} className={classes.grid}>
               {this.handleTitle(answers)}

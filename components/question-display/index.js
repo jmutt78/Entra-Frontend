@@ -22,7 +22,7 @@ const styles = theme => ({
 class DisplayQuestion extends Component {
   render() {
     const { classes } = this.props;
-    console.log(this.props);
+
     return (
       <Query
         query={questionQuery}

@@ -58,7 +58,6 @@ const styles = theme => ({
 class DisplayBlog extends Component {
   render() {
     const { classes } = this.props;
-    console.log(this.props.id);
 
     return (
       <Query
@@ -69,7 +68,6 @@ class DisplayBlog extends Component {
         }}
       >
         {({ data: { post }, loading }) => {
-          console.log(post);
           if (loading) return <p>Loading...</p>;
           function createMarkup() {
             return { __html: createMarkup() };
@@ -79,10 +77,10 @@ class DisplayBlog extends Component {
               <Grid item xs={3} />
 
               <Grid item xs={6} className={classes.grid}>
-                <Typography className={classes.title} variant="h2" centered>
+                <Typography className={classes.title} variant="h2">
                   {post.title}
                 </Typography>
-                <Typography className={classes.title} variant="p" centered>
+                <Typography className={classes.title}>
                   by {post.author.name}
                 </Typography>
                 <CardMedia>

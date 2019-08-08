@@ -24,7 +24,18 @@ const styles = theme => ({
   bottom: { marginTop: theme.spacing.unit * 5, backgroundColor: "black" },
   text: {
     color: "#85BDCB",
-    fontSize: 14
+    display: "block",
+    fontSize: 17,
+    marginBlockStart: "1em",
+    marginBlockEnd: "1em",
+    marginInlineStart: "0px",
+    marginInlineEnd: "0px",
+    fontWeight: "bold"
+  },
+  bottomText: {
+    color: "#85BDCB",
+    fontSize: 18,
+    margin: theme.spacing.unit * 3
   },
   menu: {
     color: "#grey",
@@ -45,7 +56,7 @@ const Footer = props => {
       <Grid item xs={2} className={classes.grid} />
       <Grid item xs={3} className={classes.grid}>
         <Typography color="secondary" className={classes.text}>
-          <h3>LEGAL</h3>
+          LEGAL
         </Typography>
 
         <List component="nav">
@@ -63,13 +74,15 @@ const Footer = props => {
       </Grid>
       <Grid item xs={3} className={classes.grid}>
         <Typography color="secondary" className={classes.text}>
-          <h3>COMMUNITY</h3>
+          COMMUNITY
         </Typography>
 
         <List component="nav">
           <ListItem>
             <Typography className={classes.menu}>
-              <Link href="/blogs">Blog</Link>
+              <Link href="/blogs">
+                <a>Blog</a>
+              </Link>
             </Typography>
           </ListItem>
           <ListItem>
@@ -78,8 +91,8 @@ const Footer = props => {
         </List>
       </Grid>
       <Grid item xs={3} className={classes.grid}>
-        <Typography color="secondary" className={classes.text}>
-          <h3>CONNECT WITH US</h3>
+        <Typography variant="h3" className={classes.text}>
+          CONNECT WITH US
         </Typography>
         <List component="nav">
           <ListItem>
@@ -110,11 +123,12 @@ const Footer = props => {
           </ListItem>
         </List>
       </Grid>
-      <Grid container xs={12} className={classes.bottom}>
-        <Grid xs={5}></Grid>
-        <Grid xs={6}>
-          <Typography color="secondary" className={classes.text}>
-            <h3>@ Copyright {new Date().getFullYear()} Entra </h3>
+
+      <Grid container className={classes.bottom} spacing={16}>
+        <Grid item xs={5} />
+        <Grid item xs={6}>
+          <Typography variant="h3" className={classes.bottomText}>
+            @ Copyright {new Date().getFullYear()} Entra
           </Typography>
         </Grid>
       </Grid>

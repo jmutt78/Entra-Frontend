@@ -157,7 +157,6 @@ class UserQuestion extends Component {
   }
 
   handleEdit(question, user) {
-    console.log(question.answers);
     const answers = question.answers.length;
     const date1 = new Date(question.createdAt);
     const date2 = new Date();
@@ -193,14 +192,13 @@ class UserQuestion extends Component {
     );
     const ownsQuestion = askedby.id === user.id;
     const isApproved = question.approval === true;
-    console.log(this.props.question.id);
 
     if (!ownsQuestion && !hasPermissions && !isApproved) {
       return <NoQuestion />;
     }
 
     return (
-      <Grid container className={classes.root} spacing={3}>
+      <Grid container className={classes.root} spacing={16}>
         <Grid item xs />
         <Grid item xs={7} className={classes.grid}>
           <Paper className={classes.paper}>

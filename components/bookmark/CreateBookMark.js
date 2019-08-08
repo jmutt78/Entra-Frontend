@@ -48,7 +48,6 @@ const styles = {
 
 class CreatBookMark extends Component {
   submitForm = async (e, createBookMark) => {
-    console.log(this.props.question.id);
     e.preventDefault();
     const res = await createBookMark({
       variables: {
@@ -99,8 +98,6 @@ class CreatBookMark extends Component {
     const user = this.props.user;
     const question = this.props.question;
 
-    console.log(user);
-    console.log(question);
     return (
       <Mutation
         mutation={CREATE_BOOKMARK_MUTATION}

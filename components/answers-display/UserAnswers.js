@@ -169,12 +169,13 @@ class UserAnswers extends Component {
     const answers = this.props.question.answers;
     const user = this.props.user;
     const questionId = this.props.question.id;
+
     if (this.props.question.answers.length === 0) {
       return <div />;
     } else {
       return (
         <div>
-          <Grid container className={classes.root} spacing={3}>
+          <Grid container className={classes.root} spacing={16}>
             <Grid item xs />
             <Grid item xs={7} className={classes.grid}>
               {this.handleTitle(answers)}
@@ -183,7 +184,7 @@ class UserAnswers extends Component {
                 const ownsAnswer = answeredBy === user.id;
                 const isApproved = answer.approval === true;
                 const questionId = answer.answeredTo[0].id;
-
+                console.log(answer.id);
                 const hasPermissions = user.permissions.some(permission =>
                   ["ADMIN", "MODERATOR"].includes(permission)
                 );

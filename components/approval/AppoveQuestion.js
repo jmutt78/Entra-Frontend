@@ -83,7 +83,7 @@ class ApproveQuestion extends Component {
     const hasPermissions = this.props.hasPermissions;
     const isApproved = this.props.isApproved;
     const approval = this.props.approval;
-    console.log(this.props);
+
     if (!hasPermissions) {
       return <div />;
     }
