@@ -7,12 +7,15 @@ import { withStyles } from '@material-ui/core/styles'
 
 import Button from '@material-ui/core/Button'
 import Link from 'next/link'
+import NavLink from './NavLink'
 
 const styles = ({ layout, palette }) => ({
   root: {
     flexGrow: 1,
     backgroundColor: '#F2F4EF',
-    boxShadow: '0px 2px 4px -4px rgba(0,0,0,0.2), 0px 4px 5px -5px rgba(0,0,0,0.14), 0px 1px 10px -10px rgba(0,0,0,0.12)',
+    boxShadow:
+      '0px 2px 4px -4px rgba(0,0,0,0.2), 0px 4px 5px -5px rgba(0,0,0,0.14), 0px 1px 10px -10px rgba(0,0,0,0.12)',
+    height: layout.headerHeight,
   },
   flexContainer: {
     width: layout.width,
@@ -27,7 +30,7 @@ const styles = ({ layout, palette }) => ({
   },
   subContainer: {
     display: 'flex',
-    height: '100%',
+    height: layout.headerHeight,
     alignItems: 'center',
   },
   button: {
@@ -47,23 +50,32 @@ const styles = ({ layout, palette }) => ({
   },
   logo: {
     marginTop: '1rem',
-    marginLeft: '2rem',
+    marginLeft: 5,
     maxHeight: '60px',
     maxWidth: '170px',
     width: '170px',
     height: '60px',
   },
   navLink: {
-    fontSize: '1.4rem',
-    padding: '4px 25px 0 0',
-    cursor: 'pointer',
-    fontWeight: 500,
+    fontSize: '1.2rem',
     color: palette.accent.dark,
+    padding: '12px 10px 8px 10px',
+    textDecoration: 'none',
+    '&:hover': {
+      color: palette.primary.dark,
+    },
+  },
+  navLinkActive: {
+    height: layout.headerHeight,
+    color: palette.primary.dark,
+    display: 'flex',
+    alignItems: 'center',
+    fontWeight: 500,
   },
 })
 
 const Appbar = ({ isLoggedIn, classes }) => {
-  const navlinks = [
+  const navLinks = [
     {
       name: 'Ask a question',
       target: isLoggedIn ? '/qa' : '/signup',
@@ -90,10 +102,10 @@ const Appbar = ({ isLoggedIn, classes }) => {
 
           <Typography>
             <div className={classes.subContainer}>
-              {navlinks.map(({ name, target }) => (
-                <Link href={target}>
-                  <h3 className={classes.navLink}>{name}</h3>
-                </Link>
+              {navLinks.map(({ name, target }) => (
+                  <NavLink activeClassName={classes.navLinkActive} href={target}>
+                    <a className={classes.navLink}>{name}</a>
+                  </NavLink>
               ))}
             </div>
           </Typography>

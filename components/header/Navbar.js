@@ -25,7 +25,6 @@ const styles = ({ layout, palette }) => ({
   },
   navText: {
     color: 'white',
-    fontSize: '1.5rem',
     marginLeft: '2rem',
     position: 'relative',
     zIndex: 2,
@@ -44,7 +43,7 @@ const styles = ({ layout, palette }) => ({
   avatarContainer: {
     display: 'flex',
     alignItems: 'center',
-    padding: '10px 20px 0 0',
+    padding: '5px 10px 0 0',
   },
   navigationContainer: {
     height: layout.navHeight,
@@ -52,6 +51,7 @@ const styles = ({ layout, palette }) => ({
     flex: 1,
     alignSelf: 'flex-end',
     alignItems: 'center',
+    padding: '0 0 0 20px',
   },
   navLink: {
     fontSize: '1.2rem',
@@ -68,6 +68,7 @@ const styles = ({ layout, palette }) => ({
     alignItems: 'center',
     color: palette.primary.main,
     background: palette.secondary.main,
+    fontWeight: 500,
   },
 })
 
@@ -104,24 +105,20 @@ const Navbar = ({ classes }) => {
         {({ data: { me } }) => (
           <AppBar className={classes.appbar} position="static">
             <div className={classes.container}>
-              <div className={classes.navigationContainer}>
-                {me.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission)) &&
-                  adminLinks.map(({ name, target }) => (
-                    <Typography>
+              <Typography className={classes.navigationContainer}>
+                  {me.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission)) &&
+                    adminLinks.map(({ name, target }) => (
                       <NavLink activeClassName={classes.navLinkActive} href={target}>
                         <a className={classes.navLink}>{name}</a>
                       </NavLink>
-                    </Typography>
-                  ))}
+                    ))}
 
-                {navLinks.map(({ name, target }) => (
-                  <Typography>
+                  {navLinks.map(({ name, target }) => (
                     <NavLink activeClassName={classes.navLinkActive} href={target}>
                       <a className={classes.navLink}>{name}</a>
                     </NavLink>
-                  </Typography>
-                ))}
-              </div>
+                  ))}
+              </Typography>
               <div className={classes.avatarContainer}>
                 <Avatar me={me} />
                 <Typography variant="h4" className={classes.text} style={{ paddingTop: 3 }}>
