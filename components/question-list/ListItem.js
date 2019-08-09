@@ -6,6 +6,7 @@ import Table from '@material-ui/core/Table'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
+import ButtonGroup from '@material-ui/core/ButtonGroup'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import { withRouter } from 'next/router'
@@ -29,7 +30,7 @@ const styles = ({ layout, palette }) => ({
   tableRow: {
     cursor: 'pointer',
     '&:hover': {
-      background: '#dfe6e9',
+      background: '#f1f2f6',
     },
   },
 })
@@ -54,13 +55,13 @@ const ListItem = ({
         <Typography>
           <h2 className={classes.title}>{title}</h2>
           <div style={{ display: 'flex', padding: '0 0 10px 0' }}>
-            {tags.map(({ id, name }) => (
-              <div style={{ padding: 3 }}>
+            <ButtonGroup color="primary" aria-label="outlined primary button group">
+              {tags.map(({ id, name }) => (
                 <Button size="small" variant="contained">
                   {name}{' '}
                 </Button>
-              </div>
-            ))}
+              ))}
+            </ButtonGroup>
           </div>
         </Typography>
         <Typography>
