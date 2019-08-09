@@ -19,8 +19,9 @@ const CustomTableCell = withStyles(theme => ({
 
 const styles = ({ layout, palette }) => ({
   title: {
-    color: palette.accent.blue,
-    padding: 0,
+    color: palette.accent.dark,
+    padding: '5px 0 15px 0',
+    margin: 0,
   },
   nameLink: {
     fontWeight: 500,
@@ -33,6 +34,9 @@ const styles = ({ layout, palette }) => ({
       background: '#f1f2f6',
     },
   },
+  button: {
+    color: palette.accent.dark,
+  }
 })
 
 const ListItem = ({
@@ -55,16 +59,22 @@ const ListItem = ({
         <Typography>
           <h2 className={classes.title}>{title}</h2>
           <div style={{ display: 'flex', padding: '0 0 10px 0' }}>
-            <ButtonGroup color="primary" aria-label="outlined primary button group">
+            <ButtonGroup aria-label="outlined primary button group">
               {tags.map(({ id, name }) => (
-                <Button size="small" variant="contained">
-                  {name}{' '}
+                <Button size="small" variant="contained" className={classes.button} onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  router.push({
+                    pathname: `/tag/${encodeURIComponent(name)}`,
+                  })
+                }}>
+                  {name}
                 </Button>
               ))}
             </ButtonGroup>
           </div>
         </Typography>
-        <Typography>
+        <Typography style={{paddingTop: 5}}>
           <span>Posted by </span>
           <a href={`/${askedBy[0].name}`} className={classes.nameLink}>
             {askedBy[0].name}
