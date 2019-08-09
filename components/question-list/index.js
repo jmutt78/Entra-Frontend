@@ -8,10 +8,9 @@ import QuestionAnswer from '@material-ui/icons/QuestionAnswer'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
-import TableFooter from '@material-ui/core/TableFooter';
 import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
 import Tooltip from '@material-ui/core/Tooltip'
+import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 
@@ -25,6 +24,11 @@ const CustomTableCell = withStyles(theme => ({
 }))(TableCell)
 
 const styles = theme => ({
+  paginationRoot: {
+    flexShrink: 0,
+    color: theme.palette.text.secondary,
+    marginLeft: '3rem',
+  },
   container: {
     display: 'flex',
     justifyContent: 'center',
@@ -43,6 +47,10 @@ const styles = theme => ({
   },
 })
 
+const customColumnStyle = {
+  maxWidth: '.3px',
+}
+
 function tagsList(tags) {
   return tags.map(tags => (
     <div key={tags.id} style={{ display: 'inline-flex', marginRight: 10 }}>
@@ -56,9 +64,6 @@ function tagsList(tags) {
 function QuestionList(props) {
   const { classes, questions, filter, page } = props
 
-  const customColumnStyle = {
-    maxWidth: '.3px',
-  }
   return (
     <Grid container className={classes.container}>
       <Table className={classes.table}>
@@ -117,30 +122,8 @@ function QuestionList(props) {
             )
           })}
         </TableBody>
-
-          <TableFooter>
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                colSpan={3}
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                SelectProps={{
-                  inputProps: { 'aria-label': 'rows per page' },
-                  native: true,
-                }}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-                ActionsComponent={TablePaginationActions}
-              />
-            </TableRow>
-          </TableFooter>
-
-
-
+        <Pagination page={page} filter={filter} />
       </Table>
-      <Pagination page={page} filter={filter} />
     </Grid>
   )
 }
