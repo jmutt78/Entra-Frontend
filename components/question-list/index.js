@@ -1,19 +1,19 @@
-import React, { Component } from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import { format, parseISO } from 'date-fns'
-import Link from 'next/link'
-import Pagination from '../pagination'
-import QuestionSearch from '../search/QuestionSearch.js'
-import QuestionAnswer from '@material-ui/icons/QuestionAnswer'
+import React from 'react'
+import { upperFirst } from 'lodash'
+
 import Grid from '@material-ui/core/Grid'
+import QuestionAnswer from '@material-ui/icons/QuestionAnswer'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
+import Tooltip from '@material-ui/core/Tooltip'
 import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
-import Tooltip from '@material-ui/core/Tooltip'
-import { upperFirst } from 'lodash'
+import { withStyles } from '@material-ui/core/styles'
+
+import ListItem from '../ListItem'
+import Pagination from '../pagination'
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -31,31 +31,17 @@ const styles = theme => ({
     textAlign: 'Left',
     color: 'rgba(0, 0, 0, 0.87)',
   },
-  link: {
-    textDecoration: 'none',
-    color: 'rgba(0, 0, 0, 0.87)',
-  },
   icon: {
     color: 'black',
   },
+  customColumnStyle: {
+    maxWidth: '.3px',
+  },
 })
-
-function tagsList(tags) {
-  return tags.map(tags => (
-    <div key={tags.id} style={{ display: 'inline-flex', marginRight: 10 }}>
-      <Typography style={{ textTransform: 'uppercase' }}>
-        <strong>{tags.name} </strong>
-      </Typography>
-    </div>
-  ))
-}
 
 function QuestionList(props) {
   const { classes, questions, filter, page } = props
 
-  const customColumnStyle = {
-    maxWidth: '.3px',
-  }
   return (
     <Grid container className={classes.container}>
       <Table className={classes.table}>
@@ -67,22 +53,22 @@ function QuestionList(props) {
               </Typography>
             </TableCell>
             <Tooltip title="Answers" placement="top">
-              <CustomTableCell style={customColumnStyle}>
+              <CustomTableCell className={classes.customColumnStyle}>
                 <QuestionAnswer className={classes.icon} />
               </CustomTableCell>
             </Tooltip>
             <Tooltip title="Views" placement="top">
-              <CustomTableCell style={customColumnStyle}>
+              <CustomTableCell className={classes.customColumnStyle}>
                 <img src="/static/visibility.svg" />
               </CustomTableCell>
             </Tooltip>
             <Tooltip title="Up Votes" placement="top">
-              <CustomTableCell style={customColumnStyle}>
+              <CustomTableCell className={classes.customColumnStyle}>
                 <img src="/static/thumb_up.svg" />
               </CustomTableCell>
             </Tooltip>
             <Tooltip title="Down Votes" placement="top">
-              <CustomTableCell style={customColumnStyle}>
+              <CustomTableCell className={classes.customColumnStyle}>
                 <img src="/static/thumb_down.svg" />
               </CustomTableCell>
             </Tooltip>
@@ -91,26 +77,15 @@ function QuestionList(props) {
         <TableBody>
           {questions.map(question => {
             return (
-              <TableRow key={question.id}>
-                <TableCell component="th" scope="row">
-                  <Typography>
-                    <Link
-                      href={{
-                        pathname: '/question',
-                        query: { id: question.id },
-                      }}
-                    >
-                      <a className={classes.link}>{question.title}</a>
-                    </Link>
-                  </Typography>
-                  <Typography>Posted {format(parseISO(question.createdAt), 'MMMM dd, yyyy')}</Typography>
-                  {tagsList(question.tags)}
-                </TableCell>
-                <TableCell>{question.answers.length}</TableCell>
-                <CustomTableCell>{question.views}</CustomTableCell>
-                <CustomTableCell>{question.upVotes}</CustomTableCell>
-                <CustomTableCell>{question.downVotes}</CustomTableCell>
-              </TableRow>
+              <ListItem
+                item={question}
+                userName={question.askedBy[0].name}
+                linkTo={{
+                  pathname: '/question',
+                  query: { id: question.id },
+                }}
+                showDetails={true}
+              />
             )
           })}
         </TableBody>

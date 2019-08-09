@@ -13,6 +13,9 @@ const ANSWER_LIST_QUERY = gql`
       answeredTo {
         id
       }
+      answeredBy {
+        name
+      }
     }
   }
 `;
