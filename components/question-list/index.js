@@ -12,7 +12,7 @@ import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 
-import ListItem from './ListItem';
+import ListItem from '../ListItem';
 import Pagination from '../pagination'
 
 const CustomTableCell = withStyles(theme => ({
