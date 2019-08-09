@@ -79,7 +79,8 @@ function QuestionList(props) {
             console.log({ question })
             return (
               <ListItem
-                question={question}
+                item={question}
+                userName={question.askedBy[0].name}
                 linkTo={{
                   pathname: '/question',
                   query: { id: question.id },

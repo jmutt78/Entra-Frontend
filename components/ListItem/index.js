@@ -40,41 +40,45 @@ const styles = ({ layout, palette }) => ({
 })
 
 const ListItem = ({
-  question: { id, title, link, createdAt, tags, answers, views, upVotes, downVotes, askedBy },
+  item: { id, title, link, createdAt, tags, answers, views, upVotes, downVotes, askedBy },
   classes,
   router,
   linkTo,
+  userName,
 }) => {
   return (
     <TableRow key={id} className={classes.tableRow} onClick={() => router.push(linkTo)}>
       <TableCell component="th" scope="row">
         <Typography>
           <h2 className={classes.title}>{title}</h2>
-          <div style={{ display: 'flex', padding: '0 0 10px 0' }}>
-            <ButtonGroup aria-label="outlined primary button group">
-              {tags.map(({ id, name }) => (
-                <Button
-                  size="small"
-                  variant="contained"
-                  className={classes.button}
-                  onClick={e => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    router.push({
-                      pathname: `/tag/${encodeURIComponent(name)}`,
-                    })
-                  }}
-                >
-                  {name}
-                </Button>
-              ))}
-            </ButtonGroup>
-          </div>
+
+          {tags && (
+            <div style={{ display: 'flex', padding: '0 0 10px 0' }}>
+              <ButtonGroup aria-label="outlined primary button group">
+                {tags.map(({ id, name }) => (
+                  <Button
+                    size="small"
+                    variant="contained"
+                    className={classes.button}
+                    onClick={e => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      router.push({
+                        pathname: `/tag/${encodeURIComponent(name)}`,
+                      })
+                    }}
+                  >
+                    {name}
+                  </Button>
+                ))}
+              </ButtonGroup>
+            </div>
+          )}
         </Typography>
         <Typography style={{ paddingTop: 5 }}>
           <span>Posted by </span>
-          <a href={`/${askedBy[0].name}`} className={classes.nameLink}>
-            {askedBy[0].name}
+          <a href={`/${userName}`} className={classes.nameLink}>
+            {userName}
           </a>
           <span> on </span>
           <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>

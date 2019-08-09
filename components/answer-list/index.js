@@ -12,6 +12,7 @@ import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
 import { upperFirst } from 'lodash'
+import ListItem from '../ListItem'
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -68,25 +69,14 @@ class AnswerList extends Component {
           <TableBody>
             {answers.map(answer => {
               return (
-                <TableRow key={answer.id}>
-                  <TableCell component="th" scope="row">
-                    <Typography>
-                      <Link
-                        href={{
-                          pathname: '/question',
-                          query: { id: answer.answeredTo[0].id },
-                        }}
-                      >
-                        <a className={classes.link}>
-                          <div>{answer.body}</div>
-                        </a>
-                      </Link>
-                    </Typography>
-                    <Typography>Posted {format(parseISO(answer.createdAt), 'MMMM dd, yyyy')}</Typography>
-                  </TableCell>
-                  <CustomTableCell>{answer.upVotes}</CustomTableCell>
-                  <CustomTableCell>{answer.downVotes}</CustomTableCell>
-                </TableRow>
+                <ListItem
+                  item={answer}
+                  linkTo={{
+                    pathname: '/question',
+                    query: { id: answer.answeredTo[0].id },
+                  }}
+                  userName={answer.answeredTo[0].name}
+                />
               )
             })}
           </TableBody>
