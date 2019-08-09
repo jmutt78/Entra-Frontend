@@ -1,22 +1,24 @@
-import React from "react";
-import gql from "graphql-tag";
-import { Query } from "react-apollo";
-import { useRouter } from "next/router";
+import React from 'react'
+import gql from 'graphql-tag'
+import { Query } from 'react-apollo'
+import { useRouter } from 'next/router'
 
 import FirstPageIcon from '@material-ui/icons/FirstPage'
-import IconButton from "@material-ui/core/IconButton";
-import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
-import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import IconButton from '@material-ui/core/IconButton'
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
 import LastPageIcon from '@material-ui/icons/LastPage'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableFooter from '@material-ui/core/TableFooter'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
-import Typography from "@material-ui/core/Typography";
+import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 
-import { perPage } from "../../config.js";
-import Error from "../ErrorMessage";
+import { perPage } from '../../config.js'
+import Error from '../ErrorMessage'
 
 const styles = theme => ({
   root: {
@@ -24,6 +26,12 @@ const styles = theme => ({
     color: theme.palette.text.secondary,
     marginLeft: '3rem',
   },
+  paginationContainer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    padding: '15px 0 0 0',
+  }
 })
 
 const PAGINATION_QUERY = gql`
@@ -34,7 +42,7 @@ const PAGINATION_QUERY = gql`
       }
     }
   }
-`;
+`
 
 function TablePaginationActions(props) {
   const { classes, count, page, rowsPerPage, onChangePage } = props
@@ -82,7 +90,7 @@ function TablePaginationActions(props) {
 }
 
 function Pagination({ filter, page, classes }) {
-  const router = useRouter();
+  const router = useRouter()
 
   // const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
@@ -101,45 +109,47 @@ function Pagination({ filter, page, classes }) {
   return (
     <Query query={PAGINATION_QUERY} variables={{ filter: filter }}>
       {({ data, loading, error }) => {
-        if (loading) return <p>Loading...</p>;
-        if (error) return <Error error={error} />;
+        if (loading) return <p>Loading...</p>
+        if (error) return <Error error={error} />
 
-        const count = data.questionsConnection.aggregate.count;
-        const pages = Math.ceil(count / perPage);
+        const count = data.questionsConnection.aggregate.count
+        const pages = Math.ceil(count / perPage)
 
         return (
-
-          <TableFooter>
-            {emptyRows(count, page) > 0 && (
-              <TableRow style={{ height: 48 * emptyRows(count, page) }}>
-                <TableCell colSpan={6} />
+          <Table className={classes.table}>
+            <TableBody>
+              {emptyRows(count, page) > 0 && (
+                <TableRow style={{ height: 48 * emptyRows(count, page) }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <div className={classes.paginationContainer}>
+                  <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    colSpan={3}
+                    count={count}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    SelectProps={{
+                      inputProps: { 'aria-label': 'rows per page' },
+                        native: true,
+                    }}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                    ActionsComponent={() => <TablePaginationActions classes={classes} />}
+                  />
+                </div>
               </TableRow>
-            )}
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                colSpan={3}
-                count={count}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                SelectProps={{
-                  inputProps: { 'aria-label': 'rows per page' },
-                  native: true,
-                }}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-                ActionsComponent={() => <TablePaginationActions classes={classes} />}
-              />
-            </TableRow>
-          </TableFooter>
-
-
-
-        );
+            </TableFooter>
+          </Table>
+        )
       }}
     </Query>
-  );
+  )
 }
 
-export default withStyles(styles)(Pagination);
-export { PAGINATION_QUERY };
+export default withStyles(styles)(Pagination)
+export { PAGINATION_QUERY }

@@ -24,11 +24,6 @@ const CustomTableCell = withStyles(theme => ({
 }))(TableCell)
 
 const styles = theme => ({
-  paginationRoot: {
-    flexShrink: 0,
-    color: theme.palette.text.secondary,
-    marginLeft: '3rem',
-  },
   container: {
     display: 'flex',
     justifyContent: 'center',
@@ -122,8 +117,8 @@ function QuestionList(props) {
             )
           })}
         </TableBody>
-        <Pagination page={page} filter={filter} />
       </Table>
+      <Pagination page={page} filter={filter} />
     </Grid>
   )
 }
