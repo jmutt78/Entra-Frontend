@@ -12,7 +12,7 @@ import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 
-import ListItem from '../ListItem';
+import ListItem from '../ListItem'
 import Pagination from '../pagination'
 
 const CustomTableCell = withStyles(theme => ({
@@ -36,7 +36,7 @@ const styles = theme => ({
   },
   customColumnStyle: {
     maxWidth: '.3px',
-  }
+  },
 })
 
 function QuestionList(props) {
@@ -76,8 +76,16 @@ function QuestionList(props) {
         </TableHead>
         <TableBody>
           {questions.map(question => {
-            console.log({question})
-            return <ListItem question={question} />
+            console.log({ question })
+            return (
+              <ListItem
+                question={question}
+                linkTo={{
+                  pathname: '/question',
+                  query: { id: question.id },
+                }}
+              />
+            )
           })}
         </TableBody>
       </Table>
