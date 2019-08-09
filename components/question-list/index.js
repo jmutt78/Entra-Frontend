@@ -76,6 +76,7 @@ function QuestionList(props) {
         </TableHead>
         <TableBody>
           {questions.map(question => {
+            console.log({question})
             return <ListItem question={question} />
           })}
         </TableBody>

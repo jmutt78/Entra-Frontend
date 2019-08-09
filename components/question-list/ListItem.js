@@ -14,10 +14,15 @@ const CustomTableCell = withStyles(theme => ({
   },
 }))(TableCell)
 
-const styles = theme => ({
+const styles = ({ layout, palette }) => ({
   link: {
     textDecoration: 'none',
     color: 'rgba(0, 0, 0, 0.87)',
+  },
+  nameLink: {
+   fontWeight: 500,
+    textDecoration: 'none',
+    color: palette.primary.dark,
   },
 })
 
@@ -31,27 +36,37 @@ function tagsList(tags) {
   ))
 }
 
-const ListItem = ({ question, classes }) => {
+const ListItem = ({ question: { id, title, link, createdAt, tags, answers, views, upVotes, downVotes, askedBy }, classes }) => {
   return (
-    <TableRow key={question.id}>
+    <TableRow key={id}>
       <TableCell component="th" scope="row">
         <Typography>
           <Link
             href={{
               pathname: '/question',
-              query: { id: question.id },
+              query: { id: id },
             }}
           >
-            <a className={classes.link}>{question.title}</a>
+
+        <Typography>
+          <h2 className={classes.link}>{title}</h2>
+        </Typography>
+
+
           </Link>
         </Typography>
-        <Typography>Posted {format(parseISO(question.createdAt), 'MMMM dd, yyyy')}</Typography>
-        {tagsList(question.tags)}
+        <Typography>
+          <span>Posted by </span>
+          <a href={`/${askedBy[0].name}`} className={classes.nameLink}>{askedBy[0].name}</a>
+          <span> on </span>
+          <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
+        </Typography>
+        {tagsList(tags)}
       </TableCell>
-      <TableCell>{question.answers.length}</TableCell>
-      <CustomTableCell>{question.views}</CustomTableCell>
-      <CustomTableCell>{question.upVotes}</CustomTableCell>
-      <CustomTableCell>{question.downVotes}</CustomTableCell>
+      <TableCell>{answers.length}</TableCell>
+      <CustomTableCell>{views}</CustomTableCell>
+      <CustomTableCell>{upVotes}</CustomTableCell>
+      <CustomTableCell>{downVotes}</CustomTableCell>
     </TableRow>
   )
 }
