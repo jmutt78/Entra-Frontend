@@ -6,7 +6,9 @@ import Table from '@material-ui/core/Table'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
+import { withRouter } from 'next/router'
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -15,54 +17,62 @@ const CustomTableCell = withStyles(theme => ({
 }))(TableCell)
 
 const styles = ({ layout, palette }) => ({
-  link: {
-    textDecoration: 'none',
-    color: 'rgba(0, 0, 0, 0.87)',
+  title: {
+    color: palette.accent.blue,
+    padding: 0,
   },
   nameLink: {
-   fontWeight: 500,
+    fontWeight: 500,
     textDecoration: 'none',
     color: palette.primary.dark,
   },
+  tableRow: {
+    cursor: 'pointer',
+    '&:hover': {
+      background: '#dfe6e9',
+    },
+  },
 })
 
-function tagsList(tags) {
-  return tags.map(tags => (
-    <div key={tags.id} style={{ display: 'inline-flex', marginRight: 10 }}>
-      <Typography style={{ textTransform: 'uppercase' }}>
-        <strong>{tags.name} </strong>
-      </Typography>
-    </div>
-  ))
-}
-
-const ListItem = ({ question: { id, title, link, createdAt, tags, answers, views, upVotes, downVotes, askedBy }, classes }) => {
+const ListItem = ({
+  question: { id, title, link, createdAt, tags, answers, views, upVotes, downVotes, askedBy },
+  classes,
+  router,
+}) => {
   return (
-    <TableRow key={id}>
+    <TableRow
+      key={id}
+      className={classes.tableRow}
+      onClick={() =>
+        router.push({
+          pathname: '/question',
+          query: { id: id },
+        })
+      }
+    >
       <TableCell component="th" scope="row">
         <Typography>
-          <Link
-            href={{
-              pathname: '/question',
-              query: { id: id },
-            }}
-          >
-
-        <Typography>
-          <h2 className={classes.link}>{title}</h2>
-        </Typography>
-
-
-          </Link>
+          <h2 className={classes.title}>{title}</h2>
+          <div style={{ display: 'flex', padding: '0 0 10px 0' }}>
+            {tags.map(({ id, name }) => (
+              <div style={{ padding: 3 }}>
+                <Button size="small" variant="contained">
+                  {name}{' '}
+                </Button>
+              </div>
+            ))}
+          </div>
         </Typography>
         <Typography>
           <span>Posted by </span>
-          <a href={`/${askedBy[0].name}`} className={classes.nameLink}>{askedBy[0].name}</a>
+          <a href={`/${askedBy[0].name}`} className={classes.nameLink}>
+            {askedBy[0].name}
+          </a>
           <span> on </span>
           <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
         </Typography>
-        {tagsList(tags)}
       </TableCell>
+
       <TableCell>{answers.length}</TableCell>
       <CustomTableCell>{views}</CustomTableCell>
       <CustomTableCell>{upVotes}</CustomTableCell>
@@ -71,4 +81,4 @@ const ListItem = ({ question: { id, title, link, createdAt, tags, answers, views
   )
 }
 
-export default withStyles(styles)(ListItem)
+export default withRouter(withStyles(styles)(ListItem))
