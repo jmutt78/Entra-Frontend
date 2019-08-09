@@ -76,7 +76,6 @@ function QuestionList(props) {
         </TableHead>
         <TableBody>
           {questions.map(question => {
-            console.log({ question })
             return (
               <ListItem
                 item={question}
@@ -85,6 +84,7 @@ function QuestionList(props) {
                   pathname: '/question',
                   query: { id: question.id },
                 }}
+                showDetails={true}
               />
             )
           })}

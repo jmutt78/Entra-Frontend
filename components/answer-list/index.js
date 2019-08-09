@@ -75,7 +75,7 @@ class AnswerList extends Component {
                     pathname: '/question',
                     query: { id: answer.answeredTo[0].id },
                   }}
-                  userName={answer.answeredTo[0].name}
+                  userName={answer.answeredBy.name}
                 />
               )
             })}

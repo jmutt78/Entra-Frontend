@@ -22,6 +22,13 @@ const styles = ({ layout, palette }) => ({
     color: palette.accent.dark,
     padding: '5px 0 15px 0',
     margin: 0,
+    maxWidth: 800,
+  },
+  body: {
+    color: palette.accent.dark,
+    padding: '5px 0 15px 0',
+    margin: 0,
+    maxWidth: 800,
   },
   nameLink: {
     fontWeight: 500,
@@ -40,18 +47,19 @@ const styles = ({ layout, palette }) => ({
 })
 
 const ListItem = ({
-  item: { id, title, link, createdAt, tags, answers, views, upVotes, downVotes, askedBy },
+  item: { id, title, body, link, createdAt, tags, answers, views, upVotes, downVotes, askedBy },
   classes,
   router,
   linkTo,
   userName,
+  showDetails,
 }) => {
   return (
     <TableRow key={id} className={classes.tableRow} onClick={() => router.push(linkTo)}>
       <TableCell component="th" scope="row">
         <Typography>
-          <h2 className={classes.title}>{title}</h2>
-
+          {title && <h2 className={classes.title}>{title}</h2>}
+          {body && <h3 className={classes.body}>{body}</h3>}
           {tags && (
             <div style={{ display: 'flex', padding: '0 0 10px 0' }}>
               <ButtonGroup aria-label="outlined primary button group">
@@ -85,8 +93,12 @@ const ListItem = ({
         </Typography>
       </TableCell>
 
-      <TableCell>{answers.length}</TableCell>
-      <CustomTableCell>{views}</CustomTableCell>
+      {showDetails && (
+        <>
+          <TableCell>{answers.length}</TableCell>
+          <CustomTableCell>{views}</CustomTableCell>
+        </>
+      )}
       <CustomTableCell>{upVotes}</CustomTableCell>
       <CustomTableCell>{downVotes}</CustomTableCell>
     </TableRow>
