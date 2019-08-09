@@ -1,5 +1,7 @@
 import { SheetsRegistry } from 'jss'
-import { createMuiTheme, createGenerateClassName } from '@material-ui/core/styles'
+// TODO - removed because MUI is buggy as hell and throws here. Try again when they update
+// import { createMuiTheme, createGenerateClassName } from '@material-ui/core/styles'
+import { createMuiTheme } from '@material-ui/core/styles'
 import theme from './theme'
 
 function createPageContext() {
@@ -10,7 +12,7 @@ function createPageContext() {
     // This is needed in order to inject the critical CSS.
     sheetsRegistry: new SheetsRegistry(),
     // The standard class name generator.
-    generateClassName: createGenerateClassName(),
+    // generateClassName: createGenerateClassName(),
   }
 }
 
