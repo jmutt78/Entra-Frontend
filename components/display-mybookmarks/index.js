@@ -21,7 +21,12 @@ class MyBookMark extends Component {
           if (loading) return <p>Loading...</p>;
 
           return (
-            <QuestionList questions={questions} filter={filter} page={page} />
+            <QuestionList
+              questions={questions}
+              filter={filter}
+              page={page}
+              name={"my bookmarks"}
+            />
           );
         }}
       </Query>

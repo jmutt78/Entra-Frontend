@@ -1,46 +1,47 @@
-import React from 'react'
-import { upperFirst } from 'lodash'
+import React from "react";
+import { upperFirst } from "lodash";
 
-import Grid from '@material-ui/core/Grid'
-import QuestionAnswer from '@material-ui/icons/QuestionAnswer'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableHead from '@material-ui/core/TableHead'
-import Tooltip from '@material-ui/core/Tooltip'
-import TableRow from '@material-ui/core/TableRow'
-import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
+import Grid from "@material-ui/core/Grid";
+import QuestionAnswer from "@material-ui/icons/QuestionAnswer";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import Tooltip from "@material-ui/core/Tooltip";
+import TableRow from "@material-ui/core/TableRow";
+import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@material-ui/core/styles";
 
-import ListItem from '../ListItem'
-import Pagination from '../pagination'
+import ListItem from "../ListItem";
+import Pagination from "../pagination";
 
 const CustomTableCell = withStyles(theme => ({
   head: {
-    width: 5,
-  },
-}))(TableCell)
+    width: 5
+  }
+}))(TableCell);
 
 const styles = theme => ({
   container: {
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    justifyContent: "center"
   },
   title: {
-    fontSize: '40px',
-    textAlign: 'Left',
-    color: 'rgba(0, 0, 0, 0.87)',
+    fontSize: "40px",
+    textAlign: "Left",
+    color: "rgba(0, 0, 0, 0.87)",
+    textTransform: "capitalize"
   },
   icon: {
-    color: 'black',
+    color: "black"
   },
   customColumnStyle: {
-    maxWidth: '.3px',
-  },
-})
+    maxWidth: ".3px"
+  }
+});
 
 function QuestionList(props) {
-  const { classes, questions, filter, page } = props
+  const { classes, questions, filter, page } = props;
 
   return (
     <Grid container className={classes.container}>
@@ -49,7 +50,7 @@ function QuestionList(props) {
           <TableRow>
             <TableCell>
               <Typography variant="display3" className={classes.title}>
-                {upperFirst(filter)} Questions
+                {upperFirst(props.name)}
               </Typography>
             </TableCell>
             <Tooltip title="Answers" placement="top">
@@ -81,18 +82,19 @@ function QuestionList(props) {
                 item={question}
                 userName={question.askedBy[0].name}
                 linkTo={{
-                  pathname: '/question',
-                  query: { id: question.id },
+                  pathname: "/question",
+                  query: { id: question.id }
                 }}
                 showDetails={true}
+                name={props.name}
               />
-            )
+            );
           })}
         </TableBody>
       </Table>
       <Pagination page={page} filter={filter} />
     </Grid>
-  )
+  );
 }
 
-export default withStyles(styles)(QuestionList)
+export default withStyles(styles)(QuestionList);

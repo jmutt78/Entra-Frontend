@@ -20,7 +20,12 @@ class Questions extends Component {
         {({ data: { questions }, loading }) => {
           if (loading) return <p>Loading...</p>;
           return (
-            <QuestionList questions={questions} filter={filter} page={page} />
+            <QuestionList
+              questions={questions}
+              filter={filter}
+              page={page}
+              name={"all questions"}
+            />
           );
         }}
       </Query>
