@@ -14,7 +14,7 @@ const styles = ({ layout }) => {
   },
   contentContainer: {
     display: 'flex',
-    padding: '2rem',
+    padding: '2rem 2rem 1rem 2rem',
     flex: 1,
     minHeight: `calc(${layout.height} - ${layout.headerHeight}px - ${layout.navHeight}px)`,
   },

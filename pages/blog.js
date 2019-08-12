@@ -1,6 +1,6 @@
 import React from "react";
-import DisplayBlog from "../components/blog";
+import Blog from "../components/blog-feed";
 
-const Blog = props => <DisplayBlog id={props.query.id} />;
+const BlogFeed = props => <Blog />;
 
-export default Blog;
+export default BlogFeed;

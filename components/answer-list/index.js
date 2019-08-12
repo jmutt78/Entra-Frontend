@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
+
 import { format, parseISO } from 'date-fns'
 import Link from 'next/link'
 import Pagination from '../pagination'
@@ -22,8 +23,9 @@ const CustomTableCell = withStyles(theme => ({
 
 const styles = theme => ({
   container: {
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    flexDirection: 'column',
+    justifyContent: "space-between",
   },
   title: {
     fontSize: '40px',

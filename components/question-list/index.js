@@ -24,7 +24,8 @@ const CustomTableCell = withStyles(theme => ({
 const styles = theme => ({
   container: {
     display: "flex",
-    justifyContent: "center"
+    flexDirection: 'column',
+    justifyContent: "space-between",
   },
   title: {
     fontSize: "40px",

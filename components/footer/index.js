@@ -1,138 +1,164 @@
-import TableFooter from "@material-ui/core/TableFooter";
-import User from "../auth/User.js";
-import Link from "next/link";
-import Router from "next/router";
-import { withStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Divider from "@material-ui/core/Divider";
+import Link from 'next/link'
+import { withStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import './footer.css'
 
-const styles = theme => ({
-  root: {
-    display: "flex",
-    backgroundColor: "#F2F4EF",
+const styles = ({ palette }) => ({
+  creditBarContainer: {
+    background: palette.accent.dark,
+    display: 'flex',
+    justifyContent: 'flex-end',
   },
-  grid: { marginTop: theme.spacing.unit * 5 },
-  bottom: { marginTop: theme.spacing.unit * 5, backgroundColor: "black" },
-  text: {
-    color: "#85BDCB",
-    display: "block",
-    fontSize: 17,
-    marginBlockStart: "1em",
-    marginBlockEnd: "1em",
-    marginInlineStart: "0px",
-    marginInlineEnd: "0px",
-    fontWeight: "bold"
-  },
-  bottomText: {
-    color: "#85BDCB",
+  creditBarText: {
+    color: palette.accent.blue,
+    padding: '1.5rem 2rem',
     fontSize: 18,
-    margin: theme.spacing.unit * 3
+    fontWeight: 'bold',
   },
-  menu: {
-    color: "#grey",
+  paddingLeft: {
+    width: '10vw',
+  },
+  paddingRight: {
+    width: '6vw',
+  },
+  listItem: {
+    padding: '0.8rem 0',
+  },
+
+  heading: {
+    color: palette.accent.blue,
+    fontSize: 17,
+    fontWeight: 'bold',
+  },
+  link: {
     fontSize: 16,
-    cursor: "pointer"
+    color: palette.accent.dark,
+    textDecoration: 'none',
+    fontWeight: 500,
+    cursor: 'pointer',
+    '&:hover': {
+      color: palette.accent.blue,
+    },
   },
   img: {
     marginRight: 15,
     width: 30,
-    color: "grey"
-  }
-});
+    color: 'grey',
+  },
+})
 
-const Footer = props => {
-  const { classes } = props;
+const CreditBar = ({ classes }) => {
   return (
-    <Grid container className={classes.root} spacing={16}>
-      <Grid item xs={2} className={classes.grid} />
-      <Grid item xs={3} className={classes.grid}>
-        <Typography color="secondary" className={classes.text}>
+    <Grid container className={classes.creditBarContainer}>
+      <Typography color="secondary" className={classes.creditBarText}>
+        &copy; Copyright {new Date().getFullYear()} Entra
+      </Typography>
+    </Grid>
+  )
+}
+
+const FooterBar = ({ classes }) => {
+  return (
+    <div className="footerBarContainer">
+      <div className={classes.paddingLeft} />
+
+      <div className="footerSection">
+        <Typography color="secondary" className={classes.heading}>
           LEGAL
         </Typography>
 
         <List component="nav">
-          <ListItem>
-            <Typography className={classes.menu}>
-              Terms and Conditions
+          <ListItem className={classes.listItem}>
+            <Typography>
+              <Link href="/terms">
+                <span className={classes.link}>Terms and Conditions</span>
+              </Link>
             </Typography>
           </ListItem>
-          <ListItem>
-            <Typography className={classes.menu}>
-              GDPR Privacy Policy
+
+          <ListItem className={classes.listItem}>
+            <Typography>
+              <Link href="/privacy">
+                <span className={classes.link}>GDPR Privacy Policy</span>
+              </Link>
             </Typography>
           </ListItem>
         </List>
-      </Grid>
-      <Grid item xs={3} className={classes.grid}>
-        <Typography color="secondary" className={classes.text}>
+      </div>
+
+      <div className="footerSection">
+        <Typography color="secondary" className={classes.heading}>
           COMMUNITY
         </Typography>
 
         <List component="nav">
-          <ListItem>
-            <Typography className={classes.menu}>
-              <Link href="/blogs">
-                <a>Blog</a>
+          <ListItem className={classes.listItem}>
+            <Typography>
+              <Link href="/blog">
+                <span className={classes.link}>Blog</span>
               </Link>
             </Typography>
           </ListItem>
-          <ListItem>
-            <Typography className={classes.menu}>Our Team</Typography>
+
+          <ListItem className={classes.listItem}>
+            <Typography>
+              <Link href="/team">
+                <span className={classes.link}>Our Team</span>
+              </Link>
+            </Typography>
           </ListItem>
         </List>
-      </Grid>
-      <Grid item xs={3} className={classes.grid}>
-        <Typography variant="h3" className={classes.text}>
+      </div>
+
+      <div className="footerSection">
+        <Typography color="secondary" className={classes.heading}>
           CONNECT WITH US
         </Typography>
+
         <List component="nav">
-          <ListItem>
-            <a href="https://www.facebook.com/Entra-463274424415901">
-              <img
-                className={classes.img}
-                src="static/icons8-facebook-circled-48.png"
-              />
+          <ListItem className={classes.listItem}>
+            <a
+              href="https://www.facebook.com/Entra-463274424415901"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img className={classes.img} src="static/icons8-facebook-circled-48.png" />
             </a>
-            <a href="https://www.instagram.com/entra.io/">
-              <img
-                className={classes.img}
-                src="static/icons8-instagram-old-50.png"
-              />
+            <a href="https://www.instagram.com/entra.io/" target="_blank" rel="noopener noreferrer">
+              <img className={classes.img} src="static/icons8-instagram-old-50.png" />
             </a>
-            <a href="https://www.linkedin.com/company/entraio/about">
-              <img
-                className={classes.img}
-                src="static/icons8-linkedin-48.png"
-              />
+            <a
+              href="https://www.linkedin.com/company/entraio/about"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img className={classes.img} src="static/icons8-linkedin-48.png" />
             </a>
-            <a href="https://www.linkedin.com/company/entraio/about">
-              <img
-                className={classes.img}
-                src="static/icons8-twitter-squared-48.png"
-              />
+            <a
+              href="https://www.twitter.com/entraio"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img className={classes.img} src="static/icons8-twitter-squared-48.png" />
             </a>
           </ListItem>
         </List>
-      </Grid>
+      </div>
+      <div className={classes.paddingRight} />
+    </div>
+  )
+}
 
-      <Grid container className={classes.bottom} spacing={16}>
-        <Grid item xs={5} />
-        <Grid item xs={6}>
-          <Typography variant="h3" className={classes.bottomText}>
-            @ Copyright {new Date().getFullYear()} Entra
-          </Typography>
-        </Grid>
-      </Grid>
-    </Grid>
-  );
-};
+const Footer = ({ classes }) => {
+  return (
+    <>
+      <FooterBar classes={classes} />
+      <CreditBar classes={classes} />
+    </>
+  )
+}
 
-export default withStyles(styles)(Footer);
+export default withStyles(styles)(Footer)

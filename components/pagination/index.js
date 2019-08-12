@@ -117,13 +117,6 @@ function Pagination({ filter, page, classes }) {
 
         return (
           <Table className={classes.table}>
-            <TableBody>
-              {emptyRows(count, page) > 0 && (
-                <TableRow style={{ height: 48 * emptyRows(count, page) }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
             <TableFooter>
               <TableRow>
                 <div className={classes.paginationContainer}>
