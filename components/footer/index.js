@@ -14,8 +14,9 @@ const styles = ({ palette }) => ({
   },
   creditBarText: {
     color: palette.accent.blue,
-    fontSize: 18,
     padding: '1.5rem 2rem',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   paddingLeft: {
     width: '10vw',
@@ -32,10 +33,15 @@ const styles = ({ palette }) => ({
     fontSize: 17,
     fontWeight: 'bold',
   },
-  menu: {
-    color: palette.accent.dark,
+  link: {
     fontSize: 16,
+    color: palette.accent.dark,
+    textDecoration: 'none',
+    fontWeight: 500,
     cursor: 'pointer',
+    '&:hover': {
+      color: palette.accent.blue,
+    },
   },
   img: {
     marginRight: 15,
@@ -47,7 +53,7 @@ const styles = ({ palette }) => ({
 const CreditBar = ({ classes }) => {
   return (
     <Grid container className={classes.creditBarContainer}>
-      <Typography variant="h3" className={classes.creditBarText}>
+      <Typography color="secondary" className={classes.creditBarText}>
         &copy; Copyright {new Date().getFullYear()} Entra
       </Typography>
     </Grid>
@@ -65,15 +71,19 @@ const FooterBar = ({ classes }) => {
         </Typography>
 
         <List component="nav">
-          <ListItem  className={classes.listItem}>
-            <Typography className={classes.menu}>
-              <Link href="/terms">Terms and Conditions</Link>
+          <ListItem className={classes.listItem}>
+            <Typography>
+              <Link href="/terms">
+                <span className={classes.link}>Terms and Conditions</span>
+              </Link>
             </Typography>
           </ListItem>
 
-          <ListItem  className={classes.listItem}>
-            <Typography className={classes.menu}>
-              <Link href="/privacy">GDPR Privacy Policy</Link>
+          <ListItem className={classes.listItem}>
+            <Typography>
+              <Link href="/privacy">
+                <span className={classes.link}>GDPR Privacy Policy</span>
+              </Link>
             </Typography>
           </ListItem>
         </List>
@@ -85,15 +95,19 @@ const FooterBar = ({ classes }) => {
         </Typography>
 
         <List component="nav">
-          <ListItem  className={classes.listItem}>
-            <Typography className={classes.menu}>
-              <Link href="/blog">Blog</Link>
+          <ListItem className={classes.listItem}>
+            <Typography>
+              <Link href="/blog">
+                <span className={classes.link}>Blog</span>
+              </Link>
             </Typography>
           </ListItem>
 
-          <ListItem  className={classes.listItem}>
-            <Typography className={classes.menu}>
-              <Link href="/team">Our Team</Link>
+          <ListItem className={classes.listItem}>
+            <Typography>
+              <Link href="/team">
+                <span className={classes.link}>Our Team</span>
+              </Link>
             </Typography>
           </ListItem>
         </List>
@@ -105,7 +119,7 @@ const FooterBar = ({ classes }) => {
         </Typography>
 
         <List component="nav">
-          <ListItem  className={classes.listItem}>
+          <ListItem className={classes.listItem}>
             <a
               href="https://www.facebook.com/Entra-463274424415901"
               target="_blank"
