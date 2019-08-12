@@ -11,8 +11,10 @@ import Grid from "@material-ui/core/Grid";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import gql from "graphql-tag";
+import FacebookLogin from "react-facebook-login";
 import Error from "./../ErrorMessage.js";
 import { CURRENT_USER_QUERY } from "./User";
+console.log(process.env.FACEBOOK_APP_ID, "app id");
 
 const SIGNIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
@@ -78,6 +80,9 @@ class Signin extends Component {
   saveToState = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
+  responseFacebook = response => {
+    console.log("fb response", response);
+  };
   render() {
     const { classes } = this.props;
     return (
@@ -120,6 +125,11 @@ class Signin extends Component {
                     </Toolbar>
                   </AppBar>
                   <Error error={error} />
+                  <FacebookLogin
+                    appId={process.env.FACEBOOK_APP_ID}
+                    fields="name,email,picture"
+                    callback={this.responseFacebook}
+                  />
                   <Typography variant="h4" className={classes.text}>
                     Login
                   </Typography>
