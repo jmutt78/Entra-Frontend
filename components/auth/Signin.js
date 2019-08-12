@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Router from "next/router";
-import { Mutation } from "react-apollo";
+import { Mutation, withApollo } from "react-apollo";
 import Link from "next/link";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
@@ -11,12 +11,23 @@ import Grid from "@material-ui/core/Grid";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import gql from "graphql-tag";
+import FacebookLogin from "react-facebook-login";
 import Error from "./../ErrorMessage.js";
 import { CURRENT_USER_QUERY } from "./User";
 
 const SIGNIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
     signin(email: $email, password: $password) {
+      id
+      email
+      name
+    }
+  }
+`;
+
+const FACEBOOK_LOGIN_MUTATION = gql`
+  mutation FACEBOOK_LOGIN_MUTATION($name: String!, $email: String!) {
+    facebookLogin(name: $name, email: $email) {
       id
       email
       name
@@ -69,6 +80,7 @@ const styles = theme => ({
   }
 });
 
+
 class Signin extends Component {
   state = {
     name: "",
@@ -77,6 +89,18 @@ class Signin extends Component {
   };
   saveToState = e => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+  responseFacebook = response => {
+    this.props.client.mutate({
+      mutation: FACEBOOK_LOGIN_MUTATION,
+      variables: {
+        name: response.name,
+        email: response.email
+      },
+      refetchQueries:[{ query: CURRENT_USER_QUERY }]
+    }).then(() => {
+      Router.push("/");
+    })
   };
   render() {
     const { classes } = this.props;
@@ -120,6 +144,11 @@ class Signin extends Component {
                     </Toolbar>
                   </AppBar>
                   <Error error={error} />
+                  <FacebookLogin
+                    appId={process.env.FACEBOOK_APP_ID}
+                    fields="name,email,picture"
+                    callback={this.responseFacebook}
+                  />
                   <Typography variant="h4" className={classes.text}>
                     Login
                   </Typography>
@@ -179,4 +208,4 @@ Signin.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Signin);
+export default withStyles(styles)(withApollo(Signin));
