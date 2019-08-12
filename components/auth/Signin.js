@@ -80,7 +80,6 @@ const styles = theme => ({
   }
 });
 
-
 class Signin extends Component {
   state = {
     name: "",
@@ -91,18 +90,21 @@ class Signin extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
   responseFacebook = response => {
-    this.props.client.mutate({
-      mutation: FACEBOOK_LOGIN_MUTATION,
-      variables: {
-        name: response.name,
-        email: response.email
-      },
-      refetchQueries:[{ query: CURRENT_USER_QUERY }]
-    }).then(() => {
-      Router.push("/");
-    })
+    this.props.client
+      .mutate({
+        mutation: FACEBOOK_LOGIN_MUTATION,
+        variables: {
+          name: response.name,
+          email: response.email
+        },
+        refetchQueries: [{ query: CURRENT_USER_QUERY }]
+      })
+      .then(() => {
+        Router.push("/");
+      });
   };
   render() {
+    console.log(process.env.FACEBOOK_APP_ID);
     const { classes } = this.props;
     return (
       <Mutation
