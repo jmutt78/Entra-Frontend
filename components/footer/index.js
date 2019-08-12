@@ -18,6 +18,7 @@ const styles = theme => ({
   root: {
     display: "flex",
     backgroundColor: "#F2F4EF",
+    marginTop: theme.spacing.unit * 7
   },
   grid: { marginTop: theme.spacing.unit * 5 },
   bottom: { marginTop: theme.spacing.unit * 5, backgroundColor: "black" },
