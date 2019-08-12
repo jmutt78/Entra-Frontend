@@ -4,34 +4,36 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
+import './footer.css'
 
 const styles = ({ palette }) => ({
-  footerBarContainer: {
-    display: 'flex',
-    backgroundColor: '#F2F4EF',
-  },
   creditBarContainer: {
     background: palette.accent.dark,
     display: 'flex',
     justifyContent: 'flex-end',
   },
-  text: {
-    color: '#85BDCB',
-    display: 'block',
-    fontSize: 17,
-    marginBlockStart: '1em',
-    marginBlockEnd: '1em',
-    marginInlineStart: '0px',
-    marginInlineEnd: '0px',
-    fontWeight: 'bold',
-  },
-  bottomText: {
-    color: '#85BDCB',
+  creditBarText: {
+    color: palette.accent.blue,
     fontSize: 18,
     padding: '1.5rem 2rem',
   },
+  paddingLeft: {
+    width: '10vw',
+  },
+  paddingRight: {
+    width: '6vw',
+  },
+  listItem: {
+    padding: '0.8rem 0',
+  },
+
+  heading: {
+    color: palette.accent.blue,
+    fontSize: 17,
+    fontWeight: 'bold',
+  },
   menu: {
-    color: '#grey',
+    color: palette.accent.dark,
     fontSize: 16,
     cursor: 'pointer',
   },
@@ -45,7 +47,7 @@ const styles = ({ palette }) => ({
 const CreditBar = ({ classes }) => {
   return (
     <Grid container className={classes.creditBarContainer}>
-      <Typography variant="h3" className={classes.bottomText}>
+      <Typography variant="h3" className={classes.creditBarText}>
         &copy; Copyright {new Date().getFullYear()} Entra
       </Typography>
     </Grid>
@@ -54,63 +56,85 @@ const CreditBar = ({ classes }) => {
 
 const FooterBar = ({ classes }) => {
   return (
-    <Grid container className={classes.footerBarContainer}>
-      <Grid item xs={3} className={classes.grid}>
-        <Typography color="secondary" className={classes.text}>
+    <div className="footerBarContainer">
+      <div className={classes.paddingLeft} />
+
+      <div className="footerSection">
+        <Typography color="secondary" className={classes.heading}>
           LEGAL
         </Typography>
 
         <List component="nav">
-          <ListItem>
-            <Typography className={classes.menu}>Terms and Conditions</Typography>
+          <ListItem  className={classes.listItem}>
+            <Typography className={classes.menu}>
+              <Link href="/terms">Terms and Conditions</Link>
+            </Typography>
           </ListItem>
-          <ListItem>
-            <Typography className={classes.menu}>GDPR Privacy Policy</Typography>
+
+          <ListItem  className={classes.listItem}>
+            <Typography className={classes.menu}>
+              <Link href="/privacy">GDPR Privacy Policy</Link>
+            </Typography>
           </ListItem>
         </List>
-      </Grid>
+      </div>
 
-      <Grid item xs={3} className={classes.grid}>
-        <Typography color="secondary" className={classes.text}>
+      <div className="footerSection">
+        <Typography color="secondary" className={classes.heading}>
           COMMUNITY
         </Typography>
 
         <List component="nav">
-          <ListItem>
+          <ListItem  className={classes.listItem}>
             <Typography className={classes.menu}>
-              <Link href="/blogs">
-                <a>Blog</a>
-              </Link>
+              <Link href="/blog">Blog</Link>
             </Typography>
           </ListItem>
-          <ListItem>
-            <Typography className={classes.menu}>Our Team</Typography>
+
+          <ListItem  className={classes.listItem}>
+            <Typography className={classes.menu}>
+              <Link href="/team">Our Team</Link>
+            </Typography>
           </ListItem>
         </List>
-      </Grid>
+      </div>
 
-      <Grid item xs={3} className={classes.grid}>
-        <Typography variant="h3" className={classes.text}>
+      <div className="footerSection">
+        <Typography color="secondary" className={classes.heading}>
           CONNECT WITH US
         </Typography>
+
         <List component="nav">
-          <ListItem>
-            <a href="https://www.facebook.com/Entra-463274424415901">
+          <ListItem  className={classes.listItem}>
+            <a
+              href="https://www.facebook.com/Entra-463274424415901"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <img className={classes.img} src="static/icons8-facebook-circled-48.png" />
             </a>
-            <a href="https://www.instagram.com/entra.io/">
+            <a href="https://www.instagram.com/entra.io/" target="_blank" rel="noopener noreferrer">
               <img className={classes.img} src="static/icons8-instagram-old-50.png" />
             </a>
-            <a href="https://www.linkedin.com/company/entraio/about">
+            <a
+              href="https://www.linkedin.com/company/entraio/about"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <img className={classes.img} src="static/icons8-linkedin-48.png" />
             </a>
-            <a href="https://www.linkedin.com/company/entraio/about">
+            <a
+              href="https://www.linkedin.com/company/entraio/about"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <img className={classes.img} src="static/icons8-twitter-squared-48.png" />
             </a>
           </ListItem>
         </List>
-      </Grid>
-    </Grid>
+      </div>
+      <div className={classes.paddingRight} />
+    </div>
   )
 }
 
