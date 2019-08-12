@@ -88,7 +88,7 @@ const Appbar = ({ isLoggedIn, classes }) => {
     },
     {
       name: 'Blog',
-      target: '/blogs',
+      target: '/blog',
     },
   ]
 

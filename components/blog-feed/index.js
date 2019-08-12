@@ -98,7 +98,7 @@ class Blogs extends Component {
                     <div key={post.node.id}>
                       <Link
                         href={{
-                          pathname: "/blog",
+                          pathname: "/post",
                           query: { id: post.node.id }
                         }}
                       >
