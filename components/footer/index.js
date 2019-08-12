@@ -138,7 +138,7 @@ const FooterBar = ({ classes }) => {
               <img className={classes.img} src="static/icons8-linkedin-48.png" />
             </a>
             <a
-              href="https://www.linkedin.com/company/entraio/about"
+              href="https://www.twitter.com/entraio"
               target="_blank"
               rel="noopener noreferrer"
             >
