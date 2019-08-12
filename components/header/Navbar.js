@@ -102,7 +102,7 @@ const Navbar = ({ classes }) => {
           <AppBar className={classes.appbar} position="static">
             <div className={classes.container}>
               <Typography className={classes.navigationContainer}>
-                {me.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission)) &&
+                { me && me.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission)) &&
                   adminLinks.map(({ name, target }) => (
                     <NavLink activeClassName={classes.navLinkActive} href={target}>
                       <a className={classes.navLink}>{name}</a>
