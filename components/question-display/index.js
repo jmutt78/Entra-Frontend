@@ -17,7 +17,7 @@ import Typography from '@material-ui/core/Typography'
 
 import NoQuestion from './NoQuestion';
 import QuestionDetail from './QuestionDetail'
-
+import Icon from "../ui/Icon";
 import questionQuery from './questionQuery'
 import { CURRENT_USER_QUERY } from '../auth/User'
 
@@ -55,6 +55,12 @@ const styles = ({ palette, layout }) => ({
     fontSize: '1.4rem',
     padding: '8px 0 5px 8px',
   },
+  viewsCount: {
+    color: palette.accent.dark,
+    fontSize: '1.4rem',
+    padding: '5px 0 5px 8px',
+
+  }
 })
 
 const CustomTableCell = withStyles(theme => ({
@@ -195,6 +201,25 @@ class DisplayQuestion extends Component {
                               <CreatBookMark user={user} question={question} />
                             </CustomTableCell>
                           </Tooltip>
+                      }
+
+                      {
+                        /*
+                          <CustomTableCell style={{ maxWidth: '.3px', padding: '0 25px' }} />
+                          <Tooltip
+                            title=`${question.views} views`
+                            placement="top"
+                            className={classes.voteButton}
+                            onClick={this.downVote}
+                          >
+                          <CustomTableCell style={{ maxWidth: '.3px' }}>
+                            <div className={classes.voteContainer}>
+                              <Icon src="/static/visibility.svg" />
+                              <span className={classes.viewsCount}>{question.views}</span>
+                          </div>
+                        </CustomTableCell>
+                      </Tooltip>
+                          */
                       }
 
                       <CustomTableCell style={{ maxWidth: '.3px', padding: '0 30px' }} />
