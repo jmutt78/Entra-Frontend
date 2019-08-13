@@ -1,25 +1,30 @@
 import React from 'react'
 
-import Typography from '@material-ui/core/Typography'
-import FirstPageIcon from '@material-ui/icons/FirstPage'
-import IconButton from '@material-ui/core/IconButton'
+import Button from '@material-ui/core/Button'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
-import LastPageIcon from '@material-ui/icons/LastPage'
+import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 
-const styles = theme => ({
+const styles = ({ palette }) => ({
   container: {
     flexShrink: 0,
-    color: theme.palette.text.secondary,
+    color: palette.text.secondary,
     marginLeft: '3rem',
+  },
+  button: {
+    margin: 5,
+    backgroundColor: palette.accent.grey,
+    '&:hover': {
+      backgroundColor: palette.primary.main,
+    },
   },
 })
 
 function PaginationActions({ classes, count, page, rowsPerPage, onChangePage }) {
-  function handleFirstPageButtonClick(event) {
-    onChangePage(event, 0)
-  }
+  // function handleFirstPageButtonClick(event) {
+  //   onChangePage(event, 0)
+  // }
 
   function handleBackButtonClick(event) {
     onChangePage(event, page - 1)
@@ -29,33 +34,36 @@ function PaginationActions({ classes, count, page, rowsPerPage, onChangePage }) 
     onChangePage(event, page + 1)
   }
 
-  function handleLastPageButtonClick(event) {
-    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1))
-  }
+  // function handleLastPageButtonClick(event) {
+  //   onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1))
+  // }
 
   return (
-    <div className={classes.container}>
-      <IconButton onClick={handleFirstPageButtonClick} disabled={page === 0} aria-label="first page">
-        <LastPageIcon />
-      </IconButton>
-      <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
-        <KeyboardArrowRight />
-      </IconButton>
-      <IconButton
-        onClick={handleNextButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="next page"
+    <Typography className={classes.container}>
+      <Button
+        variant="contained"
+        color="secondary"
+        className={classes.button}
+        onClick={handleBackButtonClick}
+        style={page === 0 ? { display: 'none' } : {}}
+        size="small"
       >
         <KeyboardArrowLeft />
-      </IconButton>
-      <IconButton
-        onClick={handleLastPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="last page"
+        {`Previous Page `}
+      </Button>
+
+      <Button
+        variant="contained"
+        color="secondary"
+        className={classes.button}
+        onClick={handleNextButtonClick}
+        style={page >= Math.ceil(count / rowsPerPage) - 1 ? { display: 'none' } : {}}
+        size="small"
       >
-        <FirstPageIcon />
-      </IconButton>
-    </div>
+        {` Next Page`}
+        <KeyboardArrowRight />
+      </Button>
+    </Typography>
   )
 }
 
