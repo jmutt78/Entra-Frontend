@@ -1,57 +1,49 @@
-import React, { Component } from "react";
-import { Query } from "react-apollo";
-import MainQuestion from "./MainQuestion.js";
-import CreateAnswer from "../create-answer";
-import Answers from "../answers-display/Answers.js";
+import React, { Component } from 'react'
+import { Query } from 'react-apollo'
 
-import { withStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+import { withStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
 
-import questionQuery from "./questionQuery";
+import MainQuestion from './MainQuestion.js'
+import CreateAnswer from '../create-answer'
+import Answers from '../answers-display/Answers.js'
 
-const styles = theme => ({
-  grid: {
-    margin: theme.spacing.unit
+import questionQuery from './questionQuery'
+
+const styles = ({ palette, layout }) => ({
+  container: {
+    width: layout.width,
+    height: '100%',
   },
-  root: {
-    margin: theme.spacing.unit,
-    marginTop: 40
-  }
-});
+})
 
 class DisplayQuestion extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
 
     return (
       <Query
         query={questionQuery}
         variables={{
-          id: this.props.id
+          id: this.props.id,
         }}
       >
         {({ data: { question }, loading }) => {
-          if (loading) return <p>Loading...</p>;
+          if (loading) return <p>Loading...</p>
           if (!question) {
-            return <p>Question not found</p>;
+            return <p>Question not found</p>
           }
           return (
-            <Grid container className={classes.root} spacing={16}>
-              <Grid item xs={12} className={classes.grid}>
-                <MainQuestion id={this.props.id} question={question} />
-              </Grid>
-              <Grid item xs={12} className={classes.grid}>
-                <Answers id={this.props.id} question={question} />
-              </Grid>
-              <Grid item xs={12} className={classes.grid}>
-                <CreateAnswer question={question} />
-              </Grid>
-            </Grid>
-          );
+            <div className={classes.container}>
+              <MainQuestion id={this.props.id} question={question} />
+              <Answers id={this.props.id} question={question} />
+              <CreateAnswer question={question} />
+            </div>
+          )
         }}
       </Query>
-    );
+    )
   }
 }
 
-export default withStyles(styles)(DisplayQuestion);
+export default withStyles(styles)(DisplayQuestion)
