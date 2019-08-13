@@ -16,7 +16,7 @@ const styles = ({ layout }) => {
     display: 'flex',
     padding: '2rem 2rem 1rem 2rem',
     flex: 1,
-    minHeight: `calc(${layout.height} - ${layout.headerHeight}px - ${layout.navHeight}px)`,
+    minHeight: layout.contentMinHeight,
   },
 })};
 

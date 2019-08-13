@@ -21,11 +21,15 @@ const CustomTableCell = withStyles(theme => ({
   },
 }))(TableCell)
 
-const styles = theme => ({
+const styles = ({ layout }) => ({
   container: {
     display: "flex",
     flexDirection: 'column',
     justifyContent: "space-between",
+    width: layout.width,
+    maxWidth: 1200,
+    height: '100%',
+    minHeight: layout.contentMinHeight,
   },
   title: {
     fontSize: '40px',
@@ -47,7 +51,7 @@ class AnswerList extends Component {
     }
 
     return (
-      <Grid container className={classes.container}>
+      <div className={classes.container}>
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
@@ -84,7 +88,7 @@ class AnswerList extends Component {
           </TableBody>
         </Table>
         <Pagination page={page} filter={filter} />
-      </Grid>
+      </div>
     )
   }
 }
