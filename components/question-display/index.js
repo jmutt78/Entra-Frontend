@@ -10,11 +10,14 @@ import CreatBookMark from '../bookmark/CreateBookMark.js'
 import CreateAnswer from '../create-answer'
 import MainQuestion from './MainQuestion.js'
 import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
+
+import QuestionDetail from './QuestionDetail'
 
 import questionQuery from './questionQuery'
 import { CURRENT_USER_QUERY } from '../auth/User'
@@ -186,6 +189,19 @@ class DisplayQuestion extends Component {
                   </TableHead>
                 </Table>
               </div>
+
+              <Table className={classes.table}>
+                <TableBody>
+                  <QuestionDetail
+                    item={question}
+                    linkTo={{
+                      pathname: '/question',
+                      query: { id: question.id },
+                    }}
+                    userName={user.name}
+                  />
+                </TableBody>
+              </Table>
 
               <MainQuestion id={this.props.id} question={question} />
               <Answers id={this.props.id} question={question} />
