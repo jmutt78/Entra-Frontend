@@ -33,11 +33,6 @@ const PAGINATION_QUERY = gql`
 `
 
 function Pagination({ filter, page, classes }) {
-  function handleChangePage(event, newPage) {
-    // TODO paginate
-    // setPage(newPage);
-  }
-
   return (
     <Query query={PAGINATION_QUERY} variables={{ filter: filter }}>
       {({ data, loading, error }) => {
@@ -45,21 +40,17 @@ function Pagination({ filter, page, classes }) {
         if (error) return <Error error={error} />
 
         const count = data.questionsConnection.aggregate.count
+        const pages = Math.ceil(count / perPage);
 
         return (
           <div className={classes.paginationContainer}>
-            <TablePagination
-              rowsPerPageOptions={false}
-              colSpan={3}
-              count={count}
-              page={page}
-              SelectProps={{
-                inputProps: { 'aria-label': 'rows per page' },
-                native: true,
-              }}
-              onChangePage={handleChangePage}
-              ActionsComponent={PaginationActions}
-            />
+            <Typography><h3>{`Showing page ${page} of ${pages}`}</h3></Typography>
+            <PaginationActions page={page} pages={pages} />
+
+
+
+
+
           </div>
         )
       }}
