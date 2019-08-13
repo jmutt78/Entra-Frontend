@@ -8,9 +8,7 @@ import gql from 'graphql-tag'
 import Answers from '../answers-display/Answers.js'
 import CreatBookMark from '../bookmark/CreateBookMark.js'
 import CreateAnswer from '../create-answer'
-import MainQuestion from './MainQuestion.js'
 import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
@@ -22,6 +20,8 @@ import QuestionDetail from './QuestionDetail'
 import questionQuery from './questionQuery'
 import { CURRENT_USER_QUERY } from '../auth/User'
 
+import './index.css'
+
 const styles = ({ palette, layout }) => ({
   container: {
     width: layout.width,
@@ -30,7 +30,7 @@ const styles = ({ palette, layout }) => ({
     minHeight: layout.contentMinHeight,
   },
   titleContainer: {
-    padding: '0 1rem 2rem 0',
+    padding: '0 1rem 0 0',
   },
   title: {
     fontSize: '40px',
@@ -137,7 +137,7 @@ class DisplayQuestion extends Component {
           const user = data.me
 
           return (
-            <div className={classes.container}>
+            <div className={classes.container} id="tableBorderRemoveTarget">
               <div className={classes.titleContainer}>
                 <Table className={classes.table}>
                   <TableHead>
@@ -190,22 +190,21 @@ class DisplayQuestion extends Component {
                 </Table>
               </div>
 
-              <Table className={classes.table}>
-                <TableBody>
-                  <QuestionDetail
-                    item={question}
-                    linkTo={{
-                      pathname: '/question',
-                      query: { id: question.id },
-                    }}
-                    userName={user.name}
-                  />
-                </TableBody>
-              </Table>
+              <QuestionDetail
+                item={question}
+                linkTo={{
+                  pathname: '/question',
+                  query: { id: question.id },
+                }}
+                userName={user.name}
+                question={question}
+                user={user}
+              />
 
-              <MainQuestion id={this.props.id} question={question} />
-              <Answers id={this.props.id} question={question} />
-              <CreateAnswer question={question} />
+              {/*
+                  <Answers id={this.props.id} question={question} />
+                  <CreateAnswer question={question} />
+                  */}
             </div>
           )
         }}
