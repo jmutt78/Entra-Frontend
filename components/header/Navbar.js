@@ -35,7 +35,7 @@ const styles = ({ layout, palette }) => ({
   avatarContainer: {
     display: 'flex',
     alignItems: 'center',
-    padding: '5px 10px 0 0',
+    padding: '5px 35px 0 0',
 
     color: 'white',
     fontSize: '1.1rem',
