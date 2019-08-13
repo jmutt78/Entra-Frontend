@@ -51,6 +51,7 @@ const styles = ({ layout, palette }) => ({
   },
   logo: {
     maxHeight: 50,
+    cursor: 'pointer',
   },
   logoContainer: {
     padding: '12px 0 0 0',
