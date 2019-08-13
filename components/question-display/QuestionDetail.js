@@ -4,6 +4,7 @@ import { format, parseISO } from 'date-fns'
 
 import Button from '@material-ui/core/Button'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
+import DeleteQuestion from '../delete-question'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -73,31 +74,29 @@ const PromptBar = ({ classes, user }) => {
   )
 }
 
-// TODO put this in the Description somewhere
+// TODO style this
 const EditButton = ({ question, user }) => {
   const answers = question.answers.length
   const date1 = new Date(question.createdAt)
   const date2 = new Date()
   const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24))
 
-  if (question.askedBy[0].id == user.id && diffDays <= 1 && !answers) {
-    return (
-      <div>
-        <Typography>
-          <Link
-            href={{
-              pathname: '/edit-question',
-              query: { id: question.id },
-            }}
-          >
-            <a style={{ textDecoration: 'none', color: 'grey' }}>EDIT</a>
-          </Link>
-        </Typography>
-        <DeleteQuestion id={question.id} />
-        <div />
-      </div>
-    )
-  }
+  return question.askedBy[0].id == user.id && diffDays <= 1 && !answers ? (
+    <div>
+      <Typography>
+        <Link
+          href={{
+            pathname: '/edit-question',
+            query: { id: question.id },
+          }}
+        >
+          <span style={{ textDecoration: 'none', color: 'grey' }}>EDIT</span>
+        </Link>
+      </Typography>
+      <DeleteQuestion id={question.id} />
+      <div />
+    </div>
+  ) : null
 }
 
 const QuestionDetail = ({
@@ -108,18 +107,10 @@ const QuestionDetail = ({
   classes,
   user,
 }) => {
-  const askedby = question.askedBy[0]
-  const hasPermissions = user.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission))
-  const ownsQuestion = askedby.id === user.id
-  const isApproved = question.approval === true
-
-  if (!ownsQuestion && !hasPermissions && !isApproved) {
-    // TODO rewrite this
-    return <NoQuestion />
-  }
 
   return (
     <div className={classes.detailContainer}>
+      <PromptBar classes={classes} user={user} />
       <Table>
         <TableBody>
           <TableRow key={id} className={classes.tableRow}>
@@ -151,18 +142,23 @@ const QuestionDetail = ({
                 )}
               </Typography>
 
-              <ApproveQuestion
-                hasPermissions={hasPermissions}
-                isApproved={isApproved}
-                id={question.id}
-                approval={question.approval}
-              />
+              <div style={{ paddingBottom: 10 }}>
+                <ApproveQuestion
+                  hasPermissions={hasPermissions}
+                  isApproved={isApproved}
+                  id={question.id}
+                  approval={question.approval}
+                />
+              </div>
+
+              <EditButton question={question} user={user} />
 
               <Typography style={{ paddingTop: 5 }}>
                 <span>Posted by </span>
-                <a href={`/${userName}`} className={classes.nameLink}>
-                  {userName}
+                <a href={`/${question.askedBy.id}`} className={classes.nameLink}>
+                  {question.askedBy.name}
                 </a>
+
                 <span> on </span>
                 <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
               </Typography>

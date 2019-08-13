@@ -15,6 +15,7 @@ import TableRow from '@material-ui/core/TableRow'
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
 
+import NoQuestion from './NoQuestion';
 import QuestionDetail from './QuestionDetail'
 
 import questionQuery from './questionQuery'
@@ -136,6 +137,15 @@ class DisplayQuestion extends Component {
           if (loading) return <p>Loading...</p>
           const user = data.me
 
+          const askedby = question.askedBy[0] || null
+          const hasPermissions = !!user && user.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission))
+          const ownsQuestion = !!askedby && !!user && askedby.id === user.id
+          const isApproved = question.approval === true
+
+          if (!ownsQuestion && !hasPermissions && !isApproved) {
+            return <NoQuestion />
+          }
+
           return (
             <div className={classes.container} id="tableBorderRemoveTarget">
               <div className={classes.titleContainer}>
@@ -178,11 +188,13 @@ class DisplayQuestion extends Component {
                         </CustomTableCell>
                       </Tooltip>
 
-                      <Tooltip title="Bookmark this" placement="top">
-                        <CustomTableCell style={{ maxWidth: '.3px', padding: '0 0 3px 8px' }}>
-                          <CreatBookMark user={user} question={question} />
-                        </CustomTableCell>
-                      </Tooltip>
+                      {user &&
+                          <Tooltip title="Bookmark this" placement="top">
+                            <CustomTableCell style={{ maxWidth: '.3px', padding: '0 0 3px 8px' }}>
+                              <CreatBookMark user={user} question={question} />
+                            </CustomTableCell>
+                          </Tooltip>
+                      }
 
                       <CustomTableCell style={{ maxWidth: '.3px', padding: '0 30px' }} />
                     </TableRow>
@@ -196,7 +208,6 @@ class DisplayQuestion extends Component {
                   pathname: '/question',
                   query: { id: question.id },
                 }}
-                userName={user.name}
                 question={question}
                 user={user}
               />
