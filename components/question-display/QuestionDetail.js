@@ -45,7 +45,6 @@ const styles = ({ layout, palette, spacing }) => ({
   detailContainer: {
     padding: '5px 15px',
   },
-  // from PromptBar
   buttonTop: {
     backgroundColor: '#E27D60',
     marginLeft: spacing.unit * 2,
@@ -85,22 +84,19 @@ const EditButton = ({ question, user, classes }) => {
   const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24))
 
   return user && question.askedBy[0].id === user.id && diffDays <= 1 && !answers ? (
-    <div>
-      <Typography>
-        <Link
-          href={{
-            pathname: '/edit-question',
-            query: { id: question.id },
-          }}
-        >
-          <Button variant="contained" color="secondary" className={classes.editButton}>
-            EDIT
-          </Button>
-        </Link>
-      </Typography>
+    <Typography style={{paddingBottom: 10}}>
+      <Link
+        href={{
+          pathname: '/edit-question',
+          query: { id: question.id },
+        }}
+      >
+        <Button variant="contained" color="secondary" className={classes.editButton}>
+          EDIT
+        </Button>
+      </Link>
       <DeleteQuestion id={question.id} />
-      <div />
-    </div>
+    </Typography>
   ) : null
 }
 
@@ -115,6 +111,8 @@ const QuestionDetail = ({
   const hasPermissions =
     !!user && user.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission))
   const isApproved = question.approval === true
+
+  console.log({question})
 
   return (
     <div className={classes.detailContainer}>
@@ -163,8 +161,8 @@ const QuestionDetail = ({
 
               <Typography style={{ paddingTop: 5 }}>
                 <span>Posted by </span>
-                <a href={`/${question.askedBy.id}`} className={classes.nameLink}>
-                  {question.askedBy.name}
+                <a href={`/users/${question.askedBy[0].id}`} className={classes.nameLink}>
+                  {question.askedBy[0].name}
                 </a>
 
                 <span> on </span>
