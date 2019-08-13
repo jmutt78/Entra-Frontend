@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 
-import { format, parseISO } from 'date-fns'
-import Link from 'next/link'
 import Pagination from '../pagination'
-import Grid from '@material-ui/core/Grid'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -21,11 +18,15 @@ const CustomTableCell = withStyles(theme => ({
   },
 }))(TableCell)
 
-const styles = theme => ({
+const styles = ({ layout }) => ({
   container: {
     display: "flex",
     flexDirection: 'column',
     justifyContent: "space-between",
+    width: layout.width,
+    maxWidth: 1200,
+    height: '100%',
+    minHeight: layout.contentMinHeight,
   },
   title: {
     fontSize: '40px',
@@ -47,7 +48,7 @@ class AnswerList extends Component {
     }
 
     return (
-      <Grid container className={classes.container}>
+      <div className={classes.container}>
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
@@ -84,7 +85,7 @@ class AnswerList extends Component {
           </TableBody>
         </Table>
         <Pagination page={page} filter={filter} />
-      </Grid>
+      </div>
     )
   }
 }

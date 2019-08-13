@@ -21,11 +21,15 @@ const CustomTableCell = withStyles(theme => ({
   }
 }))(TableCell);
 
-const styles = theme => ({
+const styles = ({ layout }) => ({
   container: {
     display: "flex",
     flexDirection: 'column',
     justifyContent: "space-between",
+    width: layout.width,
+    maxWidth: 1200,
+    height: '100%',
+    minHeight: layout.contentMinHeight,
   },
   title: {
     fontSize: "40px",
@@ -45,13 +49,13 @@ function QuestionList(props) {
   const { classes, questions, filter, page } = props;
 
   return (
-    <Grid container className={classes.container}>
+    <div className={classes.container}>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
             <TableCell>
               <Typography variant="display3" className={classes.title}>
-                {upperFirst(props.name)}
+                {upperFirst(props.name) || 'Questions'}
               </Typography>
             </TableCell>
             <Tooltip title="Answers" placement="top">
@@ -94,7 +98,7 @@ function QuestionList(props) {
         </TableBody>
       </Table>
       <Pagination page={page} filter={filter} />
-    </Grid>
+    </div>
   );
 }
 

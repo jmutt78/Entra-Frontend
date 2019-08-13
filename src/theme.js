@@ -1,3 +1,10 @@
+const layout = {
+  width: '100vw',
+  height: '100vh',
+  headerHeight: 80,
+  navHeight: 80,
+}
+
 export default {
   palette: {
     primary: {
@@ -26,9 +33,7 @@ export default {
     useNextVariants: true,
   },
   layout: {
-    width: '100vw',
-    height: '100vh',
-    headerHeight: 80,
-    navHeight: 80,
+    ...layout,
+    contentMinHeight: `calc(${layout.height} - ${layout.headerHeight}px - ${layout.navHeight}px)`,
   },
 }
