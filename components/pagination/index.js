@@ -9,7 +9,7 @@ import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 
-import PaginationActions from './PaginationActions';
+import PaginationActions from './PaginationActions'
 import { perPage } from '../../config.js'
 import Error from '../ErrorMessage'
 
@@ -19,7 +19,7 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'flex-end',
     padding: '15px 0 0 0',
-  }
+  },
 })
 
 const PAGINATION_QUERY = gql`
@@ -47,26 +47,20 @@ function Pagination({ filter, page, classes }) {
         const count = data.questionsConnection.aggregate.count
 
         return (
-          <Table className={classes.table}>
-            <TableFooter>
-              <TableRow>
-                <div className={classes.paginationContainer}>
-                  <TablePagination
-                    rowsPerPageOptions={false}
-                    colSpan={3}
-                    count={count}
-                    page={page}
-                    SelectProps={{
-                      inputProps: { 'aria-label': 'rows per page' },
-                        native: true,
-                    }}
-                    onChangePage={handleChangePage}
-                    ActionsComponent={PaginationActions}
-                  />
-                </div>
-              </TableRow>
-            </TableFooter>
-          </Table>
+          <div className={classes.paginationContainer}>
+            <TablePagination
+              rowsPerPageOptions={false}
+              colSpan={3}
+              count={count}
+              page={page}
+              SelectProps={{
+                inputProps: { 'aria-label': 'rows per page' },
+                native: true,
+              }}
+              onChangePage={handleChangePage}
+              ActionsComponent={PaginationActions}
+            />
+          </div>
         )
       }}
     </Query>
