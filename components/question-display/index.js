@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Query } from 'react-apollo'
 
 import { withStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
 
 import Answers from '../answers-display/Answers.js'
 import CreateAnswer from '../create-answer'
@@ -31,11 +30,23 @@ const styles = ({ palette, layout }) => ({
     textAlign: 'Left',
     color: 'rgba(0, 0, 0, 0.87)',
   },
+  voteContainer: {
+    display: 'flex',
+  },
   voteButton: {
     cursor: 'pointer',
-  }
+  },
+  upVote: {
+    color: palette.primary.main,
+    fontSize: '1.4rem',
+    padding: '8px 8px 5px 0'
+  },
+  downVote: {
+    color: palette.accent.blue,
+    fontSize: '1.4rem',
+    padding: '8px 0 5px 8px'
+  },
 })
-
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -43,19 +54,13 @@ const CustomTableCell = withStyles(theme => ({
   },
 }))(TableCell)
 
-
 class DisplayQuestion extends Component {
-  upVote = () => {
+  upVote = () => {}
 
-  }
-
-  downVote = () => {
-
-  }
+  downVote = () => {}
 
   render() {
     const { classes } = this.props
-
 
     return (
       <Query
@@ -81,26 +86,40 @@ class DisplayQuestion extends Component {
                         </Typography>
                       </TableCell>
 
-                      <Tooltip title="vote up" placement="top" className={classes.voteButton} onClick={this.upVote}>
-                        <CustomTableCell style={{maxWidth: '.3px'}}>
-                          <img src="/static/thumb_up.svg" />
+                      <Tooltip
+                        title="vote up"
+                        placement="top"
+                        className={classes.voteButton}
+                        onClick={this.upVote}
+                      >
+                        <CustomTableCell style={{ maxWidth: '.3px' }}>
+                          <div className={classes.voteContainer}>
+                            <span className={classes.upVote}>{question.upVotes}</span>
+                            <img src="/static/thumb_up.svg" />
+                          </div>
                         </CustomTableCell>
                       </Tooltip>
 
-                      <Tooltip title="vote down" placement="top" className={classes.voteButton} onClick={this.downVote}>
-                        <CustomTableCell style={{maxWidth: '.3px'}}>
-                          <img src="/static/thumb_down.svg" />
+
+                      <Tooltip
+                        title="vote down"
+                        placement="top"
+                        className={classes.voteButton}
+                        onClick={this.downVote}
+                      >
+                        <CustomTableCell style={{ maxWidth: '.3px' }}>
+                          <div className={classes.voteContainer}>
+                            <img src="/static/thumb_down.svg" />
+                            <span className={classes.downVote}>{question.downVotes}</span>
+                          </div>
                         </CustomTableCell>
                       </Tooltip>
+                      <CustomTableCell style={{ maxWidth: '.3px' }} />
 
                     </TableRow>
                   </TableHead>
                 </Table>
               </div>
-
-
-
-
 
               <MainQuestion id={this.props.id} question={question} />
               <Answers id={this.props.id} question={question} />
