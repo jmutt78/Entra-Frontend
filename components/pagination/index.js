@@ -40,17 +40,14 @@ function Pagination({ filter, page, classes }) {
         if (error) return <Error error={error} />
 
         const count = data.questionsConnection.aggregate.count
-        const pages = Math.ceil(count / perPage);
+        const pages = Math.ceil(count / perPage)
 
         return (
-          <div className={classes.paginationContainer}>
-            <Typography><h3>{`Showing page ${page} of ${pages}`}</h3></Typography>
+          <div className={classes.paginationContainer} style={pages <= 1 ? { display: 'none' } : {}}>
+            <Typography>
+              <h3>{`Showing page ${page} of ${pages}`}</h3>
+            </Typography>
             <PaginationActions page={page} pages={pages} />
-
-
-
-
-
           </div>
         )
       }}
