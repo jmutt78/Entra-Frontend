@@ -58,7 +58,6 @@ const CustomTableCell = withStyles(theme => ({
   },
 }))(TableCell)
 
-
 const CREATE_QUESTION_VOTE_MUTATION = gql`
   mutation CREATE_QUESTION_VOTE_MUTATION($questionId: ID!, $vote: String) {
     createQuestionVote(questionId: $questionId, vote: $vote)
@@ -160,7 +159,6 @@ class DisplayQuestion extends Component {
                         </CustomTableCell>
                       </Tooltip>
 
-
                       <CustomTableCell style={{ maxWidth: '.3px', padding: '0 10px' }} />
 
                       <Tooltip
@@ -177,12 +175,13 @@ class DisplayQuestion extends Component {
                         </CustomTableCell>
                       </Tooltip>
 
-                      <CustomTableCell style={{ maxWidth: '.3px', padding: '0 0 3px 8px' }}>
-                        <CreatBookMark user={user} question={question} />
-                      </CustomTableCell>
+                      <Tooltip title="Bookmark this" placement="top">
+                        <CustomTableCell style={{ maxWidth: '.3px', padding: '0 0 3px 8px' }}>
+                          <CreatBookMark user={user} question={question} />
+                        </CustomTableCell>
+                      </Tooltip>
 
                       <CustomTableCell style={{ maxWidth: '.3px', padding: '0 30px' }} />
-
                     </TableRow>
                   </TableHead>
                 </Table>
