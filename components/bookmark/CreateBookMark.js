@@ -6,6 +6,7 @@ import questionListQuery from "../question-list/questionListQuery";
 import gql from "graphql-tag";
 import BookmarkBorder from "@material-ui/icons/BookmarkBorder";
 import { CURRENT_USER_QUERY } from "../auth/User";
+import questionQuery from "../question-display/questionQuery";
 
 const CREATE_BOOKMARK_MUTATION = gql`
   mutation createBookMark($questionId: ID!) {
@@ -106,7 +107,11 @@ class CreatBookMark extends Component {
             query: questionListQuery,
             variables: { filter: "My BookMarked" }
           },
-          { query: CURRENT_USER_QUERY }
+          { query: CURRENT_USER_QUERY },
+          {
+            query: questionQuery,
+            variables: { id: this.props.question.id }
+          }
         ]}
       >
         {(createBookMark, { error, loading }) => {

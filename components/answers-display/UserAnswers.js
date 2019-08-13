@@ -115,7 +115,7 @@ class UserAnswers extends Component {
 
   handleEdit(answer, user, questionId) {
     const selected = answer.selected;
-    console.log(selected);
+
     const date1 = new Date(answer.createdAt);
     const date2 = new Date();
     const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
@@ -184,7 +184,7 @@ class UserAnswers extends Component {
                 const ownsAnswer = answeredBy === user.id;
                 const isApproved = answer.approval === true;
                 const questionId = answer.answeredTo[0].id;
-                console.log(answer.id);
+
                 const hasPermissions = user.permissions.some(permission =>
                   ["ADMIN", "MODERATOR"].includes(permission)
                 );

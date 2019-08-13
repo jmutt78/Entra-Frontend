@@ -62,7 +62,6 @@ class DeleteBookMark extends Component {
           },
           { query: CURRENT_USER_QUERY }
         ]}
-        update={this.update}
       >
         {(deleteBookMark, { error }) => (
           <div>

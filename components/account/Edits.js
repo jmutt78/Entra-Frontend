@@ -1,22 +1,22 @@
-import React, { Component } from 'react'
-import { Query, Mutation } from 'react-apollo'
-import gql from 'graphql-tag'
-import TextField from '@material-ui/core/TextField'
-import { withStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import Error from './../ErrorMessage.js'
-
-import FormControl from '@material-ui/core/FormControl'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
-import Avatar from '@material-ui/core/Avatar'
-import CloudUploadIcon from '@material-ui/icons/CloudUpload'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
-import { CURRENT_USER_QUERY } from '../auth/User'
+import React, { Component } from "react";
+import { Query, Mutation } from "react-apollo";
+import gql from "graphql-tag";
+import TextField from "@material-ui/core/TextField";
+import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Error from "./../ErrorMessage.js";
+import Router from "next/router";
+import FormControl from "@material-ui/core/FormControl";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Avatar from "@material-ui/core/Avatar";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import { CURRENT_USER_QUERY } from "../auth/User";
 
 const UPDATE_USER_MUTATION = gql`
   mutation UPDATE_USER_MUTATION(
@@ -51,146 +51,156 @@ const UPDATE_USER_MUTATION = gql`
       image
     }
   }
-`
+`;
 
 const styles = ({ layout, palette, spacing }) => ({
   container: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column"
   },
   title: {
-    fontSize: '40px',
-    textAlign: 'Left',
-    color: 'rgba(0, 0, 0, 0.87)',
+    fontSize: "40px",
+    textAlign: "Left",
+    color: "rgba(0, 0, 0, 0.87)"
   },
   inputField: {
-    width: '100%',
-    marginBottom: 30,
+    width: "100%",
+    marginBottom: 30
   },
   label: {
     marginLeft: 10,
-    marginBotom: 10,
+    marginBotom: 10
   },
   form: {
-    width: '100%',
+    width: "100%",
     maxWidth: 500,
-    padding: '30px 0 0 0',
+    padding: "30px 0 0 0"
   },
   fieldset: {
     border: 0,
     padding: 0,
-    margin: 0,
+    margin: 0
   },
   formControl: {
-    width: '100%',
+    width: "100%"
   },
   tagsContainer: {
-    display: 'flex',
+    display: "flex"
   },
   tagButton: {
     marginLeft: 10,
-    background: '#e3e3e3',
+    background: "#e3e3e3"
   },
   buttonContainer: {
-    display: 'flex',
-    width: '100%',
-    justifyContent: 'flex-end',
+    display: "flex",
+    width: "100%",
+    justifyContent: "flex-end"
   },
 
   bigAvatar: {
     marginRight: 10,
     width: 100,
-    height: 100,
+    height: 100
   },
   rightIcon: {
-    marginLeft: spacing.unit,
+    marginLeft: spacing.unit
   },
   avatarContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: '0 0 35px 0',
-  },
-})
+    display: "flex",
+    alignItems: "center",
+    padding: "0 0 35px 0"
+  }
+});
 
 class UpdateUser extends Component {
   state = {
     name: this.props.data.me.name,
     email: this.props.data.me.email,
-    display: this.props.data.me.display,
-  }
+    display: this.props.data.me.display
+  };
 
   handleChange = e => {
-    const { name, type, value } = e.target
-    const val = type === 'number' ? parseFloat(value) : value
-    this.setState({ [name]: val })
-  }
+    const { name, type, value } = e.target;
+    const val = type === "number" ? parseFloat(value) : value;
+    this.setState({ [name]: val });
+  };
 
   updateUser = async (e, id, updateUserMutation) => {
-    e.preventDefault()
+    e.preventDefault();
 
     await updateUserMutation({
       variables: {
         id,
-        ...this.state,
+        ...this.state
       },
-      refetchQueries: [{ query: CURRENT_USER_QUERY }],
-    })
-  }
+      refetchQueries: [{ query: CURRENT_USER_QUERY }]
+    });
+    Router.push({
+      pathname: "/account/myaccount"
+    });
+  };
 
   uploadFile = async (e, userImageUrl) => {
-    const files = e.target.files
-    const data = new FormData()
-    data.append('file', files[0])
-    data.append('upload_preset', 'EntraAccountPhoto')
+    const files = e.target.files;
+    const data = new FormData();
+    data.append("file", files[0]);
+    data.append("upload_preset", "EntraAccountPhoto");
 
-    const res = await fetch('https://api.cloudinary.com/v1_1/docusite/image/upload', {
-      method: 'POST',
-      body: data,
-    })
+    const res = await fetch(
+      "https://api.cloudinary.com/v1_1/docusite/image/upload",
+      {
+        method: "POST",
+        body: data
+      }
+    );
 
-    const file = await res.json()
+    const file = await res.json();
 
     this.setState({
-      image: file.secure_url,
-    })
-  }
+      image: file.secure_url
+    });
+  };
 
   returnblank(item) {
     if (item == null) {
-      return ''
+      return "";
     } else {
-      return item
+      return item;
     }
   }
 
   handleImage(user, classes) {
-    if (user.image == null || user.image == '') {
-      return <div />
+    if (user.image == null || user.image == "") {
+      return <div />;
     }
 
     return (
       <div>
-        <Avatar alt={user.name} src={user.image} className={classes.bigAvatar} />
+        <Avatar
+          alt={user.name}
+          src={user.image}
+          className={classes.bigAvatar}
+        />
       </div>
-    )
+    );
   }
   uploadMessage(image) {
-    if (image == null || image == '') {
-      return <div />
+    if (image == null || image == "") {
+      return <div />;
     }
     return (
       <div>
         <p>Image Uploaded! Please Save Changes</p>
       </div>
-    )
+    );
   }
 
   render() {
-    const user = this.props.data.me
-    const id = this.props.data.me.id
-    const image = this.state.image
-    const userImageUrl = this.props.data.me.image
-    const { classes } = this.props
+    const user = this.props.data.me;
+    const id = this.props.data.me.id;
+    const image = this.state.image;
+    const userImageUrl = this.props.data.me.image;
+    const { classes } = this.props;
     return (
       <Mutation mutation={UPDATE_USER_MUTATION} variables={this.state}>
         {(updateUser, { loading, error }) => (
@@ -207,25 +217,34 @@ class UpdateUser extends Component {
               </TableHead>
             </Table>
 
-            <form onSubmit={e => this.updateUser(e, id, updateUser)} className={classes.form}>
+            <form
+              onSubmit={e => this.updateUser(e, id, updateUser)}
+              className={classes.form}
+            >
               <Error error={error} />
               <fieldset
                 disabled={loading}
                 aria-busy={loading}
                 style={{
-                  borderWidth: '0px',
+                  borderWidth: "0px"
                 }}
               >
                 <div className={classes.avatarContainer}>
-                  {user.image == null || user.image == '' ? (
-                    <Avatar className={classes.bigAvatar}>{user.name[0]}</Avatar>
+                  {user.image == null || user.image == "" ? (
+                    <Avatar className={classes.bigAvatar}>
+                      {user.name[0]}
+                    </Avatar>
                   ) : (
-                    <Avatar alt={user.name} src={user.image} className={classes.bigAvatar} />
+                    <Avatar
+                      alt={user.name}
+                      src={user.image}
+                      className={classes.bigAvatar}
+                    />
                   )}
                   <input
                     accept="image/*"
                     className={classes.smallField}
-                    style={{ display: 'none' }}
+                    style={{ display: "none" }}
                     id="raised-button-file"
                     multiple
                     type="file"
@@ -233,8 +252,13 @@ class UpdateUser extends Component {
                   />
 
                   <label htmlFor="raised-button-file">
-                    <Button component="span" className={classes.button} size="small">
-                      Change Avatar <CloudUploadIcon className={classes.rightIcon} />
+                    <Button
+                      component="span"
+                      className={classes.button}
+                      size="small"
+                    >
+                      Change Avatar{" "}
+                      <CloudUploadIcon className={classes.rightIcon} />
                     </Button>
                   </label>
                   {this.uploadMessage(image)}
@@ -320,7 +344,7 @@ class UpdateUser extends Component {
 
                 <div className={classes.buttonContainer}>
                   <Button variant="contained" type="submit">
-                    Sav{loading ? 'ing' : 'e'} Changes
+                    Sav{loading ? "ing" : "e"} Changes
                   </Button>
                 </div>
               </fieldset>
@@ -328,9 +352,9 @@ class UpdateUser extends Component {
           </Grid>
         )}
       </Mutation>
-    )
+    );
   }
 }
 
-export default withStyles(styles)(UpdateUser)
-export { UPDATE_USER_MUTATION }
+export default withStyles(styles)(UpdateUser);
+export { UPDATE_USER_MUTATION };
