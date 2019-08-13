@@ -13,12 +13,22 @@ import PaginationActions from './PaginationActions'
 import { perPage } from '../../config.js'
 import Error from '../ErrorMessage'
 
-const styles = theme => ({
+const styles = ({ palette }) => ({
   paginationContainer: {
     width: '100%',
     display: 'flex',
     justifyContent: 'flex-end',
     padding: '15px 0 0 0',
+  },
+  text: {
+    fontSize: 16,
+    color: palette.accent.dark,
+    textDecoration: 'none',
+    fontWeight: 500,
+  },
+  subContainer: {
+    display: 'flex',
+    alignItems: 'center',
   },
 })
 
@@ -44,8 +54,8 @@ function Pagination({ filter, page, classes }) {
 
         return (
           <div className={classes.paginationContainer} style={pages <= 1 ? { display: 'none' } : {}}>
-            <Typography>
-              <h3>{`Showing page ${page} of ${pages}`}</h3>
+            <Typography className={classes.subContainer}>
+              <span className={classes.text}>{`Showing page ${page} of ${pages}`}</span>
             </Typography>
             <PaginationActions page={page} pages={pages} />
           </div>

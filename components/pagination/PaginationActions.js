@@ -14,7 +14,7 @@ const styles = ({ palette }) => ({
   container: {
     flexShrink: 0,
     color: palette.text.secondary,
-    marginLeft: '3rem',
+    marginLeft: '1.8rem',
   },
   button: {
     margin: 5,
