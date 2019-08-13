@@ -29,6 +29,7 @@ const styles = ({ layout, palette, spacing }) => ({
     padding: '5px 0 15px 0',
     margin: 0,
     maxWidth: 800,
+    fontWeight: 300,
   },
   nameLink: {
     fontWeight: 500,
