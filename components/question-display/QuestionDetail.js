@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { format, parseISO } from 'date-fns'
 
-import AppBar from "@material-ui/core/AppBar"
+import AppBar from '@material-ui/core/AppBar'
 import Button from '@material-ui/core/Button'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 import DeleteQuestion from '../delete-question'
@@ -10,7 +10,7 @@ import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
-import Toolbar from "@material-ui/core/Toolbar";
+import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { withRouter } from 'next/router'
 import { withStyles } from '@material-ui/core/styles'
@@ -58,9 +58,11 @@ const styles = ({ layout, palette, spacing }) => ({
     backgroundColor: '#85BDCB',
     boxShadow: 'none',
   },
+  editButton: {
+    backgroundColor: palette.accent.blue,
+  },
 })
 
-// TODO
 const PromptBar = ({ classes, user }) => {
   return user ? null : (
     <AppBar className={classes.top} position="static">
@@ -76,14 +78,13 @@ const PromptBar = ({ classes, user }) => {
   )
 }
 
-// TODO style this
-const EditButton = ({ question, user }) => {
+const EditButton = ({ question, user, classes }) => {
   const answers = question.answers.length
   const date1 = new Date(question.createdAt)
   const date2 = new Date()
   const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24))
 
-  return user && question.askedBy[0].id == user.id && diffDays <= 1 && !answers ? (
+  return user && question.askedBy[0].id === user.id && diffDays <= 1 && !answers ? (
     <div>
       <Typography>
         <Link
@@ -92,7 +93,9 @@ const EditButton = ({ question, user }) => {
             query: { id: question.id },
           }}
         >
-          <span style={{ textDecoration: 'none', color: 'grey' }}>EDIT</span>
+          <Button variant="contained" color="secondary" className={classes.editButton}>
+            EDIT
+          </Button>
         </Link>
       </Typography>
       <DeleteQuestion id={question.id} />
@@ -109,10 +112,8 @@ const QuestionDetail = ({
   classes,
   user,
 }) => {
-  const askedby = question.askedBy[0] || null
   const hasPermissions =
     !!user && user.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission))
-  const ownsQuestion = !!askedby && !!user && askedby.id === user.id
   const isApproved = question.approval === true
 
   return (
@@ -158,7 +159,7 @@ const QuestionDetail = ({
                 />
               </div>
 
-              <EditButton question={question} user={user} />
+              <EditButton question={question} user={user} classes={classes} />
 
               <Typography style={{ paddingTop: 5 }}>
                 <span>Posted by </span>
