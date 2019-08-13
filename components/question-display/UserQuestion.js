@@ -1,24 +1,17 @@
 import React, { Component } from 'react'
-import { format, parseISO, differenceInDays } from 'date-fns'
-import { Query } from 'react-apollo'
+import { format, parseISO } from 'date-fns'
 import Link from 'next/link'
-import gql from 'graphql-tag'
 import NoQuestion from './NoQuestion'
 import ApproveQuestion from '../approval/AppoveQuestion.js'
 import CreatBookMark from '../bookmark/CreateBookMark.js'
 
-import PropTypes from 'prop-types'
 import Avatar from '@material-ui/core/Avatar'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
-import { withApollo } from 'react-apollo'
-import questionQuery from './questionQuery'
 import Icon from '../ui/Icon'
 import DeleteQuestion from '../delete-question'
-
-import { CURRENT_USER_QUERY } from '../auth/User'
 
 const styles = theme => ({
   bigAvatar: {
@@ -60,52 +53,7 @@ const styles = theme => ({
   },
 })
 
-const CREATE_QUESTION_VOTE_MUTATION = gql`
-  mutation CREATE_QUESTION_VOTE_MUTATION($questionId: ID!, $vote: String) {
-    createQuestionVote(questionId: $questionId, vote: $vote)
-  }
-`
-
-const CREATE_QUESTION_VIEW_MUTATION = gql`
-  mutation CREATE_QUESTION_VIEW_MUTATION($questionId: ID!) {
-    createQuestionView(questionId: $questionId)
-  }
-`
-
 class UserQuestion extends Component {
-  componentDidMount() {
-    this.props.client.mutate({
-      mutation: CREATE_QUESTION_VIEW_MUTATION,
-      variables: {
-        questionId: this.props.question.id,
-      },
-      refetchQueries: [{ query: questionQuery, variables: { id: this.props.question.id } }],
-    })
-
-    this.props.client.query({
-      query: CURRENT_USER_QUERY,
-    })
-  }
-  upVote = () => {
-    this.props.client.mutate({
-      mutation: CREATE_QUESTION_VOTE_MUTATION,
-      variables: {
-        questionId: this.props.question.id,
-        vote: 'up',
-      },
-      refetchQueries: [{ query: questionQuery, variables: { id: this.props.question.id } }],
-    })
-  }
-  downVote = () => {
-    this.props.client.mutate({
-      mutation: CREATE_QUESTION_VOTE_MUTATION,
-      variables: {
-        questionId: this.props.question.id,
-        vote: 'down',
-      },
-      refetchQueries: [{ query: questionQuery, variables: { id: this.props.question.id } }],
-    })
-  }
   handleImage(askedby, classes) {
     if (askedby.image == null || askedby.image == '') {
       return (
@@ -240,4 +188,4 @@ class UserQuestion extends Component {
   }
 }
 
-export default withStyles(styles)(withApollo(UserQuestion))
+export default withStyles(styles)(UserQuestion)

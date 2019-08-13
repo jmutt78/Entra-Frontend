@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { format, parseISO } from 'date-fns'
 import { Query } from 'react-apollo'
 import Link from 'next/link'
-import gql from 'graphql-tag'
 import NoQuestion from './NoQuestion'
 
 import Avatar from '@material-ui/core/Avatar'
@@ -11,7 +10,6 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
 import { withApollo } from 'react-apollo'
-import questionQuery from './questionQuery'
 import Icon from '../ui/Icon'
 import Button from '@material-ui/core/Button'
 import AppBar from '@material-ui/core/AppBar'
@@ -71,18 +69,6 @@ const styles = theme => ({
   },
 })
 
-const CREATE_QUESTION_VOTE_MUTATION = gql`
-  mutation CREATE_QUESTION_VOTE_MUTATION($questionId: ID!, $vote: String) {
-    createQuestionVote(questionId: $questionId, vote: $vote)
-  }
-`
-
-const CREATE_QUESTION_VIEW_MUTATION = gql`
-  mutation CREATE_QUESTION_VIEW_MUTATION($questionId: ID!) {
-    createQuestionView(questionId: $questionId)
-  }
-`
-
 const PromptBar = ({ classes }) => {
   return (
     <AppBar className={classes.top} position="static">
@@ -99,20 +85,6 @@ const PromptBar = ({ classes }) => {
 }
 
 class NoUserQuestion extends Component {
-  componentDidMount() {
-    this.props.client.mutate({
-      mutation: CREATE_QUESTION_VIEW_MUTATION,
-      variables: {
-        questionId: this.props.id,
-      },
-      refetchQueries: [{ query: questionQuery, variables: { id: this.props.id } }],
-    })
-
-    this.props.client.query({
-      query: CURRENT_USER_QUERY,
-    })
-  }
-
   tagsList(tags, classes) {
     return tags.map(tags => (
       <div key={tags.id} className={classes.tags}>
@@ -153,9 +125,8 @@ class NoUserQuestion extends Component {
   }
 
   render() {
-    const { classes } = this.props
-    const question = this.props.question
-    const askedby = this.props.question.askedBy[0]
+    const { classes, question } = this.props
+    const askedby = question.askedBy[0]
 
     return (
       <Query query={CURRENT_USER_QUERY}>
