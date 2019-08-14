@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { format, parseISO } from 'date-fns'
 
+import Avatar from '@material-ui/core/Avatar'
 import AppBar from '@material-ui/core/AppBar'
 import Button from '@material-ui/core/Button'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
@@ -10,7 +11,6 @@ import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
-import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { withRouter } from 'next/router'
 import { withStyles } from '@material-ui/core/styles'
@@ -72,6 +72,11 @@ const styles = ({ layout, palette, spacing }) => ({
       backgroundColor: palette.primary.main,
     },
     marginLeft: 10,
+  },
+  avatar: {
+    width: 70,
+    height: 70,
+    cursor: 'pointer',
   },
 })
 
@@ -171,13 +176,20 @@ const QuestionDetail = ({
 
               <EditButton question={question} user={user} classes={classes} />
 
-              <Typography style={{ paddingTop: 5 }}>
-                <span>Posted by </span>
+              <Typography style={{ paddingTop: 5, display: 'flex', alignItems: 'center' }}>
+                <a href={`/users/${question.askedBy[0].id}`}>
+                  <Avatar
+                    alt={question.askedBy[0].name}
+                    src={question.askedBy[0].image}
+                    className={classes.avatar}
+                  />
+                </a>
+                <span>{`  Posted by `}</span>
                 <a href={`/users/${question.askedBy[0].id}`} className={classes.nameLink}>
                   {question.askedBy[0].name}
                 </a>
 
-                <span> on </span>
+                <span>{` on `}</span>
                 <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
               </Typography>
             </TableCell>
