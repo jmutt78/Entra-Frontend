@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { format, parseISO } from 'date-fns'
 
 import Avatar from '@material-ui/core/Avatar'
-import AppBar from '@material-ui/core/AppBar'
 import Button from '@material-ui/core/Button'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 import DeleteQuestion from '../delete-question'
@@ -78,6 +77,7 @@ const styles = ({ layout, palette, spacing }) => ({
     height: 70,
     cursor: 'pointer',
   },
+  credits: { paddingTop: 5, display: 'flex', alignItems: 'center' },
 })
 
 const PromptBar = ({ classes, user }) => {
@@ -176,7 +176,7 @@ const QuestionDetail = ({
 
               <EditButton question={question} user={user} classes={classes} />
 
-              <Typography style={{ paddingTop: 5, display: 'flex', alignItems: 'center' }}>
+              <Typography className={classes.credits}>
                 <a href={`/users/${question.askedBy[0].id}`}>
                   <Avatar
                     alt={question.askedBy[0].name}
@@ -188,7 +188,6 @@ const QuestionDetail = ({
                 <a href={`/users/${question.askedBy[0].id}`} className={classes.nameLink}>
                   {question.askedBy[0].name}
                 </a>
-
 
                 <span>{` on `}</span>
                 <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
