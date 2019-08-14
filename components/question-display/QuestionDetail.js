@@ -189,6 +189,7 @@ const QuestionDetail = ({
                   {question.askedBy[0].name}
                 </a>
 
+
                 <span>{` on `}</span>
                 <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
               </Typography>

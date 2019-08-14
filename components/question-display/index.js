@@ -264,9 +264,9 @@ class DisplayQuestion extends Component {
                 user={user}
               />
 
-              {/*
                   <Answers id={this.props.id} question={question} />
                   <CreateAnswer question={question} />
+                  {/*
                   */}
             </div>
           );
