@@ -113,3 +113,4 @@ class DisplayUser extends Component {
 }
 
 export default withStyles(styles)(DisplayUser);
+export { USER_QUERY };

@@ -24,12 +24,12 @@ const CustomTableCell = withStyles(theme => ({
 const styles = ({ layout }) => ({
   container: {
     display: "flex",
-    flexDirection: 'column',
+    flexDirection: "column",
     justifyContent: "space-between",
     width: layout.width,
     maxWidth: 1200,
-    height: '100%',
-    minHeight: layout.contentMinHeight,
+    height: "100%",
+    minHeight: layout.contentMinHeight
   },
   title: {
     fontSize: "40px",
@@ -55,7 +55,7 @@ function QuestionList(props) {
           <TableRow>
             <TableCell>
               <Typography variant="display3" className={classes.title}>
-                {upperFirst(props.name) || 'Questions'}
+                {upperFirst(props.name) || "Questions"}
               </Typography>
             </TableCell>
             <Tooltip title="Answers" placement="top">
@@ -82,6 +82,7 @@ function QuestionList(props) {
         </TableHead>
         <TableBody>
           {questions.map(question => {
+            console.log(question);
             return (
               <ListItem
                 item={question}

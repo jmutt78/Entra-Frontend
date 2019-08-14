@@ -64,6 +64,7 @@ const ListItem = ({
   router,
   linkTo,
   userName,
+  userId,
   showDetails
 }) => {
   return (
@@ -102,9 +103,14 @@ const ListItem = ({
         </Typography>
         <Typography style={{ paddingTop: 5 }}>
           <span>Posted by </span>
-          <a href={`/${userName}`} className={classes.nameLink}>
-            {userName}
-          </a>
+          <Link
+            href={{
+              pathname: "/user",
+              query: { id: userId }
+            }}
+          >
+            <a className={classes.nameLink}>{userName}</a>
+          </Link>
           <span> on </span>
           <span>{format(parseISO(createdAt), "MMMM dd, yyyy")}</span>
         </Typography>
