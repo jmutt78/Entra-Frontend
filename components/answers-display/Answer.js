@@ -4,11 +4,14 @@ import { format, parseISO } from 'date-fns'
 
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
-import Grid from '@material-ui/core/Grid'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
 import gql from 'graphql-tag'
-import { withStyles } from '@material-ui/core/styles'
 import { withApollo } from 'react-apollo'
+import { withStyles } from '@material-ui/core/styles'
 
 import ApproveAnswer from '../approval/AppoveAnswer.js'
 import DeleteAnswer from '../delete-answer'
@@ -78,7 +81,8 @@ const Answer = ({ answer, classes, user, client, question }) => {
   const ownsAnswer = user && answeredBy === user.id
   const isApproved = answer.approval === true
   const questionId = answer.answeredTo[0].id
-  const hasPermissions = user && user.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission))
+  const hasPermissions =
+    user && user.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission))
 
   const upVote = answerId => {
     client.mutate({
@@ -107,62 +111,68 @@ const Answer = ({ answer, classes, user, client, question }) => {
   }
 
   return (
-    <div key={answer.id} className={classes.answerContainer}>
-      <div className={classes.photoTitle}>
-        <Link
-          href={{
-            pathname: '/user',
-            query: { id: answeredBy },
-          }}
-        >
-          {answer.answeredBy.image === null || answer.answeredBy.image === '' ? (
-            <Avatar className={classes.bigAvatar}>{answer.answeredBy.display[0]}</Avatar>
-          ) : (
-            <Avatar alt="Remy Sharp" src={answer.answeredBy.image} className={classes.bigAvatar} />
-          )}
-        </Link>
+    <div className={classes.detailContainer}>
+      <Table>
+        <TableBody>
+          <TableRow className={classes.tableRow}>
+            <TableCell component="th" scope="row" style={{ padding: '25px 35px' }}>
+              <Typography>{answer.body && <h3 className={classes.body}>{answer.body}</h3>}</Typography>
 
-        <Typography
-          style={{
-            paddingTop: 20,
-            marginLeft: 10,
-          }}
-        >
-          <strong>{answer.answeredBy.display}</strong> says:
-        </Typography>
-      </div>
-      <Typography className={classes.description}>{answer.body}</Typography>
-      <Grid item xs={2} container>
-        <Grid item xs={4}>
-          <Icon onClick={() => upVote(answer.id)} src="/static/thumb_up.svg" />
-          <div>{answer.upVotes}</div>
-        </Grid>
-        <Grid item xs={4}>
-          <Icon onClick={() => downVote(answer.id)} src="/static/thumb_down.svg" />
-          <div>{answer.downVotes}</div>
-        </Grid>
-      </Grid>
-      <Typography className={classes.date}>
-        Posted {format(parseISO(answer.createdAt), 'MMMM dd, yyyy')}
-      </Typography>
+              <div style={{ paddingBottom: 10 }}>
+                <ApproveAnswer
+                  hasPermissions={hasPermissions}
+                  isApproved={isApproved}
+                  approval={answer.approval}
+                  id={answer.id}
+                  questionId={questionId}
+                />
+              </div>
 
-      <EditAndDelete answer={answer} classes={classes} user={user} />
+              <EditAndDelete answer={answer} classes={classes} user={user} />
 
-      <div style={{ paddingBottom: 10 }}>
-        <ApproveAnswer
-          hasPermissions={hasPermissions}
-          isApproved={isApproved}
-          approval={answer.approval}
-          id={answer.id}
-          questionId={questionId}
-        />
-      </div>
-      <SelectAnswer
-        canSelect={user && question.askedBy[0].id === user.id}
-        selected={answer.selected}
-        id={answer.id}
-        questionId={questionId}
-      />
+              <SelectAnswer
+                canSelect={user && question.askedBy[0].id === user.id}
+                selected={answer.selected}
+                id={answer.id}
+                questionId={questionId}
+              />
+
+              <Typography className={classes.credits}>
+                <Link
+                  href={{
+                    pathname: '/user',
+                    query: { id: answeredBy },
+                  }}
+                >
+                  {answer.answeredBy.image === null || answer.answeredBy.image === '' ? (
+                    <Avatar className={classes.avatar}>{answer.answeredBy.display[0]}</Avatar>
+                  ) : (
+                    <Avatar alt="Remy Sharp" src={answer.answeredBy.image} className={classes.bigAvatar} />
+                  )}
+                </Link>
+
+                <span>{`  Posted by `}</span>
+
+                <a href={`/users/${answer.answeredBy.id}`} className={classes.nameLink}>
+                  {answer.answeredBy.display[0]}
+                </a>
+
+                <span>{` on `}</span>
+                <span>{format(parseISO(answer.createdAt), 'MMMM dd, yyyy')}</span>
+              </Typography>
+
+              {/*
+                  <div>
+                    <Icon onClick={() => upVote(answer.id)} src="/static/thumb_up.svg" />
+                    <div>{answer.upVotes}</div>
+                    <Icon onClick={() => downVote(answer.id)} src="/static/thumb_down.svg" />
+                    <div>{answer.downVotes}</div>
+                  </div>
+                  */}
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
     </div>
   )
 }

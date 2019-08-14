@@ -134,7 +134,7 @@ const QuestionDetail = ({
       <PromptBar classes={classes} user={user} />
       <Table>
         <TableBody>
-          <TableRow key={id} className={classes.tableRow}>
+          <TableRow className={classes.tableRow}>
             <TableCell component="th" scope="row" style={{ padding: '25px 35px' }}>
               <Typography>
                 {description && <h3 className={classes.body}>{description}</h3>}
