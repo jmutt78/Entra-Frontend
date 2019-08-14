@@ -177,14 +177,14 @@ const QuestionDetail = ({
               <Typography className={classes.credits}>
                 <a href={`/users/${question.askedBy[0].id}`}>
                   <Avatar
-                    alt={question.askedBy[0].name}
+                    alt={question.askedBy[0].display[0]}
                     src={question.askedBy[0].image}
                     className={classes.avatar}
                   />
                 </a>
                 <span>{`  Posted by `}</span>
                 <a href={`/users/${question.askedBy[0].id}`} className={classes.nameLink}>
-                  {question.askedBy[0].name}
+                  {question.askedBy[0].display[0]}
                 </a>
 
                 <span>{` on `}</span>
