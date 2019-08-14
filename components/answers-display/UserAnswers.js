@@ -1,20 +1,20 @@
 import React, { Component } from 'react'
-import { format, parseISO, differenceInDays } from 'date-fns'
-import { withApollo } from 'react-apollo'
 import Link from 'next/link'
-import ApproveAnswer from '../approval/AppoveAnswer.js'
-import Button from '@material-ui/core/Button'
-import SelectAnswer from '../approval/SelectAnswer'
-import DeleteAnswer from '../delete-answer'
+import { format, parseISO } from 'date-fns'
+import { withApollo } from 'react-apollo'
+
 import Avatar from '@material-ui/core/Avatar'
-import { withStyles } from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import gql from 'graphql-tag'
-import Icon from '../ui/Icon'
-import questionQuery from '../question-display/questionQuery'
+import { withStyles } from '@material-ui/core/styles'
 
-import { CURRENT_USER_QUERY } from '../auth/User'
+import ApproveAnswer from '../approval/AppoveAnswer.js'
+import DeleteAnswer from '../delete-answer'
+import Icon from '../ui/Icon'
+import SelectAnswer from '../approval/SelectAnswer'
+import questionQuery from '../question-display/questionQuery'
 
 const CREATE_ANSWER_VOTE_MUTATION = gql`
   mutation CREATE_ANSWER_VOTE_MUTATION($answerId: ID!, $vote: String) {
