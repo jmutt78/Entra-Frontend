@@ -44,6 +44,9 @@ const styles = ({ spacing, palette }) => ({
   tableRow: {
     background: palette.secondary.main,
   },
+  selectedTableRow: {
+    background: '#b8e994'
+  },
   button: {
     color: palette.accent.dark,
   },
@@ -177,7 +180,15 @@ const Answer = ({ answer, classes, user, client, question }) => {
             <TableCell component="th" scope="row" style={{ padding: '25px 35px' }}>
               <Typography>{answer.body && <h3 className={classes.body}>{answer.body}</h3>}</Typography>
 
-              <div style={{ paddingBottom: 10 }}>
+
+              <SelectAnswer
+                canSelect={user && question.askedBy[0].id === user.id}
+                selected={answer.selected}
+                id={answer.id}
+                questionId={questionId}
+              />
+
+              <div style={{ paddingBottom: 10, paddingTop: 10 }}>
                 <ApproveAnswer
                   hasPermissions={hasPermissions}
                   isApproved={isApproved}
@@ -188,13 +199,6 @@ const Answer = ({ answer, classes, user, client, question }) => {
               </div>
 
               <EditAndDelete answer={answer} classes={classes} user={user} />
-
-              <SelectAnswer
-                canSelect={user && question.askedBy[0].id === user.id}
-                selected={answer.selected}
-                id={answer.id}
-                questionId={questionId}
-              />
 
               <Typography className={classes.itemFooter}>
                 <div className={classes.credits}>
