@@ -3,6 +3,7 @@ import { format, parseISO, differenceInDays } from 'date-fns'
 import { withApollo } from 'react-apollo'
 import Link from 'next/link'
 import ApproveAnswer from '../approval/AppoveAnswer.js'
+import Button from '@material-ui/core/Button'
 import SelectAnswer from '../approval/SelectAnswer'
 import DeleteAnswer from '../delete-answer'
 import Avatar from '@material-ui/core/Avatar'
@@ -66,7 +67,9 @@ const styles = ({ spacing, palette }) => ({
     marginBottom: 30,
     marginTop: 30,
   },
-
+  editButton: {
+    backgroundColor: palette.accent.blue,
+  },
   title: {
     color: palette.accent.dark,
     padding: '5px 0 15px 0',
@@ -79,6 +82,30 @@ const styles = ({ spacing, palette }) => ({
     lineHeight: '2.5rem',
   },
 })
+
+const EditAndDelete = ({ answer, classes, user }) => {
+  const selected = answer.selected
+
+  const date1 = new Date(answer.createdAt)
+  const date2 = new Date()
+  const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24))
+
+  return answer.answeredBy.id === user.id && diffDays <= 2 && selected === null ? (
+    <Typography style={{ paddingBottom: 10 }}>
+      <Link
+        href={{
+          pathname: '/edit-answer',
+          query: { id: answer.id },
+        }}
+      >
+        <Button variant="contained" color="secondary" className={classes.editButton}>
+          EDIT
+        </Button>
+      </Link>
+      <DeleteAnswer id={answer.id} />
+    </Typography>
+  ) : null
+}
 
 class UserAnswers extends Component {
   handleImage(askedby, name, classes, answeredBy) {
@@ -111,32 +138,6 @@ class UserAnswers extends Component {
     )
   }
 
-  handleEdit(answer, user, questionId) {
-    const selected = answer.selected
-
-    const date1 = new Date(answer.createdAt)
-    const date2 = new Date()
-    const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24))
-
-    if (answer.answeredBy.id == user.id && diffDays <= 2 && selected === null) {
-      return (
-        <div>
-          <Typography>
-            <Link
-              href={{
-                pathname: '/edit-answer',
-                query: { id: answer.id },
-              }}
-            >
-              <a style={{ textDecoration: 'none', color: 'grey' }}>EDIT</a>
-            </Link>
-          </Typography>
-          <DeleteAnswer id={answer.id} questionId={questionId} />
-        </div>
-      )
-    }
-  }
-
   upVote = answerId => {
     this.props.client.mutate({
       mutation: CREATE_ANSWER_VOTE_MUTATION,
@@ -147,6 +148,7 @@ class UserAnswers extends Component {
       refetchQueries: [{ query: questionQuery, variables: { id: this.props.question.id } }],
     })
   }
+
   downVote = answerId => {
     this.props.client.mutate({
       mutation: CREATE_ANSWER_VOTE_MUTATION,
@@ -165,16 +167,14 @@ class UserAnswers extends Component {
     const questionId = this.props.question.id
 
     if (this.props.question.answers.length === 0) {
-      return <div />
+      return null
     } else {
       return (
         <div className={classes.container}>
-
           {answers == null || answers == '' ? null : (
             <Typography variant="display3" className={classes.title}>
               <h2>Answers</h2>
             </Typography>
-
           )}
 
           {answers.map(answer => {
@@ -217,7 +217,8 @@ class UserAnswers extends Component {
                 <Typography className={classes.date}>
                   Posted {format(parseISO(answer.createdAt), 'MMMM dd, yyyy')}
                 </Typography>
-                {this.handleEdit(answer, user, questionId)}
+
+                <EditAndDelete answer={answer} classes={classes} user={user} />
 
                 <ApproveAnswer
                   hasPermissions={hasPermissions}
