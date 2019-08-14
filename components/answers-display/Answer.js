@@ -4,10 +4,12 @@ import { format, parseISO } from 'date-fns'
 
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
+import Icon from '../ui/Icon'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
+import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
 import gql from 'graphql-tag'
 import { withApollo } from 'react-apollo'
@@ -15,7 +17,6 @@ import { withStyles } from '@material-ui/core/styles'
 
 import ApproveAnswer from '../approval/AppoveAnswer.js'
 import DeleteAnswer from '../delete-answer'
-import Icon from '../ui/Icon'
 import SelectAnswer from '../approval/SelectAnswer'
 import questionQuery from '../question-display/questionQuery'
 
@@ -73,6 +74,41 @@ const styles = ({ spacing, palette }) => ({
     cursor: 'pointer',
   },
   credits: { paddingTop: 5, display: 'flex', alignItems: 'center' },
+  viewContainer: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  viewsCount: {
+    color: palette.accent.dark,
+    fontSize: '1.2rem',
+    padding: '5px 0 5px 8px',
+  },
+  itemFooter: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: '10px 0 0 0',
+  },
+  votesContainer: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  voteContainer: {
+    display: 'flex',
+  },
+  voteButton: {
+    cursor: 'pointer',
+  },
+  upVote: {
+    color: palette.primary.main,
+    fontSize: '1.4rem',
+    padding: '8px 8px 5px 0',
+  },
+  downVote: {
+    color: palette.accent.blue,
+    fontSize: '1.4rem',
+    padding: '8px 0 5px 8px',
+  },
 })
 
 const EditAndDelete = ({ answer, classes, user }) => {
@@ -160,7 +196,7 @@ const Answer = ({ answer, classes, user, client, question }) => {
                 questionId={questionId}
               />
 
-              <Typography className={classes.credits}>
+              <Typography className={classes.itemFooter}>
                 <div className={classes.credits}>
                   <Link
                     href={{
@@ -184,16 +220,33 @@ const Answer = ({ answer, classes, user, client, question }) => {
                   <span>{` on `}</span>
                   <span>{format(parseISO(answer.createdAt), 'MMMM dd, yyyy')}</span>
                 </div>
-              </Typography>
 
-              {/*
-                  <div>
-                    <Icon onClick={() => upVote(answer.id)} src="/static/thumb_up.svg" />
-                    <div>{answer.upVotes}</div>
-                    <Icon onClick={() => downVote(answer.id)} src="/static/thumb_down.svg" />
-                    <div>{answer.downVotes}</div>
-                  </div>
-                  */}
+                <div className={classes.votesContainer}>
+                  <Tooltip
+                    title="vote up"
+                    placement="top"
+                    className={classes.voteButton}
+                    onClick={() => upVote(answer.id)}
+                  >
+                    <div className={classes.voteContainer}>
+                      <span className={classes.upVote}>{answer.upVotes}</span>
+                      <img src="/static/thumb_up.svg" />
+                    </div>
+                  </Tooltip>
+                  <span>{'    '}</span>
+                  <Tooltip
+                    title="vote down"
+                    placement="top"
+                    className={classes.voteButton}
+                    onClick={() => downVote(answer.id)}
+                  >
+                    <div className={classes.voteContainer}>
+                      <img src="/static/thumb_down.svg" />
+                      <span className={classes.downVote}>{answer.downVotes}</span>
+                    </div>
+                  </Tooltip>
+                </div>
+              </Typography>
             </TableCell>
           </TableRow>
         </TableBody>

@@ -36,6 +36,7 @@ class SelectAnswer extends Component {
 
   render() {
     const { classes, questionId, selected, canSelect } = this.props;
+    // TODO style this
     if (selected) {
       return <div className={classes.acceptedText}>Selected</div>;
     }

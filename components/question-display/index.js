@@ -203,23 +203,6 @@ class DisplayQuestion extends Component {
                         </Tooltip>
                       )}
 
-                      {/*
-                          <CustomTableCell style={{ maxWidth: '.3px', padding: '0 25px' }} />
-                          <Tooltip
-                            title=`${question.views} views`
-                            placement="top"
-                            className={classes.voteButton}
-                            onClick={this.downVote}
-                          >
-                          <CustomTableCell style={{ maxWidth: '.3px' }}>
-                            <div className={classes.voteContainer}>
-                              <Icon src="/static/visibility.svg" />
-                              <span className={classes.viewsCount}>{question.views}</span>
-                          </div>
-                        </CustomTableCell>
-                      </Tooltip>
-                          */}
-
                       <CustomTableCell style={{ maxWidth: '.3px', padding: '0 30px' }} />
                     </TableRow>
                   </TableHead>
