@@ -68,7 +68,7 @@ const styles = ({ spacing, palette }) => ({
   },
   title: {
     color: palette.accent.dark,
-    padding: '5px 0 15px 0',
+    padding: '5px 0 0 0',
     margin: 0,
     maxWidth: 800,
     fontWeight: 300,
@@ -76,6 +76,9 @@ const styles = ({ spacing, palette }) => ({
     fontSize: '1.8rem',
     textAlign: 'left',
     lineHeight: '2.5rem',
+  },
+  answerContainer: {
+    padding: '10px 0',
   },
 })
 
@@ -103,21 +106,56 @@ const EditAndDelete = ({ answer, classes, user }) => {
   ) : null
 }
 
-const Answer = ({ answer, classes, user }) => {
+const Answer = ({ answer, classes, user, client, question }) => {
   const answeredBy = answer.answeredBy.id
   const ownsAnswer = answeredBy === user.id
   const isApproved = answer.approval === true
   const questionId = answer.answeredTo[0].id
   const hasPermissions = user.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission))
 
+  const upVote = answerId => {
+    client.mutate({
+      mutation: CREATE_ANSWER_VOTE_MUTATION,
+      variables: {
+        answerId,
+        vote: 'up',
+      },
+      refetchQueries: [{ query: questionQuery, variables: { id: question.id } }],
+    })
+  }
+
+  const downVote = answerId => {
+    client.mutate({
+      mutation: CREATE_ANSWER_VOTE_MUTATION,
+      variables: {
+        answerId,
+        vote: 'down',
+      },
+      refetchQueries: [{ query: questionQuery, variables: { id: question.id } }],
+    })
+  }
+
+
+
   if (!ownsAnswer && !hasPermissions && !isApproved) {
     return null
   }
 
   return (
-    <div key={answer.id} className={classes.info}>
+    <div key={answer.id} className={classes.answerContainer}>
       <div className={classes.photoTitle}>
-        {this.handleImage(answer.answeredBy.image, answer.answeredBy.display, classes, answeredBy)}
+        <Link
+          href={{
+            pathname: '/user',
+            query: { id: answeredBy },
+          }}
+        >
+          {answer.answeredBy.image == null || answer.answeredBy.image == ''
+              ? <Avatar className={classes.bigAvatar}>{answer.answeredBy.display[0]}</Avatar>
+              : <Avatar alt="Remy Sharp" src={answer.answeredBy.image} className={classes.bigAvatar} />
+          }
+        </Link>
+
         <Typography
           style={{
             paddingTop: 20,
@@ -130,11 +168,11 @@ const Answer = ({ answer, classes, user }) => {
       <Typography className={classes.description}>{answer.body}</Typography>
       <Grid item xs={2} container>
         <Grid item xs={4}>
-          <Icon onClick={() => this.upVote(answer.id)} src="/static/thumb_up.svg" />
+          <Icon onClick={() => upVote(answer.id)} src="/static/thumb_up.svg" />
           <div>{answer.upVotes}</div>
         </Grid>
         <Grid item xs={4}>
-          <Icon onClick={() => this.downVote(answer.id)} src="/static/thumb_down.svg" />
+          <Icon onClick={() => downVote(answer.id)} src="/static/thumb_down.svg" />
           <div>{answer.downVotes}</div>
         </Grid>
       </Grid>
@@ -154,7 +192,7 @@ const Answer = ({ answer, classes, user }) => {
         />
       </div>
       <SelectAnswer
-        canSelect={this.props.question.askedBy[0].id === user.id}
+        canSelect={question.askedBy[0].id === user.id}
         selected={answer.selected}
         id={answer.id}
         questionId={questionId}
@@ -164,81 +202,28 @@ const Answer = ({ answer, classes, user }) => {
 }
 
 class UserAnswers extends Component {
-  handleImage(askedby, name, classes, answeredBy) {
-    if (askedby == null || askedby == '') {
-      return (
-        <div>
-          <Link
-            href={{
-              pathname: '/user',
-              query: { id: answeredBy },
-            }}
-          >
-            <Avatar className={classes.bigAvatar}>{name[0]}</Avatar>
-          </Link>
-        </div>
-      )
-    }
-
-    return (
-      <div>
-        <Link
-          href={{
-            pathname: '/user',
-            query: { id: answeredBy },
-          }}
-        >
-          <Avatar alt="Remy Sharp" src={askedby} className={classes.bigAvatar} />
-        </Link>
-      </div>
-    )
-  }
-
-  upVote = answerId => {
-    this.props.client.mutate({
-      mutation: CREATE_ANSWER_VOTE_MUTATION,
-      variables: {
-        answerId,
-        vote: 'up',
-      },
-      refetchQueries: [{ query: questionQuery, variables: { id: this.props.question.id } }],
-    })
-  }
-
-  downVote = answerId => {
-    this.props.client.mutate({
-      mutation: CREATE_ANSWER_VOTE_MUTATION,
-      variables: {
-        answerId,
-        vote: 'down',
-      },
-      refetchQueries: [{ query: questionQuery, variables: { id: this.props.question.id } }],
-    })
-  }
-
   render() {
     const { classes } = this.props
     const answers = this.props.question.answers
     const user = this.props.user
-    const questionId = this.props.question.id
 
-    if (this.props.question.answers.length === 0) {
-      return null
-    } else {
-      return (
+    return this.props.question.answers.length === 0
+      ? null
+      : (
         <div className={classes.container}>
-          {answers == null || answers == '' ? null : (
+          {answers === null || answers === '' ? null : (
             <Typography variant="display3" className={classes.title}>
               <h2>Answers</h2>
             </Typography>
           )}
 
           {answers.map(answer => (
-            <Answer answer={answer} user={user} classes={classes} />
+            <Answer answer={answer} user={user} classes={classes} client={this.props.client} question={this.props.question} />
           ))}
         </div>
       )
-    }
+
+
   }
 }
 
