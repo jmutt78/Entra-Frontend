@@ -1,21 +1,26 @@
 import React from 'react'
 import { Query } from 'react-apollo'
 
+import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 
 import { CURRENT_USER_QUERY } from '../auth/User'
 import Answer from './Answer'
 
-const styles = ({ spacing, palette }) => ({
+const styles = ({ spacing, palette, layout }) => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    padding: '0 0 30px 20px',
+    padding: '0 0 30px 0',
+
+    width: `calc(${layout.width} / 1.2)`,
+    maxWidth: 1000,
+
   },
   title: {
     color: palette.accent.dark,
-    padding: '5px 0 0 0',
+    padding: '5px 0 0 20px',
     margin: 0,
     maxWidth: 800,
     fontWeight: 300,
@@ -38,9 +43,17 @@ const Answers = ({ classes, question, user }) => {
         return (
           <div className={classes.container}>
             {answers === null || answers === '' ? null : (
-              <Typography variant="display3" className={classes.title}>
-                <h2>Answers</h2>
-              </Typography>
+              <>
+                {/*
+                <div style={{ maxWidth: 600, marginLeft: '-10px' }}>
+                  <Divider variant="middle" />
+                </div>
+                */}
+
+                <Typography variant="display3" className={classes.title}>
+                  <h2>Answers</h2>
+                </Typography>
+              </>
             )}
 
             {answers.map(answer => (
