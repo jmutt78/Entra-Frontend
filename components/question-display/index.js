@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { withApollo } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import Answers from '../answers-display/Answers.js'
+import Answers from '../answers-display'
 import CreatBookMark from '../bookmark/CreateBookMark.js'
 import CreateAnswer from '../create-answer'
 import Table from '@material-ui/core/Table'

@@ -56,7 +56,7 @@ const EditAndDelete = ({ answer, classes, user }) => {
   const date2 = new Date()
   const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24))
 
-  return answer.answeredBy.id === user.id && diffDays <= 2 && selected === null ? (
+  return user && answer.answeredBy.id === user.id && diffDays <= 2 && selected === null ? (
     <Typography style={{ padding: '10px 0' }}>
       <Link
         href={{
@@ -75,10 +75,10 @@ const EditAndDelete = ({ answer, classes, user }) => {
 
 const Answer = ({ answer, classes, user, client, question }) => {
   const answeredBy = answer.answeredBy.id
-  const ownsAnswer = answeredBy === user.id
+  const ownsAnswer = user && answeredBy === user.id
   const isApproved = answer.approval === true
   const questionId = answer.answeredTo[0].id
-  const hasPermissions = user.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission))
+  const hasPermissions = user && user.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission))
 
   const upVote = answerId => {
     client.mutate({
@@ -158,7 +158,7 @@ const Answer = ({ answer, classes, user, client, question }) => {
         />
       </div>
       <SelectAnswer
-        canSelect={question.askedBy[0].id === user.id}
+        canSelect={user && question.askedBy[0].id === user.id}
         selected={answer.selected}
         id={answer.id}
         questionId={questionId}
