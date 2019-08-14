@@ -74,8 +74,6 @@ const styles = ({ spacing, palette }) => ({
     cursor: 'pointer',
   },
   credits: { paddingTop: 5, display: 'flex', alignItems: 'center' },
-
-
 })
 
 const EditAndDelete = ({ answer, classes, user }) => {
@@ -164,27 +162,29 @@ const Answer = ({ answer, classes, user, client, question }) => {
               />
 
               <Typography className={classes.credits}>
-                <Link
-                  href={{
-                    pathname: '/user',
-                    query: { id: answeredBy },
-                  }}
-                >
-                  {answer.answeredBy.image === null || answer.answeredBy.image === '' ? (
-                    <Avatar className={classes.avatar}>{answer.answeredBy.display[0]}</Avatar>
-                  ) : (
-                    <Avatar alt="Remy Sharp" src={answer.answeredBy.image} className={classes.bigAvatar} />
-                  )}
-                </Link>
+                <div className={classes.credits}>
+                  <Link
+                    href={{
+                      pathname: '/user',
+                      query: { id: answeredBy },
+                    }}
+                  >
+                    {answer.answeredBy.image === null || answer.answeredBy.image === '' ? (
+                      <Avatar className={classes.avatar}>{answer.answeredBy.display[0]}</Avatar>
+                    ) : (
+                      <Avatar alt="Remy Sharp" src={answer.answeredBy.image} className={classes.bigAvatar} />
+                    )}
+                  </Link>
 
-                <span>{`  Posted by `}</span>
+                  <span>{`  Posted by `}</span>
 
-                <a href={`/users/${answer.answeredBy.id}`} className={classes.nameLink}>
-                  {answer.answeredBy.display[0]}
-                </a>
+                  <a href={`/users/${answer.answeredBy.id}`} className={classes.nameLink}>
+                    {answer.answeredBy.display[0]}
+                  </a>
 
-                <span>{` on `}</span>
-                <span>{format(parseISO(answer.createdAt), 'MMMM dd, yyyy')}</span>
+                  <span>{` on `}</span>
+                  <span>{format(parseISO(answer.createdAt), 'MMMM dd, yyyy')}</span>
+                </div>
               </Typography>
 
               {/*

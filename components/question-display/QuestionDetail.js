@@ -6,11 +6,13 @@ import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 import DeleteQuestion from '../delete-question'
+import Icon from '../ui/Icon'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
+import Tooltip from '@material-ui/core/Tooltip'
 import { withRouter } from 'next/router'
 import { withStyles } from '@material-ui/core/styles'
 
@@ -78,6 +80,21 @@ const styles = ({ layout, palette, spacing }) => ({
     cursor: 'pointer',
   },
   credits: { paddingTop: 5, display: 'flex', alignItems: 'center' },
+  viewContainer: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  viewsCount: {
+    color: palette.accent.dark,
+    fontSize: '1.2rem',
+    padding: '5px 0 5px 8px',
+  },
+  itemFooter: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: '10px 0 0 0',
+  }
 })
 
 const PromptBar = ({ classes, user }) => {
@@ -174,21 +191,31 @@ const QuestionDetail = ({
 
               <EditButton question={question} user={user} classes={classes} />
 
-              <Typography className={classes.credits}>
-                <a href={`/users/${question.askedBy[0].id}`}>
-                  <Avatar
-                    alt={question.askedBy[0].display[0]}
-                    src={question.askedBy[0].image}
-                    className={classes.avatar}
-                  />
-                </a>
-                <span>{`  Posted by `}</span>
-                <a href={`/users/${question.askedBy[0].id}`} className={classes.nameLink}>
-                  {question.askedBy[0].display[0]}
-                </a>
+              <Typography className={classes.itemFooter}>
+                <div className={classes.credits}>
+                  <a href={`/users/${question.askedBy[0].id}`}>
+                    <Avatar
+                      alt={question.askedBy[0].display[0]}
+                      src={question.askedBy[0].image}
+                      className={classes.avatar}
+                    />
+                  </a>
+                  <span>{`  Posted by `}</span>
+                  <a href={`/users/${question.askedBy[0].id}`} className={classes.nameLink}>
+                    {question.askedBy[0].display[0]}
+                  </a>
 
-                <span>{` on `}</span>
-                <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
+                  <span>{` on `}</span>
+                  <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
+                </div>
+
+                <Tooltip title={`${question.views} views`} placement="top">
+                  <div className={classes.viewContainer}>
+                    <Icon src="/static/visibility.svg"/>
+                    <span className={classes.viewsCount}>{`${question.views} ${question.views > 1 ? 'views' : 'view'}`}</span>
+                  </div>
+                </Tooltip>
+
               </Typography>
             </TableCell>
           </TableRow>
