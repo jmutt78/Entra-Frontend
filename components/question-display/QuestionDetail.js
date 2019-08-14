@@ -57,24 +57,35 @@ const styles = ({ layout, palette, spacing }) => ({
   top: {
     backgroundColor: '#85BDCB',
     boxShadow: 'none',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    padding: '20px',
   },
   editButton: {
     backgroundColor: palette.accent.blue,
+  },
+  signupButton: {
+    backgroundColor: palette.primary.dark,
+    '&:hover': {
+      backgroundColor: palette.primary.main,
+    },
+    marginLeft: 10,
   },
 })
 
 const PromptBar = ({ classes, user }) => {
   return user ? null : (
-    <AppBar className={classes.top} position="static">
-      <Toolbar>
-        <Typography className={classes.textTop}>Do you have an Answer? 👉</Typography>
-        <Link href="/signup">
-          <Button size="medium" className={classes.buttonTop}>
-            SIGN UP NOW
-          </Button>
-        </Link>
-      </Toolbar>
-    </AppBar>
+    <div className={classes.top} position="static">
+      <Typography className={classes.textTop}>Do you have an Answer? 👉</Typography>
+
+      <Link href="/signup">
+        <Button variant="contained" color="secondary" className={classes.signupButton}>
+          Sign up now
+        </Button>
+      </Link>
+    </div>
   )
 }
 
@@ -85,7 +96,7 @@ const EditButton = ({ question, user, classes }) => {
   const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24))
 
   return user && question.askedBy[0].id === user.id && diffDays <= 1 && !answers ? (
-    <Typography style={{paddingBottom: 10}}>
+    <Typography style={{ paddingBottom: 10 }}>
       <Link
         href={{
           pathname: '/edit-question',
@@ -113,7 +124,7 @@ const QuestionDetail = ({
     !!user && user.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission))
   const isApproved = question.approval === true
 
-  console.log({question})
+  console.log({ question })
 
   return (
     <div className={classes.detailContainer}>
