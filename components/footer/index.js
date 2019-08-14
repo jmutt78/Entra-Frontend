@@ -9,7 +9,7 @@ const styles = ({ palette }) => ({
   creditBarContainer: {
     background: palette.accent.dark,
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
   },
   creditBarText: {
     color: palette.accent.blue,
