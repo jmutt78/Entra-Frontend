@@ -3,10 +3,17 @@ import Document, { Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheets } from '@material-ui/styles'
 import theme from '../src/theme'
 
+const containerStyles = {
+  minWidth: theme.layout.width,
+  minHeight: theme.layout.height,
+  width: '100%',
+  height: '100%',
+}
+
 class MyDocument extends Document {
   render() {
     return (
-      <html lang="en" style={{width: theme.layout.width, height: theme.layout.height}}>
+      <html lang="en" style={containerStyles}>
         <Head>
           <meta charSet="utf-8" />
           {/* Use minimum-scale=1 to enable GPU rasterization */}
@@ -21,8 +28,8 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
         </Head>
-        <body style={{width: theme.layout.width, height: theme.layout.height}}>
-          <Main />
+        <body style={containerStyles}>
+          <Main style={containerStyles} />
           <NextScript />
         </body>
       </html>

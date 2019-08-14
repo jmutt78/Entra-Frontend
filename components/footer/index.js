@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import './footer.css'
@@ -52,11 +51,11 @@ const styles = ({ palette }) => ({
 
 const CreditBar = ({ classes }) => {
   return (
-    <Grid container className={classes.creditBarContainer}>
+    <div className={classes.creditBarContainer}>
       <Typography color="secondary" className={classes.creditBarText}>
         &copy; Copyright {new Date().getFullYear()} Entra
       </Typography>
-    </Grid>
+    </div>
   )
 }
 
