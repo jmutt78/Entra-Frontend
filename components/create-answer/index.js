@@ -1,38 +1,26 @@
 import React from 'react'
 import { Mutation, Query } from 'react-apollo'
 import gql from 'graphql-tag'
-import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import { withStyles } from '@material-ui/core/styles'
-import FormControl from '@material-ui/core/FormControl'
 import Divider from '@material-ui/core/Divider'
+import Typography from "@material-ui/core/Typography";
 
 import Link from 'next/link'
 
 import questionQuery from '../question-display/questionQuery.js'
 import { CURRENT_USER_QUERY } from '../auth/User'
 
-const styles = theme => ({
-  grid: {
-    margin: theme.spacing.unit,
-  },
+const styles = ({ spacing, palette }) => ({
   container: {
     display: 'flex',
-  },
-  flex1: {
-    flex: 0.93,
-  },
-  root: {
-    margin: theme.spacing.unit,
-    marginTop: 40,
+    flexDirection: 'column',
+    padding: '40px 0 30px 20px',
   },
   inputField: {
-    width: 900,
-    marginBottom: 30,
-  },
-  addNewTag: {
-    marginTop: -15,
+    width: '100%',
+    maxWidth: 600,
     marginBottom: 30,
   },
   label: {
@@ -42,9 +30,24 @@ const styles = theme => ({
   postQuestionButton: {
     alignItems: 'flex-end',
   },
+  title: {
+    color: palette.accent.dark,
+    padding: '5px 0 15px 0',
+    margin: 0,
+    maxWidth: 800,
+    fontWeight: 300,
+
+    fontSize: '1.8rem',
+    textAlign: 'left',
+    lineHeight: '2.5rem',
+
+  },
   button: {
-    backgroundColor: '#E27D60',
-    marginLeft: theme.spacing.unit * 2,
+    margin: '20px 0 5px 0',
+    background: palette.accent.blue,
+    // '&:hover': {
+    //   background: palette.primary.dark,
+    // },
   },
 })
 
@@ -91,9 +94,15 @@ class CreateAnswer extends React.Component {
     const num = arr.some(element => element[0].id === id)
 
     return num === true ? null : (
-      <div className={classes.root}>
-        <Divider variant="middle" />
-        <h1>Have an Answer?</h1>
+      <div className={classes.container}>
+        <div style={{ maxWidth: 600, marginLeft: '-10px' }}>
+          <Divider variant="middle" />
+        </div>
+        <Typography variant="display3" className={classes.title}>
+          <h2>
+            Have an answer?
+          </h2>
+        </Typography>
 
         <form method="post" onSubmit={e => this.submitForm(e, createQuestion)}>
           <fieldset
@@ -101,28 +110,26 @@ class CreateAnswer extends React.Component {
             aria-busy={loading}
             style={{
               borderWidth: '0px',
+              padding: 0,
             }}
           >
-            <FormControl>
-              <label htmlFor="body">
-                <TextField
-                  label="Answer"
-                  type="text"
-                  name="body"
-                  variant="filled"
-                  multiline
-                  rows={4}
-                  value={body}
-                  onChange={this.handleDescriptionChange}
-                  className={classes.inputField}
-                />
-              </label>
-            </FormControl>
-
-            <Button variant="contained" type="submit">
-              Post Answer
-            </Button>
+            <label htmlFor="body">
+              <TextField
+                label="Answer"
+                type="text"
+                name="body"
+                variant="filled"
+                multiline
+                rows={4}
+                value={body}
+                onChange={this.handleDescriptionChange}
+                className={classes.inputField}
+              />
+            </label>
           </fieldset>
+          <Button variant="contained" type="submit" className={classes.button}>
+            Post Answer
+          </Button>
         </form>
       </div>
     )
