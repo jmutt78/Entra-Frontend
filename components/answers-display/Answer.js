@@ -28,28 +28,54 @@ const CREATE_ANSWER_VOTE_MUTATION = gql`
 `
 
 const styles = ({ spacing, palette }) => ({
-  bigAvatar: {
-    width: 70,
-    height: 70,
+  body: {
+    color: palette.accent.dark,
+    padding: '5px 0 15px 0',
+    margin: 0,
+    maxWidth: 800,
+    fontWeight: 300,
+  },
+  nameLink: {
+    fontWeight: 500,
+    textDecoration: 'none',
+    color: palette.primary.dark,
+  },
+  tableRow: {
     cursor: 'pointer',
+    background: palette.secondary.main,
   },
-  photoTitle: {
-    display: 'inline-flex',
-    marginRight: 10,
-    marginBottom: 20,
+  button: {
+    color: palette.accent.dark,
   },
-  date: {
-    marginTop: 20,
+  detailContainer: {
+    padding: '5px 15px',
   },
-  description: {
-    fontSize: 17,
+  buttonTop: {
+    backgroundColor: '#E27D60',
+    marginLeft: spacing.unit * 2,
+  },
+  textTop: {
+    color: 'white',
+    fontSize: 20,
   },
   editButton: {
     backgroundColor: palette.accent.blue,
   },
-  answerContainer: {
-    padding: '10px 0',
+  signupButton: {
+    backgroundColor: palette.primary.dark,
+    '&:hover': {
+      backgroundColor: palette.primary.main,
+    },
+    marginLeft: 10,
   },
+  avatar: {
+    width: 70,
+    height: 70,
+    cursor: 'pointer',
+  },
+  credits: { paddingTop: 5, display: 'flex', alignItems: 'center' },
+
+
 })
 
 const EditAndDelete = ({ answer, classes, user }) => {
