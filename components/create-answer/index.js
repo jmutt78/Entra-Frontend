@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import { withStyles } from '@material-ui/core/styles'
 import Divider from '@material-ui/core/Divider'
-import Typography from "@material-ui/core/Typography";
+import Typography from '@material-ui/core/Typography'
 
 import Link from 'next/link'
 
@@ -40,7 +40,6 @@ const styles = ({ spacing, palette }) => ({
     fontSize: '1.8rem',
     textAlign: 'left',
     lineHeight: '2.5rem',
-
   },
   button: {
     margin: '20px 0 5px 0',
@@ -99,9 +98,7 @@ class CreateAnswer extends React.Component {
           <Divider variant="middle" />
         </div>
         <Typography variant="display3" className={classes.title}>
-          <h2>
-            Have an answer?
-          </h2>
+          <h2>Have an answer?</h2>
         </Typography>
 
         <form method="post" onSubmit={e => this.submitForm(e, createQuestion)}>
