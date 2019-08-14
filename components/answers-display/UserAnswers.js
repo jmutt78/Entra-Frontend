@@ -28,7 +28,7 @@ const styles = ({ spacing, palette }) => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    padding: '0 0 0 20px',
+    padding: '0 0 30px 20px',
   },
 
   bigAvatar: {
@@ -63,10 +63,6 @@ const styles = ({ spacing, palette }) => ({
   description: {
     fontSize: 17,
   },
-  info: {
-    marginBottom: 30,
-    marginTop: 30,
-  },
   editButton: {
     backgroundColor: palette.accent.blue,
   },
@@ -91,7 +87,7 @@ const EditAndDelete = ({ answer, classes, user }) => {
   const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24))
 
   return answer.answeredBy.id === user.id && diffDays <= 2 && selected === null ? (
-    <Typography style={{ paddingBottom: 10 }}>
+    <Typography style={{ padding: '10px 0' }}>
       <Link
         href={{
           pathname: '/edit-answer',
@@ -105,6 +101,66 @@ const EditAndDelete = ({ answer, classes, user }) => {
       <DeleteAnswer id={answer.id} />
     </Typography>
   ) : null
+}
+
+const Answer = ({ answer, classes, user }) => {
+  const answeredBy = answer.answeredBy.id
+  const ownsAnswer = answeredBy === user.id
+  const isApproved = answer.approval === true
+  const questionId = answer.answeredTo[0].id
+  const hasPermissions = user.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission))
+
+  if (!ownsAnswer && !hasPermissions && !isApproved) {
+    return null
+  }
+
+  return (
+    <div key={answer.id} className={classes.info}>
+      <div className={classes.photoTitle}>
+        {this.handleImage(answer.answeredBy.image, answer.answeredBy.display, classes, answeredBy)}
+        <Typography
+          style={{
+            paddingTop: 20,
+            marginLeft: 10,
+          }}
+        >
+          <strong>{answer.answeredBy.display}</strong> says:
+        </Typography>
+      </div>
+      <Typography className={classes.description}>{answer.body}</Typography>
+      <Grid item xs={2} container>
+        <Grid item xs={4}>
+          <Icon onClick={() => this.upVote(answer.id)} src="/static/thumb_up.svg" />
+          <div>{answer.upVotes}</div>
+        </Grid>
+        <Grid item xs={4}>
+          <Icon onClick={() => this.downVote(answer.id)} src="/static/thumb_down.svg" />
+          <div>{answer.downVotes}</div>
+        </Grid>
+      </Grid>
+      <Typography className={classes.date}>
+        Posted {format(parseISO(answer.createdAt), 'MMMM dd, yyyy')}
+      </Typography>
+
+      <EditAndDelete answer={answer} classes={classes} user={user} />
+
+      <div style={{ paddingBottom: 10 }}>
+        <ApproveAnswer
+          hasPermissions={hasPermissions}
+          isApproved={isApproved}
+          approval={answer.approval}
+          id={answer.id}
+          questionId={questionId}
+        />
+      </div>
+      <SelectAnswer
+        canSelect={this.props.question.askedBy[0].id === user.id}
+        selected={answer.selected}
+        id={answer.id}
+        questionId={questionId}
+      />
+    </div>
+  )
 }
 
 class UserAnswers extends Component {
@@ -177,65 +233,9 @@ class UserAnswers extends Component {
             </Typography>
           )}
 
-          {answers.map(answer => {
-            const answeredBy = answer.answeredBy.id
-            const ownsAnswer = answeredBy === user.id
-            const isApproved = answer.approval === true
-            const questionId = answer.answeredTo[0].id
-
-            const hasPermissions = user.permissions.some(permission =>
-              ['ADMIN', 'MODERATOR'].includes(permission)
-            )
-
-            if (!ownsAnswer && !hasPermissions && !isApproved) {
-              return <div />
-            }
-            return (
-              <div key={answer.id} className={classes.info}>
-                <div className={classes.photoTitle}>
-                  {this.handleImage(answer.answeredBy.image, answer.answeredBy.display, classes, answeredBy)}
-                  <Typography
-                    style={{
-                      paddingTop: 20,
-                      marginLeft: 10,
-                    }}
-                  >
-                    <strong>{answer.answeredBy.display}</strong> says:
-                  </Typography>
-                </div>
-                <Typography className={classes.description}>{answer.body}</Typography>
-                <Grid item xs={2} container>
-                  <Grid item xs={4}>
-                    <Icon onClick={() => this.upVote(answer.id)} src="/static/thumb_up.svg" />
-                    <div>{answer.upVotes}</div>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Icon onClick={() => this.downVote(answer.id)} src="/static/thumb_down.svg" />
-                    <div>{answer.downVotes}</div>
-                  </Grid>
-                </Grid>
-                <Typography className={classes.date}>
-                  Posted {format(parseISO(answer.createdAt), 'MMMM dd, yyyy')}
-                </Typography>
-
-                <EditAndDelete answer={answer} classes={classes} user={user} />
-
-                <ApproveAnswer
-                  hasPermissions={hasPermissions}
-                  isApproved={isApproved}
-                  approval={answer.approval}
-                  id={answer.id}
-                  questionId={questionId}
-                />
-                <SelectAnswer
-                  canSelect={this.props.question.askedBy[0].id === user.id}
-                  selected={answer.selected}
-                  id={answer.id}
-                  questionId={questionId}
-                />
-              </div>
-            )
-          })}
+          {answers.map(answer => (
+            <Answer answer={answer} user={user} classes={classes} />
+          ))}
         </div>
       )
     }
