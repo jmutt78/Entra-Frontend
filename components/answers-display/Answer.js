@@ -41,7 +41,6 @@ const styles = ({ spacing, palette }) => ({
     color: palette.primary.dark,
   },
   tableRow: {
-    cursor: 'pointer',
     background: palette.secondary.main,
   },
   button: {
@@ -176,7 +175,7 @@ const Answer = ({ answer, classes, user, client, question }) => {
                     )}
                   </Link>
 
-                  <span>{`  Posted by `}</span>
+                  <span>{`  Answered by `}</span>
 
                   <a href={`/users/${answer.answeredBy.id}`} className={classes.nameLink}>
                     {answer.answeredBy.display[0]}

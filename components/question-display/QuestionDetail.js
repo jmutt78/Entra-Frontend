@@ -38,7 +38,6 @@ const styles = ({ layout, palette, spacing }) => ({
     color: palette.primary.dark,
   },
   tableRow: {
-    cursor: 'pointer',
     background: palette.secondary.main,
   },
   button: {
@@ -200,7 +199,7 @@ const QuestionDetail = ({
                       className={classes.avatar}
                     />
                   </a>
-                  <span>{`  Posted by `}</span>
+                  <span>{`  Asked by `}</span>
                   <a href={`/users/${question.askedBy[0].id}`} className={classes.nameLink}>
                     {question.askedBy[0].display[0]}
                   </a>
