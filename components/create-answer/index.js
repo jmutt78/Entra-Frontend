@@ -120,7 +120,7 @@ class CreateAnswer extends React.Component {
                 name="body"
                 variant="filled"
                 multiline
-                rows={4}
+                rows={8}
                 value={body}
                 onChange={this.handleDescriptionChange}
                 className={classes.inputField}
