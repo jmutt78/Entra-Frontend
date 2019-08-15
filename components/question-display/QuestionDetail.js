@@ -2,21 +2,19 @@ import React from "react";
 import Link from "next/link";
 import { format, parseISO } from "date-fns";
 
-
-import Avatar from '@material-ui/core/Avatar'
-import Button from '@material-ui/core/Button'
-import ButtonGroup from '@material-ui/core/ButtonGroup'
-import DeleteQuestion from '../delete-question'
-import Icon from '../ui/Icon'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableRow from '@material-ui/core/TableRow'
-import Typography from '@material-ui/core/Typography'
-import Tooltip from '@material-ui/core/Tooltip'
-import { withRouter } from 'next/router'
-import { withStyles } from '@material-ui/core/styles'
-
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import DeleteQuestion from "../delete-question";
+import Icon from "../ui/Icon";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableRow from "@material-ui/core/TableRow";
+import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
+import { withRouter } from "next/router";
+import { withStyles } from "@material-ui/core/styles";
 
 import ApproveQuestion from "../approval/AppoveQuestion.js";
 
@@ -40,9 +38,7 @@ const styles = ({ layout, palette, spacing }) => ({
     color: palette.primary.dark
   },
   tableRow: {
-
-    background: palette.secondary.main,
-
+    background: palette.secondary.main
   },
   button: {
     color: palette.accent.dark
@@ -59,62 +55,66 @@ const styles = ({ layout, palette, spacing }) => ({
     fontSize: 20
   },
   top: {
-
-    backgroundColor: '#85BDCB',
-    boxShadow: 'none',
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    padding: '20px',
+    backgroundColor: "#85BDCB",
+    boxShadow: "none",
+    width: "100%",
+    display: "flex",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    padding: "20px"
   },
   editButton: {
-    backgroundColor: palette.accent.blue,
+    backgroundColor: palette.accent.blue
   },
   signupButton: {
     backgroundColor: palette.primary.dark,
-    '&:hover': {
-      backgroundColor: palette.primary.main,
+    "&:hover": {
+      backgroundColor: palette.primary.main
     },
-    marginLeft: 10,
+    marginLeft: 10
   },
   avatar: {
     width: 70,
     height: 70,
-    cursor: 'pointer',
+    cursor: "pointer"
   },
-  credits: { paddingTop: 5, display: 'flex', alignItems: 'center' },
+  credits: { paddingTop: 5, display: "flex", alignItems: "center" },
   viewContainer: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center"
   },
   viewsCount: {
     color: palette.accent.dark,
-    fontSize: '1.2rem',
-    padding: '5px 0 5px 8px',
+    fontSize: "1.2rem",
+    padding: "5px 0 5px 8px"
   },
   itemFooter: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '10px 0 0 0',
+    width: "100%",
+    display: "flex",
+    justifyContent: "space-between",
+    padding: "10px 0 0 0"
   }
-})
+});
 
 const PromptBar = ({ classes, user }) => {
   return user ? null : (
     <div className={classes.top} position="static">
-      <Typography className={classes.textTop}>Do you have an Answer? 👉</Typography>
+      <Typography className={classes.textTop}>
+        Do you have an Answer? 👉
+      </Typography>
 
       <Link href="/signup">
-        <Button variant="contained" color="secondary" className={classes.signupButton}>
+        <Button
+          variant="contained"
+          color="secondary"
+          className={classes.signupButton}
+        >
           Sign up now
         </Button>
       </Link>
     </div>
-  )
-}
-
+  );
+};
 
 const EditButton = ({ question, user, classes }) => {
   const answers = question.answers.length;
@@ -122,9 +122,10 @@ const EditButton = ({ question, user, classes }) => {
   const date2 = new Date();
   const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
 
-
-  return user && question.askedBy[0].id === user.id && diffDays <= 1 && !answers ? (
-
+  return user &&
+    question.askedBy[0].id === user.id &&
+    diffDays <= 1 &&
+    !answers ? (
     <Typography style={{ paddingBottom: 10 }}>
       <Link
         href={{
@@ -154,20 +155,23 @@ const QuestionDetail = ({
   user
 }) => {
   const hasPermissions =
-
-    !!user && user.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission))
-  const isApproved = question.approval === true
-
+    !!user &&
+    user.permissions.some(permission =>
+      ["ADMIN", "MODERATOR"].includes(permission)
+    );
+  const isApproved = question.approval === true;
 
   return (
     <div className={classes.detailContainer}>
       <PromptBar classes={classes} user={user} />
       <Table>
         <TableBody>
-
           <TableRow className={classes.tableRow}>
-            <TableCell component="th" scope="row" style={{ padding: '25px 35px' }}>
-
+            <TableCell
+              component="th"
+              scope="row"
+              style={{ padding: "25px 35px" }}
+            >
               <Typography>
                 {description && <h3 className={classes.body}>{description}</h3>}
                 {tags && (
@@ -208,29 +212,41 @@ const QuestionDetail = ({
 
               <Typography className={classes.itemFooter}>
                 <div className={classes.credits}>
-                  <a href={`/users/${question.askedBy[0].id}`}>
+                  <Link
+                    href={{
+                      pathname: "/user",
+                      query: { id: question.askedBy[0].id }
+                    }}
+                  >
                     <Avatar
                       alt={question.askedBy[0].display[0]}
                       src={question.askedBy[0].image}
                       className={classes.avatar}
                     />
-                  </a>
+                  </Link>
                   <span>{`  Asked by `}</span>
-                  <a href={`/users/${question.askedBy[0].id}`} className={classes.nameLink}>
-                    {question.askedBy[0].display[0]}
-                  </a>
-
+                  <Link
+                    href={{
+                      pathname: "/user",
+                      query: { id: question.askedBy[0].id }
+                    }}
+                  >
+                    <a className={classes.nameLink}>
+                      {question.askedBy[0].display[0]}
+                    </a>
+                  </Link>
                   <span>{` on `}</span>
-                  <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
+                  <span>{format(parseISO(createdAt), "MMMM dd, yyyy")}</span>
                 </div>
 
                 <Tooltip title={`${question.views} views`} placement="top">
                   <div className={classes.viewContainer}>
-                    <Icon src="/static/visibility.svg"/>
-                    <span className={classes.viewsCount}>{`${question.views} ${question.views > 1 ? 'views' : 'view'}`}</span>
+                    <Icon src="/static/visibility.svg" />
+                    <span className={classes.viewsCount}>{`${question.views} ${
+                      question.views > 1 ? "views" : "view"
+                    }`}</span>
                   </div>
                 </Tooltip>
-
               </Typography>
             </TableCell>
           </TableRow>
