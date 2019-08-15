@@ -1,52 +1,54 @@
-import React from "react";
-import { Mutation, Query } from "react-apollo";
-import gql from "graphql-tag";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import { withStyles } from "@material-ui/core/styles";
-import FormControl from "@material-ui/core/FormControl";
-import Divider from "@material-ui/core/Divider";
+import React from 'react'
+import { Mutation, Query } from 'react-apollo'
+import gql from 'graphql-tag'
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import { withStyles } from '@material-ui/core/styles'
+import Divider from '@material-ui/core/Divider'
+import Typography from '@material-ui/core/Typography'
 
-import Link from "next/link";
+import Link from 'next/link'
 
-import questionQuery from "../question-display/questionQuery.js";
-import { CURRENT_USER_QUERY } from "../auth/User";
+import questionQuery from '../question-display/questionQuery.js'
+import { CURRENT_USER_QUERY } from '../auth/User'
 
-const styles = theme => ({
-  grid: {
-    margin: theme.spacing.unit
-  },
+const styles = ({ spacing, palette }) => ({
   container: {
-    display: "flex"
-  },
-  flex1: {
-    flex: 0.93
-  },
-  root: {
-    margin: theme.spacing.unit,
-    marginTop: 40
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '40px 0 30px 20px',
   },
   inputField: {
-    width: 900,
-    marginBottom: 30
-  },
-  addNewTag: {
-    marginTop: -15,
-    marginBottom: 30
+    width: '100%',
+    maxWidth: 600,
+    marginBottom: 30,
   },
   label: {
     marginLeft: 10,
-    marginBotom: 10
+    marginBotom: 10,
   },
   postQuestionButton: {
-    alignItems: "flex-end"
+    alignItems: 'flex-end',
+  },
+  title: {
+    color: palette.accent.dark,
+    padding: '5px 0 15px 0',
+    margin: 0,
+    maxWidth: 800,
+    fontWeight: 300,
+
+    fontSize: '1.8rem',
+    textAlign: 'left',
+    lineHeight: '2.5rem',
   },
   button: {
-    backgroundColor: "#E27D60",
-    marginLeft: theme.spacing.unit * 2
-  }
-});
+    margin: '20px 0 5px 0',
+    background: palette.accent.blue,
+    // '&:hover': {
+    //   background: palette.primary.dark,
+    // },
+  },
+})
 
 export const CREATE_ANSWER = gql`
   mutation creatAnswer($questionId: ID!, $body: String!) {
@@ -55,110 +57,95 @@ export const CREATE_ANSWER = gql`
       body
     }
   }
-`;
+`
 
 class CreateAnswer extends React.Component {
   state = {
-    body: ""
-  };
+    body: '',
+  }
 
   handleDescriptionChange = e => {
     this.setState({
-      body: e.target.value
-    });
-  };
+      body: e.target.value,
+    })
+  }
 
   submitForm = async (e, createQuestion) => {
-    e.preventDefault();
+    e.preventDefault()
     const res = await createQuestion({
       variables: {
         questionId: this.props.question.id,
-        ...this.state
-      }
-    });
+        ...this.state,
+      },
+    })
 
     this.setState({
-      body: ""
-    });
-  };
+      body: '',
+    })
+  }
 
   handleQuestion(id, myAnswers, body, classes, loading, createQuestion) {
-    const arr = [];
+    const arr = []
     for (var i = 0; i < myAnswers.length; i++) {
-      const answers = [myAnswers[i].answeredTo[0]];
-      arr.push(answers);
+      const answers = [myAnswers[i].answeredTo[0]]
+      arr.push(answers)
     }
-    const num = arr.some(element => element[0].id === id);
+    const num = arr.some(element => element[0].id === id)
 
-    if (num === true) {
-      return <div />;
-    } else {
-      return (
-        <Grid container className={classes.root} spacing={16}>
-          <Grid item xs />
-          <Grid item xs={7} className={classes.grid}>
-            <Divider variant="middle" />
-            <form
-              method="post"
-              onSubmit={e => this.submitForm(e, createQuestion)}
-            >
-              <fieldset
-                disabled={loading}
-                aria-busy={loading}
-                style={{
-                  borderWidth: "0px"
-                }}
-              >
-                <div>
-                  <div>
-                    <h1>Have an Answer?</h1>
-                  </div>
-                  <div>
-                    <FormControl>
-                      <label htmlFor="body">
-                        <TextField
-                          label="Answer"
-                          type="text"
-                          name="body"
-                          variant="filled"
-                          multiline
-                          rows={4}
-                          value={body}
-                          onChange={this.handleDescriptionChange}
-                          className={classes.inputField}
-                        />
-                      </label>
-                    </FormControl>
-                  </div>
+    return num === true ? null : (
+      <div className={classes.container}>
+        <div style={{ maxWidth: 600, marginLeft: '-10px' }}>
+          <Divider variant="middle" />
+        </div>
+        <Typography variant="display3" className={classes.title}>
+          <h2>Have an answer?</h2>
+        </Typography>
 
-                  <div className={classes.flex1} />
-                  <Button variant="contained" type="submit">
-                    Post Answer
-                  </Button>
-                </div>
-              </fieldset>
-            </form>
-          </Grid>
-          <Grid item xs />
-        </Grid>
-      );
-    }
+        <form method="post" onSubmit={e => this.submitForm(e, createQuestion)}>
+          <fieldset
+            disabled={loading}
+            aria-busy={loading}
+            style={{
+              borderWidth: '0px',
+              padding: 0,
+            }}
+          >
+            <label htmlFor="body">
+              <TextField
+                label="Answer"
+                type="text"
+                name="body"
+                variant="filled"
+                multiline
+                rows={8}
+                value={body}
+                onChange={this.handleDescriptionChange}
+                className={classes.inputField}
+              />
+            </label>
+          </fieldset>
+          <Button variant="contained" type="submit" className={classes.button}>
+            Post Answer
+          </Button>
+        </form>
+      </div>
+    )
   }
 
   render() {
-    const { classes } = this.props;
-    const { body } = this.state;
+    const { classes } = this.props
+    const { body } = this.state
 
     return (
       <Query query={CURRENT_USER_QUERY}>
         {({ data, loading }) => {
-          if (loading) return <p>Loading...</p>;
-          const user = data.me;
+          if (loading) return <p>Loading...</p>
+          const user = data.me
           if (!user) {
-            return <div />;
+            return <div />
           }
-          const myAnswers = user.myAnswers;
-          const id = this.props.question.id;
+          const myAnswers = user.myAnswers
+          const id = this.props.question.id
           return (
             <Mutation
               mutation={CREATE_ANSWER}
@@ -166,31 +153,20 @@ class CreateAnswer extends React.Component {
               refetchQueries={[
                 {
                   query: questionQuery,
-                  variables: { id: this.props.question.id }
+                  variables: { id: this.props.question.id },
                 },
-                { query: CURRENT_USER_QUERY }
+                { query: CURRENT_USER_QUERY },
               ]}
             >
               {(createQuestion, { error, loading }) => {
-                return (
-                  <div>
-                    {this.handleQuestion(
-                      id,
-                      myAnswers,
-                      body,
-                      classes,
-                      loading,
-                      createQuestion
-                    )}
-                  </div>
-                );
+                return <div>{this.handleQuestion(id, myAnswers, body, classes, loading, createQuestion)}</div>
               }}
             </Mutation>
-          );
+          )
         }}
       </Query>
-    );
+    )
   }
 }
 
-export default withStyles(styles)(CreateAnswer);
+export default withStyles(styles)(CreateAnswer)

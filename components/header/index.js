@@ -1,4 +1,5 @@
 import React from 'react'
+import { withStyles } from "@material-ui/core/styles";
 
 import Grid from '@material-ui/core/Grid'
 
@@ -22,17 +23,27 @@ Router.onRouteChangeError = () => {
   NProgress.done()
 }
 
+const styles = ({ layout }) => {
+  return {
+    root: {
+      minWidth: layout.width,
+      width: '100%',
+    },
+  }
+}
+
+
 const Header = ({ classes }) => {
   return (
     <User>
       {({ data: { me } }) => (
-        <Grid container spacing={16}>
+        <div className={classes.root}>
           { me &&  <Navbar />}
           <Appbar isLoggedIn={!!me} />
-        </Grid>
+        </div>
       )}
     </User>
   )
 }
 
-export default Header
+export default withStyles(styles)(Header)
