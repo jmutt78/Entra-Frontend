@@ -59,8 +59,10 @@ class QaDisplay extends Component {
           if (loading) return <p>Loading...</p>;
           const user = this.props.user;
           const answers = user.myAnswers;
+          const userId = user.id;
 
           const questions = user.myQuestions;
+
           // //const question = data.questionsConnection.aggregate.count;
           // //console.log(data.questionsConnection.aggregate);
 
@@ -76,7 +78,12 @@ class QaDisplay extends Component {
                   {user.myQuestions.length}
                 </Typography>
                 <Typography variant="h5" align="center">
-                  <Link href="/myquestions">
+                  <Link
+                    href={{
+                      pathname: "/users",
+                      query: { id: userId }
+                    }}
+                  >
                     <a className={classes.link}>Questions</a>
                   </Link>
                 </Typography>
@@ -86,7 +93,12 @@ class QaDisplay extends Component {
                   {user.myAnswers.length}
                 </Typography>
                 <Typography variant="h5" align="center">
-                  <Link href="/myanswers">
+                  <Link
+                    href={{
+                      pathname: "/answers",
+                      query: { id: userId }
+                    }}
+                  >
                     <a className={classes.link}>Answers</a>
                   </Link>
                 </Typography>
@@ -100,7 +112,12 @@ class QaDisplay extends Component {
                   }
                 </Typography>
                 <Typography variant="h5" align="center">
-                  <Link href="/">
+                  <Link
+                    href={{
+                      pathname: "/selected",
+                      query: { id: userId }
+                    }}
+                  >
                     <a className={classes.link}>Accepted Answers</a>
                   </Link>
                 </Typography>
@@ -109,10 +126,12 @@ class QaDisplay extends Component {
                 <Typography variant="h4" align="center">
                   {this.handlePointCount(questions, answers)}
                 </Typography>
-                <Typography variant="h5" align="center">
-                  <Link href="/">
-                    <a className={classes.link}>Points</a>
-                  </Link>
+                <Typography
+                  variant="h5"
+                  align="center"
+                  className={classes.link}
+                >
+                  Points
                 </Typography>
               </Grid>
             </Grid>

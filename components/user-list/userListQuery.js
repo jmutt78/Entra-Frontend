@@ -1,9 +1,9 @@
 import gql from "graphql-tag";
 import { perPage } from "../../config.js";
 
-const QUESTION_LIST_QUERY = gql`
-  query QUESTION_LIST_QUERY($filter: String!, $skip: Int = 0, $first: Int = ${perPage}) {
-    questions(filter: $filter, first: $first, skip: $skip, orderBy: createdAt_DESC) {
+const USER_LIST_QUERY = gql`
+  query USER_LIST_QUERY($id: ID!, $filter: String!, $skip: Int = 0, $first: Int = ${perPage}) {
+    questions(where: {askedBy_some: {id: $id}}, filter: $filter, first: $first, skip: $skip, orderBy: createdAt_DESC) {
       id
       title
       description
@@ -21,7 +21,6 @@ const QUESTION_LIST_QUERY = gql`
       upVotes
       downVotes
       askedBy {
-        id
         name
       }
       bookMark {
@@ -31,4 +30,4 @@ const QUESTION_LIST_QUERY = gql`
   }
 `;
 
-export default QUESTION_LIST_QUERY;
+export default USER_LIST_QUERY;

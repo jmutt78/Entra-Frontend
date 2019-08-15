@@ -1,6 +1,7 @@
-import React from 'react'
-import Link from 'next/link'
-import { format, parseISO } from 'date-fns'
+import React from "react";
+import Link from "next/link";
+import { format, parseISO } from "date-fns";
+
 
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
@@ -16,45 +17,49 @@ import Tooltip from '@material-ui/core/Tooltip'
 import { withRouter } from 'next/router'
 import { withStyles } from '@material-ui/core/styles'
 
-import ApproveQuestion from '../approval/AppoveQuestion.js'
+
+import ApproveQuestion from "../approval/AppoveQuestion.js";
 
 const styles = ({ layout, palette, spacing }) => ({
   title: {
     color: palette.accent.dark,
-    padding: '5px 0 15px 0',
+    padding: "5px 0 15px 0",
     margin: 0,
-    maxWidth: 800,
+    maxWidth: 800
   },
   body: {
     color: palette.accent.dark,
-    padding: '5px 0 15px 0',
+    padding: "5px 0 15px 0",
     margin: 0,
     maxWidth: 800,
-    fontWeight: 300,
+    fontWeight: 300
   },
   nameLink: {
     fontWeight: 500,
-    textDecoration: 'none',
-    color: palette.primary.dark,
+    textDecoration: "none",
+    color: palette.primary.dark
   },
   tableRow: {
+
     background: palette.secondary.main,
+
   },
   button: {
-    color: palette.accent.dark,
+    color: palette.accent.dark
   },
   detailContainer: {
-    padding: '5px 15px',
+    padding: "5px 15px"
   },
   buttonTop: {
-    backgroundColor: '#E27D60',
-    marginLeft: spacing.unit * 2,
+    backgroundColor: "#E27D60",
+    marginLeft: spacing.unit * 2
   },
   textTop: {
-    color: 'white',
-    fontSize: 20,
+    color: "white",
+    fontSize: 20
   },
   top: {
+
     backgroundColor: '#85BDCB',
     boxShadow: 'none',
     width: '100%',
@@ -110,28 +115,35 @@ const PromptBar = ({ classes, user }) => {
   )
 }
 
+
 const EditButton = ({ question, user, classes }) => {
-  const answers = question.answers.length
-  const date1 = new Date(question.createdAt)
-  const date2 = new Date()
-  const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24))
+  const answers = question.answers.length;
+  const date1 = new Date(question.createdAt);
+  const date2 = new Date();
+  const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
+
 
   return user && question.askedBy[0].id === user.id && diffDays <= 1 && !answers ? (
+
     <Typography style={{ paddingBottom: 10 }}>
       <Link
         href={{
-          pathname: '/edit-question',
-          query: { id: question.id },
+          pathname: "/edit-question",
+          query: { id: question.id }
         }}
       >
-        <Button variant="contained" color="secondary" className={classes.editButton}>
+        <Button
+          variant="contained"
+          color="secondary"
+          className={classes.editButton}
+        >
           EDIT
         </Button>
       </Link>
       <DeleteQuestion id={question.id} />
     </Typography>
-  ) : null
-}
+  ) : null;
+};
 
 const QuestionDetail = ({
   item: { id, description, createdAt, tags, askedBy },
@@ -139,23 +151,27 @@ const QuestionDetail = ({
   userName,
   question,
   classes,
-  user,
+  user
 }) => {
   const hasPermissions =
+
     !!user && user.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission))
   const isApproved = question.approval === true
+
 
   return (
     <div className={classes.detailContainer}>
       <PromptBar classes={classes} user={user} />
       <Table>
         <TableBody>
+
           <TableRow className={classes.tableRow}>
             <TableCell component="th" scope="row" style={{ padding: '25px 35px' }}>
+
               <Typography>
                 {description && <h3 className={classes.body}>{description}</h3>}
                 {tags && (
-                  <div style={{ display: 'flex', padding: '0 0 10px 0' }}>
+                  <div style={{ display: "flex", padding: "0 0 10px 0" }}>
                     <ButtonGroup aria-label="outlined primary button group">
                       {tags.map(({ id, name }) => (
                         <Button
@@ -163,12 +179,12 @@ const QuestionDetail = ({
                           variant="contained"
                           className={classes.button}
                           onClick={e => {
-                            e.preventDefault()
-                            e.stopPropagation()
+                            e.preventDefault();
+                            e.stopPropagation();
                             router.push({
-                              pathname: '/tags',
-                              query: { id: id },
-                            })
+                              pathname: "/tags",
+                              query: { id: id }
+                            });
                           }}
                         >
                           {name}
@@ -221,7 +237,7 @@ const QuestionDetail = ({
         </TableBody>
       </Table>
     </div>
-  )
-}
+  );
+};
 
-export default withRouter(withStyles(styles)(QuestionDetail))
+export default withRouter(withStyles(styles)(QuestionDetail));

@@ -89,7 +89,7 @@ class CreatBookMark extends Component {
         flatQuestionBookMark.includes(element)
       );
 
-      return <DeleteBookMark id={id} />;
+      return <DeleteBookMark id={id} questionId={questionId} />;
     }
   }
 
@@ -104,14 +104,15 @@ class CreatBookMark extends Component {
         variables={this.state}
         refetchQueries={[
           {
-            query: questionListQuery,
-            variables: { filter: "My BookMarked" }
-          },
-          { query: CURRENT_USER_QUERY },
-          {
             query: questionQuery,
             variables: { id: this.props.question.id }
-          }
+          },
+
+          { query: CURRENT_USER_QUERY }
+          // {
+          //   query: questionListQuery,
+          //   variables: { filter: "My BookMarked" }
+          // }
         ]}
       >
         {(createBookMark, { error, loading }) => {
