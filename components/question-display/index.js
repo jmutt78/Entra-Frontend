@@ -265,8 +265,8 @@ class DisplayQuestion extends Component {
               />
 
               {/*
-                  <Answers id={this.props.id} question={question} />
-                  <CreateAnswer question={question} />
+                  // <Answers id={this.props.id} question={question} />
+                  // <CreateAnswer question={question} />
                   */}
             </div>
           );

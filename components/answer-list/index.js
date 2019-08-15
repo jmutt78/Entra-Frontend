@@ -54,7 +54,7 @@ class AnswerList extends Component {
             <TableRow>
               <TableCell>
                 <Typography variant="display3" className={classes.title}>
-                  {upperFirst(filter)} Answers
+                  {upperFirst(this.props.name) || "Answers"}
                 </Typography>
               </TableCell>
               <Tooltip title="Up Votes" placement="top">

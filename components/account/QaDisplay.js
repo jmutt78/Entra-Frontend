@@ -93,7 +93,12 @@ class QaDisplay extends Component {
                   {user.myAnswers.length}
                 </Typography>
                 <Typography variant="h5" align="center">
-                  <Link href="/myanswers">
+                  <Link
+                    href={{
+                      pathname: "/answers",
+                      query: { id: userId }
+                    }}
+                  >
                     <a className={classes.link}>Answers</a>
                   </Link>
                 </Typography>
@@ -107,7 +112,12 @@ class QaDisplay extends Component {
                   }
                 </Typography>
                 <Typography variant="h5" align="center">
-                  <Link href="/">
+                  <Link
+                    href={{
+                      pathname: "/selected",
+                      query: { id: userId }
+                    }}
+                  >
                     <a className={classes.link}>Accepted Answers</a>
                   </Link>
                 </Typography>
