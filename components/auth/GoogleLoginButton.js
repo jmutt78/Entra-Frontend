@@ -4,6 +4,7 @@ import { withApollo } from "react-apollo";
 import { CURRENT_USER_QUERY } from "./User";
 import Router from "next/router";
 import gql from "graphql-tag";
+import { withStyles } from "@material-ui/core/styles";
 
 const GOOGLE_LOGIN_MUTATION = gql`
   mutation GOOGLE_LOGIN_MUTATION($name: String!, $email: String!) {
@@ -15,9 +16,17 @@ const GOOGLE_LOGIN_MUTATION = gql`
   }
 `;
 
+const styles = theme => ({
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    width: 400,
+    margin: "10px 0"
+  }
+});
+
 class GoogleLoginButton extends React.Component {
   onSuccess = response => {
-    console.log("success", response);
     this.props.client
       .mutate({
         mutation: GOOGLE_LOGIN_MUTATION,
@@ -35,11 +44,12 @@ class GoogleLoginButton extends React.Component {
     console.log("failure", response);
   };
   render() {
+    const { classes } = this.props;
     return (
-      <div>
+      <div className={classes.container}>
         <GoogleLogin
           clientId={process.env.GOOGLE_CLIENT_ID}
-          buttonText="Login"
+          buttonText="Login with Google"
           onSuccess={this.onSuccess}
           onFailure={this.onFailure}
           cookiePolicy={"single_host_origin"}
@@ -49,4 +59,4 @@ class GoogleLoginButton extends React.Component {
   }
 }
 
-export default withApollo(GoogleLoginButton);
+export default withStyles(styles)(withApollo(GoogleLoginButton));

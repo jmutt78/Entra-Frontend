@@ -4,6 +4,7 @@ import { CURRENT_USER_QUERY } from "./User";
 import Router from "next/router";
 import gql from "graphql-tag";
 import FacebookLogin from "react-facebook-login";
+import { withStyles } from "@material-ui/core/styles";
 
 const FACEBOOK_LOGIN_MUTATION = gql`
   mutation FACEBOOK_LOGIN_MUTATION($name: String!, $email: String!) {
@@ -14,6 +15,14 @@ const FACEBOOK_LOGIN_MUTATION = gql`
     }
   }
 `;
+
+const styles = theme => ({
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    width: 400
+  }
+});
 
 class FacebookLoginButton extends React.Component {
   responseFacebook = response => {
@@ -31,8 +40,9 @@ class FacebookLoginButton extends React.Component {
       });
   };
   render() {
+    const { classes } = this.props;
     return (
-      <div>
+      <div className={classes.container}>
         <FacebookLogin
           appId={process.env.FACEBOOK_APP_ID}
           fields="name,email,picture"
@@ -43,4 +53,4 @@ class FacebookLoginButton extends React.Component {
   }
 }
 
-export default withApollo(FacebookLoginButton);
+export default withStyles(styles)(withApollo(FacebookLoginButton));
