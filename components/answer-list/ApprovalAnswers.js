@@ -10,7 +10,6 @@ class AprrovalAnswers extends Component {
     return (
       <Query
         query={answersListQuery}
-        fetchPolicy="network-only"
         variables={{
           filter,
           skip: this.props.page * perPage - perPage,
