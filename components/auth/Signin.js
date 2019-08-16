@@ -14,6 +14,7 @@ import gql from "graphql-tag";
 import FacebookLogin from "react-facebook-login";
 import Error from "./../ErrorMessage.js";
 import { CURRENT_USER_QUERY } from "./User";
+import GoogleLoginButton from "./GoogleLoginButton";
 
 const SIGNIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
@@ -151,6 +152,7 @@ class Signin extends Component {
                     fields="name,email,picture"
                     callback={this.responseFacebook}
                   />
+                  <GoogleLoginButton />
                   <Typography variant="h4" className={classes.text}>
                     Login
                   </Typography>
