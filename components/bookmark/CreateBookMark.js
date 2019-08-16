@@ -108,11 +108,11 @@ class CreatBookMark extends Component {
             variables: { id: this.props.question.id }
           },
 
-          { query: CURRENT_USER_QUERY }
-          // {
-          //   query: questionListQuery,
-          //   variables: { filter: "My BookMarked" }
-          // }
+          { query: CURRENT_USER_QUERY },
+          {
+            query: questionListQuery,
+            variables: { filter: "My BookMarked" }
+          }
         ]}
       >
         {(createBookMark, { error, loading }) => {
