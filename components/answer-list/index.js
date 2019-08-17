@@ -31,7 +31,8 @@ const styles = ({ layout }) => ({
   title: {
     fontSize: "40px",
     textAlign: "Left",
-    color: "rgba(0, 0, 0, 0.87)"
+    color: "rgba(0, 0, 0, 0.87)",
+    fontWeight: "bold"
   },
   link: {
     textDecoration: "none",
@@ -53,7 +54,7 @@ class AnswerList extends Component {
           <TableHead>
             <TableRow>
               <TableCell>
-                <Typography variant="display3" className={classes.title}>
+                <Typography className={classes.title}>
                   {upperFirst(this.props.name) || "Answers"}
                 </Typography>
               </TableCell>
@@ -73,6 +74,7 @@ class AnswerList extends Component {
             {answers.map(answer => {
               return (
                 <ListItem
+                  key={answer.id}
                   item={answer}
                   linkTo={{
                     pathname: "/question",

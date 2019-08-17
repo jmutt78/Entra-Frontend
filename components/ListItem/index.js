@@ -22,7 +22,8 @@ const styles = ({ layout, palette }) => ({
     color: palette.accent.dark,
     padding: "5px 0 15px 0",
     margin: 0,
-    maxWidth: 800
+    maxWidth: 800,
+    fontWeight: "bold"
   },
   body: {
     color: palette.accent.dark,
@@ -74,33 +75,37 @@ const ListItem = ({
       onClick={() => router.push(linkTo)}
     >
       <TableCell component="th" scope="row">
-        <Typography>
-          {title && <h2 className={classes.title}>{title}</h2>}
-          {body && <h3 className={classes.body}>{body}</h3>}
-          {tags && (
-            <div style={{ display: "flex", padding: "0 0 10px 0" }}>
-              <ButtonGroup aria-label="outlined primary button group">
-                {tags.map(({ id, name }) => (
-                  <Button
-                    size="small"
-                    variant="contained"
-                    className={classes.button}
-                    onClick={e => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      router.push({
-                        pathname: "/tags",
-                        query: { id: id }
-                      });
-                    }}
-                  >
-                    {name}
-                  </Button>
-                ))}
-              </ButtonGroup>
-            </div>
-          )}
+        <Typography variant="h5" className={classes.title}>
+          {title}
         </Typography>
+        <Typography variant="h5" className={classes.body}>
+          {body}
+        </Typography>
+        {tags && (
+          <div style={{ display: "flex", padding: "0 0 10px 0" }}>
+            <ButtonGroup aria-label="outlined primary button group">
+              {tags.map(({ id, name }) => (
+                <Button
+                  key={id}
+                  size="small"
+                  variant="contained"
+                  className={classes.button}
+                  onClick={e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    router.push({
+                      pathname: "/tags",
+                      query: { id: id }
+                    });
+                  }}
+                >
+                  {name}
+                </Button>
+              ))}
+            </ButtonGroup>
+          </div>
+        )}
+
         <Typography style={{ paddingTop: 5 }}>
           <span>Posted by </span>
           <Link
