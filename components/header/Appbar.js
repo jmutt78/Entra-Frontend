@@ -38,15 +38,17 @@ const styles = ({ layout, palette }) => ({
     visibility: "hidden"
   },
   button: {
-    margin: 12
+    margin: 12,
   },
   signupButton: {
+    margin: 12,
     backgroundColor: palette.primary.dark,
     "&:hover": {
       backgroundColor: palette.primary.main
     }
   },
   loginButton: {
+    margin: 12,
     backgroundColor: palette.accent.grey,
     "&:hover": {
       backgroundColor: palette.primary.main
@@ -132,7 +134,7 @@ const Appbar = ({ isLoggedIn, classes }) => {
                       <Button
                         variant="contained"
                         color="secondary"
-                        className={[classes.button, classes.loginButton]}
+                        className={classes.loginButton}
                       >
                         Login
                       </Button>
@@ -142,7 +144,7 @@ const Appbar = ({ isLoggedIn, classes }) => {
                       <Button
                         variant="contained"
                         color="secondary"
-                        className={[classes.button, classes.signupButton]}
+                        className={classes.signupButton}
                       >
                         Sign up
                       </Button>
