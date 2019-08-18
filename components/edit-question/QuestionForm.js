@@ -75,37 +75,6 @@ const styles = ({ layout, palette }) => ({
   },
 })
 
-// const styles = theme => ({
-//   grid: {
-//     margin: theme.spacing.unit
-//   },
-//   container: {
-//     display: "flex"
-//   },
-//   flex1: {
-//     flex: 1
-//   },
-//   root: {
-//     margin: theme.spacing.unit,
-//     marginTop: 40
-//   },
-//   inputField: {
-//     width: 700,
-//     marginBottom: 30
-//   },
-//   addNewTag: {
-//     marginTop: -15,
-//     marginBottom: 30
-//   },
-//   label: {
-//     marginLeft: 10,
-//     marginBotom: 10
-//   },
-//   postQuestionButton: {
-//     alignItems: "flex-end"
-//   }
-// });
-
 const UPDATE_QUESTION_MUTATION = gql`
   mutation updateQuestion(
     $id: ID!
