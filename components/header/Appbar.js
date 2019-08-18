@@ -34,6 +34,9 @@ const styles = ({ layout, palette }) => ({
     height: layout.headerHeight,
     alignItems: "center"
   },
+  hidden: {
+    visibility: "hidden"
+  },
   button: {
     margin: 12
   },
@@ -76,9 +79,6 @@ const styles = ({ layout, palette }) => ({
     height: layout.headerHeight,
     padding: "12px 10px 8px 10px"
   },
-  invisible: {
-    visibility: "hidden"
-  }
 });
 
 const Appbar = ({ isLoggedIn, classes }) => {
@@ -124,8 +124,8 @@ const Appbar = ({ isLoggedIn, classes }) => {
                   <Typography
                     className={
                       me
-                        ? classes.subContainer
-                        : [classes.subContainer, classes.invisible]
+                        ? classes.hidden
+                        : classes.subContainer
                     }
                   >
                     <Link href="/signin">
