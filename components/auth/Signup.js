@@ -25,12 +25,6 @@ const styles = theme => ({
     display: 'flex',
     width: '100%',
   },
-  smallField: {
-    marginLeft: 0,
-    marginRight: 0,
-    width: 500,
-    marginBottom: 30,
-  },
   formContainer: {
     width: '100%',
     maxWidth: 1000,

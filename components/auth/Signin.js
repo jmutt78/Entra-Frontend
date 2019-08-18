@@ -116,7 +116,7 @@ class Signin extends Component {
         refetchQueries={[{ query: CURRENT_USER_QUERY }]}
       >
         {(signup, { error, loading }) => (
-            <div className={classes.formContainer}>
+          <div className={classes.formContainer}>
             <form
               method="post"
               onSubmit={async e => {
@@ -134,13 +134,13 @@ class Signin extends Component {
                   borderWidth: '0px',
                 }}
               >
-                  <Typography variant="h4" className={classes.text}>
-                    Sign in
-                  </Typography>
+                <Typography variant="h4" className={classes.text}>
+                  Sign in
+                </Typography>
 
                 <Error error={error} />
 
-              <SignupPrompt classes={classes} />
+                <SignupPrompt classes={classes} />
 
                 <label htmlFor="email">
                   <TextField
@@ -165,7 +165,6 @@ class Signin extends Component {
                   />
                 </label>
 
-
                 <div>
                   <Typography>
                     <Button size="large" className={classes.button} type="submit">
@@ -188,7 +187,6 @@ class Signin extends Component {
               </fieldset>
               <GoogleLoginButton />
               <FacebookLoginButton />
-
             </form>
           </div>
         )}

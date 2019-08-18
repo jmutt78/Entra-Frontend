@@ -1,9 +1,5 @@
-import Signin from "../components/auth/Signin";
+import Signin from '../components/auth/Signin'
 
-const SigninPage = props => (
-  <div>
-    <Signin />
-  </div>
-);
+const SigninPage = props => <Signin />
 
-export default SigninPage;
+export default SigninPage
