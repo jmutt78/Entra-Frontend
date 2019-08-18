@@ -29,6 +29,11 @@ const styles = ({ layout, palette }) => ({
     width: '100%',
     marginBottom: 30,
   },
+  formContainer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+  },
   label: {
     marginLeft: 10,
     marginBotom: 10,
@@ -59,37 +64,6 @@ const styles = ({ layout, palette }) => ({
     justifyContent: 'flex-end',
   },
 })
-
-// const styles = theme => ({
-//   grid: {
-//     margin: theme.spacing.unit
-//   },
-//   container: {
-//     display: "flex"
-//   },
-//   flex1: {
-//     flex: 0.93
-//   },
-//   root: {
-//     margin: theme.spacing.unit,
-//     marginTop: 40
-//   },
-//   inputField: {
-//     width: 900,
-//     marginBottom: 30
-//   },
-//   addNewTag: {
-//     marginTop: -15,
-//     marginBottom: 30
-//   },
-//   label: {
-//     marginLeft: 10,
-//     marginBotom: 10
-//   },
-//   postQuestionButton: {
-//     alignItems: "flex-end"
-//   }
-// });
 
 const UPDATE_ANSWER_MUTATION = gql`
   mutation updateAnswer($id: ID!, $body: String!, $approval: Boolean) {
@@ -154,35 +128,37 @@ class AnswerForm extends Component {
                 </TableHead>
               </Table>
 
-              <form method="post" onSubmit={e => this.updateForm(e, updateAnswer)} className={classes.form}>
-                <fieldset
-                  disabled={loading}
-                  aria-busy={loading}
-                  style={{
-                    borderWidth: '0px',
-                  }}
-                >
-                  <label htmlFor="body">
-                    <TextField
-                      label="Answer"
-                      type="text"
-                      name="body"
-                      variant="filled"
-                      multiline
-                      rows={8}
-                      value={body}
-                      onChange={this.handleDescriptionChange}
-                      className={classes.inputField}
-                    />
-                  </label>
+              <div className={classes.formContainer}>
+                <form method="post" onSubmit={e => this.updateForm(e, updateAnswer)} className={classes.form}>
+                  <fieldset
+                    disabled={loading}
+                    aria-busy={loading}
+                    style={{
+                      borderWidth: '0px',
+                    }}
+                  >
+            <label htmlFor="body">
+              <TextField
+                label="Answer"
+                type="text"
+                name="body"
+                variant="filled"
+                multiline
+                rows={8}
+                value={body}
+                onChange={this.handleDescriptionChange}
+                className={classes.inputField}
+              />
+            </label>
 
-                  <div className={classes.buttonContainer}>
-                    <Button variant="contained" type="submit">
-                      Post Answer
-                    </Button>
-                  </div>
-                </fieldset>
-              </form>
+            <div className={classes.buttonContainer}>
+              <Button variant="contained" type="submit">
+                Post Answer
+              </Button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
               <div style={{ color: 'red' }}>{error && error.message.replace('GraphQL error: ', '')}</div>
             </Grid>
           )

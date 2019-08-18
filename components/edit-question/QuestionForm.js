@@ -29,7 +29,6 @@ const styles = ({ layout, palette }) => ({
     display: 'flex',
     flexDirection: 'column',
   },
-  table: {},
   title: {
     fontSize: '40px',
     textAlign: 'Left',
@@ -42,6 +41,11 @@ const styles = ({ layout, palette }) => ({
   label: {
     marginLeft: 10,
     marginTop: 8,
+  },
+  formContainer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
   },
   form: {
     width: '100%',
@@ -206,79 +210,81 @@ class QuestionForm extends React.Component {
                       </TableHead>
                     </Table>
 
-                    <form
-                      method="post"
-                      onSubmit={e => this.updateForm(e, updateQuestion)}
-                      className={classes.form}
-                    >
-                      <fieldset disabled={loading} aria-busy={loading} className={classes.fieldset}>
-                        <FormControl className={classes.formControl}>
-                          <label htmlFor="title">
-                            <TextField
-                              label="Title"
-                              type="text"
-                              name="title"
-                              variant="filled"
-                              value={title}
-                              onChange={this.handleTitleChange}
-                              className={classes.inputField}
-                            />
-                          </label>
-                        </FormControl>
+                    <div className={classes.formContainer}>
+                      <form
+                        method="post"
+                        onSubmit={e => this.updateForm(e, updateQuestion)}
+                        className={classes.form}
+                      >
+                  <fieldset disabled={loading} aria-busy={loading} className={classes.fieldset}>
+                    <FormControl className={classes.formControl}>
+                      <label htmlFor="title">
+                        <TextField
+                          label="Title"
+                          type="text"
+                          name="title"
+                          variant="filled"
+                          value={title}
+                          onChange={this.handleTitleChange}
+                          className={classes.inputField}
+                        />
+                      </label>
+                    </FormControl>
 
-                        <FormControl className={classes.formControl}>
-                          <InputLabel htmlFor="tags" className={classes.label}>
-                            Tag(s)
-                          </InputLabel>
-                          <Select
-                            multiple
-                            value={tags}
-                            name="tags"
-                            onChange={this.handleTagsChange}
-                            input={<FilledInput name="tab" id="filled-age-native-simple" />}
-                            renderValue={selected => selected.join(', ')}
-                          >
-                            {data.tags.map(tag => (
-                              <MenuItem key={tag.name} value={tag.name}>
-                                <Checkbox checked={this.state.tags.indexOf(tag.name) > -1} />
-                                <ListItemText primary={tag.name} />
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                        <Button
-                          variant="text"
-                          onClick={this.openCreateTagModal}
-                          className={classes.addNewTag}
-                        >
-                          ADD NEW TAG
-                        </Button>
+                  <FormControl className={classes.formControl}>
+                    <InputLabel htmlFor="tags" className={classes.label}>
+                      Tag(s)
+                    </InputLabel>
+                  <Select
+                    multiple
+                    value={tags}
+                    name="tags"
+                    onChange={this.handleTagsChange}
+                    input={<FilledInput name="tab" id="filled-age-native-simple" />}
+                    renderValue={selected => selected.join(', ')}
+                  >
+                    {data.tags.map(tag => (
+                      <MenuItem key={tag.name} value={tag.name}>
+                        <Checkbox checked={this.state.tags.indexOf(tag.name) > -1} />
+                        <ListItemText primary={tag.name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                  <Button
+                    variant="text"
+                    onClick={this.openCreateTagModal}
+                    className={classes.addNewTag}
+                  >
+                    ADD NEW TAG
+                  </Button>
 
-                        <FormControl className={classes.formControl}>
-                          <label htmlFor="description">
-                            <TextField
-                              label="Description"
-                              type="text"
-                              name="description"
-                              variant="filled"
-                              multiline
-                              rows={4}
-                              value={description}
-                              onChange={this.handleDescriptionChange}
-                              className={classes.inputField}
-                            />
-                          </label>
-                        </FormControl>
+                  <FormControl className={classes.formControl}>
+                    <label htmlFor="description">
+                      <TextField
+                        label="Description"
+                        type="text"
+                        name="description"
+                        variant="filled"
+                        multiline
+                        rows={4}
+                        value={description}
+                        onChange={this.handleDescriptionChange}
+                        className={classes.inputField}
+                      />
+                    </label>
+                  </FormControl>
 
-                        <CreateTag open={showCreateTagModal} onClose={this.closeCreateTagModal} />
+                  <CreateTag open={showCreateTagModal} onClose={this.closeCreateTagModal} />
 
-                        <div className={classes.buttonContainer}>
-                          <Button variant="contained" type="submit">
-                            Post Question
-                          </Button>
-                        </div>
-                      </fieldset>
-                    </form>
+                  <div className={classes.buttonContainer}>
+                    <Button variant="contained" type="submit">
+                      Post Question
+                    </Button>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
                     <div style={{ color: 'red' }}>
                       {error && error.message.replace('GraphQL error: ', '')}
                     </div>
