@@ -1,130 +1,139 @@
-import React from 'react'
+import React from "react";
 
-import AppBar from '@material-ui/core/AppBar'
-import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
-import NavLink from './NavLink'
+import AppBar from "@material-ui/core/AppBar";
+import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@material-ui/core/styles";
+import NavLink from "./NavLink";
 
-import Avatar from './Avatar'
-import User from '../auth/User.js'
+import Avatar from "./Avatar";
+import User from "../auth/User.js";
 
-import './Navbar.css'
+import "./Navbar.css";
 
 const styles = ({ layout, palette }) => ({
   appbar: {
-    background: '#85BDCB',
-    boxShadow: 'none',
+    background: "#85BDCB",
+    boxShadow: "none"
   },
   navText: {
-    color: 'white',
-    marginLeft: '2rem',
-    position: 'relative',
+    color: "white",
+    marginLeft: "2rem",
+    position: "relative",
     zIndex: 2,
-    textDecoration: 'none',
+    textDecoration: "none",
     fontSize: 20,
-    fontWieght: 'strong',
+    fontWieght: "strong"
   },
 
   // own
   container: {
     width: layout.width,
     height: layout.navHeight,
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center"
   },
   avatarContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: '5px 35px 0 0',
+    display: "flex",
+    alignItems: "center",
+    padding: "5px 35px 0 0",
 
-    color: 'white',
-    fontSize: '1.1rem',
-
+    color: "white",
+    fontSize: "1.1rem"
   },
   navigationContainer: {
     height: layout.navHeight,
-    display: 'flex',
+    display: "flex",
     flex: 1,
-    alignSelf: 'flex-end',
-    alignItems: 'center',
-    padding: '0 0 0 20px',
+    alignSelf: "flex-end",
+    alignItems: "center",
+    padding: "0 0 0 20px"
   },
   navLink: {
-    fontSize: '1.2rem',
+    fontSize: "1.2rem",
     color: palette.secondary.light,
-    padding: '12px 10px 8px 10px',
-    textDecoration: 'none',
-    '&:hover': {
-      color: palette.primary.dark,
-    },
+    padding: "12px 10px 8px 10px",
+    textDecoration: "none",
+    "&:hover": {
+      color: palette.primary.dark
+    }
   },
   navLinkActive: {
     height: layout.navHeight,
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
     color: palette.primary.main,
     background: palette.secondary.main,
-    fontWeight: 500,
-  },
-})
+    fontWeight: 500
+  }
+});
 
 const Navbar = ({ classes }) => {
   const navLinks = [
     {
-      name: 'My Questions',
-      target: '/myquestions',
+      name: "My Questions",
+      target: "/myquestions"
     },
     {
-      name: 'My Answers',
-      target: '/myanswers',
+      name: "My Answers",
+      target: "/myanswers"
     },
     {
-      name: 'My Bookmarks',
-      target: '/mybookmarks',
-    },
-  ]
+      name: "My Bookmarks",
+      target: "/mybookmarks"
+    }
+  ];
 
   const adminLinks = [
     {
-      name: 'Approve Questions',
-      target: '/approval/question-list',
+      name: "Approve Questions",
+      target: "/approval/question-list"
     },
     {
-      name: 'Approve Answers',
-      target: '/approval/answer-list',
-    },
-  ]
+      name: "Approve Answers",
+      target: "/approval/answer-list"
+    }
+  ];
 
   return (
-    <div className="style-target" style={{ width: '100%' }}>
+    <div className="style-target" style={{ width: "100%" }}>
       <User>
         {({ data: { me } }) => (
-          <AppBar className={classes.appbar} position="static">
-            <div className={classes.container}>
+          <AppBar className={classes.appbar} position="static" key={me.id}>
+            <div className={classes.container} key={me.id}>
               <Typography className={classes.navigationContainer}>
-                { me && me.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission)) &&
+                {me &&
+                  me.permissions.some(permission =>
+                    ["ADMIN", "MODERATOR"].includes(permission)
+                  ) &&
                   adminLinks.map(({ name, target }) => (
-                    <NavLink activeClassName={classes.navLinkActive} href={target}>
+                    <NavLink
+                      activeClassName={classes.navLinkActive}
+                      href={target}
+                    >
                       <a className={classes.navLink}>{name}</a>
                     </NavLink>
                   ))}
 
                 {navLinks.map(({ name, target }) => (
-                  <NavLink activeClassName={classes.navLinkActive} href={target}>
+                  <NavLink
+                    activeClassName={classes.navLinkActive}
+                    href={target}
+                    key={name}
+                  >
                     <a className={classes.navLink}>{name}</a>
                   </NavLink>
                 ))}
               </Typography>
+              <Avatar me={me} />
               <Typography className={classes.avatarContainer}>
-                  <Avatar me={me} />
-                  <p>{me.name}</p>
+                {me.name}
               </Typography>
             </div>
           </AppBar>
         )}
       </User>
     </div>
-  )
-}
+  );
+};
 
-export default withStyles(styles)(Navbar)
+export default withStyles(styles)(Navbar);

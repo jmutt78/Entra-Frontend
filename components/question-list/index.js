@@ -35,7 +35,8 @@ const styles = ({ layout }) => ({
     fontSize: "40px",
     textAlign: "Left",
     color: "rgba(0, 0, 0, 0.87)",
-    textTransform: "capitalize"
+    textTransform: "capitalize",
+    fontWeight: "bold"
   },
   icon: {
     color: "black"
@@ -54,7 +55,7 @@ function QuestionList(props) {
         <TableHead>
           <TableRow>
             <TableCell>
-              <Typography variant="display3" className={classes.title}>
+              <Typography className={classes.title}>
                 {upperFirst(props.name) || "Questions"}
               </Typography>
             </TableCell>
@@ -93,6 +94,7 @@ function QuestionList(props) {
                 }}
                 showDetails={true}
                 name={props.name}
+                key={question.id}
               />
             );
           })}

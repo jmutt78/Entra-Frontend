@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
-import { Mutation } from 'react-apollo'
-import gql from 'graphql-tag'
+import React, { Component } from "react";
+import { Mutation } from "react-apollo";
+import gql from "graphql-tag";
 
-import Button from '@material-ui/core/Button'
-import { withStyles } from '@material-ui/core/styles'
+import Button from "@material-ui/core/Button";
+import { withStyles } from "@material-ui/core/styles";
 
-import questionQuery from '../question-display/questionQuery.js'
-import answersListQuery from '../answer-list/answerListQuery'
-import { CURRENT_USER_QUERY } from '../auth/User'
+import questionQuery from "../question-display/questionQuery.js";
+import answersListQuery from "../answer-list/answerListQuery";
+import { CURRENT_USER_QUERY } from "../auth/User";
 
 const DELETE_ANSWER_MUTATION = gql`
   mutation DELETE_ANSWER_MUTATION($id: ID!) {
@@ -15,18 +15,18 @@ const DELETE_ANSWER_MUTATION = gql`
       id
     }
   }
-`
+`;
 
 const styles = ({ layout, palette, spacing }) => ({
   button: {
     backgroundColor: palette.primary.dark,
-    marginLeft: 10,
-  },
-})
+    marginLeft: 10
+  }
+});
 
 class DeleteAnswer extends Component {
   render() {
-    const { classes } = this.props
+    const { classes } = this.props;
     return (
       <Mutation
         mutation={DELETE_ANSWER_MUTATION}
@@ -34,14 +34,14 @@ class DeleteAnswer extends Component {
         refetchQueries={[
           {
             query: questionQuery,
-            variables: { id: this.props.questionId },
+            variables: { id: this.props.questionId }
           },
           {
-            query: CURRENT_USER_QUERY,
+            query: CURRENT_USER_QUERY
           },
           {
-            query: answersListQuery,
-          },
+            query: answersListQuery
+          }
         ]}
         update={this.update}
       >
@@ -52,19 +52,22 @@ class DeleteAnswer extends Component {
               variant="contained"
               color="secondary"
               onClick={() => {
-                if (confirm('Are you sure you want to delete this item?')) {
-                  deleteAnswer()
+                if (confirm("Are you sure you want to delete this item?")) {
+                  deleteAnswer();
+                  console.log(this.props.questionId);
                 }
               }}
             >
               DELETE
             </Button>
-            <div style={{ color: 'red' }}>{error && error.message.replace('GraphQL error: ', '')}</div>
+            <div style={{ color: "red" }}>
+              {error && error.message.replace("GraphQL error: ", "")}
+            </div>
           </>
         )}
       </Mutation>
-    )
+    );
   }
 }
 
-export default withStyles(styles)(DeleteAnswer)
+export default withStyles(styles)(DeleteAnswer);

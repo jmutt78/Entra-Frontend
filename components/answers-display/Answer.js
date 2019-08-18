@@ -114,7 +114,7 @@ const styles = ({ spacing, palette }) => ({
   }
 });
 
-const EditAndDelete = ({ answer, classes, user }) => {
+const EditAndDelete = ({ answer, classes, user, question }) => {
   const selected = answer.selected;
 
   const date1 = new Date(answer.createdAt);
@@ -140,7 +140,7 @@ const EditAndDelete = ({ answer, classes, user }) => {
           EDIT
         </Button>
       </Link>
-      <DeleteAnswer id={answer.id} />
+      <DeleteAnswer id={answer.id} questionId={question.id} />
     </Typography>
   ) : null;
 };
@@ -213,7 +213,12 @@ const Answer = ({ answer, classes, user, client, question }) => {
                 />
               </div>
 
-              <EditAndDelete answer={answer} classes={classes} user={user} />
+              <EditAndDelete
+                answer={answer}
+                classes={classes}
+                user={user}
+                question={question}
+              />
 
               <Typography className={classes.itemFooter}>
                 <div className={classes.credits}>
