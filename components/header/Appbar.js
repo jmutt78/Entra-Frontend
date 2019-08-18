@@ -122,7 +122,6 @@ const Appbar = ({ isLoggedIn, classes }) => {
               if (!me) {
                 return (
                   <Typography
-                    key={me.id}
                     className={
                       me
                         ? classes.subContainer
