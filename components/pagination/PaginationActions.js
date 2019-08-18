@@ -18,7 +18,7 @@ const styles = ({ palette }) => ({
   },
   button: {
     margin: 5,
-    backgroundColor: palette.accent.grey,
+    backgroundColor: palette.primary.grey,
     '&:hover': {
       backgroundColor: palette.primary.main,
     },

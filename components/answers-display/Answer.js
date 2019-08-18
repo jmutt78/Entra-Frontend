@@ -30,7 +30,7 @@ const CREATE_ANSWER_VOTE_MUTATION = gql`
 
 const styles = ({ spacing, palette }) => ({
   body: {
-    color: palette.accent.dark,
+    color: palette.primary.dark,
     padding: "5px 0 15px 0",
     margin: 0,
     maxWidth: 800,
@@ -48,7 +48,7 @@ const styles = ({ spacing, palette }) => ({
     background: "#b8e994"
   },
   button: {
-    color: palette.accent.dark
+    color: palette.primary.dark
   },
   detailContainer: {
     padding: "5px 15px"
@@ -62,7 +62,7 @@ const styles = ({ spacing, palette }) => ({
     fontSize: 20
   },
   editButton: {
-    backgroundColor: palette.accent.blue
+    backgroundColor: palette.primary.blue
   },
   signupButton: {
     backgroundColor: palette.primary.dark,
@@ -82,7 +82,7 @@ const styles = ({ spacing, palette }) => ({
     alignItems: "center"
   },
   viewsCount: {
-    color: palette.accent.dark,
+    color: palette.primary.dark,
     fontSize: "1.2rem",
     padding: "5px 0 5px 8px"
   },
@@ -108,7 +108,7 @@ const styles = ({ spacing, palette }) => ({
     padding: "8px 8px 5px 0"
   },
   downVote: {
-    color: palette.accent.blue,
+    color: palette.primary.blue,
     fontSize: "1.4rem",
     padding: "8px 0 5px 8px"
   }

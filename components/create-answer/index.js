@@ -31,7 +31,7 @@ const styles = ({ spacing, palette }) => ({
     alignItems: 'flex-end',
   },
   title: {
-    color: palette.accent.dark,
+    color: palette.primary.dark,
     padding: '5px 0 15px 0',
     margin: 0,
     maxWidth: 800,
@@ -43,7 +43,7 @@ const styles = ({ spacing, palette }) => ({
   },
   button: {
     margin: '20px 0 5px 0',
-    background: palette.accent.blue,
+    background: palette.primary.blue,
     // '&:hover': {
     //   background: palette.primary.dark,
     // },

@@ -22,7 +22,7 @@ const styles = ({ palette }) => ({
   },
   text: {
     fontSize: 16,
-    color: palette.accent.dark,
+    color: palette.primary.dark,
     textDecoration: 'none',
     fontWeight: 500,
   },

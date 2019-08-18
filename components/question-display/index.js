@@ -51,12 +51,12 @@ const styles = ({ palette, layout }) => ({
     padding: "8px 8px 5px 0"
   },
   downVote: {
-    color: palette.accent.blue,
+    color: palette.primary.blue,
     fontSize: "1.4rem",
     padding: "8px 0 5px 8px"
   },
   viewsCount: {
-    color: palette.accent.dark,
+    color: palette.primary.dark,
     fontSize: "1.4rem",
     padding: "5px 0 5px 8px"
   }

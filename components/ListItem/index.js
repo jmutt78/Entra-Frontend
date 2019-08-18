@@ -19,14 +19,14 @@ const CustomTableCell = withStyles(theme => ({
 
 const styles = ({ layout, palette }) => ({
   title: {
-    color: palette.accent.dark,
+    color: palette.primary.dark,
     padding: "5px 0 15px 0",
     margin: 0,
     maxWidth: 800,
     fontWeight: "bold"
   },
   body: {
-    color: palette.accent.dark,
+    color: palette.primary.dark,
     padding: "5px 0 15px 0",
     margin: 0,
     maxWidth: 800
@@ -43,7 +43,7 @@ const styles = ({ layout, palette }) => ({
     }
   },
   button: {
-    color: palette.accent.dark
+    color: palette.primary.dark
   }
 });
 

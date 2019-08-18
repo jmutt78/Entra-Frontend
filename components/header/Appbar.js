@@ -44,7 +44,7 @@ const styles = ({ layout, palette }) => ({
     }
   },
   loginButton: {
-    backgroundColor: palette.accent.grey,
+    backgroundColor: palette.primary.grey,
     "&:hover": {
       backgroundColor: palette.primary.main
     }
@@ -59,7 +59,7 @@ const styles = ({ layout, palette }) => ({
   navLink: {
     display: "flex",
     alignItems: "center",
-    color: palette.accent.dark,
+    color: palette.primary.dark,
     fontSize: "1.2rem",
     padding: "12px 10px 8px 10px",
     textDecoration: "none",

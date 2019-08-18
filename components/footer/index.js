@@ -7,12 +7,12 @@ import './footer.css'
 
 const styles = ({ palette }) => ({
   creditBarContainer: {
-    background: palette.accent.dark,
+    background: palette.primary.dark,
     display: 'flex',
     justifyContent: 'center',
   },
   creditBarText: {
-    color: palette.accent.blue,
+    color: palette.primary.blue,
     padding: '1.5rem 2rem',
     fontSize: 18,
     fontWeight: 'bold',
@@ -28,18 +28,18 @@ const styles = ({ palette }) => ({
   },
 
   heading: {
-    color: palette.accent.blue,
+    color: palette.primary.blue,
     fontSize: 17,
     fontWeight: 'bold',
   },
   link: {
     fontSize: 16,
-    color: palette.accent.dark,
+    color: palette.primary.dark,
     textDecoration: 'none',
     fontWeight: 500,
     cursor: 'pointer',
     '&:hover': {
-      color: palette.accent.blue,
+      color: palette.primary.blue,
     },
   },
   img: {
