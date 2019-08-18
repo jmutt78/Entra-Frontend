@@ -66,19 +66,13 @@ const styles = theme => ({
     width: '100%',
     backgroundColor: '#85BDCB',
     boxShadow: 'none',
-    margin: '10px 0',
+    margin: '10px 0 30px 0',
   },
   flexContainer: {
     display: 'flex',
     justifyContent: 'space-between',
   },
-  button: {
-    marginBottom: theme.spacing.unit,
-  },
-  text: {
-    color: 'grey',
-    marginBottom: theme.spacing.unit,
-  },
+
   signupButton: {
     backgroundColor: '#E27D60',
     marginLeft: theme.spacing.unit * 2,
@@ -140,10 +134,14 @@ class Signin extends Component {
                   borderWidth: '0px',
                 }}
               >
+                  <Typography variant="h4" className={classes.text}>
+                    Sign in
+                  </Typography>
+
                 <Error error={error} />
-                <Typography variant="h4" className={classes.text}>
-                  Login
-                </Typography>
+
+              <SignupPrompt classes={classes} />
+
                 <label htmlFor="email">
                   <TextField
                     type="email"
@@ -166,11 +164,14 @@ class Signin extends Component {
                     className={classes.inputField}
                   />
                 </label>
+
+
                 <div>
                   <Typography>
-                    <Button type="submit" size="large" variant="outlined">
+                    <Button size="large" className={classes.button} type="submit">
                       Log In!
                     </Button>
+
                     <Link href="/resetpage">
                       <a
                         style={{
@@ -185,7 +186,6 @@ class Signin extends Component {
                   </Typography>
                 </div>
               </fieldset>
-              <SignupPrompt classes={classes} />
               <GoogleLoginButton />
               <FacebookLoginButton />
 
