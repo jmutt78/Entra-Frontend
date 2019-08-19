@@ -20,13 +20,13 @@ import ApproveQuestion from "../approval/AppoveQuestion.js";
 
 const styles = ({ layout, palette, spacing }) => ({
   title: {
-    color: palette.primary.dark,
+    color: palette.accent.dark,
     padding: "5px 0 15px 0",
     margin: 0,
     maxWidth: 800
   },
   body: {
-    color: palette.primary.dark,
+    color: palette.accent.dark,
     padding: "5px 0 15px 0",
     margin: 0,
     maxWidth: 800,
@@ -41,7 +41,7 @@ const styles = ({ layout, palette, spacing }) => ({
     background: palette.secondary.main
   },
   button: {
-    color: palette.primary.dark
+    color: palette.accent.dark
   },
   detailContainer: {
     padding: "5px 15px"
@@ -64,7 +64,7 @@ const styles = ({ layout, palette, spacing }) => ({
     padding: "20px"
   },
   editButton: {
-    backgroundColor: palette.primary.blue
+    backgroundColor: palette.accent.blue
   },
   signupButton: {
     backgroundColor: palette.primary.dark,
@@ -84,7 +84,7 @@ const styles = ({ layout, palette, spacing }) => ({
     alignItems: "center"
   },
   viewsCount: {
-    color: palette.primary.dark,
+    color: palette.accent.dark,
     fontSize: "1.2rem",
     padding: "5px 0 5px 8px"
   },

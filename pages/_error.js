@@ -18,12 +18,12 @@ const styles = ({ layout, palette }) => ({
     color: 'rgba(0, 0, 0, 0.87)',
   },
   sub: {
-    color: palette.primary.dark,
+    color: palette.accent.dark,
     padding: "5px 0 0 20px",
     margin: '2rem 0',
   },
   link: {
-    color: palette.primary.blue,
+    color: palette.accent.blue,
     padding: "5px 0 0 20px",
     margin: 0,
     cursor: 'pointer',

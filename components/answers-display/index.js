@@ -18,7 +18,7 @@ const styles = ({ spacing, palette, layout }) => ({
     maxWidth: 1000
   },
   title: {
-    color: palette.primary.dark,
+    color: '#2d3436',
     padding: "5px 0 0 20px",
     margin: 0,
     marginTop: 30,

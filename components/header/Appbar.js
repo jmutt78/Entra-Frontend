@@ -38,15 +38,15 @@ const styles = ({ layout, palette }) => ({
     margin: 12
   },
   signupButton: {
-    backgroundColor: palette.primary.dark,
+    backgroundColor: '#2d3436',
     "&:hover": {
-      backgroundColor: palette.primary.main
+      backgroundColor: palette.accent.main
     }
   },
   loginButton: {
-    backgroundColor: palette.primary.grey,
+    backgroundColor: palette.accent.grey,
     "&:hover": {
-      backgroundColor: palette.primary.main
+      backgroundColor: palette.accent.main
     }
   },
   logo: {
@@ -59,17 +59,17 @@ const styles = ({ layout, palette }) => ({
   navLink: {
     display: "flex",
     alignItems: "center",
-    color: palette.primary.dark,
+    color: palette.accent.dark,
     fontSize: "1.2rem",
     padding: "12px 10px 8px 10px",
     textDecoration: "none",
     "&:hover": {
-      color: palette.primary.dark
+      color: palette.accent.dark
     }
   },
   navLinkActive: {
     alignItems: "center",
-    color: palette.primary.dark,
+    color: palette.accent.dark,
     display: "flex",
     fontSize: "1.2rem",
     fontWeight: 500,

@@ -19,14 +19,14 @@ const CustomTableCell = withStyles(theme => ({
 
 const styles = ({ layout, palette }) => ({
   title: {
-    color: palette.primary.dark,
+    color: '#2d3436',
     padding: "5px 0 15px 0",
     margin: 0,
     maxWidth: 800,
     fontWeight: "bold"
   },
   body: {
-    color: palette.primary.dark,
+    color: '#2d3436',
     padding: "5px 0 15px 0",
     margin: 0,
     maxWidth: 800
@@ -34,7 +34,7 @@ const styles = ({ layout, palette }) => ({
   nameLink: {
     fontWeight: 500,
     textDecoration: "none",
-    color: palette.primary.dark
+    color: '#2d3436'
   },
   tableRow: {
     cursor: "pointer",
