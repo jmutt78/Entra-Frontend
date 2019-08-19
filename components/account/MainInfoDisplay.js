@@ -29,6 +29,13 @@ const styles = theme => ({
     fontSize: 17,
     color: 'grey',
   },
+  avatarContainer: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  name: {
+    paddingLeft: '1.5rem',
+  },
 })
 
 class MainInfoDisplay extends Component {
@@ -51,13 +58,15 @@ class MainInfoDisplay extends Component {
           const dateToFormat = this.props.user.createdAt
           return (
             <>
-              {user.image ? (
-                <Avatar src={user.image} className={classes.bigAvatar} />
-              ) : (
-                <Avatar className={classes.bigAvatar}>{user.name[0]}</Avatar>
-              )}
+            <div className={classes.avatarContainer}>
+            {user.image ? (
+              <Avatar src={user.image} className={classes.bigAvatar} />
+            ) : (
+              <Avatar className={classes.bigAvatar}>{user.name[0]}</Avatar>
+            )}
 
-              <Typography variant="h4">{user.name}</Typography>
+            <Typography variant="h4" className={classes.name}>{user.name}</Typography>
+            </div>
               <Typography variant="h6">{user.display}</Typography>
               <Typography variant="subheading">Location: {user.location}</Typography>
               <Typography variant="subheading">Industry: {user.industry}</Typography>
