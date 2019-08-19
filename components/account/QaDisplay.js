@@ -8,10 +8,6 @@ import Typography from '@material-ui/core/Typography'
 import { PAGINATION_QUERY } from '../pagination/'
 
 const styles = ({ spacing, palette }) => ({
-  grid: {
-    marginBottom: spacing.unit * 4,
-    marginLeft: spacing.unit * 2,
-  },
   root: {
     marginBottom: spacing.unit,
     marginTop: 40,
