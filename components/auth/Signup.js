@@ -1,23 +1,17 @@
-import React, { Component } from "react";
-import Router from "next/router";
-import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
-import TextField from "@material-ui/core/TextField";
-import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import PropTypes from "prop-types";
-import Error from "./../ErrorMessage.js";
-import { CURRENT_USER_QUERY } from "./User";
+import React, { Component } from 'react'
+import Router from 'next/router'
+import { Mutation } from 'react-apollo'
+import gql from 'graphql-tag'
+import TextField from '@material-ui/core/TextField'
+import { withStyles } from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
+import PropTypes from 'prop-types'
+import Error from './../ErrorMessage.js'
+import { CURRENT_USER_QUERY } from './User'
 
 const SIGNUP_MUTATION = gql`
-  mutation SIGNUP_MUTATION(
-    $email: String!
-    $name: String!
-    $password: String!
-    $display: String!
-  ) {
+  mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!, $display: String!) {
     signup(email: $email, name: $name, password: $password, display: $display) {
       id
       email
@@ -25,46 +19,56 @@ const SIGNUP_MUTATION = gql`
       display
     }
   }
-`;
+`
 const styles = theme => ({
   container: {
-    display: "flex",
-
-    width: 100
+    display: 'flex',
+    width: '100%',
   },
-  root: {
-    // marginTop: theme.spacing.unit * 10,
-    // marginLeft: theme.spacing.unit * 5
+  formContainer: {
+    width: '100%',
+    maxWidth: 1000,
+    display: 'flex',
+    justifyContent: 'center',
   },
-
-  smallField: {
-    marginLeft: 0,
-    marginRight: 0,
-    width: 500,
-    marginBottom: 30
+  form: {
+    width: '100%',
+    maxWidth: 500,
+    padding: '50px 0 0 0',
   },
-
+  inputField: {
+    width: '100%',
+    marginBottom: 30,
+  },
+  fieldset: {
+    border: 0,
+    padding: 0,
+    margin: 0,
+  },
+  formControl: {
+    width: '100%',
+  },
   button: {
     marginBottom: theme.spacing.unit,
-    backgroundColor: "#E27D60"
+    backgroundColor: '#E27D60',
   },
   text: {
-    marginBottom: 20
-  }
-});
+    marginBottom: 20,
+  },
+})
 
 class Signup extends Component {
   state = {
-    name: "",
-    password: "",
-    email: "",
-    display: ""
-  };
+    name: '',
+    password: '',
+    email: '',
+    display: '',
+  }
   saveToState = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+    this.setState({ [e.target.name]: e.target.value })
+  }
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
     return (
       <Mutation
         mutation={SIGNUP_MUTATION}
@@ -72,28 +76,28 @@ class Signup extends Component {
         refetchQueries={[{ query: CURRENT_USER_QUERY }]}
       >
         {(signup, { error, loading }) => (
-          <Grid container className={classes.root} spacing={16}>
-            <Grid item xs={4} />
-            <Grid item xs={5}>
+          <div className={classes.container}>
+            <div className={classes.formContainer}>
               <form
                 method="post"
+                className={classes.form}
                 onSubmit={async e => {
-                  e.preventDefault();
-                  await signup();
+                  e.preventDefault()
+                  await signup()
                   this.setState({
-                    name: "",
-                    password: "",
-                    email: "",
-                    display: ""
-                  });
-                  Router.push("/");
+                    name: '',
+                    password: '',
+                    email: '',
+                    display: '',
+                  })
+                  Router.push('/')
                 }}
               >
                 <fieldset
                   disabled={loading}
                   aria-busy={loading}
                   style={{
-                    borderWidth: "0px"
+                    borderWidth: '0px',
                   }}
                 >
                   <Typography variant="h4" className={classes.text}>
@@ -108,7 +112,7 @@ class Signup extends Component {
                       value={this.state.name}
                       onChange={this.saveToState}
                       variant="filled"
-                      className={classes.smallField}
+                      className={classes.inputField}
                     />
                   </label>
                   <label htmlFor="email">
@@ -119,7 +123,7 @@ class Signup extends Component {
                       variant="filled"
                       value={this.state.email}
                       onChange={this.saveToState}
-                      className={classes.smallField}
+                      className={classes.inputField}
                     />
                   </label>
 
@@ -131,7 +135,7 @@ class Signup extends Component {
                       variant="filled"
                       value={this.state.display}
                       onChange={this.saveToState}
-                      className={classes.smallField}
+                      className={classes.inputField}
                     />
                   </label>
                   <label htmlFor="password">
@@ -142,32 +146,27 @@ class Signup extends Component {
                       placeholder="password"
                       value={this.state.password}
                       onChange={this.saveToState}
-                      className={classes.smallField}
+                      className={classes.inputField}
                     />
                   </label>
 
                   <div>
-                    <Button
-                      size="large"
-                      className={classes.button}
-                      type="submit"
-                    >
+                    <Button size="large" className={classes.button} type="submit">
                       Sign Up!
                     </Button>
                   </div>
                 </fieldset>
               </form>
-              <Grid xs={2} />
-            </Grid>
-          </Grid>
+            </div>
+          </div>
         )}
       </Mutation>
-    );
+    )
   }
 }
 
 Signup.propTypes = {
-  classes: PropTypes.object.isRequired
-};
+  classes: PropTypes.object.isRequired,
+}
 
-export default withStyles(styles)(Signup);
+export default withStyles(styles)(Signup)

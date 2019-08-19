@@ -20,8 +20,11 @@ const styles = theme => ({
   container: {
     display: "flex",
     justifyContent: "center",
-    width: 400,
-    margin: "10px 0"
+    width: '100%',
+    padding: "10px 0",
+    background: '#4285F4',
+    background: '#dedede',
+    margin: '10px 0',
   }
 });
 

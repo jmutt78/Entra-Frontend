@@ -20,7 +20,9 @@ const styles = theme => ({
   container: {
     display: "flex",
     justifyContent: "center",
-    width: 400
+    width: '100%',
+    background: '#4c69ba',
+    margin: '10px 0',
   }
 });
 

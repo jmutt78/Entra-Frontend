@@ -34,16 +34,21 @@ const styles = ({ layout, palette }) => ({
     height: layout.headerHeight,
     alignItems: "center"
   },
+  hidden: {
+    visibility: "hidden"
+  },
   button: {
-    margin: 12
+    margin: 12,
   },
   signupButton: {
+    margin: 12,
     backgroundColor: palette.primary.dark,
     "&:hover": {
       backgroundColor: palette.primary.main
     }
   },
   loginButton: {
+    margin: 12,
     backgroundColor: palette.accent.grey,
     "&:hover": {
       backgroundColor: palette.primary.main
@@ -76,9 +81,6 @@ const styles = ({ layout, palette }) => ({
     height: layout.headerHeight,
     padding: "12px 10px 8px 10px"
   },
-  invisible: {
-    visibility: "hidden"
-  }
 });
 
 const Appbar = ({ isLoggedIn, classes }) => {
@@ -122,18 +124,17 @@ const Appbar = ({ isLoggedIn, classes }) => {
               if (!me) {
                 return (
                   <Typography
-                    key={me.id}
                     className={
                       me
-                        ? classes.subContainer
-                        : [classes.subContainer, classes.invisible]
+                        ? classes.hidden
+                        : classes.subContainer
                     }
                   >
                     <Link href="/signin">
                       <Button
                         variant="contained"
                         color="secondary"
-                        className={[classes.button, classes.loginButton]}
+                        className={classes.loginButton}
                       >
                         Login
                       </Button>
@@ -143,7 +144,7 @@ const Appbar = ({ isLoggedIn, classes }) => {
                       <Button
                         variant="contained"
                         color="secondary"
-                        className={[classes.button, classes.signupButton]}
+                        className={classes.signupButton}
                       >
                         Sign up
                       </Button>
