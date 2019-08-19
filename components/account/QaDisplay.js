@@ -12,9 +12,14 @@ const styles = ({ spacing, palette }) => ({
     marginBottom: spacing.unit,
     marginTop: 40,
   },
+  container: {
+    width: '100%',
+    padding: '20px 0',
+  },
   qaGrid: {
     marginLeft: spacing.unit * 9,
     marginRight: spacing.unit * 9,
+    padding: '30px',
   },
   link: {
     textDecoration: 'none',
@@ -67,13 +72,12 @@ class QaDisplay extends Component {
           const questions = user.myQuestions
 
           return (
-            <>
+            <div className={classes.container}>
               <Typography variant="h3" className={classes.title}>
                 Activity
               </Typography>
 
               <Grid container className={classes.root} spacing={16}>
-
                 <Grid item xs={1} className={classes.qaGrid}>
                   <Typography variant="h4" align="center">
                     {user.myQuestions.length}
@@ -134,9 +138,8 @@ class QaDisplay extends Component {
                     Points
                   </Typography>
                 </Grid>
-
               </Grid>
-            </>
+            </div>
           )
         }}
       </Query>

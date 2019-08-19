@@ -23,6 +23,10 @@ const styles = theme => ({
   grid: {
     margin: theme.spacing.unit,
   },
+  container: {
+    width: '100%',
+    padding: '10px 20px 50px 10px'
+  },
   root: {
     margin: theme.spacing.unit,
     marginTop: 40,
@@ -156,14 +160,16 @@ class BadgesDisplay extends Component {
     const user = this.props.user
 
     return (
-      <Card className={classes.card}>
-        <Grid container className={classes.root} spacing={16}>
-          <Grid item xs={11} className={classes.badgeTitle}>
-            <Typography variant="h4" className={classes.title}>Badges</Typography>
-          </Grid>
-        </Grid>
-        <BadgesList badges={user.badges} classes={classes} />
+      <div className={classes.container}>
+        <Card className={classes.card}>
+          <Grid container className={classes.root} spacing={16}>
+            <Grid item xs={11} className={classes.badgeTitle}>
+              <Typography variant="h4" className={classes.title}>Badges</Typography>
+      </Grid>
+    </Grid>
+    <BadgesList badges={user.badges} classes={classes} />
       </Card>
+      </div>
     )
   }
 }
