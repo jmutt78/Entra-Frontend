@@ -29,6 +29,7 @@ const styles = theme => ({
     width: '100%',
     maxWidth: 1000,
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
   },
 })
