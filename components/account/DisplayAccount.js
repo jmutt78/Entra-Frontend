@@ -3,7 +3,6 @@ import { Query } from 'react-apollo'
 
 import Grid from '@material-ui/core/Grid'
 import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
@@ -26,12 +25,11 @@ const styles = theme => ({
     textAlign: 'Left',
     color: 'rgba(0, 0, 0, 0.87)',
   },
-  link: {
-    textDecoration: 'none',
-    color: 'rgba(0, 0, 0, 0.87)',
-  },
-  icon: {
-    color: 'black',
+  contentContainer: {
+    width: '100%',
+    maxWidth: 1000,
+    display: 'flex',
+    justifyContent: 'center',
   },
 })
 
@@ -57,9 +55,11 @@ class DisplayAccount extends Component {
                   </TableRow>
                 </TableHead>
               </Table>
-              <MainInfoDisplay user={user} />
-              <QaDisplay user={user} />
-              <BadgesDisplay user={user} />
+              <div className={classes.contentContainer}>
+                <MainInfoDisplay user={user} />
+                <QaDisplay user={user} />
+                <BadgesDisplay user={user} />
+              </div>
             </Grid>
           )
         }}
