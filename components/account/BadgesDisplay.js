@@ -21,10 +21,10 @@ import Cached from "@material-ui/icons/Cached";
 
 const styles = theme => ({
   grid: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   },
   root: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     marginTop: 40
   },
   badge: {
@@ -43,15 +43,15 @@ const styles = theme => ({
     justiftyContent: "center",
     color: "grey",
     alignItems: "center",
-    marginLeft: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2)
   },
   awesomeAward: {
     justiftyContent: "center",
     color: "#E27D60",
     alignItems: "center",
-    marginLeft: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2)
   }
 });
 
@@ -110,7 +110,7 @@ const badgesConfig = {
   }
 };
 
-function BadgeItem({ type, classes }) {
+export function BadgeItem({ type, classes }) {
   const badgeConfig = badgesConfig[type];
   const { title, icon: Icon } = badgeConfig;
   return (
@@ -123,7 +123,7 @@ function BadgeItem({ type, classes }) {
   );
 }
 
-function BadgesList({ badges, classes }) {
+export function BadgesList({ badges, classes }) {
   const yourBadges = pickBy(badges, value => value === true);
   const badgeKeys = Object.keys(yourBadges);
   if (!badgeKeys.length) {
@@ -142,7 +142,7 @@ function BadgesList({ badges, classes }) {
   );
 }
 
-class BadgesDisplay extends Component {
+export class BadgesDisplay extends Component {
   render() {
     const { classes } = this.props;
     const user = this.props.user;

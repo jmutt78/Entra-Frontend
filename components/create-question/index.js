@@ -79,7 +79,7 @@ const styles = ({ layout, palette }) => ({
   },
 })
 
-const CREATE_QUESTION_MUTATION = gql`
+export const CREATE_QUESTION_MUTATION = gql`
   mutation createQuestion($title: String!, $description: String, $tags: [TagInput!]!) {
     createQuestion(title: $title, description: $description, tags: $tags) {
       id

@@ -14,11 +14,11 @@ const styles = ({ spacing, palette, layout }) => ({
     flexDirection: "column",
     padding: "0 0 30px 0",
 
-    width: `calc(${layout.width} / 1.2)`,
+    // width: `calc(${layout.width} / 1.2)`,
     maxWidth: 1000
   },
   title: {
-    color: palette.accent.dark,
+    color: '#2d3436',
     padding: "5px 0 0 20px",
     margin: 0,
     marginTop: 30,
@@ -36,8 +36,9 @@ const Answers = ({ classes, question, user }) => {
 
   return question.answers.length === 0 ? null : (
     <Query query={CURRENT_USER_QUERY}>
-      {({ data, loading }) => {
+      {({ loading, error, data }) => {
         if (loading) return <p>Loading...</p>;
+        if (error) return <p>Error</p>;
         const user = data.me;
 
         return (

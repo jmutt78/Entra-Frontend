@@ -9,16 +9,16 @@ import { PAGINATION_QUERY } from "../pagination/";
 
 const styles = theme => ({
   grid: {
-    marginBottom: theme.spacing.unit * 4,
-    marginLeft: theme.spacing.unit * 2
+    marginBottom: theme.spacing(4),
+    marginLeft: theme.spacing(2)
   },
   root: {
-    marginBottom: theme.spacing.unit,
+    marginBottom: theme.spacing(1),
     marginTop: 40
   },
   qaGrid: {
-    marginLeft: theme.spacing.unit * 9,
-    marginRight: theme.spacing.unit * 9
+    marginLeft: theme.spacing(9),
+    marginRight: theme.spacing(9)
   },
   link: {
     textDecoration: "none",
@@ -55,8 +55,9 @@ class QaDisplay extends Component {
         }}
         fetchPolicy="network-only"
       >
-        {({ data, loading }) => {
+        {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>;
+          if (error) return <p>Error</p>;
           const user = this.props.user;
           const answers = user.myAnswers;
           const userId = user.id;

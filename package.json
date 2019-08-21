@@ -40,6 +40,7 @@
     "graphql": "^14.4.2",
     "graphql-tag": "^2.9.2",
     "i": "^0.3.6",
+    "jest-matcher-one-of": "^1.0.2",
     "jss": "latest",
     "jss-rtl": "^0.2.3",
     "lodash": "^4.17.15",

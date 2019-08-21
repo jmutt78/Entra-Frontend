@@ -40,8 +40,10 @@ class DisplayAccount extends Component {
     const { classes } = this.props
     return (
       <Query query={CURRENT_USER_QUERY}>
-        {({ data, loading }) => {
+        {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>
+          if (error) return <p>Error</p>
+
           const user = data.me
 
           return (

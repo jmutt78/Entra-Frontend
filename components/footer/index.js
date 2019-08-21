@@ -7,7 +7,7 @@ import './footer.css'
 
 const styles = ({ palette }) => ({
   creditBarContainer: {
-    background: palette.accent.dark,
+    background: '#2d3436',
     display: 'flex',
     justifyContent: 'center',
   },
@@ -34,7 +34,7 @@ const styles = ({ palette }) => ({
   },
   link: {
     fontSize: 16,
-    color: palette.accent.dark,
+    color: '#2d3436',
     textDecoration: 'none',
     fontWeight: 500,
     cursor: 'pointer',

@@ -16,14 +16,14 @@ const styles = theme => ({
     height: 120
   },
   grid: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   },
   root: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     marginTop: 40
   },
   divider: {
-    marginTop: theme.spacing.unit * 5
+    marginTop: theme.spacing(5)
   },
   about: {
     fontSize: 17,
@@ -71,8 +71,10 @@ class MainInfoDisplay extends Component {
   render() {
     return (
       <Query query={CURRENT_USER_QUERY}>
-        {({ data, loading }) => {
+        {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>;
+          if (error) return <p>Error</p>;
+
           const { classes } = this.props;
 
           const user = this.props.user;

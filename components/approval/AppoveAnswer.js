@@ -5,7 +5,7 @@ import questionQuery from "../question-display/questionQuery.js";
 import gql from "graphql-tag";
 import Button from "@material-ui/core/Button";
 
-const APPROVE_ANSWER_MUTATION = gql`
+export const APPROVE_ANSWER_MUTATION = gql`
   mutation updateAnswer($id: ID!, $approval: Boolean) {
     updateAnswer(id: $id, approval: $approval) {
       id
