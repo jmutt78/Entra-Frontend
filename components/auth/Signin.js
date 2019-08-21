@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import Router from "next/router";
-import { Mutation, withApollo } from "react-apollo";
-import Link from "next/link";
-import TextField from "@material-ui/core/TextField";
-import { withStyles } from "@material-ui/core/styles";
-import PropTypes from "prop-types";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import gql from "graphql-tag";
-import Error from "./../ErrorMessage.js";
-import { CURRENT_USER_QUERY } from "./User";
-import GoogleLoginButton from "./GoogleLoginButton";
-import FacebookLoginButton from "./FacebookLoginButton";
+import React, { Component } from 'react'
+import Router from 'next/router'
+import { Mutation, withApollo } from 'react-apollo'
+import Link from 'next/link'
+import TextField from '@material-ui/core/TextField'
+import { withStyles } from '@material-ui/core/styles'
+import PropTypes from 'prop-types'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import gql from 'graphql-tag'
+import Error from './../ErrorMessage.js'
+import { CURRENT_USER_QUERY } from './User'
+import GoogleLoginButton from './GoogleLoginButton'
+import FacebookLoginButton from './FacebookLoginButton'
 
 const SIGNIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
@@ -24,64 +24,91 @@ const SIGNIN_MUTATION = gql`
       name
     }
   }
-`;
+`
 
 const styles = theme => ({
-  root: {
-    marginTop: theme.spacing.unit * 10,
-    marginLeft: theme.spacing.unit * 5
-  },
   container: {
-    display: "flex",
-
-    width: 80
+    display: 'flex',
+    width: '100%',
   },
-  textField: {
-    marginLeft: 15,
-    marginRight: 15,
-    width: 700,
-    marginBottom: 30
+  formContainer: {
+    width: '100%',
+    maxWidth: 1000,
+    display: 'flex',
+    justifyContent: 'center',
   },
-  smallField: {
-    marginLeft: 0,
-    marginRight: 15,
-    width: 400,
-    marginBottom: 30
+  form: {
+    width: '100%',
+    maxWidth: 500,
+    padding: '50px 0 0 0',
   },
-  top: {
-    width: 400,
-    backgroundColor: "#85BDCB",
-    boxShadow: "none",
-    marginBottom: theme.spacing.unit
+  inputField: {
+    width: '100%',
+    marginBottom: 30,
+  },
+  fieldset: {
+    border: 0,
+    padding: 0,
+    margin: 0,
+  },
+  formControl: {
+    width: '100%',
   },
   button: {
-    marginBottom: theme.spacing.unit
+    marginBottom: theme.spacing.unit,
+    backgroundColor: '#E27D60',
   },
   text: {
-    color: "grey",
-    marginBottom: theme.spacing.unit
+    marginBottom: 20,
   },
-  buttonTop: {
-    backgroundColor: "#E27D60",
-    marginLeft: theme.spacing.unit * 2
+
+  signupPromptContainer: {
+    width: '100%',
+    backgroundColor: '#85BDCB',
+    boxShadow: 'none',
+    margin: '10px 0 30px 0',
   },
-  textTop: {
-    color: "white",
-    fontSize: 20
-  }
-});
+  flexContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+
+  signupButton: {
+    backgroundColor: '#E27D60',
+    marginLeft: theme.spacing.unit * 2,
+  },
+  signupText: {
+    color: 'white',
+    fontSize: 20,
+  },
+})
+
+const SignupPrompt = ({ classes }) => {
+  return (
+    <AppBar className={classes.signupPromptContainer} position="static">
+      <Toolbar className={classes.flexContainer}>
+        <Typography className={classes.signupText}>Don't have an account?</Typography>
+        <Link href="/signup">
+          <Button size="medium" className={classes.signupButton}>
+            SIGN UP NOW
+          </Button>
+        </Link>
+      </Toolbar>
+    </AppBar>
+  )
+}
 
 class Signin extends Component {
   state = {
-    name: "",
-    password: "",
-    email: ""
-  };
+    name: '',
+    password: '',
+    email: '',
+  }
   saveToState = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+    this.setState({ [e.target.name]: e.target.value })
+  }
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
     return (
       <Mutation
         mutation={SIGNIN_MUTATION}
@@ -89,98 +116,87 @@ class Signin extends Component {
         refetchQueries={[{ query: CURRENT_USER_QUERY }]}
       >
         {(signup, { error, loading }) => (
-          <Grid container className={classes.root} spacing={16}>
-            <Grid item xs={4} />
-            <Grid item xs={5}>
-              <form
-                method="post"
-                onSubmit={async e => {
-                  e.preventDefault();
-                  await signup();
+          <div className={classes.formContainer}>
+            <form
+              method="post"
+              onSubmit={async e => {
+                e.preventDefault()
+                await signup()
 
-                  this.setState({ name: "", email: "", password: "" });
-                  Router.push("/");
+                this.setState({ name: '', email: '', password: '' })
+                Router.push('/')
+              }}
+            >
+              <fieldset
+                disabled={loading}
+                aria-busy={loading}
+                style={{
+                  borderWidth: '0px',
                 }}
               >
-                <fieldset
-                  disabled={loading}
-                  aria-busy={loading}
-                  style={{
-                    borderWidth: "0px"
-                  }}
-                >
-                  <AppBar className={classes.top} position="static">
-                    <Toolbar>
-                      <Typography className={classes.textTop}>
-                        Don't have an account?
-                      </Typography>
-                      <Link href="/signup">
-                        <Button size="medium" className={classes.buttonTop}>
-                          SIGN UP NOW
-                        </Button>
-                      </Link>
-                    </Toolbar>
-                  </AppBar>
-                  <Error error={error} />
-                  <FacebookLoginButton />
-                  <GoogleLoginButton />
-                  <Typography variant="h4" className={classes.text}>
-                    Login
+                <Typography variant="h4" className={classes.text}>
+                  Sign in
+                </Typography>
+
+                <Error error={error} />
+
+                <SignupPrompt classes={classes} />
+
+                <label htmlFor="email">
+                  <TextField
+                    type="email"
+                    name="email"
+                    placeholder="email"
+                    variant="filled"
+                    value={this.state.email}
+                    className={classes.inputField}
+                    onChange={this.saveToState}
+                  />
+                </label>
+                <label htmlFor="password">
+                  <TextField
+                    type="password"
+                    name="password"
+                    placeholder="password"
+                    variant="filled"
+                    value={this.state.password}
+                    onChange={this.saveToState}
+                    className={classes.inputField}
+                  />
+                </label>
+
+                <div>
+                  <Typography>
+                    <Button size="large" className={classes.button} type="submit">
+                      Log In!
+                    </Button>
+
+                    <Link href="/resetpage">
+                      <a
+                        style={{
+                          textDecoration: 'none',
+                          color: 'grey',
+                          marginLeft: 150,
+                        }}
+                      >
+                        FORGOT PASSWORD?
+                      </a>
+                    </Link>
                   </Typography>
-                  <label htmlFor="email">
-                    <TextField
-                      type="email"
-                      name="email"
-                      placeholder="email"
-                      variant="filled"
-                      value={this.state.email}
-                      className={classes.smallField}
-                      onChange={this.saveToState}
-                    />
-                  </label>
-                  <label htmlFor="password">
-                    <TextField
-                      type="password"
-                      name="password"
-                      placeholder="password"
-                      variant="filled"
-                      value={this.state.password}
-                      onChange={this.saveToState}
-                      className={classes.smallField}
-                    />
-                  </label>
-                  <div>
-                    <Typography>
-                      <Button type="submit" size="large" variant="outlined">
-                        Log In!
-                      </Button>
-                      <Link href="/resetpage">
-                        <a
-                          style={{
-                            textDecoration: "none",
-                            color: "grey",
-                            marginLeft: 150
-                          }}
-                        >
-                          FORGOT PASSWORD?
-                        </a>
-                      </Link>
-                    </Typography>
-                    <div />
-                  </div>
-                </fieldset>
-              </form>
-              <Grid xs={2} />
-            </Grid>
-          </Grid>
+                </div>
+              </fieldset>
+              <GoogleLoginButton />
+              <FacebookLoginButton />
+            </form>
+          </div>
         )}
       </Mutation>
-    );
+    )
   }
 }
 
 Signin.propTypes = {
-  classes: PropTypes.object.isRequired
-};
+  classes: PropTypes.object.isRequired,
+}
 
-export default withStyles(styles)(withApollo(Signin));
+export default withStyles(styles)(withApollo(Signin))
