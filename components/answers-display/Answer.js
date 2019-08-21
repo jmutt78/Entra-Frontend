@@ -4,7 +4,6 @@ import { format, parseISO } from "date-fns";
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import Icon from "../ui/Icon";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";

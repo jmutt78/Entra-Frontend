@@ -2,6 +2,7 @@ import { Query, Mutation } from "react-apollo";
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import gql from "graphql-tag";
+import Error from "./../ErrorMessage.js";
 import PropTypes from "prop-types";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -145,6 +146,7 @@ class UserPermissions extends React.Component {
                 </Button>
               </TableCell>
             </TableRow>
+            <Error error={error} />
           </TableBody>
         )}
       </Mutation>

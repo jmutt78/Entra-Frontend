@@ -1,5 +1,5 @@
 import React from "react";
-import { Mutation, Query } from "react-apollo";
+import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import {
   Editor,
@@ -8,6 +8,7 @@ import {
   convertToRaw,
   convertFromRaw
 } from "draft-js";
+import Error from "./../ErrorMessage.js";
 import { withStyles } from "@material-ui/core/styles";
 import BlockStyleControls from "../style-control/BlockStyle";
 import InlineStyleControls from "../style-control/InlineStyle";
@@ -116,6 +117,7 @@ class MyEditor extends React.Component {
         {(createBlog, { error, loading }) => {
           return (
             <Grid container className={classes.root} spacing={16}>
+              <Error error={error} />
               <Grid item xs={2} />
               <Grid item xs={6}>
                 <BlockStyleControls

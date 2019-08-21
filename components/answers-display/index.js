@@ -1,10 +1,10 @@
 import React from "react";
 import { Query } from "react-apollo";
 
-import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 
+import Error from "./../ErrorMessage.js";
 import { CURRENT_USER_QUERY } from "../auth/User";
 import Answer from "./Answer";
 
@@ -18,7 +18,7 @@ const styles = ({ spacing, palette, layout }) => ({
     maxWidth: 1000
   },
   title: {
-    color: '#2d3436',
+    color: "#2d3436",
     padding: "5px 0 0 20px",
     margin: 0,
     marginTop: 30,
@@ -38,7 +38,7 @@ const Answers = ({ classes, question, user }) => {
     <Query query={CURRENT_USER_QUERY}>
       {({ loading, error, data }) => {
         if (loading) return <p>Loading...</p>;
-        if (error) return <p>Error</p>;
+        if (error) return <Error error={error} />;
         const user = data.me;
 
         return (

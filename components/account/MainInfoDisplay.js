@@ -7,6 +7,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
+import Error from "./../ErrorMessage.js";
 
 import { CURRENT_USER_QUERY } from "../auth/User";
 
@@ -73,7 +74,7 @@ class MainInfoDisplay extends Component {
       <Query query={CURRENT_USER_QUERY}>
         {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>;
-          if (error) return <p>Error</p>;
+          if (error) return <Error error={error} />;
 
           const { classes } = this.props;
 

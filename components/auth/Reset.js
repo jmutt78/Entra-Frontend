@@ -92,6 +92,7 @@ class Reset extends Component {
       >
         {(reset, { error, loading, called }) => (
           <div style={{ width: "50%", margin: "0 auto", padding: "50px" }}>
+            <Error error={error} />
             <form
               method="post"
               onSubmit={async e => {

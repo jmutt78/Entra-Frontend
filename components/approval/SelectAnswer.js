@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
-import { Mutation } from 'react-apollo'
-import { withStyles } from '@material-ui/core/styles'
-import questionQuery from '../question-display/questionQuery.js'
-import gql from 'graphql-tag'
-import Button from '@material-ui/core/Button'
-import Icon from '@material-ui/core/Icon'
-import CheckIcon from "@material-ui/icons/Check"
+import React, { Component } from "react";
+import { Mutation } from "react-apollo";
+import { withStyles } from "@material-ui/core/styles";
+import questionQuery from "../question-display/questionQuery.js";
+import gql from "graphql-tag";
+import Button from "@material-ui/core/Button";
+import Icon from "@material-ui/core/Icon";
+import CheckIcon from "@material-ui/icons/Check";
+import Error from "./../ErrorMessage.js";
 
 const SELECT_ANSWER_MUTATION = gql`
   mutation selectAnswer($id: ID!) {
@@ -13,39 +14,39 @@ const SELECT_ANSWER_MUTATION = gql`
       id
     }
   }
-`
+`;
 
 const styles = {
   buttonAccept: {
-    backgroundColor: '#85BDCB',
-    marginTop: 10,
+    backgroundColor: "#85BDCB",
+    marginTop: 10
   },
   acceptedText: {
     marginTop: 10,
-    marginRight: 10,
+    marginRight: 10
   },
   selected: {
-    backgroundColor:'#badc58',
+    backgroundColor: "#badc58",
     marginTop: 10,
-    cursor: 'default',
-    '&:hover': {
-      backgroundColor:'#badc58',
+    cursor: "default",
+    "&:hover": {
+      backgroundColor: "#badc58"
     }
   }
-}
+};
 
 class SelectAnswer extends Component {
   handleSelect = async (e, selectAnswer) => {
-    e.preventDefault()
+    e.preventDefault();
     const res = await selectAnswer({
       variables: {
-        id: this.props.id,
-      },
-    })
-  }
+        id: this.props.id
+      }
+    });
+  };
 
   render() {
-    const { classes, questionId, selected, canSelect } = this.props
+    const { classes, questionId, selected, canSelect } = this.props;
     // TODO style this
     if (selected) {
       return (
@@ -53,10 +54,10 @@ class SelectAnswer extends Component {
           <CheckIcon />
           Selected Answer
         </Button>
-      )
+      );
     }
     if (!canSelect) {
-      return null
+      return null;
     }
     return (
       <Mutation
@@ -64,8 +65,8 @@ class SelectAnswer extends Component {
         refetchQueries={[
           {
             query: questionQuery,
-            variables: { id: questionId },
-          },
+            variables: { id: questionId }
+          }
         ]}
       >
         {(selectAnswer, { error, loading }) => {
@@ -78,12 +79,13 @@ class SelectAnswer extends Component {
               >
                 Select
               </Button>
+              <Error error={error} />
             </div>
-          )
+          );
         }}
       </Mutation>
-    )
+    );
   }
 }
 
-export default withStyles(styles)(SelectAnswer)
+export default withStyles(styles)(SelectAnswer);

@@ -15,9 +15,9 @@ import TableRow from "@material-ui/core/TableRow";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 
+import Error from "./../ErrorMessage.js";
 import NoQuestion from "./NoQuestion";
 import QuestionDetail from "./QuestionDetail";
-import Icon from "../ui/Icon";
 import questionQuery from "./questionQuery";
 import { CURRENT_USER_QUERY } from "../auth/User";
 
@@ -151,8 +151,9 @@ class DisplayQuestion extends Component {
 
     return (
       <Query query={CURRENT_USER_QUERY}>
-        {({ data, loading }) => {
+        {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>;
+          if (error) return <Error error={error} />;
           const user = data.me;
 
           const askedby = question.askedBy[0] || null;

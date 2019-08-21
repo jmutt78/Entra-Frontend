@@ -3,6 +3,7 @@ import { Mutation } from "react-apollo";
 import Button from "@material-ui/core/Button";
 import gql from "graphql-tag";
 import questionListQuery from "../question-list/questionListQuery";
+import Error from "./../ErrorMessage.js";
 import { useRouter } from "next/router";
 import { withStyles } from "@material-ui/core/styles";
 
@@ -49,9 +50,7 @@ const DeleteQuestion = ({ id, classes }) => {
           >
             DELETE
           </Button>
-          <div style={{ color: "red" }}>
-            {error && error.message.replace("GraphQL error: ", "")}
-          </div>
+          <Error error={error} />
         </>
       )}
     </Mutation>

@@ -55,8 +55,9 @@ class Privacy extends Component {
         }}
         context={{ clientName: "second" }}
       >
-        {({ data: { page }, loading }) => {
+        {({ data: { page }, loading, error }) => {
           if (loading) return <p>Loading...</p>;
+          if (error) return <Error error={error} />;
           function createMarkup() {
             return { __html: createMarkup() };
           }

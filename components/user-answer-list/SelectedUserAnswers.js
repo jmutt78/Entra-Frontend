@@ -3,6 +3,7 @@ import { Query } from "react-apollo";
 import { perPage } from "../../config.js";
 import AnswerList from "../answer-list";
 import userAnswerQuery from "./answerListQuery.js";
+import Error from "./../ErrorMessage.js";
 
 class SelectedUserAnswers extends Component {
   handleName(answers) {
@@ -24,8 +25,9 @@ class SelectedUserAnswers extends Component {
           first: perPage
         }}
       >
-        {({ data: { answers }, loading }) => {
+        {({ data: { answers }, loading, error }) => {
           if (loading) return <p>Loading...</p>;
+          if (error) return <Error error={error} />;
           console.log(answers);
           return (
             <AnswerList
