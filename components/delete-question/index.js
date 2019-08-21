@@ -1,18 +1,17 @@
-import React from 'react'
-import { Mutation } from 'react-apollo'
-import Button from '@material-ui/core/Button'
-import gql from 'graphql-tag'
-import questionListQuery from '../question-list/questionListQuery'
-import { useRouter } from 'next/router'
-import { withStyles } from '@material-ui/core/styles'
-
+import React from "react";
+import { Mutation } from "react-apollo";
+import Button from "@material-ui/core/Button";
+import gql from "graphql-tag";
+import questionListQuery from "../question-list/questionListQuery";
+import { useRouter } from "next/router";
+import { withStyles } from "@material-ui/core/styles";
 
 const styles = ({ layout, palette, spacing }) => ({
   button: {
     backgroundColor: palette.primary.dark,
-    marginLeft: 10,
+    marginLeft: 10
   }
-})
+});
 
 const DELETE_QUESTION_MUTATION = gql`
   mutation DELETE_QUESTION_MUTATION($id: ID!) {
@@ -20,13 +19,13 @@ const DELETE_QUESTION_MUTATION = gql`
       id
     }
   }
-`
+`;
 
 const DeleteQuestion = ({ id, classes }) => {
-  const router = useRouter()
+  const router = useRouter();
   function handleDelete(deleteQuestion) {
-    if (confirm('Are you sure you want to delete this item?')) {
-      deleteQuestion().then(() => router.push('/myquestions'))
+    if (confirm("Are you sure you want to delete this item?")) {
+      deleteQuestion().then(() => router.push("/myquestions"));
     }
   }
   return (
@@ -36,20 +35,27 @@ const DeleteQuestion = ({ id, classes }) => {
       refetchQueries={[
         {
           query: questionListQuery,
-          variables: { filter: ['my', 'all'] },
-        },
+          variables: { filter: ["my", "all"] }
+        }
       ]}
     >
       {(deleteQuestion, { error }) => (
         <>
-          <Button className={classes.button} variant="contained" color="secondary" onClick={() => handleDelete(deleteQuestion)}>
+          <Button
+            className={classes.button}
+            variant="contained"
+            color="secondary"
+            onClick={() => handleDelete(deleteQuestion)}
+          >
             DELETE
           </Button>
-          <div style={{ color: 'red' }}>{error && error.message.replace('GraphQL error: ', '')}</div>
+          <div style={{ color: "red" }}>
+            {error && error.message.replace("GraphQL error: ", "")}
+          </div>
         </>
       )}
     </Mutation>
-  )
-}
+  );
+};
 
-export default withStyles(styles)(DeleteQuestion)
+export default withStyles(styles)(DeleteQuestion);
