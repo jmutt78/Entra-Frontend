@@ -35,7 +35,7 @@ const styles = ({ layout, palette, spacing }) => ({
   nameLink: {
     fontWeight: 500,
     textDecoration: "none",
-    color: palette.primary.dark
+    color: "#e27d60"
   },
   tableRow: {
     background: palette.secondary.main
@@ -232,7 +232,7 @@ const QuestionDetail = ({
                     }}
                   >
                     <a className={classes.nameLink}>
-                      {question.askedBy[0].display[0]}
+                      {question.askedBy[0].display}
                     </a>
                   </Link>
                   <span>{` on `}</span>

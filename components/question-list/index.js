@@ -28,7 +28,7 @@ const styles = ({ layout }) => ({
     justifyContent: "space-between",
     // width: layout.width,
     maxWidth: 1200,
-    height: "100%",
+    height: "100%"
     // minHeight: layout.contentMinHeight
   },
   title: {
