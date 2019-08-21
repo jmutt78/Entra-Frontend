@@ -55,19 +55,19 @@ const styles = ({ spacing, palette }) => ({
   },
   buttonTop: {
     backgroundColor: "#E27D60",
-    marginLeft: spacing.unit * 2
+    marginLeft: spacing(2)
   },
   textTop: {
     color: "white",
     fontSize: 20
   },
   editButton: {
-    backgroundColor: palette.accent.blue
+    backgroundColor: '#85bdcb'
   },
   signupButton: {
     backgroundColor: '#2d3436',
     "&:hover": {
-      backgroundColor: palette.accent.main
+      // backgroundColor: palette.accent.main
     },
     marginLeft: 10
   },
@@ -103,12 +103,12 @@ const styles = ({ spacing, palette }) => ({
     cursor: "pointer"
   },
   upVote: {
-    color: palette.accent.main,
+    color: '#e8a77f',
     fontSize: "1.4rem",
     padding: "8px 8px 5px 0"
   },
   downVote: {
-    color: palette.accent.blue,
+    color: '#85bdcb',
     fontSize: "1.4rem",
     padding: "8px 0 5px 8px"
   }
@@ -296,3 +296,4 @@ const Answer = ({ answer, classes, user, client, question }) => {
 };
 
 export default withStyles(styles)(withApollo(Answer));
+export const AnswerComp = withStyles(styles)(Answer);

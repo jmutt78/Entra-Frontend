@@ -16,8 +16,10 @@ class AprrovalAnswers extends Component {
           first: perPage
         }}
       >
-        {({ data: { answers }, loading }) => {
+        {({ loading, error, data }) => {
           if (loading) return <p>Loading...</p>;
+          if (error) return <p>Error</p>;
+          const { answers } = data;
           return <AnswerList answers={answers} filter={filter} />;
         }}
       </Query>
