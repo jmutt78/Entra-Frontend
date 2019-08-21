@@ -1,6 +1,11 @@
 import DisplayAccount from "../../components/account/DisplayAccount";
 import PleaseSignIn from "../../components/auth/PleaseSignIn";
+import Layout from "../../components/layout/index.js";
 
-const Account = props => <DisplayAccount />;
+const Account = props => (
+  <Layout>
+    <DisplayAccount />
+  </Layout>
+);
 
 export default Account;
