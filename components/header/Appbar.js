@@ -38,10 +38,10 @@ const styles = ({ layout, palette }) => ({
     visibility: "hidden"
   },
   button: {
-    margin: 12,
+    margin: 12
   },
   signupButton: {
-    backgroundColor: '#2d3436',
+    backgroundColor: "#E27D60",
     margin: 12,
     "&:hover": {
       backgroundColor: palette.accent.main
@@ -80,7 +80,7 @@ const styles = ({ layout, palette }) => ({
     fontWeight: 500,
     height: layout.headerHeight,
     padding: "12px 10px 8px 10px"
-  },
+  }
 });
 
 const Appbar = ({ isLoggedIn, classes }) => {
@@ -124,11 +124,7 @@ const Appbar = ({ isLoggedIn, classes }) => {
               if (!me) {
                 return (
                   <Typography
-                    className={
-                      me
-                        ? classes.hidden
-                        : classes.subContainer
-                    }
+                    className={me ? classes.hidden : classes.subContainer}
                   >
                     <Link href="/signin">
                       <Button
