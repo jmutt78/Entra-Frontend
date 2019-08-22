@@ -17,10 +17,8 @@ const LINKEDIN_LOGIN_MUTATION = gql`
 
 const styles = theme => ({
   container: {
-    display: "flex",
-    justifyContent: "center",
-    width: "100%",
-    margin: "10px 0"
+    backgroundColor: "#337ab7",
+    borderColor: "#2e6da4"
   }
 });
 
@@ -43,7 +41,7 @@ class LinkedinLoginButton extends React.Component {
     const { classes } = this.props;
     return (
       <div className={classes.container}>
-        <button>Login with Linkedin</button>
+        <img src="/static/linkedin.png" alt="Login with Linkedin" />
       </div>
     );
   }
