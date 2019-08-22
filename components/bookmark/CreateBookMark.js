@@ -8,7 +8,7 @@ import BookmarkBorder from "@material-ui/icons/BookmarkBorder";
 import { CURRENT_USER_QUERY } from "../auth/User";
 import questionQuery from "../question-display/questionQuery";
 
-const CREATE_BOOKMARK_MUTATION = gql`
+export const CREATE_BOOKMARK_MUTATION = gql`
   mutation createBookMark($questionId: ID!) {
     createBookMark(questionId: $questionId) {
       id

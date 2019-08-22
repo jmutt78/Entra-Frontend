@@ -9,7 +9,7 @@ import questionQuery from "../question-display/questionQuery.js";
 import answersListQuery from "../answer-list/answerListQuery";
 import { CURRENT_USER_QUERY } from "../auth/User";
 
-const DELETE_ANSWER_MUTATION = gql`
+export const DELETE_ANSWER_MUTATION = gql`
   mutation DELETE_ANSWER_MUTATION($id: ID!) {
     deleteAnswer(id: $id) {
       id

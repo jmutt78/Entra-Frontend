@@ -43,7 +43,7 @@ const styles = ({ spacing, palette }) => ({
   },
   button: {
     margin: '20px 0 5px 0',
-    background: palette.accent.blue,
+    background: '#d5d5d5',
     // '&:hover': {
     //   background: '#2d3436',
     // },
@@ -138,8 +138,9 @@ class CreateAnswer extends React.Component {
 
     return (
       <Query query={CURRENT_USER_QUERY}>
-        {({ data, loading }) => {
+        {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>
+          if (error) return <p>Error</p>
           const user = data.me
           if (!user) {
             return <div />
