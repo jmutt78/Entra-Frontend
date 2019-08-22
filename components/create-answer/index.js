@@ -1,54 +1,55 @@
-import React from 'react'
-import { Mutation, Query } from 'react-apollo'
-import gql from 'graphql-tag'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import { withStyles } from '@material-ui/core/styles'
-import Divider from '@material-ui/core/Divider'
-import Typography from '@material-ui/core/Typography'
+import React from "react";
+import { Mutation, Query } from "react-apollo";
+import Error from "./../ErrorMessage.js";
+import gql from "graphql-tag";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import { withStyles } from "@material-ui/core/styles";
+import Divider from "@material-ui/core/Divider";
+import Typography from "@material-ui/core/Typography";
 
-import Link from 'next/link'
+import Link from "next/link";
 
-import questionQuery from '../question-display/questionQuery.js'
-import { CURRENT_USER_QUERY } from '../auth/User'
+import questionQuery from "../question-display/questionQuery.js";
+import { CURRENT_USER_QUERY } from "../auth/User";
 
 const styles = ({ spacing, palette }) => ({
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '40px 0 30px 20px',
+    display: "flex",
+    flexDirection: "column",
+    padding: "40px 0 30px 20px"
   },
   inputField: {
-    width: '100%',
+    width: "100%",
     maxWidth: 600,
-    marginBottom: 30,
+    marginBottom: 30
   },
   label: {
     marginLeft: 10,
-    marginBotom: 10,
+    marginBotom: 10
   },
   postQuestionButton: {
-    alignItems: 'flex-end',
+    alignItems: "flex-end"
   },
   title: {
-    color: '#2d3436',
-    padding: '5px 0 15px 0',
+    color: "#2d3436",
+    padding: "5px 0 15px 0",
     margin: 0,
     maxWidth: 800,
     fontWeight: 300,
 
-    fontSize: '1.8rem',
-    textAlign: 'left',
-    lineHeight: '2.5rem',
+    fontSize: "1.8rem",
+    textAlign: "left",
+    lineHeight: "2.5rem"
   },
   button: {
-    margin: '20px 0 5px 0',
-    background: palette.accent.blue,
+    margin: "20px 0 5px 0",
+    background: palette.accent.blue
     // '&:hover': {
     //   background: '#2d3436',
     // },
-  },
-})
+  }
+});
 
 export const CREATE_ANSWER = gql`
   mutation creatAnswer($questionId: ID!, $body: String!) {
@@ -57,44 +58,44 @@ export const CREATE_ANSWER = gql`
       body
     }
   }
-`
+`;
 
 class CreateAnswer extends React.Component {
   state = {
-    body: '',
-  }
+    body: ""
+  };
 
   handleDescriptionChange = e => {
     this.setState({
-      body: e.target.value,
-    })
-  }
+      body: e.target.value
+    });
+  };
 
   submitForm = async (e, createQuestion) => {
-    e.preventDefault()
+    e.preventDefault();
     const res = await createQuestion({
       variables: {
         questionId: this.props.question.id,
-        ...this.state,
-      },
-    })
+        ...this.state
+      }
+    });
 
     this.setState({
-      body: '',
-    })
-  }
+      body: ""
+    });
+  };
 
   handleQuestion(id, myAnswers, body, classes, loading, createQuestion) {
-    const arr = []
+    const arr = [];
     for (var i = 0; i < myAnswers.length; i++) {
-      const answers = [myAnswers[i].answeredTo[0]]
-      arr.push(answers)
+      const answers = [myAnswers[i].answeredTo[0]];
+      arr.push(answers);
     }
-    const num = arr.some(element => element[0].id === id)
+    const num = arr.some(element => element[0].id === id);
 
     return num === true ? null : (
       <div className={classes.container}>
-        <div style={{ maxWidth: 600, marginLeft: '-10px' }}>
+        <div style={{ maxWidth: 600, marginLeft: "-10px" }}>
           <Divider variant="middle" />
         </div>
         <Typography variant="display3" className={classes.title}>
@@ -106,8 +107,8 @@ class CreateAnswer extends React.Component {
             disabled={loading}
             aria-busy={loading}
             style={{
-              borderWidth: '0px',
-              padding: 0,
+              borderWidth: "0px",
+              padding: 0
             }}
           >
             <label htmlFor="body">
@@ -129,23 +130,23 @@ class CreateAnswer extends React.Component {
           </Button>
         </form>
       </div>
-    )
+    );
   }
 
   render() {
-    const { classes } = this.props
-    const { body } = this.state
+    const { classes } = this.props;
+    const { body } = this.state;
 
     return (
       <Query query={CURRENT_USER_QUERY}>
         {({ data, loading }) => {
-          if (loading) return <p>Loading...</p>
-          const user = data.me
+          if (loading) return <p>Loading...</p>;
+          const user = data.me;
           if (!user) {
-            return <div />
+            return <div />;
           }
-          const myAnswers = user.myAnswers
-          const id = this.props.question.id
+          const myAnswers = user.myAnswers;
+          const id = this.props.question.id;
           return (
             <Mutation
               mutation={CREATE_ANSWER}
@@ -153,20 +154,32 @@ class CreateAnswer extends React.Component {
               refetchQueries={[
                 {
                   query: questionQuery,
-                  variables: { id: this.props.question.id },
+                  variables: { id: this.props.question.id }
                 },
-                { query: CURRENT_USER_QUERY },
+                { query: CURRENT_USER_QUERY }
               ]}
             >
               {(createQuestion, { error, loading }) => {
-                return <div>{this.handleQuestion(id, myAnswers, body, classes, loading, createQuestion)}</div>
+                return (
+                  <div>
+                    {this.handleQuestion(
+                      id,
+                      myAnswers,
+                      body,
+                      classes,
+                      loading,
+                      createQuestion
+                    )}
+                    <Error error={error} />
+                  </div>
+                );
               }}
             </Mutation>
-          )
+          );
         }}
       </Query>
-    )
+    );
   }
 }
 
-export default withStyles(styles)(CreateAnswer)
+export default withStyles(styles)(CreateAnswer);

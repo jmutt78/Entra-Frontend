@@ -4,6 +4,7 @@ import { Query } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import Error from "./../ErrorMessage.js";
 
 import { PAGINATION_QUERY } from "../pagination/";
 
@@ -57,7 +58,7 @@ class QaDisplay extends Component {
       >
         {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>;
-          if (error) return <p>Error</p>;
+          if (error) return <Error error={error} />;
           const user = this.props.user;
           const answers = user.myAnswers;
           const userId = user.id;

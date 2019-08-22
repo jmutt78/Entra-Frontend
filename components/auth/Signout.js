@@ -3,7 +3,7 @@ import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import MenuItem from "@material-ui/core/MenuItem";
 import Typography from "@material-ui/core/Typography";
-
+import Error from "./../ErrorMessage.js";
 import Router from "next/router";
 import { CURRENT_USER_QUERY } from "./User";
 
@@ -33,9 +33,12 @@ class Signout extends React.Component {
       >
         {(signout, { error, loading }) => {
           return (
-            <Typography onClick={e => this.handleSignout(e, signout)}>
-              Sign Out
-            </Typography>
+            <div>
+              <Error error={error} />
+              <Typography onClick={e => this.handleSignout(e, signout)}>
+                Sign Out
+              </Typography>
+            </div>
           );
         }}
       </Mutation>

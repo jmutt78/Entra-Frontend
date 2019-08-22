@@ -30,6 +30,9 @@ class MyProfile extends React.Component {
   };
 
   handleImage(me, classes) {
+    if (!me) {
+      return null
+    }
     if (me.image == null || me.image == "") {
       return <Avatar className={classes.bigAvatar}>{me.name[0]}</Avatar>;
     }

@@ -2,30 +2,21 @@ import React, { Component } from "react";
 import { Query } from "react-apollo";
 
 import gql from "graphql-tag";
+import { format, parseISO } from "date-fns";
 
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import CardMedia from "@material-ui/core/CardMedia";
 
 import Error from "../ErrorMessage";
+import Head from "next/head";
 
-const BLOG_QUERY = gql`
-  query BLOG_QUERY($id: ID!) {
-    post(id: $id) {
-      id
-      title
+const PRIVACY_QUERY = gql`
+  query PRIVACY_QUERY($id: ID!) {
+    page(id: $id) {
       content
-      date
-      slug
-      author {
-        id
-        name
-      }
-      featuredImage {
-        id
-        sourceUrl
-      }
+      title
+      id
     }
   }
 `;
@@ -52,19 +43,19 @@ const styles = theme => ({
   featured: { width: "800px", maxWidth: "100%", flexGrow: 1 }
 });
 
-class DisplayBlog extends Component {
+class Privacy extends Component {
   render() {
     const { classes } = this.props;
 
     return (
       <Query
-        query={BLOG_QUERY}
-        context={{ clientName: "second" }}
+        query={PRIVACY_QUERY}
         variables={{
-          id: this.props.id
+          id: "cGFnZToyMDg3"
         }}
+        context={{ clientName: "second" }}
       >
-        {({ data: { post }, loading, error }) => {
+        {({ data: { page }, loading, error }) => {
           if (loading) return <p>Loading...</p>;
           if (error) return <Error error={error} />;
           function createMarkup() {
@@ -75,24 +66,15 @@ class DisplayBlog extends Component {
               <Grid item xs={3} />
 
               <Grid item xs={6} className={classes.grid}>
-                <Error error={error} />
                 <Typography className={classes.title} variant="h2">
-                  {post.title}
+                  {page.title}
                 </Typography>
-                <Typography className={classes.title}>
-                  by {post.author.name}
-                </Typography>
-                <CardMedia>
-                  <img
-                    className={classes.featured}
-                    src={post.featuredImage.sourceUrl}
-                  />
-                </CardMedia>
+
                 <Typography variant="h6" color="textSecondary" display="block">
                   <div
                     className={classes.content}
                     dangerouslySetInnerHTML={{
-                      __html: post.content
+                      __html: page.content
                     }}
                   />
                 </Typography>
@@ -105,4 +87,4 @@ class DisplayBlog extends Component {
   }
 }
 
-export default withStyles(styles)(DisplayBlog);
+export default withStyles(styles)(Privacy);
