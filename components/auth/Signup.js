@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import Error from './../ErrorMessage.js'
 import { CURRENT_USER_QUERY } from './User'
 
-const SIGNUP_MUTATION = gql`
+export const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!, $display: String!) {
     signup(email: $email, name: $name, password: $password, display: $display) {
       id
@@ -49,7 +49,7 @@ const styles = theme => ({
     width: '100%',
   },
   button: {
-    marginBottom: theme.spacing.unit,
+    marginBottom: theme.spacing(1),
     backgroundColor: '#E27D60',
   },
   text: {

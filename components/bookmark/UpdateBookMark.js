@@ -9,7 +9,7 @@ import Button from "@material-ui/core/Button";
 import Bookmark from "@material-ui/icons/Bookmark";
 import { CURRENT_USER_QUERY } from "../auth/User";
 
-const DELETE_BOOKMARK_MUTATION = gql`
+export const DELETE_BOOKMARK_MUTATION = gql`
   mutation DELETE_BOOKMARK_MUTATION($id: ID!) {
     deleteBookMark(id: $id) {
       id

@@ -9,7 +9,7 @@ import { CURRENT_USER_QUERY } from "../auth/User";
 import questionQuery from "../question-display/questionQuery";
 import Error from "./../ErrorMessage.js";
 
-const CREATE_BOOKMARK_MUTATION = gql`
+export const CREATE_BOOKMARK_MUTATION = gql`
   mutation createBookMark($questionId: ID!) {
     createBookMark(questionId: $questionId) {
       id

@@ -19,7 +19,7 @@ import Link from "next/link";
 // TODO: search
 // TODO: add slug for seo
 
-const BLOG_LIST_QUERY = gql`
+export const BLOG_LIST_QUERY = gql`
   query {
     posts {
       edges {
@@ -41,21 +41,21 @@ const BLOG_LIST_QUERY = gql`
 
 const styles = theme => ({
   grid: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   },
   container: {
     display: "flex",
-    margin: theme.spacing.unit * 4,
+    margin: theme.spacing(4),
     textAlign: "center",
     flexGrow: 1
   },
   root: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     marginTop: 40
   },
   card: {
     maxWidth: 2000,
-    margin: theme.spacing.unit * 5,
+    margin: theme.spacing(5),
     cursor: "pointer"
   },
   media: {
