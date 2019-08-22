@@ -124,24 +124,24 @@ const FooterBar = ({ classes }) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img className={classes.img} src="static/icons8-facebook-circled-48.png" />
+              <img className={classes.img} src="/static/icons8-facebook-circled-48.png" />
             </a>
             <a href="https://www.instagram.com/entra.io/" target="_blank" rel="noopener noreferrer">
-              <img className={classes.img} src="static/icons8-instagram-old-50.png" />
+              <img className={classes.img} src="/static/icons8-instagram-old-50.png" />
             </a>
             <a
               href="https://www.linkedin.com/company/entraio/about"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img className={classes.img} src="static/icons8-linkedin-48.png" />
+              <img className={classes.img} src="/static/icons8-linkedin-48.png" />
             </a>
             <a
               href="https://www.twitter.com/entraio"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img className={classes.img} src="static/icons8-twitter-squared-48.png" />
+              <img className={classes.img} src="/static/icons8-twitter-squared-48.png" />
             </a>
           </ListItem>
         </List>
