@@ -82,6 +82,7 @@ class MainInfoDisplay extends Component {
           const me = data.me;
 
           const dateToFormat = this.props.user.createdAt;
+
           return (
             <Grid container className={classes.root} spacing={16}>
               <Grid item xs={2} className={classes.grid} />
@@ -103,7 +104,7 @@ class MainInfoDisplay extends Component {
               </Grid>
               <Grid item className={classes.grid} />
               <Grid item className={classes.grid}>
-                {this.handleEdit(me, user, classes)}
+                {me === undefined && this.handleEdit(me, user, classes)}
               </Grid>
               <Grid item xs={2} className={classes.grid} />
               <Grid item xs={2} className={classes.grid} />

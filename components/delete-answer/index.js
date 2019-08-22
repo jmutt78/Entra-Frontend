@@ -41,7 +41,12 @@ class DeleteAnswer extends Component {
             query: CURRENT_USER_QUERY
           },
           {
-            query: answersListQuery
+            query: answersListQuery,
+            variables: { filter: "my" }
+          },
+          {
+            query: answersListQuery,
+            variables: { filter: "approval" }
           }
         ]}
         update={this.update}

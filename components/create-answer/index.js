@@ -10,8 +10,9 @@ import Typography from "@material-ui/core/Typography";
 
 import Link from "next/link";
 
-import questionQuery from "../question-display/questionQuery.js";
+import questionQuery from "../question-display/questionQuery";
 import { CURRENT_USER_QUERY } from "../auth/User";
+import answersListQuery from "../answer-list/answerListQuery";
 
 const styles = ({ spacing, palette }) => ({
   container: {
@@ -52,8 +53,8 @@ const styles = ({ spacing, palette }) => ({
 });
 
 export const CREATE_ANSWER = gql`
-  mutation creatAnswer($questionId: ID!, $body: String!) {
-    createAnswer(questionId: $questionId, body: $body) {
+  mutation creatAnswer($questionId: ID!, $body: String!, $approval: Boolean) {
+    createAnswer(questionId: $questionId, body: $body, approval: $approval) {
       id
       body
     }
@@ -62,7 +63,8 @@ export const CREATE_ANSWER = gql`
 
 class CreateAnswer extends React.Component {
   state = {
-    body: ""
+    body: "",
+    approval: false
   };
 
   handleDescriptionChange = e => {
@@ -73,6 +75,7 @@ class CreateAnswer extends React.Component {
 
   submitForm = async (e, createQuestion) => {
     e.preventDefault();
+
     const res = await createQuestion({
       variables: {
         questionId: this.props.question.id,
@@ -156,7 +159,15 @@ class CreateAnswer extends React.Component {
                   query: questionQuery,
                   variables: { id: this.props.question.id }
                 },
-                { query: CURRENT_USER_QUERY }
+                { query: CURRENT_USER_QUERY },
+                {
+                  query: answersListQuery,
+                  variables: { filter: "my" }
+                },
+                {
+                  query: answersListQuery,
+                  variables: { filter: "approval" }
+                }
               ]}
             >
               {(createQuestion, { error, loading }) => {

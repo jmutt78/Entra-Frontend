@@ -26,6 +26,8 @@ import { withStyles } from "@material-ui/core/styles";
 
 import CreateTag from "./CreateTag";
 import { TAGS_QUERY } from "./Tags";
+import { CURRENT_USER_QUERY } from "../auth/User";
+import questionListQuery from "../question-list/questionListQuery";
 
 const styles = ({ layout, palette }) => ({
   container: {
@@ -84,8 +86,14 @@ export const CREATE_QUESTION_MUTATION = gql`
     $title: String!
     $description: String
     $tags: [TagInput!]!
+    $approval: Boolean
   ) {
-    createQuestion(title: $title, description: $description, tags: $tags) {
+    createQuestion(
+      title: $title
+      description: $description
+      tags: $tags
+      approval: $approval
+    ) {
       id
       title
       tags {
@@ -140,8 +148,19 @@ class CreateQuestion extends React.Component {
               variables={{
                 title,
                 description,
-                tags: tags.map(tag => ({ name: tag }))
+                tags: tags.map(tag => ({ name: tag })),
+                approval: false
               }}
+              refetchQueries={[
+                {
+                  query: questionListQuery,
+                  variables: { filter: "my" }
+                },
+                {
+                  query: questionListQuery,
+                  variables: { filter: "approval" }
+                }
+              ]}
             >
               {(createQuestion, { error, loading }) => {
                 return (
