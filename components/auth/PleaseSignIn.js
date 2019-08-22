@@ -4,8 +4,9 @@ import Signin from "./Signin";
 
 const PleaseSignIn = props => (
   <Query query={CURRENT_USER_QUERY}>
-    {({ data, loading }) => {
+    {({ data, loading, error }) => {
       if (loading) return <p>Loading...</p>;
+      if (error) return <p>Error</p>;
       if (!data.me) {
         return (
           <div>

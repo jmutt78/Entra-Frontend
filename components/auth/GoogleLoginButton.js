@@ -62,4 +62,5 @@ class GoogleLoginButton extends React.Component {
   }
 }
 
+export const GoogleLoginButtonWithoutApollo = withStyles(styles)(GoogleLoginButton);
 export default withStyles(styles)(withApollo(GoogleLoginButton));

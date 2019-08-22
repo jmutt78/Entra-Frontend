@@ -55,4 +55,5 @@ class FacebookLoginButton extends React.Component {
   }
 }
 
+export const FacebookLoginButtonWithoutApollo = withStyles(styles)(FacebookLoginButton);
 export default withStyles(styles)(withApollo(FacebookLoginButton));

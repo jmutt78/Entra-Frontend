@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import Error from "./../ErrorMessage.js";
 import { CURRENT_USER_QUERY } from "./User";
 
-const RESET_MUTATION = gql`
+export const RESET_MUTATION = gql`
   mutation RESET_MUTATION(
     $resetToken: String!
     $password: String!

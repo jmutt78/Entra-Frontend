@@ -17,8 +17,11 @@ class AprrovalQuestions extends Component {
           first: perPage
         }}
       >
-        {({ data: { questions }, loading }) => {
+        {({ loading, error, data }) => {
           if (loading) return <p>Loading...</p>;
+          if (error) return <p>Error</p>;
+          const { questions } = data;
+
           return <QuestionList questions={questions} filter={filter} />;
         }}
       </Query>
