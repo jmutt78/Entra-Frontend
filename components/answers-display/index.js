@@ -58,7 +58,12 @@ const Answers = ({ classes, question, user }) => {
             )}
 
             {answers.map(answer => (
-              <Answer answer={answer} user={user} question={question} />
+              <Answer
+                answer={answer}
+                user={user}
+                question={question}
+                key={answer.id}
+              />
             ))}
           </div>
         );

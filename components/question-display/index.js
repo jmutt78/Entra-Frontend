@@ -93,7 +93,7 @@ const Wrapper = ({ client, classes, id }) => {
         if (!question) {
           return <p>Question not found</p>;
         }
-        console.log(question);
+
         return (
           <DisplayQuestion
             question={question}

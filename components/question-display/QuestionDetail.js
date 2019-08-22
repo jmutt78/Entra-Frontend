@@ -93,6 +93,10 @@ const styles = ({ layout, palette, spacing }) => ({
     display: "flex",
     justifyContent: "space-between",
     padding: "10px 0 0 0"
+  },
+  tagButtons: {
+    display: "flex",
+    padding: "0 0 10px 0"
   }
 });
 
@@ -172,12 +176,12 @@ const QuestionDetail = ({
               scope="row"
               style={{ padding: "25px 35px" }}
             >
-              <Typography>
+              <div>
                 {description && <h3 className={classes.body}>{description}</h3>}
                 {tags && (
-                  <div style={{ display: "flex", padding: "0 0 10px 0" }}>
-                    <ButtonGroup aria-label="outlined primary button group">
-                      {tags.map(({ id, name }) => (
+                  <div className={classes.tagButtons}>
+                    {tags.map(({ id, name }) => (
+                      <div key={id}>
                         <Button
                           size="small"
                           variant="contained"
@@ -193,11 +197,11 @@ const QuestionDetail = ({
                         >
                           {name}
                         </Button>
-                      ))}
-                    </ButtonGroup>
+                      </div>
+                    ))}
                   </div>
                 )}
-              </Typography>
+              </div>
 
               <div style={{ paddingBottom: 10 }}>
                 <ApproveQuestion
@@ -210,7 +214,7 @@ const QuestionDetail = ({
 
               <EditButton question={question} user={user} classes={classes} />
 
-              <Typography className={classes.itemFooter}>
+              <div className={classes.itemFooter}>
                 <div className={classes.credits}>
                   <Link
                     href={{
@@ -247,7 +251,7 @@ const QuestionDetail = ({
                     }`}</span>
                   </div>
                 </Tooltip>
-              </Typography>
+              </div>
             </TableCell>
           </TableRow>
         </TableBody>

@@ -37,15 +37,13 @@ const styles = ({ spacing, palette }) => ({
     padding: "5px 0 15px 0",
     margin: 0,
     maxWidth: 800,
-    fontWeight: 300,
-
-    fontSize: "1.8rem",
+    fontSize: "40px",
     textAlign: "left",
     lineHeight: "2.5rem"
   },
   button: {
     margin: "20px 0 5px 0",
-    background: '#d5d5d5',
+    background: "#d5d5d5"
     // '&:hover': {
     //   background: '#2d3436',
     // },
@@ -101,8 +99,8 @@ class CreateAnswer extends React.Component {
         <div style={{ maxWidth: 600, marginLeft: "-10px" }}>
           <Divider variant="middle" />
         </div>
-        <Typography variant="display3" className={classes.title}>
-          <h2>Have an answer?</h2>
+        <Typography variant="h6" className={classes.title}>
+          Have an answer?
         </Typography>
 
         <form method="post" onSubmit={e => this.submitForm(e, createQuestion)}>
@@ -143,9 +141,9 @@ class CreateAnswer extends React.Component {
     return (
       <Query query={CURRENT_USER_QUERY}>
         {({ data, loading, error }) => {
-          if (loading) return <p>Loading...</p>
-          if (error) return <p>Error</p>
-          const user = data.me
+          if (loading) return <p>Loading...</p>;
+          if (error) return <p>Error</p>;
+          const user = data.me;
           if (!user) {
             return <div />;
           }
