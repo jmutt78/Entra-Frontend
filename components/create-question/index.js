@@ -170,10 +170,7 @@ class CreateQuestion extends React.Component {
                       <TableHead>
                         <TableRow>
                           <TableCell>
-                            <Typography
-                              variant="display3"
-                              className={classes.title}
-                            >
+                            <Typography variant="h6" className={classes.title}>
                               Ask a question
                             </Typography>
                           </TableCell>

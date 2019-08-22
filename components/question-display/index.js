@@ -177,10 +177,7 @@ class DisplayQuestion extends Component {
                   <TableHead>
                     <TableRow>
                       <TableCell>
-                        <Typography
-                          variant="display3"
-                          className={classes.title}
-                        >
+                        <Typography variant="h6" className={classes.title}>
                           {question.title}
                         </Typography>
                       </TableCell>

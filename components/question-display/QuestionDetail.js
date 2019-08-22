@@ -48,7 +48,7 @@ const styles = ({ layout, palette, spacing }) => ({
   },
   buttonTop: {
     backgroundColor: "#E27D60",
-    marginLeft: spacing.unit * 2
+    marginLeft: spacing(2)
   },
   textTop: {
     color: "white",
