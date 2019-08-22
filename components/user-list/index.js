@@ -6,6 +6,7 @@ import { perPage } from "../../config.js";
 import QuestionList from "../question-list";
 import userListQuery from "./userListQuery.js";
 import { USER_QUERY } from "../user-display";
+import Error from "./../ErrorMessage.js";
 
 class UserList extends Component {
   render() {
@@ -19,8 +20,9 @@ class UserList extends Component {
           id: this.props.id
         }}
       >
-        {({ data, loading }) => {
+        {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>;
+          if (error) return <Error error={error} />;
           const name = data.user.name;
 
           return (
@@ -33,9 +35,9 @@ class UserList extends Component {
                 first: perPage
               }}
             >
-              {({ data: { questions }, loading }) => {
+              {({ data: { questions }, loading, error }) => {
                 if (loading) return <p>Loading...</p>;
-                console.log(questions);
+                if (error) return <Error error={error} />;
 
                 return (
                   <QuestionList

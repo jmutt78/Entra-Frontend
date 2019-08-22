@@ -3,6 +3,7 @@ import { Query } from "react-apollo";
 import { perPage } from "../../config.js";
 import AnswerList from "./index";
 import answersListQuery from "./answerListQuery";
+import Error from "./../ErrorMessage.js";
 
 class AprrovalAnswers extends Component {
   render() {
@@ -18,7 +19,7 @@ class AprrovalAnswers extends Component {
       >
         {({ loading, error, data }) => {
           if (loading) return <p>Loading...</p>;
-          if (error) return <p>Error</p>;
+          if (error) return <Error error={error} />;
           const { answers } = data;
           return <AnswerList answers={answers} filter={filter} />;
         }}

@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import questionQuery from "../question-display/questionQuery.js";
 import gql from "graphql-tag";
 import Button from "@material-ui/core/Button";
+import Error from "./../ErrorMessage.js";
 
 export const APPROVE_ANSWER_MUTATION = gql`
   mutation updateAnswer($id: ID!, $approval: Boolean) {
@@ -98,6 +99,7 @@ class ApproveAnswer extends Component {
           if (approval === null) {
             return (
               <div>
+                <Error error={error} />
                 <Button
                   className={classes.buttonAccepted}
                   variant="contained"

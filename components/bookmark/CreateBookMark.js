@@ -7,6 +7,7 @@ import gql from "graphql-tag";
 import BookmarkBorder from "@material-ui/icons/BookmarkBorder";
 import { CURRENT_USER_QUERY } from "../auth/User";
 import questionQuery from "../question-display/questionQuery";
+import Error from "./../ErrorMessage.js";
 
 export const CREATE_BOOKMARK_MUTATION = gql`
   mutation createBookMark($questionId: ID!) {
@@ -119,6 +120,7 @@ class CreatBookMark extends Component {
           return (
             <div>
               {this.handleBookMark(user, question, classes, createBookMark)}
+              <Error error={error} />
             </div>
           );
         }}

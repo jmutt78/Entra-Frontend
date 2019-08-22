@@ -1,5 +1,5 @@
 import UpdateUser from "../../components/account/Edits";
-import { Query, Mutation } from "react-apollo";
+import { Query } from "react-apollo";
 import PleaseSignIn from "../../components/auth/PleaseSignIn";
 import { CURRENT_USER_QUERY } from "../../components/auth/User";
 

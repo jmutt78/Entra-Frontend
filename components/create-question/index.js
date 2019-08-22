@@ -1,86 +1,90 @@
-import React from 'react'
-import Router from 'next/router'
-import Typography from '@material-ui/core/Typography'
-import gql from 'graphql-tag'
-import { Mutation, Query } from 'react-apollo'
+import React from "react";
+import Router from "next/router";
+import Typography from "@material-ui/core/Typography";
+import gql from "graphql-tag";
+import { Mutation, Query } from "react-apollo";
+import Error from "./../ErrorMessage.js";
 
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
+import Table from "@material-ui/core/Table";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 
-import AddIcon from '@material-ui/icons/Add'
-import Button from '@material-ui/core/Button'
-import Checkbox from '@material-ui/core/Checkbox'
-import Fab from '@material-ui/core/Fab'
-import FilledInput from '@material-ui/core/FilledInput'
-import FormControl from '@material-ui/core/FormControl'
-import Grid from '@material-ui/core/Grid'
-import InputLabel from '@material-ui/core/InputLabel'
-import ListItemText from '@material-ui/core/ListItemText'
-import MenuItem from '@material-ui/core/MenuItem'
-import Select from '@material-ui/core/Select'
-import TextField from '@material-ui/core/TextField'
-import { withStyles } from '@material-ui/core/styles'
+import AddIcon from "@material-ui/icons/Add";
+import Button from "@material-ui/core/Button";
+import Checkbox from "@material-ui/core/Checkbox";
+import Fab from "@material-ui/core/Fab";
+import FilledInput from "@material-ui/core/FilledInput";
+import FormControl from "@material-ui/core/FormControl";
+import Grid from "@material-ui/core/Grid";
+import InputLabel from "@material-ui/core/InputLabel";
+import ListItemText from "@material-ui/core/ListItemText";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import TextField from "@material-ui/core/TextField";
+import { withStyles } from "@material-ui/core/styles";
 
-import CreateTag from './CreateTag'
-import { TAGS_QUERY } from './Tags'
+import CreateTag from "./CreateTag";
+import { TAGS_QUERY } from "./Tags";
 
 const styles = ({ layout, palette }) => ({
   container: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column"
   },
   table: {},
   title: {
-    fontSize: '40px',
-    textAlign: 'Left',
-    color: 'rgba(0, 0, 0, 0.87)',
+    fontSize: "40px",
+    textAlign: "Left",
+    color: "rgba(0, 0, 0, 0.87)"
   },
   inputField: {
-    width: '100%',
-    marginBottom: 30,
+    width: "100%",
+    marginBottom: 30
   },
   label: {
     marginLeft: 10,
-    marginBotom: 10,
+    marginBotom: 10
   },
   formContainer: {
-    width: '100%',
+    width: "100%",
     maxWidth: 1000,
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    justifyContent: "center"
   },
   form: {
-    width: '100%',
+    width: "100%",
     maxWidth: 500,
-    padding: '50px 0 0 0',
+    padding: "50px 0 0 0"
   },
   fieldset: {
     border: 0,
     padding: 0,
-    margin: 0,
+    margin: 0
   },
   formControl: {
-    width: '100%',
+    width: "100%"
   },
   tagsContainer: {
-    display: 'flex',
+    display: "flex"
   },
   tagButton: {
     marginLeft: 10,
-    background: '#e3e3e3',
+    background: "#e3e3e3"
   },
   buttonContainer: {
-    display: 'flex',
-    width: '100%',
-    justifyContent: 'flex-end',
-  },
-})
+    display: "flex",
+    width: "100%",
+    justifyContent: "flex-end"
+  }
+});
 
 export const CREATE_QUESTION_MUTATION = gql`
-  mutation createQuestion($title: String!, $description: String, $tags: [TagInput!]!) {
+  mutation createQuestion(
+    $title: String!
+    $description: String
+    $tags: [TagInput!]!
+  ) {
     createQuestion(title: $title, description: $description, tags: $tags) {
       id
       title
@@ -91,44 +95,44 @@ export const CREATE_QUESTION_MUTATION = gql`
       id
     }
   }
-`
+`;
 
 class CreateQuestion extends React.Component {
   state = {
     showCreateTagModal: false,
-    title: '',
-    description: '',
-    tags: [],
-  }
+    title: "",
+    description: "",
+    tags: []
+  };
   openCreateTagModal = () => {
-    this.setState({ showCreateTagModal: true })
-  }
+    this.setState({ showCreateTagModal: true });
+  };
   closeCreateTagModal = () => {
-    this.setState({ showCreateTagModal: false })
-  }
+    this.setState({ showCreateTagModal: false });
+  };
   handleTitleChange = e => {
     this.setState({
-      title: e.target.value,
-    })
-  }
+      title: e.target.value
+    });
+  };
   handleDescriptionChange = e => {
     this.setState({
-      description: e.target.value,
-    })
-  }
+      description: e.target.value
+    });
+  };
   handleTagsChange = e => {
     this.setState({
-      tags: e.target.value,
-    })
-  }
+      tags: e.target.value
+    });
+  };
   render() {
-    const { classes } = this.props
-    const { title, description, tags, showCreateTagModal } = this.state
+    const { classes } = this.props;
+    const { title, description, tags, showCreateTagModal } = this.state;
     return (
       <Query query={TAGS_QUERY}>
         {({ loading, data }) => {
           if (loading) {
-            return null
+            return null;
           }
           return (
             <Mutation
@@ -136,17 +140,21 @@ class CreateQuestion extends React.Component {
               variables={{
                 title,
                 description,
-                tags: tags.map(tag => ({ name: tag })),
+                tags: tags.map(tag => ({ name: tag }))
               }}
             >
               {(createQuestion, { error, loading }) => {
                 return (
                   <Grid container className={classes.container}>
+                    <Error error={error} />
                     <Table className={classes.table}>
                       <TableHead>
                         <TableRow>
                           <TableCell>
-                            <Typography variant="display3" className={classes.title}>
+                            <Typography
+                              variant="display3"
+                              className={classes.title}
+                            >
                               Ask a question
                             </Typography>
                           </TableCell>
@@ -158,23 +166,27 @@ class CreateQuestion extends React.Component {
                       <form
                         method="post"
                         onSubmit={async e => {
-                          e.preventDefault()
-                          const res = await createQuestion()
+                          e.preventDefault();
+                          const res = await createQuestion();
 
                           Router.push({
-                            pathname: '/question',
-                            query: { id: res.data.createQuestion.id },
-                          })
+                            pathname: "/question",
+                            query: { id: res.data.createQuestion.id }
+                          });
 
                           this.setState({
-                            title: '',
-                            description: '',
-                            tags: [],
-                          })
+                            title: "",
+                            description: "",
+                            tags: []
+                          });
                         }}
                         className={classes.form}
                       >
-                        <fieldset disabled={loading} aria-busy={loading} className={classes.fieldset}>
+                        <fieldset
+                          disabled={loading}
+                          aria-busy={loading}
+                          className={classes.fieldset}
+                        >
                           <FormControl className={classes.formControl}>
                             <label htmlFor="title">
                               <TextField
@@ -191,7 +203,10 @@ class CreateQuestion extends React.Component {
 
                           <div className={classes.tagsContainer}>
                             <FormControl className={classes.formControl}>
-                              <InputLabel htmlFor="tags" className={classes.label}>
+                              <InputLabel
+                                htmlFor="tags"
+                                className={classes.label}
+                              >
                                 Tag(s)
                               </InputLabel>
                               <Select
@@ -199,13 +214,22 @@ class CreateQuestion extends React.Component {
                                 value={tags}
                                 name="tags"
                                 onChange={this.handleTagsChange}
-                                input={<FilledInput name="tab" id="filled-age-native-simple" />}
-                                renderValue={selected => selected.join(', ')}
+                                input={
+                                  <FilledInput
+                                    name="tab"
+                                    id="filled-age-native-simple"
+                                  />
+                                }
+                                renderValue={selected => selected.join(", ")}
                                 className={classes.inputField}
                               >
                                 {data.tags.map(tag => (
                                   <MenuItem key={tag.name} value={tag.name}>
-                                    <Checkbox checked={this.state.tags.indexOf(tag.name) > -1} />
+                                    <Checkbox
+                                      checked={
+                                        this.state.tags.indexOf(tag.name) > -1
+                                      }
+                                    />
                                     <ListItemText primary={tag.name} />
                                   </MenuItem>
                                 ))}
@@ -240,7 +264,10 @@ class CreateQuestion extends React.Component {
                             </label>
                           </FormControl>
 
-                          <CreateTag open={showCreateTagModal} onClose={this.closeCreateTagModal} />
+                          <CreateTag
+                            open={showCreateTagModal}
+                            onClose={this.closeCreateTagModal}
+                          />
 
                           <div className={classes.buttonContainer}>
                             <Button variant="contained" type="submit">
@@ -251,14 +278,14 @@ class CreateQuestion extends React.Component {
                       </form>
                     </div>
                   </Grid>
-                )
+                );
               }}
             </Mutation>
-          )
+          );
         }}
       </Query>
-    )
+    );
   }
 }
 
-export default withStyles(styles)(CreateQuestion)
+export default withStyles(styles)(CreateQuestion);

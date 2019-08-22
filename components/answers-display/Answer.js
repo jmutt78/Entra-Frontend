@@ -4,7 +4,6 @@ import { format, parseISO } from "date-fns";
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import Icon from "../ui/Icon";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -30,7 +29,7 @@ const CREATE_ANSWER_VOTE_MUTATION = gql`
 
 const styles = ({ spacing, palette }) => ({
   body: {
-    color: '#2d3436',
+    color: "#2d3436",
     padding: "5px 0 15px 0",
     margin: 0,
     maxWidth: 800,
@@ -39,7 +38,7 @@ const styles = ({ spacing, palette }) => ({
   nameLink: {
     fontWeight: 500,
     textDecoration: "none",
-    color: '#2d3436'
+    color: "#e27d60"
   },
   tableRow: {
     background: palette.secondary.main
@@ -48,7 +47,7 @@ const styles = ({ spacing, palette }) => ({
     background: "#b8e994"
   },
   button: {
-    color: '#2d3436'
+    color: "#2d3436"
   },
   detailContainer: {
     padding: "5px 15px"
@@ -62,10 +61,10 @@ const styles = ({ spacing, palette }) => ({
     fontSize: 20
   },
   editButton: {
-    backgroundColor: '#85bdcb'
+    backgroundColor: "#85bdcb"
   },
   signupButton: {
-    backgroundColor: '#2d3436',
+    backgroundColor: "#2d3436",
     "&:hover": {
       // backgroundColor: palette.accent.main
     },
@@ -82,7 +81,7 @@ const styles = ({ spacing, palette }) => ({
     alignItems: "center"
   },
   viewsCount: {
-    color: '#2d3436',
+    color: "#2d3436",
     fontSize: "1.2rem",
     padding: "5px 0 5px 8px"
   },
@@ -103,12 +102,12 @@ const styles = ({ spacing, palette }) => ({
     cursor: "pointer"
   },
   upVote: {
-    color: '#e8a77f',
+    color: "#e8a77f",
     fontSize: "1.4rem",
     padding: "8px 8px 5px 0"
   },
   downVote: {
-    color: '#85bdcb',
+    color: "#85bdcb",
     fontSize: "1.4rem",
     padding: "8px 0 5px 8px"
   }
@@ -250,7 +249,7 @@ const Answer = ({ answer, classes, user, client, question }) => {
                     }}
                   >
                     <a className={classes.nameLink}>
-                      {answer.answeredBy.display[0]}
+                      {answer.answeredBy.display}
                     </a>
                   </Link>
                   <span>{` on `}</span>
