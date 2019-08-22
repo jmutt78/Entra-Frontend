@@ -98,8 +98,8 @@ const Navbar = ({ classes }) => {
     <div className="style-target" style={{ width: "100%" }}>
       <User>
         {({ data: { me } }) => (
-          <AppBar className={classes.appbar} position="static" key={me.id}>
-            <div className={classes.container} key={me.id}>
+          <AppBar className={classes.appbar} position="static">
+            <div className={classes.container}>
               <Typography className={classes.navigationContainer}>
                 {me &&
                   me.permissions.some(permission =>
@@ -125,9 +125,9 @@ const Navbar = ({ classes }) => {
                 ))}
               </Typography>
               <Avatar me={me} />
-              <Typography className={classes.avatarContainer}>
+              {me && <Typography className={classes.avatarContainer}>
                 {me.name}
-              </Typography>
+              </Typography>}
             </div>
           </AppBar>
         )}
