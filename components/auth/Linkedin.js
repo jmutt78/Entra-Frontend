@@ -1,0 +1,101 @@
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+
+export class LinkedIn extends Component {
+  static propTypes = {
+    className: PropTypes.string,
+    onFailure: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func.isRequired,
+    onClick: PropTypes.func,
+    disabled: PropTypes.bool,
+    clientId: PropTypes.string.isRequired,
+    redirectUri: PropTypes.string.isRequired,
+    renderElement: PropTypes.func
+  };
+
+  componentWillUnmount() {
+    window.removeEventListener("message", this.receiveMessage, false);
+    if (this.popup && !this.popup.closed) this.popup.close();
+  }
+
+  getUrl = () => {
+    const {
+      redirectUri,
+      clientId,
+      state,
+      scope,
+      supportIE,
+      redirectPath
+    } = this.props;
+    // TODO: Support IE 11
+    const scopeParam = scope
+      ? `&scope=${supportIE ? scope : encodeURI(scope)}`
+      : "";
+    const linkedInAuthenLink = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}${scopeParam}&state=${state}`;
+    if (supportIE) {
+      const redirectLink = `${
+        window.location.origin
+      }${redirectPath}?linkedin_redirect_url=${encodeURIComponent(
+        linkedInAuthenLink
+      )}`;
+      return redirectLink;
+    }
+    return linkedInAuthenLink;
+  };
+
+  receiveMessage = event => {
+    const { state } = this.props;
+    this.props.onSuccess(event.data);
+    console.log(event.data, "event data");
+    if (event.origin === window.location.origin) {
+      if (event.data.errorMessage && event.data.from === "Linked In") {
+        // Prevent CSRF attack by testing state
+        if (event.data.state !== state) {
+          this.popup && this.popup.close();
+          return;
+        }
+        this.props.onFailure(event.data);
+        this.popup && this.popup.close();
+      } else if (event.data.code && event.data.from === "Linked In") {
+        // Prevent CSRF attack by testing state
+        if (event.data.state !== state) {
+          this.popup && this.popup.close();
+          return;
+        }
+        this.props.onSuccess({ code: event.data.code });
+        this.popup && this.popup.close();
+      }
+    }
+  };
+
+  handleConnectLinkedInClick = e => {
+    if (e) {
+      e.preventDefault();
+    }
+    this.props.onClick && this.props.onClick();
+    this.popup = window.open(this.getUrl(), "_blank", "width=600,height=600");
+    window.removeEventListener("message", this.receiveMessage, false);
+    window.addEventListener("message", this.receiveMessage, false);
+  };
+
+  render() {
+    const { className } = this.props;
+    return (
+      <div className={className}>
+        <img
+          src="/static/linkedin.png"
+          alt="Login with Linkedin"
+          onClick={this.handleConnectLinkedInClick}
+        />
+      </div>
+    );
+  }
+}
+
+LinkedIn.defaultProps = {
+  disabled: false,
+  state: "fdsf78fyds7fm",
+  supportIE: false,
+  redirectPath: "/linkedin"
+};
+export default LinkedIn;

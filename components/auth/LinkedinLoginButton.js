@@ -4,6 +4,7 @@ import { CURRENT_USER_QUERY } from "./User";
 import Router from "next/router";
 import gql from "graphql-tag";
 import { withStyles } from "@material-ui/core/styles";
+import Linkedin from "./Linkedin";
 
 const LINKEDIN_LOGIN_MUTATION = gql`
   mutation LINKEDIN_LOGIN_MUTATION($name: String!, $email: String!) {
@@ -24,6 +25,7 @@ const styles = theme => ({
 
 class LinkedinLoginButton extends React.Component {
   onSuccess = response => {
+    console.log(response, "onSuccess");
     this.props.client
       .mutate({
         mutation: LINKEDIN_LOGIN_MUTATION,
@@ -37,11 +39,18 @@ class LinkedinLoginButton extends React.Component {
         Router.push("/");
       });
   };
+  onFailure = e => {};
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.container}>
-        <img src="/static/linkedin.png" alt="Login with Linkedin" />
+        <Linkedin
+          clientId={process.env.LINKEDIN_CLIENT_ID}
+          redirectUri="http://localhost:7777/signin"
+          onSuccess={this.onSuccess}
+          onFailure={this.onFailure}
+          redirectPath="/signin"
+        />
       </div>
     );
   }
