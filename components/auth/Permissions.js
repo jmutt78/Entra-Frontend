@@ -27,7 +27,7 @@ const UPDATE_PERMISSIONS_MUTATION = gql`
   }
 `;
 
-const ALL_USERS_QUERY = gql`
+export const ALL_USERS_QUERY = gql`
   query {
     users {
       id
@@ -56,32 +56,37 @@ class Permissions extends Component {
     const { classes } = this.props;
     return (
       <Query query={ALL_USERS_QUERY}>
-        {({ data, loading, error }) => (
-          <Paper className={classes.root}>
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Dispaly</TableCell>
-                  <TableCell>Email</TableCell>
-                  {possiblePermissions.map(permission => (
-                    <TableCell key={permission}>{permission}</TableCell>
-                  ))}
-                  <TableCell>👇🏻</TableCell>
-                </TableRow>
-              </TableHead>
+        {({ data, loading, error }) => {
+          if (loading) return <p>Loading...</p>;
+          if (error) return <p>Error</p>;
 
-              {data.users.map(users => (
-                <UserPermissions user={users} key={users.id} />
-              ))}
-            </Table>
-          </Paper>
-        )}
+          return (
+            <Paper className={classes.root}>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Dispaly</TableCell>
+                    <TableCell>Email</TableCell>
+                    {possiblePermissions.map(permission => (
+                      <TableCell key={permission}>{permission}</TableCell>
+                    ))}
+                    <TableCell>👇🏻</TableCell>
+                  </TableRow>
+                </TableHead>
+
+                {data.users.map(users => (
+                  <UserPermissions user={users} key={users.id} />
+                ))}
+              </Table>
+            </Paper>
+          )
+        }}
       </Query>
     );
   }
 }
 
-class UserPermissions extends React.Component {
+export class UserPermissions extends React.Component {
   static propTypes = {
     user: PropTypes.shape({
       name: PropTypes.string,
