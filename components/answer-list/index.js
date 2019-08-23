@@ -14,7 +14,7 @@ import gql from "graphql-tag";
 import ListItem from "../ListItem";
 
 const ANSWER_PAGINATION_QUERY = gql`
-  query PAGINATION_QUERY($filter: String!) {
+  query ANSWER_PAGINATION_QUERY($filter: String!) {
     answersConnection(filter: $filter) {
       aggregate {
         count

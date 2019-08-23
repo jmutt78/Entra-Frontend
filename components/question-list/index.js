@@ -22,7 +22,7 @@ const CustomTableCell = withStyles(theme => ({
 }))(TableCell);
 
 const QUESTION_PAGINATION_QUERY = gql`
-  query PAGINATION_QUERY($filter: String!) {
+  query QUESTION_PAGINATION_QUERY($filter: String!) {
     questionsConnection(filter: $filter) {
       aggregate {
         count
@@ -113,7 +113,7 @@ function QuestionList(props) {
         page={page}
         filter={filter}
         query={QUESTION_PAGINATION_QUERY}
-        connectionKey='questionsConnection'
+        connectionKey="questionsConnection"
       />
     </div>
   );
