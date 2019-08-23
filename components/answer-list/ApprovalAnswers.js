@@ -7,13 +7,14 @@ import Error from "./../ErrorMessage.js";
 
 class AprrovalAnswers extends Component {
   render() {
+    const { page } = this.props;
     const filter = "approval";
     return (
       <Query
         query={answersListQuery}
         variables={{
           filter,
-          skip: this.props.page * perPage - perPage,
+          skip: page * perPage - perPage,
           first: perPage
         }}
       >
@@ -21,7 +22,14 @@ class AprrovalAnswers extends Component {
           if (loading) return <p>Loading...</p>;
           if (error) return <Error error={error} />;
           const { answers } = data;
-          return <AnswerList answers={answers} filter={filter} />;
+          return (
+            <AnswerList
+              answers={answers}
+              filter={filter}
+              page={page}
+              enablePagination={true}
+            />
+          );
         }}
       </Query>
     );

@@ -7,13 +7,14 @@ import questionListQuery from "../question-list/questionListQuery";
 class AprrovalQuestions extends Component {
   render() {
     const filter = "approval";
+    const { page } = this.props;
     return (
       <Query
         query={questionListQuery}
         fetchPolicy="network-only"
         variables={{
           filter,
-          skip: this.props.page * perPage - perPage,
+          skip: page * perPage - perPage,
           first: perPage
         }}
       >
@@ -22,7 +23,14 @@ class AprrovalQuestions extends Component {
           if (error) return <p>Error</p>;
           const { questions } = data;
 
-          return <QuestionList questions={questions} filter={filter} />;
+          return (
+            <QuestionList
+              questions={questions}
+              filter={filter}
+              page={page}
+              name={"approval questions"}
+            />
+          );
         }}
       </Query>
     );

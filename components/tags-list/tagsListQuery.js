@@ -21,6 +21,7 @@ const TAG_LIST_QUERY = gql`
       upVotes
       downVotes
       askedBy {
+        id
         name
       }
       bookMark {
