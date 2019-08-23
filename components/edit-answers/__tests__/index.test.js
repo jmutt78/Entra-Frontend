@@ -7,29 +7,39 @@ import 'jest-matcher-one-of';
 import wait from 'waait';
 import { GraphQLError } from 'graphql';
 import ErrorComp from "../../ErrorMessage.js";
-import AnswerList from "../index";
-import AprrovalAnswers from '../ApprovalAnswers';
-import answersListQuery from "../answerListQuery";
+import UpdateAnswer, { SINGLE_ANSWER_QUERY } from "../index";
+import AnswerForm from "../AnswerForm";
 
 async function setup(shouldWait, shouldError=false, graphqlError=true) {
 
     let mocks;
+    const props = {
+        id: 1,
+    }
 
     if(!shouldError) {
 
         mocks = [
             {
                 request: {
-                    query: answersListQuery,
+                    query: SINGLE_ANSWER_QUERY,
                     variables: {
-                        filter: "approval",
-                        skip: 0,
-                        first: 10
+                        id: 1,
                     }
                 },
                 result: {
                     data: {
-                        answers: [],
+                        answer: {
+                            id: 1,
+                            body: 'answer',
+                            answeredTo: [
+                                {
+                                    id:2,
+                                },
+                            ],
+                            approval: '',
+                            answeredBy: [],
+                        },
                     },
                 },
             },
@@ -40,11 +50,9 @@ async function setup(shouldWait, shouldError=false, graphqlError=true) {
         mocks = [
             {
                 request: {
-                    query: answersListQuery,
+                    query: SINGLE_ANSWER_QUERY,
                     variables: {
-                        filter: "approval",
-                        skip: 0,
-                        first: 10
+                        id: 1,
                     },
                 },
                 result: {
@@ -58,11 +66,9 @@ async function setup(shouldWait, shouldError=false, graphqlError=true) {
         mocks = [
             {
                 request: {
-                    query: answersListQuery,
+                    query: SINGLE_ANSWER_QUERY,
                     variables: {
-                        filter: "approval",
-                        skip: 0,
-                        first: 10
+                        id: 1,
                     },
                 },
                 error: new Error('Network Error!'),
@@ -72,7 +78,7 @@ async function setup(shouldWait, shouldError=false, graphqlError=true) {
 
     const component = mount(
         <MockedProvider mocks={mocks} addTypename={false}>
-            <AprrovalAnswers page={1} />
+            <UpdateAnswer {...props} />
         </MockedProvider>
     )
 
@@ -86,11 +92,11 @@ async function setup(shouldWait, shouldError=false, graphqlError=true) {
     return {
         component: component,
         error: component.find(ErrorComp),
-        answerlist: component.find(AnswerList),
+        answerForm: component.find(AnswerForm),
     }
 }
 
-describe('AprrovalAnswers component', () => {
+describe('UpdateAnswer component', () => {
 
     it('should render loading state initially', async () => {
 
@@ -113,11 +119,11 @@ describe('AprrovalAnswers component', () => {
         expect(error.at(0).text()).toMatch(/^Shoot!Network error/)
     })
     
-    it('should render AnswerList', async () => {
+    it('should render AnswerForm', async () => {
 
-        const { answerlist } = await setup(true, false)
+        const { answerForm } = await setup(true)
         
-        expect(answerlist).toHaveLength(1)
+        expect(answerForm).toHaveLength(1)
     })
 
 })

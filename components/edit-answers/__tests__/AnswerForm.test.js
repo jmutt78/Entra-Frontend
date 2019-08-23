@@ -7,14 +7,23 @@ import { MockedProvider } from 'react-apollo/test-utils';
 import 'jest-matcher-one-of';
 import wait from 'waait';
 import TextField from "@material-ui/core/TextField";
-import Reset, { RESET_MUTATION } from '../Reset'
+import AnswerForm, { UPDATE_ANSWER_MUTATION } from '../AnswerForm'
 
 async function setup() {
+
+    const props = {
+        answer: {
+            body: 'answer',
+        }
+    }
 
     const mocks = [
         {
             request: {
-                query: RESET_MUTATION,
+                query: UPDATE_ANSWER_MUTATION,
+                variables: {
+                    body: "description"
+                }
             },
             result: {
                 data: {
@@ -25,7 +34,7 @@ async function setup() {
 
     const component = mount(
         <MockedProvider mocks={mocks} addTypename={false}>
-            <Reset />
+            <AnswerForm {...props} />
         </MockedProvider>
     )
 
@@ -37,12 +46,19 @@ async function setup() {
         component: component,
         typography: component.find(Typography),
         form: component.find('form'),
+        textField: component.find(TextField),
         button: component.find(Button),
-        textfield: component.find(TextField),
     }
 }
 
-describe('Reset component', () => {
+describe('AnswerForm component', () => {
+
+    it('should display title', async () => {
+
+        const { typography } = await setup()
+
+        expect(typography.at(0).text()).toMatch(/^Edit Answer/)
+    })
 
     it('should render form', async () => {
 
@@ -51,32 +67,18 @@ describe('Reset component', () => {
         expect(form).toHaveLength(1)
     })
 
-    it('should display title', async () => {
+    it('should render answer input', async () => {
 
-        const { typography } = await setup()
+        const { textField } = await setup()
 
-        expect(typography.at(0).text()).toMatch(/^Reset your password/)
+        expect(textField.at(0).prop('name')).toBe('body')
     })
 
-    it('should render TextField for password', async () => {
-
-        const { textfield } = await setup()
-
-        expect(textfield.at(0).prop('name')).toBe('password')
-    })
-
-    it('should render TextField for confirmPassword', async () => {
-
-        const { textfield } = await setup()
-
-        expect(textfield.at(1).prop('name')).toBe('confirmPassword')
-    })
-
-    it('should render submit button', async () => {
+    it('should render post button', async () => {
 
         const { button } = await setup()
 
-        expect(button.at(0).text()).toMatch(/^Reset Password/)
+        expect(button.at(0).children().text()).toBe('Post Answer')
     })
 
 })

@@ -5,15 +5,14 @@ import { Typography, TextField, Select, Fab, Button } from '@material-ui/core';
 import { MockedProvider } from 'react-apollo/test-utils';
 import 'jest-matcher-one-of';
 import wait from 'waait';
-import { GraphQLError } from 'graphql';
-import questionListQuery from "../../question-list/questionListQuery";
-import { PAGINATION_QUERY } from "../../pagination/paginationQuery.js";
-import MyQuestions from "../../my-questions";
+import MyBookMark from "../index";
 import QuestionList from "../../question-list";
+import questionListQuery from "../../question-list/questionListQuery";
 
 async function setup(shouldWait, shouldError) {
 
     let mocks;
+    const filter = "My BookMarked";
 
     if(!shouldError) {
 
@@ -22,27 +21,14 @@ async function setup(shouldWait, shouldError) {
                 request: {
                     query: questionListQuery,
                     variables: {
-                        filter: 'my',
+                        filter: filter,
                         skip: 0,
                         first: 10
                     }
                 },
                 result: {
                     data: {
-                        questions: [{ 
-                            id: '1',
-                            title: 'title',
-                            askedBy: [{id: 1, name: 'Steve'}],
-                            createdAt: '2019-08-15',
-                            answers: [],
-                            description: '',
-                            approval: '',
-                            tags: [],
-                            views: 0,
-                            upVotes: 0,
-                            downVotes: 0,
-                            bookMark: []
-                        }],
+                        questions: [],
                     },
                 },
             },
@@ -55,9 +41,9 @@ async function setup(shouldWait, shouldError) {
                 request: {
                     query: questionListQuery,
                     variables: {
-                        filter: "my",
+                        filter: filter,
                         skip: 0,
-                        first: 10,
+                        first: 10
                     },
                 },
                 error: new Error('Error while fetching data from server'),
@@ -67,7 +53,7 @@ async function setup(shouldWait, shouldError) {
 
     const component = mount(
         <MockedProvider mocks={mocks} addTypename={false}>
-            <MyQuestions page={1} />
+            <MyBookMark page={1} />
         </MockedProvider>
     )
 
@@ -80,11 +66,11 @@ async function setup(shouldWait, shouldError) {
 
     return {
         component: component,
-        questionlist: component.find(QuestionList)
+        questionList: component.find(QuestionList),
     }
 }
 
-describe('MyQuestions component', () => {
+describe('MyBookMark component', () => {
 
     it('should render loading state initially', async () => {
 
@@ -93,17 +79,18 @@ describe('MyQuestions component', () => {
         expect(component.text()).toMatch(/^Loading.../)
     })
 
-    it('should render QuestionList', async () => {
-
-        const { questionlist } = await setup(true, false)
-        
-        expect(questionlist).toHaveLength(1)
-    })
-
-    it('should show error UI when failed fetching data from server', async () => {
+    it('should show error when failed fetching data from server', async () => {
 
         const { component } = await setup(true, true)
       
         expect(component.text()).toMatch(/^Error/)
     })
+    
+    it('should render QuestionList', async () => {
+
+        const { questionList } = await setup(true, false)
+        
+        expect(questionList).toHaveLength(1)
+    })
+
 })

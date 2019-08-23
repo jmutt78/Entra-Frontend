@@ -11,10 +11,10 @@ const styles = theme => ({
     height: 70
   },
   grid: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   },
   root: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     marginTop: 40
   },
   title: {

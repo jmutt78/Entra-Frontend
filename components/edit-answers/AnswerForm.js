@@ -65,7 +65,7 @@ const styles = ({ layout, palette }) => ({
   }
 });
 
-const UPDATE_ANSWER_MUTATION = gql`
+export const UPDATE_ANSWER_MUTATION = gql`
   mutation updateAnswer($id: ID!, $body: String!, $approval: Boolean) {
     updateAnswer(id: $id, body: $body, approval: $approval) {
       id
@@ -173,4 +173,3 @@ class AnswerForm extends Component {
 }
 
 export default withStyles(styles)(AnswerForm);
-export { UPDATE_ANSWER_MUTATION };

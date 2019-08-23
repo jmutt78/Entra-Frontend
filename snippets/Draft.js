@@ -31,7 +31,7 @@ const CREATE_BLOG_MUTATION = gql`
 
 const styles = theme => ({
   root: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     marginTop: 40
   },
   RichEditorRoot: {
