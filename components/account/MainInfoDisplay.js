@@ -1,123 +1,110 @@
-import React, { Component } from "react";
-import { format, parseISO } from "date-fns";
-import { Query } from "react-apollo";
-import Link from "next/link";
-import Avatar from "@material-ui/core/Avatar";
-import { withStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import Error from "./../ErrorMessage.js";
+import React, { Component } from 'react'
+import { format, parseISO } from 'date-fns'
+import { Query } from 'react-apollo'
+import Link from 'next/link'
 
-import { CURRENT_USER_QUERY } from "../auth/User";
+import Avatar from '@material-ui/core/Avatar'
+import Button from '@material-ui/core/Button'
+import Divider from '@material-ui/core/Divider'
+import Typography from '@material-ui/core/Typography'
+import { withStyles } from '@material-ui/core/styles'
+
+import Error from './../ErrorMessage.js'
+
+import { CURRENT_USER_QUERY } from '../auth/User'
 
 const styles = theme => ({
+  container: {
+    width: '100%',
+    padding: '40px 0 20px 0',
+  },
   bigAvatar: {
     width: 120,
-    height: 120
+    height: 120,
   },
   grid: {
-    margin: theme.spacing(1)
+    margin: theme.spacing.unit,
   },
   root: {
-    margin: theme.spacing(1),
-    marginTop: 40
+    margin: theme.spacing.unit,
+    marginTop: 40,
   },
   divider: {
-    marginTop: theme.spacing(5)
+    marginTop: theme.spacing.unit * 5,
+    margin: theme.spacing(1),
   },
   about: {
     fontSize: 17,
-    color: "grey"
-  }
-});
+    color: 'grey',
+  },
+  avatarContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    paddingLeft: 10,
+  },
+  name: {
+    paddingLeft: '1.5rem',
+  },
+  detailsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: 20,
+  },
+})
 
 class MainInfoDisplay extends Component {
-  handleImage(user, classes) {
-    if (user.image == null || user.image == "") {
-      return (
-        <div>
-          <Avatar className={classes.bigAvatar}>{user.name[0]}</Avatar>
-        </div>
-      );
-    }
-    return (
-      <div>
-        <Avatar
-          alt="Remy Sharp"
-          src={user.image}
-          className={classes.bigAvatar}
-        />
-      </div>
-    );
-  }
-
-  handleEdit(me, user, classes) {
-    if (me.id === user.id) {
-      return (
-        <div>
-          <Typography>
-            <Link href="/account/editaccount">
-              <a style={{ textDecoration: "none", color: "grey" }}>
-                EDIT ACCOUNT INFO
-              </a>
-            </Link>
-          </Typography>
-        </div>
-      );
-    }
-    return <div />;
-  }
-
   render() {
     return (
       <Query query={CURRENT_USER_QUERY}>
         {({ data, loading, error }) => {
-          if (loading) return <p>Loading...</p>;
-          if (error) return <Error error={error} />;
+          if (loading) return <p>Loading...</p>
+          if (error) return <Error error={error} />
 
-          const { classes } = this.props;
+          const { classes } = this.props
 
-          const user = this.props.user;
-          const me = data.me;
+          const user = this.props.user
+          const me = data.me
 
-          const dateToFormat = this.props.user.createdAt;
+          const dateToFormat = this.props.user.createdAt
 
           return (
-            <Grid container className={classes.root} spacing={16}>
-              <Grid item xs={2} className={classes.grid} />
-              <Grid item xs={1} className={classes.grid}>
-                {this.handleImage(user, classes)}
-              </Grid>
-              <Grid item xs={4} className={classes.grid}>
-                <Typography variant="h4">{user.name}</Typography>
+            <div className={classes.container}>
+              <div className={classes.avatarContainer}>
+                {user.image ? (
+                  <Avatar src={user.image} className={classes.bigAvatar} />
+                ) : (
+                  <Avatar className={classes.bigAvatar}>{user.name[0]}</Avatar>
+                )}
+
+                <Typography variant="h4" className={classes.name}>
+                  {user.name}
+                </Typography>
+              </div>
+              <div className={classes.detailsContainer}>
                 <Typography variant="h6">{user.display}</Typography>
-                <Typography variant="subheading">
-                  Location: {user.location}
+                <Typography variant="subheading">Location: {user.location}</Typography>
+                <Typography variant="subheading">Industry: {user.industry}</Typography>
+                <Typography>Member Since {format(parseISO(dateToFormat), 'MMMM dd, yyyy')}</Typography>
+              </div>
+
+              {me.id === user.id ? (
+                <Typography style={{ padding: 20 }}>
+                  <Link href="/account/editaccount">
+                    <Button variant="contained" type="button">
+                      EDIT ACCOUNT INFO
+                    </Button>
+                  </Link>
                 </Typography>
-                <Typography variant="subheading">
-                  Industry: {user.industry}
-                </Typography>
-                <Typography>
-                  Member Since {format(parseISO(dateToFormat), "MMMM dd, yyyy")}
-                </Typography>
-              </Grid>
-              <Grid item className={classes.grid} />
-              <Grid item className={classes.grid}>
-                {me === undefined && this.handleEdit(me, user, classes)}
-              </Grid>
-              <Grid item xs={2} className={classes.grid} />
-              <Grid item xs={2} className={classes.grid} />
-              <Grid item xs={7} className={classes.grid}>
-                <Typography className={classes.about}>{user.about}</Typography>
-                <Divider className={classes.divider} variant="middle" />
-              </Grid>
-            </Grid>
-          );
+              ) : null}
+
+              <Typography className={classes.about}>{user.about}</Typography>
+              <Divider className={classes.divider} variant="middle" />
+            </div>
+          )
         }}
       </Query>
-    );
+    )
   }
 }
 
-export default withStyles(styles)(MainInfoDisplay);
+export default withStyles(styles)(MainInfoDisplay)
