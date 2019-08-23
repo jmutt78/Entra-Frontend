@@ -36,7 +36,15 @@ const DeleteQuestion = ({ id, classes }) => {
       refetchQueries={[
         {
           query: questionListQuery,
-          variables: { filter: ["my", "all"] }
+          variables: { filter: "my" }
+        },
+        {
+          query: questionListQuery,
+          variables: { filter: "approval" }
+        },
+        {
+          query: questionListQuery,
+          variables: { filter: "all" }
         }
       ]}
     >

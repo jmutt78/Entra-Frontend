@@ -136,7 +136,7 @@ class QuestionForm extends React.Component {
     const res = await updateQuestion({
       variables: {
         id: this.props.question.id,
-        approval: null,
+        approval: false,
 
         ...this.state,
         tags: this.state.tags.map(tag => ({
@@ -177,10 +177,7 @@ class QuestionForm extends React.Component {
                       <TableHead>
                         <TableRow>
                           <TableCell>
-                            <Typography
-                              variant="display3"
-                              className={classes.title}
-                            >
+                            <Typography variant="h6" className={classes.title}>
                               Edit question
                             </Typography>
                           </TableCell>

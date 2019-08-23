@@ -191,9 +191,13 @@ const Answer = ({ answer, classes, user, client, question }) => {
               scope="row"
               style={{ padding: "25px 35px" }}
             >
-              <Typography>
-                {answer.body && <h3 className={classes.body}>{answer.body}</h3>}
-              </Typography>
+              <div>
+                {answer.body && (
+                  <Typography className={classes.body}>
+                    {answer.body}
+                  </Typography>
+                )}
+              </div>
 
               <SelectAnswer
                 canSelect={user && question.askedBy[0].id === user.id}
@@ -219,7 +223,7 @@ const Answer = ({ answer, classes, user, client, question }) => {
                 question={question}
               />
 
-              <Typography className={classes.itemFooter}>
+              <div className={classes.itemFooter}>
                 <div className={classes.credits}>
                   <Link
                     href={{
@@ -285,7 +289,7 @@ const Answer = ({ answer, classes, user, client, question }) => {
                     </div>
                   </Tooltip>
                 </div>
-              </Typography>
+              </div>
             </TableCell>
           </TableRow>
         </TableBody>

@@ -96,7 +96,7 @@ class AnswerForm extends Component {
     const res = await updateAnswer({
       variables: {
         id: this.props.answer.id,
-        approval: null,
+        approval: false,
         ...this.state
       }
     });
@@ -120,7 +120,7 @@ class AnswerForm extends Component {
                 <TableHead>
                   <TableRow>
                     <TableCell>
-                      <Typography variant="display3" className={classes.title}>
+                      <Typography variant="h6" className={classes.title}>
                         Edit Answer
                       </Typography>
                     </TableCell>

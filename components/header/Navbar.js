@@ -109,6 +109,7 @@ const Navbar = ({ classes }) => {
                     <NavLink
                       activeClassName={classes.navLinkActive}
                       href={target}
+                      key={name}
                     >
                       <a className={classes.navLink}>{name}</a>
                     </NavLink>
@@ -125,9 +126,11 @@ const Navbar = ({ classes }) => {
                 ))}
               </Typography>
               <Avatar me={me} />
-              {me && <Typography className={classes.avatarContainer}>
-                {me.name}
-              </Typography>}
+              {me && (
+                <Typography className={classes.avatarContainer}>
+                  {me.name}
+                </Typography>
+              )}
             </div>
           </AppBar>
         )}
