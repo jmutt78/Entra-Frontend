@@ -10,7 +10,18 @@ import TableRow from "@material-ui/core/TableRow";
 import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
 import { upperFirst } from "lodash";
+import gql from "graphql-tag";
 import ListItem from "../ListItem";
+
+const ANSWER_PAGINATION_QUERY = gql`
+  query PAGINATION_QUERY($filter: String!) {
+    answersConnection(filter: $filter) {
+      aggregate {
+        count
+      }
+    }
+  }
+`;
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -25,7 +36,7 @@ const styles = ({ layout }) => ({
     justifyContent: "space-between",
     // width: layout.width,
     maxWidth: 1200,
-    height: "100%",
+    height: "100%"
     // minHeight: layout.contentMinHeight
   },
   title: {
@@ -42,7 +53,7 @@ const styles = ({ layout }) => ({
 
 class AnswerList extends Component {
   render() {
-    const { classes, answers, filter, page } = this.props;
+    const { classes, answers, filter, page, enablePagination } = this.props;
 
     const customColumnStyle = {
       maxWidth: ".3px"
@@ -87,7 +98,14 @@ class AnswerList extends Component {
             })}
           </TableBody>
         </Table>
-        <Pagination page={page} filter={filter} />
+        {enablePagination && (
+          <Pagination
+            page={page}
+            filter={filter}
+            query={ANSWER_PAGINATION_QUERY}
+            connectionKey="answersConnection"
+          />
+        )}
       </div>
     );
   }

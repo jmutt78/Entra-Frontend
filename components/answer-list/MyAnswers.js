@@ -6,13 +6,14 @@ import answersListQuery from "./answerListQuery.js";
 
 class MyAnswers extends Component {
   render() {
+    const { page } = this.props;
     const filter = "my";
     return (
       <Query
         query={answersListQuery}
         variables={{
           filter,
-          skip: this.props.page * perPage - perPage,
+          skip: page * perPage - perPage,
           first: perPage
         }}
       >
@@ -21,7 +22,14 @@ class MyAnswers extends Component {
           if (error) return <p>Error</p>;
           const { answers } = data;
 
-          return <AnswerList answers={answers} filter={filter} />;
+          return (
+            <AnswerList
+              answers={answers}
+              filter={filter}
+              page={page}
+              enablePagination={true}
+            />
+          );
         }}
       </Query>
     );
