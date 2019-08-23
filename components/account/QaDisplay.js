@@ -1,12 +1,8 @@
 import React, { Component } from "react";
 import Link from "next/link";
-import { Query } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Error from "./../ErrorMessage.js";
-
-import { PAGINATION_QUERY } from "../pagination/";
 
 const styles = theme => ({
   grid: {
@@ -46,100 +42,75 @@ class QaDisplay extends Component {
     return count;
   }
   render() {
-    const { classes } = this.props;
-
+    const { classes, user } = this.props;
+    const answers = user.myAnswers;
+    const userId = user.id;
+    const questions = user.myQuestions;
     return (
-      <Query
-        query={PAGINATION_QUERY}
-        variables={{
-          filter: "my"
-        }}
-        fetchPolicy="network-only"
-      >
-        {({ data, loading, error }) => {
-          if (loading) return <p>Loading...</p>;
-          if (error) return <Error error={error} />;
-          const user = this.props.user;
-          const answers = user.myAnswers;
-          const userId = user.id;
+      <Grid container className={classes.root} spacing={16}>
+        <Grid item xs={8} className={classes.grid}>
+          <Typography variant="h4">Activity</Typography>
+        </Grid>
 
-          const questions = user.myQuestions;
-
-          // //const question = data.questionsConnection.aggregate.count;
-          // //console.log(data.questionsConnection.aggregate);
-
-          return (
-            <Grid container className={classes.root} spacing={16}>
-              <Grid item xs={8} className={classes.grid}>
-                <Typography variant="h4">Activity</Typography>
-              </Grid>
-
-              <Grid item xs={2} className={classes.grid} />
-              <Grid item xs={1} className={classes.qaGrid}>
-                <Typography variant="h4" align="center">
-                  {user.myQuestions.length}
-                </Typography>
-                <Typography variant="h5" align="center">
-                  <Link
-                    href={{
-                      pathname: "/users",
-                      query: { id: userId }
-                    }}
-                  >
-                    <a className={classes.link}>Questions</a>
-                  </Link>
-                </Typography>
-              </Grid>
-              <Grid item xs={1} className={classes.qaGrid}>
-                <Typography variant="h4" align="center">
-                  {user.myAnswers.length}
-                </Typography>
-                <Typography variant="h5" align="center">
-                  <Link
-                    href={{
-                      pathname: "/answers",
-                      query: { id: userId }
-                    }}
-                  >
-                    <a className={classes.link}>Answers</a>
-                  </Link>
-                </Typography>
-              </Grid>
-              <Grid item xs={1} className={classes.qaGrid}>
-                <Typography variant="h4" align="center">
-                  {
-                    answers.filter((x, i) => {
-                      return x.selected;
-                    }).length
-                  }
-                </Typography>
-                <Typography variant="h5" align="center">
-                  <Link
-                    href={{
-                      pathname: "/selected",
-                      query: { id: userId }
-                    }}
-                  >
-                    <a className={classes.link}>Accepted Answers</a>
-                  </Link>
-                </Typography>
-              </Grid>
-              <Grid item xs={1} className={classes.qaGrid}>
-                <Typography variant="h4" align="center">
-                  {this.handlePointCount(questions, answers)}
-                </Typography>
-                <Typography
-                  variant="h5"
-                  align="center"
-                  className={classes.link}
-                >
-                  Points
-                </Typography>
-              </Grid>
-            </Grid>
-          );
-        }}
-      </Query>
+        <Grid item xs={2} className={classes.grid} />
+        <Grid item xs={1} className={classes.qaGrid}>
+          <Typography variant="h4" align="center">
+            {user.myQuestions.length}
+          </Typography>
+          <Typography variant="h5" align="center">
+            <Link
+              href={{
+                pathname: "/users",
+                query: { id: userId }
+              }}
+            >
+              <a className={classes.link}>Questions</a>
+            </Link>
+          </Typography>
+        </Grid>
+        <Grid item xs={1} className={classes.qaGrid}>
+          <Typography variant="h4" align="center">
+            {user.myAnswers.length}
+          </Typography>
+          <Typography variant="h5" align="center">
+            <Link
+              href={{
+                pathname: "/answers",
+                query: { id: userId }
+              }}
+            >
+              <a className={classes.link}>Answers</a>
+            </Link>
+          </Typography>
+        </Grid>
+        <Grid item xs={1} className={classes.qaGrid}>
+          <Typography variant="h4" align="center">
+            {
+              answers.filter((x, i) => {
+                return x.selected;
+              }).length
+            }
+          </Typography>
+          <Typography variant="h5" align="center">
+            <Link
+              href={{
+                pathname: "/selected",
+                query: { id: userId }
+              }}
+            >
+              <a className={classes.link}>Accepted Answers</a>
+            </Link>
+          </Typography>
+        </Grid>
+        <Grid item xs={1} className={classes.qaGrid}>
+          <Typography variant="h4" align="center">
+            {this.handlePointCount(questions, answers)}
+          </Typography>
+          <Typography variant="h5" align="center" className={classes.link}>
+            Points
+          </Typography>
+        </Grid>
+      </Grid>
     );
   }
 }
