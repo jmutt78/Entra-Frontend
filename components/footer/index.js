@@ -12,7 +12,7 @@ const styles = ({ palette }) => ({
     justifyContent: 'center',
   },
   creditBarText: {
-    color: palette.accent.blue,
+    color: '#85bdcb', //palette.accent.blue,
     padding: '1.5rem 2rem',
     fontSize: 18,
     fontWeight: 'bold',
@@ -28,7 +28,7 @@ const styles = ({ palette }) => ({
   },
 
   heading: {
-    color: palette.accent.blue,
+    color: '#85bdcb', //palette.accent.blue,
     fontSize: 17,
     fontWeight: 'bold',
   },
@@ -39,7 +39,7 @@ const styles = ({ palette }) => ({
     fontWeight: 500,
     cursor: 'pointer',
     '&:hover': {
-      color: palette.accent.blue,
+      color: '#85bdcb', //palette.accent.blue,
     },
   },
   img: {
@@ -49,7 +49,7 @@ const styles = ({ palette }) => ({
   },
 })
 
-const CreditBar = ({ classes }) => {
+export const CreditBar = ({ classes }) => {
   return (
     <div className={classes.creditBarContainer}>
       <Typography color="secondary" className={classes.creditBarText}>
@@ -59,7 +59,7 @@ const CreditBar = ({ classes }) => {
   )
 }
 
-const FooterBar = ({ classes }) => {
+export const FooterBar = ({ classes }) => {
   return (
     <div className="footerBarContainer">
       <div className={classes.paddingLeft} />

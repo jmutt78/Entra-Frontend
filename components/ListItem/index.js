@@ -11,7 +11,7 @@ import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import { withRouter } from "next/router";
 
-const CustomTableCell = withStyles(theme => ({
+export const CustomTableCell = withStyles(theme => ({
   head: {
     width: 5
   }

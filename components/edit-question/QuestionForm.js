@@ -75,7 +75,7 @@ const styles = ({ layout, palette }) => ({
   }
 });
 
-const UPDATE_QUESTION_MUTATION = gql`
+export const UPDATE_QUESTION_MUTATION = gql`
   mutation updateQuestion(
     $id: ID!
     $title: String!
