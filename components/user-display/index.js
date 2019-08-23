@@ -71,10 +71,10 @@ const USER_QUERY = gql`
 
 const styles = theme => ({
   grid: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   },
   root: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     marginTop: 40
   }
 });

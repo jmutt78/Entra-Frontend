@@ -5,10 +5,12 @@ import Link from "next/link";
 import { MockedProvider } from 'react-apollo/test-utils';
 import 'jest-matcher-one-of';
 import wait from 'waait';
+import { GraphQLError } from 'graphql';
+import ErrorComp from "../../ErrorMessage.js";
 import MainInfoDisplay from '../MainInfoDisplay'
 import { CURRENT_USER_QUERY } from '../../auth/User';
 
-async function setup(shouldWait, shouldError) {
+async function setup(shouldWait, shouldError=false, graphqlError=true) {
 
     let mocks;
 
@@ -66,7 +68,7 @@ async function setup(shouldWait, shouldError) {
             },
         ];
     } 
-    else {
+    else if(graphqlError) {
 
         mocks = [
             {
@@ -74,7 +76,21 @@ async function setup(shouldWait, shouldError) {
                     query: CURRENT_USER_QUERY,
                     variables: {},
                 },
-                error: new Error('Error while fetching data from server'),
+                result: {
+                    errors: [new GraphQLError('GraphQL Error!')]
+                }
+            },
+        ];
+    }
+    else if(!graphqlError) {
+
+        mocks = [
+            {
+                request: {
+                    query: CURRENT_USER_QUERY,
+                    variables: {},
+                },
+                error: new Error('Network Error!'),
             },
         ];
     }
@@ -94,6 +110,7 @@ async function setup(shouldWait, shouldError) {
 
     return {
         component: component,
+        error: component.find(ErrorComp),
         link: component.find(Link),
     }
 }
@@ -102,16 +119,23 @@ describe('MainInfoDisplay component', () => {
 
     it('should render loading state initially', async () => {
 
-        const { component } = await setup(false, false)
+        const { component } = await setup(false)
 
         expect(component.text()).toMatch(/^Loading.../)
     })
 
-    it('should show error when failed fetching data from server', async () => {
+    it('should show error when graphql errors occured fetching data from server', async () => {
 
-        const { component } = await setup(true, true)
+        const { error } = await setup(true, true, true)
       
-        expect(component.text()).toMatch(/^Error/)
+        expect(error.at(0).text()).toMatch(/^Shoot!GraphQL Error!/)
+    })
+
+    it('should show error when network errors occured fetching data from server', async () => {
+
+        const { error } = await setup(true, true, false)
+      
+        expect(error.at(0).text()).toMatch(/^Shoot!Network error/)
     })
     
     it('should display user name', async () => {

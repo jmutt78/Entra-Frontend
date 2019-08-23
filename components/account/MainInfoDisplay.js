@@ -23,14 +23,14 @@ const styles = theme => ({
     height: 120,
   },
   grid: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
   root: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     marginTop: 40,
   },
   divider: {
-    marginTop: theme.spacing.unit * 5,
+    marginTop: theme.spacing(5),
     margin: theme.spacing(1),
   },
   about: {

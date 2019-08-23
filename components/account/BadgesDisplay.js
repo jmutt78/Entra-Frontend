@@ -21,14 +21,14 @@ import Cached from '@material-ui/icons/Cached'
 
 const styles = theme => ({
   grid: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
   container: {
     width: '100%',
     padding: '10px 20px 50px 10px',
   },
   root: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     marginTop: 40,
   },
   badge: {
@@ -48,18 +48,18 @@ const styles = theme => ({
     justiftyContent: 'center',
     color: 'grey',
     alignItems: 'center',
-    marginLeft: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2,
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
   },
   awesomeAward: {
     justiftyContent: 'center',
     color: '#E27D60',
     alignItems: 'center',
-    marginLeft: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2,
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
   },
   title: {
-    color: theme.palette.accent.dark,
+    color: '#2d3436', //theme.palette.accent.dark,
     padding: '20px 0 0 20px',
     fontWeight: 'bold',
     textAlign: 'left',

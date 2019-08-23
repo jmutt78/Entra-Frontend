@@ -21,12 +21,12 @@ const styles = theme => ({
     marginTop: '-15px',
   },
   successText: {
-    color: theme.palette.accent.dark,
+    color: '#2d3436', //theme.palette.accent.dark,
     fontSize: '1.2rem',
     padding: '0 10px 25px 0',
   },
   text: {
-    color: theme.palette.accent.dark,
+    color: '#2d3436', //theme.palette.accent.dark,
     fontSize: '1.2rem',
     padding: '0 10px 28px 10px',
   },

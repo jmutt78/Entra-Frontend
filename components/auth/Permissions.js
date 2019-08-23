@@ -42,8 +42,8 @@ export const ALL_USERS_QUERY = gql`
 const styles = theme => ({
   root: {
     width: "80%",
-    margin: theme.spacing.unit * 15,
-    padding: theme.spacing.unit,
+    margin: theme.spacing(15),
+    padding: theme.spacing(1),
     overflowX: "auto"
   },
   table: {

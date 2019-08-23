@@ -7,7 +7,7 @@ import 'jest-matcher-one-of';
 import wait from 'waait';
 import { GraphQLError } from 'graphql';
 import questionListQuery from "../../question-list/questionListQuery";
-import { PAGINATION_QUERY } from "../../pagination"
+import { PAGINATION_QUERY } from "../../pagination/paginationQuery.js";
 import MyQuestions from "../../my-questions";
 import QuestionList from "../../question-list";
 

@@ -32,7 +32,7 @@ const styles = ({ spacing, palette }) => ({
     color: "grey"
   },
   title: {
-    color: palette.accent.dark,
+    color: '#2d3436', //palette.accent.dark,
     padding: "5px 0 0 20px",
     margin: 0,
     marginTop: 30,

@@ -23,15 +23,15 @@ const PRIVACY_QUERY = gql`
 
 const styles = theme => ({
   grid: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   },
   root: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     marginTop: 40
   },
   title: {
-    marginTop: theme.spacing.unit * 5,
-    marginBottom: theme.spacing.unit * 5,
+    marginTop: theme.spacing(5),
+    marginBottom: theme.spacing(5),
     color: "#343434",
     flexGrow: 1,
     textAlign: "center"
