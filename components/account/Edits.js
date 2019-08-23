@@ -113,11 +113,7 @@ const styles = ({ layout, palette, spacing }) => ({
 });
 
 class UpdateUser extends Component {
-  state = {
-    name: this.props.data.me.name,
-    email: this.props.data.me.email,
-    display: this.props.data.me.display
-  };
+  state = { ...this.props.data.me }
 
   handleChange = e => {
     const { name, type, value } = e.target;
@@ -196,10 +192,8 @@ class UpdateUser extends Component {
   }
 
   render() {
-    const user = this.props.data.me;
-    const id = this.props.data.me.id;
-    const image = this.state.image;
-    const userImageUrl = this.props.data.me.image;
+    const { image, id, me: user } = this.state
+
     const { classes } = this.props;
     return (
       <Mutation mutation={UPDATE_USER_MUTATION} variables={this.state}>
