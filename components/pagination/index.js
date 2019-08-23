@@ -32,24 +32,14 @@ const styles = ({ palette }) => ({
   }
 });
 
-const PAGINATION_QUERY = gql`
-  query PAGINATION_QUERY($filter: String!) {
-    questionsConnection(filter: $filter) {
-      aggregate {
-        count
-      }
-    }
-  }
-`;
-
-function Pagination({ filter, page, classes }) {
+function Pagination({ filter, page, classes, query, connectionKey }) {
   return (
-    <Query query={PAGINATION_QUERY} variables={{ filter: filter }}>
+    <Query query={query} variables={{ filter: filter }}>
       {({ data, loading, error }) => {
         if (loading) return <p>Loading...</p>;
         if (error) return <Error error={error} />;
 
-        const count = data.questionsConnection.aggregate.count;
+        const count = data[connectionKey].aggregate.count;
         const pages = Math.ceil(count / perPage);
 
         return (
@@ -71,4 +61,3 @@ function Pagination({ filter, page, classes }) {
 }
 
 export default withStyles(styles)(Pagination);
-export { PAGINATION_QUERY };
