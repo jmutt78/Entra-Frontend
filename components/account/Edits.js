@@ -136,7 +136,7 @@ class UpdateUser extends Component {
     });
   };
 
-  uploadFile = async (e, userImageUrl) => {
+  uploadFile = async (e) => {
     const files = e.target.files;
     const data = new FormData();
     data.append("file", files[0]);
@@ -192,9 +192,11 @@ class UpdateUser extends Component {
   }
 
   render() {
-    const { image, id, me: user } = this.state
-
+    const user = this.props.data.me;
+    const id = this.props.data.me.id;
+    const image = this.state.image;
     const { classes } = this.props;
+
     return (
       <Mutation mutation={UPDATE_USER_MUTATION} variables={this.state}>
         {(updateUser, { loading, error }) => (

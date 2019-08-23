@@ -1,7 +1,14 @@
 import React, { Component } from 'react'
 import Router from 'next/router'
+import gql from 'graphql-tag'
 import { Mutation, withApollo } from 'react-apollo'
 import Link from 'next/link'
+
+import Grid from '@material-ui/core/Grid'
+import Table from '@material-ui/core/Table'
+import TableCell from '@material-ui/core/TableCell'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
 import TextField from '@material-ui/core/TextField'
 import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
@@ -9,7 +16,7 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
-import gql from 'graphql-tag'
+
 import Error from './../ErrorMessage.js'
 import { CURRENT_USER_QUERY } from './User'
 import GoogleLoginButton from './GoogleLoginButton'
@@ -28,13 +35,19 @@ const SIGNIN_MUTATION = gql`
 const styles = theme => ({
   container: {
     display: 'flex',
-    width: '100%',
+    flexDirection: 'column',
+  },
+  title: {
+    fontSize: '40px',
+    textAlign: 'Left',
+    color: 'rgba(0, 0, 0, 0.87)',
   },
   formContainer: {
     width: '100%',
     maxWidth: 1000,
     display: 'flex',
     justifyContent: 'center',
+    padding: '60px 0 20px 0',
   },
   form: {
     width: '100%',
@@ -57,10 +70,6 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit,
     backgroundColor: '#E27D60',
   },
-  text: {
-    marginBottom: 20,
-  },
-
   signupPromptContainer: {
     width: '100%',
     backgroundColor: '#85BDCB',
@@ -116,84 +125,94 @@ class Signin extends Component {
         refetchQueries={[{ query: CURRENT_USER_QUERY }]}
       >
         {(signup, { error, loading }) => (
-          <div className={classes.formContainer}>
-            <form
-              method="post"
-              onSubmit={async e => {
-                e.preventDefault()
-                await signup()
+          <Grid container className={classes.container}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <Typography variant="display3" className={classes.title}>
+                      Sign In
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+            </Table>
+            <div className={classes.formContainer}>
+              <form
+                method="post"
+                onSubmit={async e => {
+                  e.preventDefault()
+                  await signup()
 
-                this.setState({ name: '', email: '', password: '' })
-                Router.push('/')
-              }}
-            >
-              <fieldset
-                disabled={loading}
-                aria-busy={loading}
-                style={{
-                  borderWidth: '0px',
-                  padding: '10px 0'
+                  this.setState({ name: '', email: '', password: '' })
+                  Router.push('/')
                 }}
               >
-                <Typography variant="h4" className={classes.text}>
-                  Sign in
-                </Typography>
+                <fieldset
+                  disabled={loading}
+                  aria-busy={loading}
+                  style={{
+                    borderWidth: '0px',
+                    padding: '10px 0',
+                  }}
+                >
+                  <Error error={error} />
 
-                <Error error={error} />
+                  <label htmlFor="email">
+                    <TextField
+                      type="email"
+                      name="email"
+                      placeholder="email"
+                      variant="filled"
+                      value={this.state.email}
+                      className={classes.inputField}
+                      onChange={this.saveToState}
+                    />
+                  </label>
+                  <label htmlFor="password">
+                    <TextField
+                      type="password"
+                      name="password"
+                      placeholder="password"
+                      variant="filled"
+                      value={this.state.password}
+                      onChange={this.saveToState}
+                      className={classes.inputField}
+                    />
+                  </label>
 
-                <label htmlFor="email">
-                  <TextField
-                    type="email"
-                    name="email"
-                    placeholder="email"
-                    variant="filled"
-                    value={this.state.email}
-                    className={classes.inputField}
-                    onChange={this.saveToState}
-                  />
-                </label>
-                <label htmlFor="password">
-                  <TextField
-                    type="password"
-                    name="password"
-                    placeholder="password"
-                    variant="filled"
-                    value={this.state.password}
-                    onChange={this.saveToState}
-                    className={classes.inputField}
-                  />
-                </label>
+                  <div>
+                    <Typography>
+                      <Button size="large" className={classes.button} type="submit">
+                        Log In!
+                      </Button>
 
-                <div>
-                  <Typography>
-                    <Button size="large" className={classes.button} type="submit">
-                      Log In!
-                    </Button>
-
-                    <Link href="/resetpage">
-                      <a
-                        style={{
-                          textDecoration: 'none',
-                          color: 'grey',
-                          marginLeft: 150,
-                        }}
-                      >
-                        FORGOT PASSWORD?
-                      </a>
-                    </Link>
-                  </Typography>
+                      <Link href="/resetpage">
+                        <a
+                          style={{
+                            textDecoration: 'none',
+                            color: 'grey',
+                            marginLeft: 150,
+                          }}
+                        >
+                          FORGOT PASSWORD?
+                        </a>
+                      </Link>
+                    </Typography>
+                  </div>
+                </fieldset>
+                <div
+                  style={{
+                    padding: '40px 0 0 0',
+                  }}
+                >
+                  <GoogleLoginButton />
+                  <FacebookLoginButton />
+                  <SignupPrompt classes={classes} />
                 </div>
-              </fieldset>
-              <div style={{
-                padding: '30px 0 0 0'
-              }}>
-                <GoogleLoginButton />
-                <FacebookLoginButton />
-                <SignupPrompt classes={classes} />
-              </div>
-
-            </form>
-          </div>
+              </form>
+            </div>
+          </Grid>
         )}
       </Mutation>
     )
