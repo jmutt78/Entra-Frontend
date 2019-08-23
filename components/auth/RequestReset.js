@@ -96,7 +96,7 @@ class ResetPassword extends Component {
                 <TableRow>
                   <TableCell>
                     <Typography variant="h6" className={classes.title}>
-                      Reset your password
+                      Request Password Reset
                     </Typography>
                   </TableCell>
                 </TableRow>

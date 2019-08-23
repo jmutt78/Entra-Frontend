@@ -1,12 +1,18 @@
 import React, { Component } from 'react'
 import { Mutation } from 'react-apollo'
-import TextField from '@material-ui/core/TextField'
-import { withStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
+
+import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
+import Table from '@material-ui/core/Table'
+import TableCell from '@material-ui/core/TableCell'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
+import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
+import { withStyles } from '@material-ui/core/styles'
+
 import Error from './../ErrorMessage.js'
 import { CURRENT_USER_QUERY } from './User'
 
@@ -23,40 +29,56 @@ export const RESET_MUTATION = gql`
 const styles = theme => ({
   container: {
     display: 'flex',
-
-    width: 100,
+    flexDirection: 'column',
+    marginTop: '-15px',
   },
-  root: {
-    marginTop: theme.spacing.unit * 10,
-    marginLeft: theme.spacing.unit * 5,
-  },
-  textField: {
-    marginLeft: 0,
-    marginRight: 0,
-    width: 500,
-    marginBottom: 30,
-  },
-  smallField: {
-    marginLeft: 0,
-    marginRight: 0,
-    width: 500,
-    marginBottom: 30,
-  },
-
-  bigAvatar: {
-    margin: 10,
-    width: 100,
-    height: 100,
-  },
-  rightIcon: {
-    marginLeft: theme.spacing.unit,
-  },
-  button: {
-    marginBottom: theme.spacing.unit,
-    backgroundColor: '#E27D60',
+  successText: {
+    color: theme.palette.accent.dark,
+    fontSize: '1.2rem',
+    padding: '0 10px 25px 0',
   },
   text: {
-    marginBottom: 20,
+    color: theme.palette.accent.dark,
+    fontSize: '1.2rem',
+    padding: '0 10px 28px 10px',
+  },
+  title: {
+    fontSize: '40px',
+    textAlign: 'Left',
+    color: 'rgba(0, 0, 0, 0.87)',
+  },
+  inputField: {
+    width: '100%',
+    marginBottom: 30,
+  },
+  label: {
+    marginLeft: 10,
+    marginBotom: 10,
+  },
+  formContainer: {
+    width: '100%',
+    maxWidth: 1000,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  form: {
+    width: '100%',
+    maxWidth: 500,
+    padding: '50px 0 0 0',
+  },
+  fieldset: {
+    border: 0,
+    padding: 0,
+    margin: 0,
+  },
+  formControl: {
+    width: '100%',
+  },
+  buttonContainer: {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'flex-end',
+    paddingTop: 10,
   },
 })
 
@@ -85,54 +107,64 @@ class Reset extends Component {
         refetchQueries={[{ query: CURRENT_USER_QUERY }]}
       >
         {(reset, { error, loading, called }) => (
-          <div style={{ width: '50%', margin: '0 auto', padding: '50px' }}>
-            <Error error={error} />
+          <Grid container className={classes.container}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <Typography variant="h6" className={classes.title}>
+                      Reset your password
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+            </Table>
 
-            <Typography className={classes.text}>
-              Reset Your Password {this.props.resetToken}
-            </Typography>
-
-            <form
-              method="post"
-              onSubmit={async e => {
-                e.preventDefault()
-                await reset()
-                this.setState({ password: '', confirmPassword: '' })
-              }}
-            >
-              <fieldset
-                disabled={loading}
-                aria-busy={loading}
-                style={{
-                  borderWidth: '0px',
+            <div className={classes.formContainer}>
+              <form
+                method="post"
+                onSubmit={async e => {
+                  e.preventDefault()
+                  await reset()
+                  this.setState({ password: '', confirmPassword: '' })
                 }}
+                className={classes.form}
               >
-                <h2>Reset Password</h2>
-                <Error error={error} />
-                <label htmlFor="email">
-                  <TextField
-                    type="password"
-                    name="password"
-                    placeholder="password"
-                    value={this.state.password}
-                    onChange={this.saveToState}
-                  />
-                </label>
-                <label htmlFor="confirmPassword">
-                  <TextField
-                    type="password"
-                    name="confirmPassword"
-                    placeholder="confirmPassword"
-                    value={this.state.confirmPassword}
-                    onChange={this.saveToState}
-                  />
-                </label>
-                <div>
-                  <Button type="submit">Reset Password!</Button>
-                </div>
-              </fieldset>
-            </form>
-          </div>
+                <fieldset className={classes.fieldset} disabled={loading} aria-busy={loading}>
+                  <Error error={error} />
+
+                  <label htmlFor="email">
+                    <TextField
+                      variant="filled"
+                      type="password"
+                      name="password"
+                      placeholder="password"
+                      value={this.state.password}
+                      onChange={this.saveToState}
+                      className={classes.inputField}
+                    />
+                  </label>
+                  <label htmlFor="confirmPassword">
+                    <TextField
+                      variant="filled"
+                      type="password"
+                      name="confirmPassword"
+                      placeholder="confirmPassword"
+                      value={this.state.confirmPassword}
+                      onChange={this.saveToState}
+                      className={classes.inputField}
+                    />
+                  </label>
+
+                  <div className={classes.buttonContainer}>
+                    <Button variant="contained" type="submit">
+                      Reset Password
+                    </Button>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+          </Grid>
         )}
       </Mutation>
     )
