@@ -23,7 +23,7 @@ const styles = theme => ({
   successText: {
     color: theme.palette.accent.dark,
     fontSize: '1.2rem',
-    padding: 0,
+    padding: '0 10px 25px 0',
   },
   text: {
     color: theme.palette.accent.dark,
