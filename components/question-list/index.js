@@ -11,7 +11,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import TableRow from "@material-ui/core/TableRow";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
-
+import gql from "graphql-tag";
 import ListItem from "../ListItem";
 import Pagination from "../pagination";
 
@@ -20,6 +20,16 @@ const CustomTableCell = withStyles(theme => ({
     width: 5
   }
 }))(TableCell);
+
+const QUESTION_PAGINATION_QUERY = gql`
+  query PAGINATION_QUERY($filter: String!) {
+    questionsConnection(filter: $filter) {
+      aggregate {
+        count
+      }
+    }
+  }
+`;
 
 const styles = ({ layout }) => ({
   container: {
@@ -99,7 +109,12 @@ function QuestionList(props) {
           })}
         </TableBody>
       </Table>
-      <Pagination page={page} filter={filter} />
+      <Pagination
+        page={page}
+        filter={filter}
+        query={QUESTION_PAGINATION_QUERY}
+        connectionKey='questionsConnection'
+      />
     </div>
   );
 }
