@@ -7,7 +7,7 @@ import './footer.css'
 
 const styles = ({ palette }) => ({
   creditBarContainer: {
-    background: palette.accent.dark,
+    background: '#2d3436',
     display: 'flex',
     justifyContent: 'center',
   },
@@ -34,7 +34,7 @@ const styles = ({ palette }) => ({
   },
   link: {
     fontSize: 16,
-    color: palette.accent.dark,
+    color: '#2d3436',
     textDecoration: 'none',
     fontWeight: 500,
     cursor: 'pointer',
@@ -124,24 +124,24 @@ const FooterBar = ({ classes }) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img className={classes.img} src="static/icons8-facebook-circled-48.png" />
+              <img className={classes.img} src="/static/icons8-facebook-circled-48.png" />
             </a>
             <a href="https://www.instagram.com/entra.io/" target="_blank" rel="noopener noreferrer">
-              <img className={classes.img} src="static/icons8-instagram-old-50.png" />
+              <img className={classes.img} src="/static/icons8-instagram-old-50.png" />
             </a>
             <a
               href="https://www.linkedin.com/company/entraio/about"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img className={classes.img} src="static/icons8-linkedin-48.png" />
+              <img className={classes.img} src="/static/icons8-linkedin-48.png" />
             </a>
             <a
               href="https://www.twitter.com/entraio"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img className={classes.img} src="static/icons8-twitter-squared-48.png" />
+              <img className={classes.img} src="/static/icons8-twitter-squared-48.png" />
             </a>
           </ListItem>
         </List>

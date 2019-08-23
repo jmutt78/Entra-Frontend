@@ -15,9 +15,9 @@ import TableRow from "@material-ui/core/TableRow";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 
+import Error from "./../ErrorMessage.js";
 import NoQuestion from "./NoQuestion";
 import QuestionDetail from "./QuestionDetail";
-import Icon from "../ui/Icon";
 import questionQuery from "./questionQuery";
 import { CURRENT_USER_QUERY } from "../auth/User";
 
@@ -93,6 +93,7 @@ const Wrapper = ({ client, classes, id }) => {
         if (!question) {
           return <p>Question not found</p>;
         }
+
         return (
           <DisplayQuestion
             question={question}
@@ -151,8 +152,9 @@ class DisplayQuestion extends Component {
 
     return (
       <Query query={CURRENT_USER_QUERY}>
-        {({ data, loading }) => {
+        {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>;
+          if (error) return <Error error={error} />;
           const user = data.me;
 
           const askedby = question.askedBy[0] || null;
@@ -175,10 +177,7 @@ class DisplayQuestion extends Component {
                   <TableHead>
                     <TableRow>
                       <TableCell>
-                        <Typography
-                          variant="display3"
-                          className={classes.title}
-                        >
+                        <Typography variant="h6" className={classes.title}>
                           {question.title}
                         </Typography>
                       </TableCell>

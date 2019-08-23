@@ -3,12 +3,13 @@ import { Mutation } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import questionQuery from "../question-display/questionQuery.js";
 import questionListQuery from "../question-list/questionListQuery";
+import Error from "./../ErrorMessage.js";
 import gql from "graphql-tag";
 import Button from "@material-ui/core/Button";
 import Bookmark from "@material-ui/icons/Bookmark";
 import { CURRENT_USER_QUERY } from "../auth/User";
 
-const DELETE_BOOKMARK_MUTATION = gql`
+export const DELETE_BOOKMARK_MUTATION = gql`
   mutation DELETE_BOOKMARK_MUTATION($id: ID!) {
     deleteBookMark(id: $id) {
       id
@@ -73,6 +74,7 @@ class DeleteBookMark extends Component {
             >
               Mark
             </Bookmark>
+            <Error error={error} />
           </div>
         )}
       </Mutation>

@@ -38,20 +38,20 @@ const styles = ({ layout, palette }) => ({
     visibility: "hidden"
   },
   button: {
-    margin: 12,
+    margin: 12
   },
   signupButton: {
+    backgroundColor: "#E27D60",
     margin: 12,
-    backgroundColor: palette.primary.dark,
     "&:hover": {
-      backgroundColor: palette.primary.main
+      backgroundColor: palette.accent.main
     }
   },
   loginButton: {
     margin: 12,
     backgroundColor: palette.accent.grey,
     "&:hover": {
-      backgroundColor: palette.primary.main
+      backgroundColor: palette.accent.main
     }
   },
   logo: {
@@ -69,18 +69,18 @@ const styles = ({ layout, palette }) => ({
     padding: "12px 10px 8px 10px",
     textDecoration: "none",
     "&:hover": {
-      color: palette.primary.dark
+      color: palette.accent.dark
     }
   },
   navLinkActive: {
     alignItems: "center",
-    color: palette.primary.dark,
+    color: palette.accent.dark,
     display: "flex",
     fontSize: "1.2rem",
     fontWeight: 500,
     height: layout.headerHeight,
     padding: "12px 10px 8px 10px"
-  },
+  }
 });
 
 const Appbar = ({ isLoggedIn, classes }) => {
@@ -102,7 +102,7 @@ const Appbar = ({ isLoggedIn, classes }) => {
           <div className={classes.subContainer}>
             <Typography variant="h6" className={classes.logoContainer}>
               <Link href="/">
-                <img src="static/logo.png" className={classes.logo} />
+                <img src="/static/logo.png" className={classes.logo} />
               </Link>
             </Typography>
           </div>
@@ -124,11 +124,7 @@ const Appbar = ({ isLoggedIn, classes }) => {
               if (!me) {
                 return (
                   <Typography
-                    className={
-                      me
-                        ? classes.hidden
-                        : classes.subContainer
-                    }
+                    className={me ? classes.hidden : classes.subContainer}
                   >
                     <Link href="/signin">
                       <Button

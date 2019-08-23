@@ -3,12 +3,13 @@ import { format, parseISO } from 'date-fns'
 import { Query } from 'react-apollo'
 import Link from 'next/link'
 
-import Button from "@material-ui/core/Button";
 import Avatar from '@material-ui/core/Avatar'
-import { withStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
+import Typography from '@material-ui/core/Typography'
+import { withStyles } from '@material-ui/core/styles'
+
+import Error from './../ErrorMessage.js'
 
 import { CURRENT_USER_QUERY } from '../auth/User'
 
@@ -30,6 +31,7 @@ const styles = theme => ({
   },
   divider: {
     marginTop: theme.spacing.unit * 5,
+    margin: theme.spacing(1),
   },
   about: {
     fontSize: 17,
@@ -51,23 +53,20 @@ const styles = theme => ({
 })
 
 class MainInfoDisplay extends Component {
-  handleImage(user, classes) {}
-
-  handleEdit(me, user, classes) {
-    return <div />
-  }
-
   render() {
     return (
       <Query query={CURRENT_USER_QUERY}>
-        {({ data, loading }) => {
+        {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>
+          if (error) return <Error error={error} />
+
           const { classes } = this.props
 
           const user = this.props.user
           const me = data.me
 
           const dateToFormat = this.props.user.createdAt
+
           return (
             <div className={classes.container}>
               <div className={classes.avatarContainer}>
@@ -89,7 +88,7 @@ class MainInfoDisplay extends Component {
               </div>
 
               {me.id === user.id ? (
-                <Typography style={{padding: 20}}>
+                <Typography style={{ padding: 20 }}>
                   <Link href="/account/editaccount">
                     <Button variant="contained" type="button">
                       EDIT ACCOUNT INFO

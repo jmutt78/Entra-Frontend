@@ -8,8 +8,9 @@ import { withStyles } from "@material-ui/core/styles";
 import questionQuery from "../question-display/questionQuery.js";
 import answersListQuery from "../answer-list/answerListQuery";
 import { CURRENT_USER_QUERY } from "../auth/User";
+import Error from "./../ErrorMessage.js";
 
-const DELETE_ANSWER_MUTATION = gql`
+export const DELETE_ANSWER_MUTATION = gql`
   mutation DELETE_ANSWER_MUTATION($id: ID!) {
     deleteAnswer(id: $id) {
       id
@@ -40,7 +41,12 @@ class DeleteAnswer extends Component {
             query: CURRENT_USER_QUERY
           },
           {
-            query: answersListQuery
+            query: answersListQuery,
+            variables: { filter: "my" }
+          },
+          {
+            query: answersListQuery,
+            variables: { filter: "approval" }
           }
         ]}
         update={this.update}
@@ -60,9 +66,7 @@ class DeleteAnswer extends Component {
             >
               DELETE
             </Button>
-            <div style={{ color: "red" }}>
-              {error && error.message.replace("GraphQL error: ", "")}
-            </div>
+            <Error error={error} />
           </>
         )}
       </Mutation>

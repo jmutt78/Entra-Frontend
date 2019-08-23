@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import Link from 'next/link'
 import { Query } from 'react-apollo'
-import { withStyles } from '@material-ui/core/styles'
+
+import Error from './../ErrorMessage.js'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
+import { withStyles } from '@material-ui/core/styles'
 
 import { PAGINATION_QUERY } from '../pagination/'
 
@@ -20,6 +22,10 @@ const styles = ({ spacing, palette }) => ({
     marginLeft: spacing.unit * 9,
     marginRight: spacing.unit * 9,
     padding: '30px',
+  },
+  grid: {
+    marginBottom: spacing(4),
+    marginLeft: spacing(2),
   },
   link: {
     textDecoration: 'none',
@@ -63,8 +69,9 @@ class QaDisplay extends Component {
         }}
         fetchPolicy="network-only"
       >
-        {({ data, loading }) => {
+        {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>
+          if (error) return <Error error={error} />
           const user = this.props.user
           const answers = user.myAnswers
           const userId = user.id

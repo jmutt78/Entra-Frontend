@@ -26,10 +26,10 @@ const styles = ({ layout }) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    width: layout.width,
+    // width: layout.width,
     maxWidth: 1200,
-    height: "100%",
-    minHeight: layout.contentMinHeight
+    height: "100%"
+    // minHeight: layout.contentMinHeight
   },
   title: {
     fontSize: "40px",
@@ -83,7 +83,6 @@ function QuestionList(props) {
         </TableHead>
         <TableBody>
           {questions.map(question => {
-            console.log(question);
             return (
               <ListItem
                 item={question}

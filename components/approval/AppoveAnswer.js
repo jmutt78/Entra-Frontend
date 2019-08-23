@@ -4,8 +4,10 @@ import { withStyles } from "@material-ui/core/styles";
 import questionQuery from "../question-display/questionQuery.js";
 import gql from "graphql-tag";
 import Button from "@material-ui/core/Button";
+import Error from "./../ErrorMessage.js";
+import answersListQuery from "../answer-list/answerListQuery";
 
-const APPROVE_ANSWER_MUTATION = gql`
+export const APPROVE_ANSWER_MUTATION = gql`
   mutation updateAnswer($id: ID!, $approval: Boolean) {
     updateAnswer(id: $id, approval: $approval) {
       id
@@ -91,6 +93,10 @@ class ApproveAnswer extends Component {
           {
             query: questionQuery,
             variables: { id: this.props.questionId }
+          },
+          {
+            query: answersListQuery,
+            variables: { filter: "approval" }
           }
         ]}
       >
@@ -98,6 +104,7 @@ class ApproveAnswer extends Component {
           if (approval === null) {
             return (
               <div>
+                <Error error={error} />
                 <Button
                   className={classes.buttonAccepted}
                   variant="contained"

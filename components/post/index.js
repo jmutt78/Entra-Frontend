@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Query, Mutation } from "react-apollo";
+import { Query } from "react-apollo";
 
 import gql from "graphql-tag";
-import { format, parseISO } from "date-fns";
 
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -10,8 +9,6 @@ import Typography from "@material-ui/core/Typography";
 import CardMedia from "@material-ui/core/CardMedia";
 
 import Error from "../ErrorMessage";
-import Head from "next/head";
-//// NOTE: margin for WP margin-left:-35px
 
 const BLOG_QUERY = gql`
   query BLOG_QUERY($id: ID!) {
@@ -67,8 +64,9 @@ class DisplayBlog extends Component {
           id: this.props.id
         }}
       >
-        {({ data: { post }, loading }) => {
+        {({ data: { post }, loading, error }) => {
           if (loading) return <p>Loading...</p>;
+          if (error) return <Error error={error} />;
           function createMarkup() {
             return { __html: createMarkup() };
           }
@@ -77,6 +75,7 @@ class DisplayBlog extends Component {
               <Grid item xs={3} />
 
               <Grid item xs={6} className={classes.grid}>
+                <Error error={error} />
                 <Typography className={classes.title} variant="h2">
                   {post.title}
                 </Typography>

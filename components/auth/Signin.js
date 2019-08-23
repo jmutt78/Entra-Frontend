@@ -22,7 +22,7 @@ import { CURRENT_USER_QUERY } from './User'
 import GoogleLoginButton from './GoogleLoginButton'
 import FacebookLoginButton from './FacebookLoginButton'
 
-const SIGNIN_MUTATION = gql`
+export const SIGNIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
     signin(email: $email, password: $password) {
       id
@@ -67,7 +67,7 @@ const styles = theme => ({
     width: '100%',
   },
   button: {
-    marginBottom: theme.spacing.unit,
+    marginBottom: theme.spacing(1),
     backgroundColor: '#E27D60',
   },
   signupPromptContainer: {
@@ -84,7 +84,7 @@ const styles = theme => ({
 
   signupButton: {
     backgroundColor: '#E27D60',
-    marginLeft: theme.spacing.unit * 2,
+    marginLeft: theme.spacing(2),
   },
   signupText: {
     color: 'white',
@@ -92,7 +92,7 @@ const styles = theme => ({
   },
 })
 
-const SignupPrompt = ({ classes }) => {
+export const SignupPrompt = ({ classes }) => {
   return (
     <AppBar className={classes.signupPromptContainer} position="static">
       <Toolbar className={classes.flexContainer}>

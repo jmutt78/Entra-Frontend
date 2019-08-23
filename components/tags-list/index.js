@@ -6,6 +6,7 @@ import { perPage } from "../../config.js";
 import QuestionList from "../question-list";
 import tagsListQuery from "./tagsListQuery.js";
 import { useQuery } from "@apollo/react-hooks";
+import Error from "./../ErrorMessage.js";
 
 const TAG_QUERY = gql`
   query TAG_QUERY($id: ID!) {
@@ -28,8 +29,9 @@ class TagsList extends Component {
           id: this.props.id
         }}
       >
-        {({ data, loading }) => {
+        {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>;
+          if (error) return <Error error={error} />;
           const name = data.tag.name;
           return (
             <Query

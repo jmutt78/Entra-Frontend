@@ -25,7 +25,7 @@ const styles = theme => ({
   },
   container: {
     width: '100%',
-    padding: '10px 20px 50px 10px'
+    padding: '10px 20px 50px 10px',
   },
   root: {
     margin: theme.spacing.unit,
@@ -122,7 +122,7 @@ const badgesConfig = {
   },
 }
 
-function BadgeItem({ type, classes }) {
+export function BadgeItem({ type, classes }) {
   const badgeConfig = badgesConfig[type]
   const { title, icon: Icon } = badgeConfig
   return (
@@ -135,7 +135,7 @@ function BadgeItem({ type, classes }) {
   )
 }
 
-function BadgesList({ badges, classes }) {
+export function BadgesList({ badges, classes }) {
   const yourBadges = pickBy(badges, value => value === true)
   const badgeKeys = Object.keys(yourBadges)
   if (!badgeKeys.length) {
@@ -154,7 +154,7 @@ function BadgesList({ badges, classes }) {
   )
 }
 
-class BadgesDisplay extends Component {
+export class BadgesDisplay extends Component {
   render() {
     const { classes } = this.props
     const user = this.props.user
@@ -164,11 +164,13 @@ class BadgesDisplay extends Component {
         <Card className={classes.card}>
           <Grid container className={classes.root} spacing={16}>
             <Grid item xs={11} className={classes.badgeTitle}>
-              <Typography variant="h4" className={classes.title}>Badges</Typography>
-      </Grid>
-    </Grid>
-    <BadgesList badges={user.badges} classes={classes} />
-      </Card>
+              <Typography variant="h4" className={classes.title}>
+                Badges
+              </Typography>
+            </Grid>
+          </Grid>
+          <BadgesList badges={user.badges} classes={classes} />
+        </Card>
       </div>
     )
   }

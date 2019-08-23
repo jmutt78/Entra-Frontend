@@ -1,32 +1,32 @@
-import React from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import React from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
-import Button from '@material-ui/core/Button'
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
-import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
+import Button from "@material-ui/core/Button";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@material-ui/core/styles";
 
-import { perPage } from '../../config.js'
+import { perPage } from "../../config.js";
 
 const styles = ({ palette }) => ({
   container: {
     flexShrink: 0,
     color: palette.text.secondary,
-    marginLeft: '1.8rem',
+    marginLeft: "1.8rem"
   },
   button: {
     margin: 5,
-    backgroundColor: palette.accent.grey,
-    '&:hover': {
-      backgroundColor: palette.primary.main,
-    },
-  },
-})
+    backgroundColor: "#b2bec3",
+    "&:hover": {
+      backgroundColor: palette.primary.main
+    }
+  }
+});
 
 function PaginationActions({ classes, page, pages }) {
-  const { pathname } = useRouter()
+  const { pathname } = useRouter();
 
   return (
     <Typography className={classes.container}>
@@ -34,14 +34,14 @@ function PaginationActions({ classes, page, pages }) {
         prefetch
         href={{
           pathname,
-          query: { page: page - 1 },
+          query: { page: page - 1 }
         }}
       >
         <Button
           variant="contained"
           color="secondary"
           className={classes.button}
-          style={page <= 1 ? { display: 'none' } : {}}
+          style={page <= 1 ? { display: "none" } : {}}
           size="small"
         >
           <KeyboardArrowLeft />
@@ -53,14 +53,14 @@ function PaginationActions({ classes, page, pages }) {
         prefetch
         href={{
           pathname,
-          query: { page: page + 1 },
+          query: { page: page + 1 }
         }}
       >
         <Button
           variant="contained"
           color="secondary"
           className={classes.button}
-          style={page >= pages ? { display: 'none' } : {}}
+          style={page >= pages ? { display: "none" } : {}}
           size="small"
         >
           {` Next Page`}
@@ -68,7 +68,7 @@ function PaginationActions({ classes, page, pages }) {
         </Button>
       </Link>
     </Typography>
-  )
+  );
 }
 
-export default withStyles(styles)(PaginationActions)
+export default withStyles(styles)(PaginationActions);

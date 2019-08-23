@@ -4,6 +4,7 @@ import { format, parseISO } from "date-fns";
 import QaDisplay from "../account/QaDisplay";
 import MainInfoDisplay from "../account/MainInfoDisplay";
 import BadgesDisplay from "../account/BadgesDisplay";
+import Error from "./../ErrorMessage.js";
 
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -88,8 +89,9 @@ class DisplayUser extends Component {
           id: this.props.id
         }}
       >
-        {({ data, loading, variables }) => {
+        {({ data, loading, variables, error }) => {
           if (loading) return <p>Loading...</p>;
+          if (error) return <Error error={error} />;
           const user = data.user;
           return (
             <Grid container className={classes.root} spacing={16}>

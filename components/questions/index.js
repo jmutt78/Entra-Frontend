@@ -3,6 +3,7 @@ import { Query } from "react-apollo";
 import { perPage } from "../../config.js";
 import QuestionList from "../question-list";
 import questionListQuery from "../question-list/questionListQuery";
+import Error from "./../ErrorMessage.js";
 
 class Questions extends Component {
   render() {
@@ -17,8 +18,9 @@ class Questions extends Component {
           first: perPage
         }}
       >
-        {({ data: { questions }, loading }) => {
+        {({ data: { questions }, loading, error }) => {
           if (loading) return <p>Loading...</p>;
+          if (error) return <Error error={error} />;
           return (
             <QuestionList
               questions={questions}

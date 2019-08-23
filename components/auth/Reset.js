@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import Error from "./../ErrorMessage.js";
 import { CURRENT_USER_QUERY } from "./User";
 
-const RESET_MUTATION = gql`
+export const RESET_MUTATION = gql`
   mutation RESET_MUTATION(
     $resetToken: String!
     $password: String!
@@ -92,6 +92,7 @@ class Reset extends Component {
       >
         {(reset, { error, loading, called }) => (
           <div style={{ width: "50%", margin: "0 auto", padding: "50px" }}>
+            <Error error={error} />
             <form
               method="post"
               onSubmit={async e => {
