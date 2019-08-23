@@ -23,6 +23,7 @@ const styles = theme => ({
     width: '100%',
     background: '#4c69ba',
     margin: '10px 0',
+    padding: 5,
   }
 });
 

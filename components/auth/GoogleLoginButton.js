@@ -21,8 +21,7 @@ const styles = theme => ({
     display: "flex",
     justifyContent: "center",
     width: '100%',
-    padding: "10px 0",
-    background: '#4285F4',
+    padding: "12px 0",
     background: '#dedede',
     margin: '10px 0',
   }

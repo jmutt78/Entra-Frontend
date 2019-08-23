@@ -7,7 +7,6 @@ import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import gql from 'graphql-tag'
@@ -67,6 +66,7 @@ const styles = theme => ({
     backgroundColor: '#85BDCB',
     boxShadow: 'none',
     margin: '10px 0 30px 0',
+    padding: '2px 0',
   },
   flexContainer: {
     display: 'flex',
@@ -132,6 +132,7 @@ class Signin extends Component {
                 aria-busy={loading}
                 style={{
                   borderWidth: '0px',
+                  padding: '10px 0'
                 }}
               >
                 <Typography variant="h4" className={classes.text}>
@@ -139,8 +140,6 @@ class Signin extends Component {
                 </Typography>
 
                 <Error error={error} />
-
-                <SignupPrompt classes={classes} />
 
                 <label htmlFor="email">
                   <TextField
@@ -185,8 +184,14 @@ class Signin extends Component {
                   </Typography>
                 </div>
               </fieldset>
-              <GoogleLoginButton />
-              <FacebookLoginButton />
+              <div style={{
+                padding: '30px 0 0 0'
+              }}>
+                <GoogleLoginButton />
+                <FacebookLoginButton />
+                <SignupPrompt classes={classes} />
+              </div>
+
             </form>
           </div>
         )}
