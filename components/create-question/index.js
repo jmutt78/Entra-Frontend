@@ -26,7 +26,6 @@ import { withStyles } from "@material-ui/core/styles";
 
 import CreateTag from "./CreateTag";
 import { TAGS_QUERY } from "./Tags";
-import { CURRENT_USER_QUERY } from "../auth/User";
 import questionListQuery from "../question-list/questionListQuery";
 
 const styles = ({ layout, palette }) => ({

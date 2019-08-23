@@ -181,25 +181,24 @@ class Signin extends Component {
                     />
                   </label>
 
-                  <div>
-                    <Typography>
-                      <Button size="large" className={classes.button} type="submit">
-                        Log In!
-                      </Button>
-
-                      <Link href="/resetpage">
-                        <a
-                          style={{
-                            textDecoration: 'none',
-                            color: 'grey',
-                            marginLeft: 150,
-                          }}
-                        >
-                          FORGOT PASSWORD?
-                        </a>
-                      </Link>
-                    </Typography>
-                  </div>
+                  <Typography
+                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                  >
+                    <Link href="/resetpage">
+                      <a
+                        style={{
+                          textDecoration: 'none',
+                          color: 'grey',
+                          paddingBottom: 10,
+                        }}
+                      >
+                        FORGOT PASSWORD?
+                      </a>
+                    </Link>
+                    <Button size="large" className={classes.button} type="submit">
+                      Log In!
+                    </Button>
+                  </Typography>
                 </fieldset>
                 <div
                   style={{

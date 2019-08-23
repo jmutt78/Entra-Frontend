@@ -117,9 +117,6 @@ class ResetPassword extends Component {
                   className={classes.fieldset}
                   disabled={loading}
                   aria-busy={loading}
-                  style={{
-                    borderWidth: '0px',
-                  }}
                 >
                   <Typography className={classes.text}>
                     Enter your email address to recieve a link to rest your password.
