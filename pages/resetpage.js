@@ -1,9 +1,6 @@
-import ResetPassword from "../components/auth/RequestReset";
+import React from "react";
+import ResetPassword from '../components/auth/RequestReset'
 
-const ResetPage = props => (
-  <div>
-    <ResetPassword />
-  </div>
-);
+const ResetPage = props => <ResetPassword />
 
-export default ResetPage;
+export default ResetPage
