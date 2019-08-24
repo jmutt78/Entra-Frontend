@@ -17,8 +17,10 @@ class MyBookMark extends Component {
           first: perPage
         }}
       >
-        {({ data: { questions }, loading }) => {
+        {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>;
+          if (error) return <p>Error</p>;
+          const { questions } = data;
 
           return (
             <QuestionList

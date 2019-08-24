@@ -2,10 +2,6 @@ import React from "react";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 
-import Table from "@material-ui/core/Table";
-import TableFooter from "@material-ui/core/TableFooter";
-import TablePagination from "@material-ui/core/TablePagination";
-import TableRow from "@material-ui/core/TableRow";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 

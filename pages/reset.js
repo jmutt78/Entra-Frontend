@@ -1,10 +1,6 @@
-import Reset from "../components/auth/Reset";
+import React from "react";
+import Reset from '../components/auth/Reset'
 
-const ResetForm = props => (
-  <div>
-    <p>Reset Your Password {props.query.resetToken}</p>
-    <Reset resetToken={props.query.resetToken} />
-  </div>
-);
+const ResetForm = props => <Reset resetToken={props.query.resetToken} />
 
-export default ResetForm;
+export default ResetForm

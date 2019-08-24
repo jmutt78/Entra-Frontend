@@ -14,7 +14,7 @@ const styles = ({ layout, palette, spacing }) => ({
   }
 });
 
-const DELETE_QUESTION_MUTATION = gql`
+export const DELETE_QUESTION_MUTATION = gql`
   mutation DELETE_QUESTION_MUTATION($id: ID!) {
     deleteQuestion(id: $id) {
       id

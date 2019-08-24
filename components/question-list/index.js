@@ -120,3 +120,4 @@ function QuestionList(props) {
 }
 
 export default withStyles(styles)(QuestionList);
+export { QUESTION_PAGINATION_QUERY };

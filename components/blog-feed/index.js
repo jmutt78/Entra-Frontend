@@ -13,6 +13,7 @@ import CardActions from "@material-ui/core/CardActions";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import Link from "next/link";
+import Error from "../ErrorMessage.js";
 
 // TODO: pagination
 // TODO: tags

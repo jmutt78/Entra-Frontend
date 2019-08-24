@@ -1,6 +1,6 @@
-import DisplayAccount from "../../components/account/DisplayAccount";
-import PleaseSignIn from "../../components/auth/PleaseSignIn";
+import DisplayAccount from '../../components/account/DisplayAccount'
+import PleaseSignIn from '../../components/auth/PleaseSignIn'
 
-const Account = props => <DisplayAccount />;
+const Account = () => <DisplayAccount />
 
-export default Account;
+export default Account

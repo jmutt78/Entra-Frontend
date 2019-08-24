@@ -35,7 +35,7 @@ async function setup() {
 
     return {
         component: component,
-        h2: component.find('h2'),
+        typography: component.find(Typography),
         form: component.find('form'),
         button: component.find(Button),
         textfield: component.find(TextField),
@@ -53,9 +53,9 @@ describe('Reset component', () => {
 
     it('should display title', async () => {
 
-        const { h2 } = await setup()
+        const { typography } = await setup()
 
-        expect(h2.at(0).text()).toMatch(/^Reset Password/)
+        expect(typography.at(0).text()).toMatch(/^Reset your password/)
     })
 
     it('should render TextField for password', async () => {

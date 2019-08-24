@@ -14,9 +14,11 @@ class UpdateQuestion extends Component {
           id: this.props.id
         }}
       >
-        {({ data: { question }, loading, error }) => {
+        {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>;
           if (error) return <Error error={error} />;
+          const { question } = data;
+          
           return <QuestionForm question={question} />;
         }}
       </Query>

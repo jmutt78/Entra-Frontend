@@ -27,8 +27,8 @@ const styles = ({ layout, palette }) => ({
 
   // own
   container: {
-    width: layout.width,
-    height: layout.navHeight,
+    width: '100%', //layout.width,
+    height: 80, //layout.navHeight,
     display: "flex",
     alignItems: "center"
   },
@@ -41,7 +41,7 @@ const styles = ({ layout, palette }) => ({
     fontSize: "1.1rem"
   },
   navigationContainer: {
-    height: layout.navHeight,
+    height: 80, //layout.navHeight,
     display: "flex",
     flex: 1,
     alignSelf: "flex-end",
@@ -58,7 +58,7 @@ const styles = ({ layout, palette }) => ({
     }
   },
   navLinkActive: {
-    height: layout.navHeight,
+    height: 80, //layout.navHeight,
     display: "flex",
     alignItems: "center",
     color: palette.primary.main,
