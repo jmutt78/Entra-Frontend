@@ -174,21 +174,14 @@ class UpdateUser extends Component {
     }
   }
 
-  handleImage(user, classes) {
-    if (user.image == null || user.image == "") {
-      return <div />;
+  handleImage = (user, classes) => {
+    const image = this.state.image || user.image;
+    if (image === null || image === "") {
+      return <Avatar className={classes.bigAvatar}>{user.name[0]}</Avatar>;
     }
 
-    return (
-      <div>
-        <Avatar
-          alt={user.name}
-          src={user.image}
-          className={classes.bigAvatar}
-        />
-      </div>
-    );
-  }
+    return <Avatar alt={user.name} src={image} className={classes.bigAvatar} />;
+  };
   uploadMessage(image) {
     if (image == null || image == "") {
       return <div />;
@@ -236,17 +229,7 @@ class UpdateUser extends Component {
                 }}
               >
                 <div className={classes.avatarContainer}>
-                  {user.image == null || user.image == "" ? (
-                    <Avatar className={classes.bigAvatar}>
-                      {user.name[0]}
-                    </Avatar>
-                  ) : (
-                    <Avatar
-                      alt={user.name}
-                      src={user.image}
-                      className={classes.bigAvatar}
-                    />
-                  )}
+                  {this.handleImage(user, classes)}
                   <input
                     accept="image/*"
                     className={classes.smallField}
