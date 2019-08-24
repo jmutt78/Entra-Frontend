@@ -19,6 +19,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     marginTop: '-15px',
+    padding: '0 5px',
   },
   successText: {
     color: '#2d3436', //theme.palette.accent.dark,

@@ -31,7 +31,8 @@ import questionListQuery from "../question-list/questionListQuery";
 const styles = ({ layout, palette }) => ({
   container: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    padding: '0 5px',
   },
   table: {},
   title: {
