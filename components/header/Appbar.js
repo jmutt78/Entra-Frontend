@@ -19,7 +19,7 @@ const styles = ({ layout, palette }) => ({
   },
   subContainer: {
     display: 'flex',
-    height: layout.headerHeight,
+    height: '33%',
     alignItems: 'center',
   },
   hidden: {
