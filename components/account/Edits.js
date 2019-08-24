@@ -17,6 +17,7 @@ import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { CURRENT_USER_QUERY } from "../auth/User";
+import { omit } from "lodash";
 
 const UPDATE_USER_MUTATION = gql`
   mutation UPDATE_USER_MUTATION(
@@ -116,7 +117,8 @@ class UpdateUser extends Component {
   state = {
     name: this.props.data.me.name,
     email: this.props.data.me.email,
-    display: this.props.data.me.display
+    display: this.props.data.me.display,
+    uploadingFile: null
   };
 
   handleChange = e => {
@@ -131,7 +133,7 @@ class UpdateUser extends Component {
     await updateUserMutation({
       variables: {
         id,
-        ...this.state
+        ...omit(this.state, ["uploadingFile"])
       },
       refetchQueries: [{ query: CURRENT_USER_QUERY }]
     });
@@ -145,6 +147,9 @@ class UpdateUser extends Component {
     const data = new FormData();
     data.append("file", files[0]);
     data.append("upload_preset", "EntraAccountPhoto");
+    this.setState({
+      uploadingFile: true
+    });
 
     const res = await fetch(
       "https://api.cloudinary.com/v1_1/docusite/image/upload",
@@ -155,9 +160,9 @@ class UpdateUser extends Component {
     );
 
     const file = await res.json();
-
     this.setState({
-      image: file.secure_url
+      image: file.secure_url,
+      uploadingFile: false
     });
   };
 
@@ -201,8 +206,9 @@ class UpdateUser extends Component {
     const image = this.state.image;
     const userImageUrl = this.props.data.me.image;
     const { classes } = this.props;
+    const { uploadingFile } = this.state;
     return (
-      <Mutation mutation={UPDATE_USER_MUTATION} variables={this.state}>
+      <Mutation mutation={UPDATE_USER_MUTATION}>
         {(updateUser, { loading, error }) => (
           <Grid container className={classes.container}>
             <Table className={classes.table}>
@@ -343,7 +349,11 @@ class UpdateUser extends Component {
                 </label>
 
                 <div className={classes.buttonContainer}>
-                  <Button variant="contained" type="submit">
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    disabled={uploadingFile}
+                  >
                     Sav{loading ? "ing" : "e"} Changes
                   </Button>
                 </div>
