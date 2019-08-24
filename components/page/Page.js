@@ -7,10 +7,8 @@ import { withStyles } from '@material-ui/core/styles'
 const styles = ({ layout }) => {
   return {
     root: {
-      minWidth: layout.width,
-      minHeight: layout.height,
-      width: '100%',
-      height: '100%',
+      width: layout.width,
+      height: layout.height,
       display: 'flex',
       flexDirection: 'column',
     },

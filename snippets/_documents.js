@@ -3,12 +3,17 @@ import PropTypes from "prop-types";
 import Document, { Head, Main, NextScript } from "next/document";
 import flush from "styled-jsx/server";
 
+const containerStyles = {
+  width: theme.layout.width,
+  height: theme.layout.height,
+}
+
 class MyDocument extends Document {
   render() {
     const { pageContext } = this.props;
 
     return (
-      <html lang="en" dir="ltr">
+      <html lang="en" style={containerStyles}>
         <Head>
           <meta charSet="utf-8" />
           {/* Use minimum-scale=1 to enable GPU rasterization */}
@@ -28,8 +33,8 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
         </Head>
-        <body>
-          <Main />
+        <body style={containerStyles}>
+          <Main style={containerStyles} />
           <NextScript />
         </body>
       </html>
