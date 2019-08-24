@@ -17,6 +17,7 @@ import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { CURRENT_USER_QUERY } from "../auth/User";
+import { omit } from "lodash";
 
 const UPDATE_USER_MUTATION = gql`
   mutation UPDATE_USER_MUTATION(
@@ -113,7 +114,14 @@ const styles = ({ layout, palette, spacing }) => ({
 });
 
 class UpdateUser extends Component {
-  state = { ...this.props.data.me }
+
+  state = {
+    name: this.props.data.me.name,
+    email: this.props.data.me.email,
+    display: this.props.data.me.display,
+    uploadingFile: null
+  };
+
 
   handleChange = e => {
     const { name, type, value } = e.target;
@@ -127,7 +135,7 @@ class UpdateUser extends Component {
     await updateUserMutation({
       variables: {
         id,
-        ...this.state
+        ...omit(this.state, ["uploadingFile"])
       },
       refetchQueries: [{ query: CURRENT_USER_QUERY }]
     });
@@ -141,6 +149,9 @@ class UpdateUser extends Component {
     const data = new FormData();
     data.append("file", files[0]);
     data.append("upload_preset", "EntraAccountPhoto");
+    this.setState({
+      uploadingFile: true
+    });
 
     const res = await fetch(
       "https://api.cloudinary.com/v1_1/docusite/image/upload",
@@ -151,9 +162,9 @@ class UpdateUser extends Component {
     );
 
     const file = await res.json();
-
     this.setState({
-      image: file.secure_url
+      image: file.secure_url,
+      uploadingFile: false
     });
   };
 
@@ -165,21 +176,14 @@ class UpdateUser extends Component {
     }
   }
 
-  handleImage(user, classes) {
-    if (user.image == null || user.image == "") {
-      return <div />;
+  handleImage = (user, classes) => {
+    const image = this.state.image || user.image;
+    if (image === null || image === "") {
+      return <Avatar className={classes.bigAvatar}>{user.name[0]}</Avatar>;
     }
 
-    return (
-      <div>
-        <Avatar
-          alt={user.name}
-          src={user.image}
-          className={classes.bigAvatar}
-        />
-      </div>
-    );
-  }
+    return <Avatar alt={user.name} src={image} className={classes.bigAvatar} />;
+  };
   uploadMessage(image) {
     if (image == null || image == "") {
       return <div />;
@@ -197,8 +201,10 @@ class UpdateUser extends Component {
     const image = this.state.image;
     const { classes } = this.props;
 
+    const { uploadingFile } = this.state;
+
     return (
-      <Mutation mutation={UPDATE_USER_MUTATION} variables={this.state}>
+      <Mutation mutation={UPDATE_USER_MUTATION}>
         {(updateUser, { loading, error }) => (
           <Grid container className={classes.container}>
             <Table className={classes.table}>
@@ -226,17 +232,7 @@ class UpdateUser extends Component {
                 }}
               >
                 <div className={classes.avatarContainer}>
-                  {user.image == null || user.image == "" ? (
-                    <Avatar className={classes.bigAvatar}>
-                      {user.name[0]}
-                    </Avatar>
-                  ) : (
-                    <Avatar
-                      alt={user.name}
-                      src={user.image}
-                      className={classes.bigAvatar}
-                    />
-                  )}
+                  {this.handleImage(user, classes)}
                   <input
                     accept="image/*"
                     className={classes.smallField}
@@ -339,7 +335,11 @@ class UpdateUser extends Component {
                 </label>
 
                 <div className={classes.buttonContainer}>
-                  <Button variant="contained" type="submit">
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    disabled={uploadingFile}
+                  >
                     Sav{loading ? "ing" : "e"} Changes
                   </Button>
                 </div>
