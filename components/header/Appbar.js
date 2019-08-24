@@ -15,6 +15,7 @@ const styles = ({ layout, palette }) => ({
     width: layout.width,
     minHeight: layout.headerHeight,
     backgroundColor: palette.secondary.main,
+    boxShadow: '0px 2px 4px -4px rgba(0, 0, 0, 0.2), 0px 4px 5px -5px rgba(0, 0, 0, 0.14), 0px 1px 10px -10px rgba(0, 0, 0, 0.12)',
   },
   subContainer: {
     display: 'flex',
