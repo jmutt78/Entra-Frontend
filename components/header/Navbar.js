@@ -17,7 +17,6 @@ const styles = ({ layout, palette }) => ({
     minHeight: layout.headerHeight,
     display: 'flex',
   },
-
   navText: {
     color: 'white',
     marginLeft: '2rem',

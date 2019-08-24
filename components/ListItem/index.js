@@ -23,7 +23,8 @@ const styles = ({ layout, palette }) => ({
     padding: "5px 0 15px 0",
     margin: 0,
     maxWidth: 800,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    lineHeight: '3rem',
   },
   body: {
     color: '#2d3436',
