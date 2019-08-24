@@ -1,4 +1,4 @@
-.appbarFlex {
+.navbarFlex {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -15,4 +15,13 @@
 
 .style-target span {
   font-size: 1rem;
+}
+
+@media (max-width: 700px) {
+  .navbarFlex {
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column-reverse;
+    padding: 0;
+  }
 }

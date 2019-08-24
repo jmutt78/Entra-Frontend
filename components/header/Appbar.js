@@ -57,7 +57,7 @@ const styles = ({ layout, palette }) => ({
     padding: '12px 10px 8px 10px',
     textDecoration: 'none',
     '&:hover': {
-      color: palette.accent.dark,
+      color: palette.primary.dark,
     },
   },
   navLinkActive: {

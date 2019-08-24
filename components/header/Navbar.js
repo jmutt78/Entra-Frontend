@@ -1,6 +1,5 @@
 import React from 'react'
 
-import AppBar from '@material-ui/core/AppBar'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import NavLink from './NavLink'
@@ -31,9 +30,9 @@ const styles = ({ layout, palette }) => ({
     display: 'flex',
     alignItems: 'center',
     padding: '5px 35px 0 0',
-
     color: 'white',
     fontSize: '1.1rem',
+    alignSelf: 'flex-end',
   },
   navigationContainer: {
     display: 'flex',
@@ -97,7 +96,7 @@ const Navbar = ({ classes }) => {
       <User>
         {({ data: { me } }) => (
           <div className={classes.root}>
-            <div className="appbarFlex">
+            <div className="navbarFlex">
               <Typography className={classes.navigationContainer}>
                 {me &&
                   me.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission)) &&
@@ -113,8 +112,13 @@ const Navbar = ({ classes }) => {
                   </NavLink>
                 ))}
               </Typography>
-              <Avatar me={me} />
-              {me && <Typography className={classes.avatarContainer}>{me.name}</Typography>}
+
+              {me && (
+                <Typography className={classes.avatarContainer}>
+                  <Avatar me={me} />
+                  <div>{me.name}</div>
+                </Typography>
+              )}
             </div>
           </div>
         )}
