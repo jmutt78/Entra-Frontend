@@ -27,7 +27,7 @@ const styles = ({ layout, palette }) => ({
 
   // own
   container: {
-    width: 100, //layout.width,
+    width: '100%', //layout.width,
     height: 80, //layout.navHeight,
     display: "flex",
     alignItems: "center"
