@@ -25,7 +25,6 @@ const styles = ({ layout, palette }) => ({
     fontSize: 20,
     fontWieght: 'strong',
   },
-
   avatarContainer: {
     display: 'flex',
     alignItems: 'center',
@@ -33,34 +32,6 @@ const styles = ({ layout, palette }) => ({
     color: 'white',
     fontSize: '1.1rem',
     alignSelf: 'flex-end',
-  },
-  navigationContainer: {
-    display: 'flex',
-    flex: 1,
-    alignSelf: 'flex-end',
-    alignItems: 'center',
-    padding: '0 0 0 20px',
-  },
-  navLink: {
-    // TODO change to width on mobile
-    height: layout.navHeight,
-    display: 'flex',
-    alignItems: 'center',
-    fontSize: '1.2rem',
-    color: palette.secondary.light,
-    padding: '12px 10px 8px 10px',
-    textDecoration: 'none',
-    '&:hover': {
-      color: palette.primary.dark,
-    },
-  },
-  navLinkActive: {
-    height: layout.navHeight,
-    display: 'flex',
-    alignItems: 'center',
-    color: palette.primary.main,
-    background: palette.secondary.main,
-    fontWeight: 500,
   },
 })
 
@@ -97,18 +68,18 @@ const Navbar = ({ classes }) => {
         {({ data: { me } }) => (
           <div className={classes.root}>
             <div className="navbarFlex">
-              <Typography className={classes.navigationContainer}>
+              <Typography className="navigationContainer">
                 {me &&
                   me.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission)) &&
                   adminLinks.map(({ name, target }) => (
-                    <NavLink activeClassName={classes.navLinkActive} href={target} key={name}>
-                      <a className={classes.navLink}>{name}</a>
+                    <NavLink activeClassName="navLinkActive" href={target} key={name}>
+                      <a className="navLink">{name}</a>
                     </NavLink>
                   ))}
 
                 {navLinks.map(({ name, target }) => (
-                  <NavLink activeClassName={classes.navLinkActive} href={target} key={name}>
-                    <a className={classes.navLink}>{name}</a>
+                  <NavLink activeClassName="navLinkActive" href={target} key={name}>
+                    <a className="navLink">{name}</a>
                   </NavLink>
                 ))}
               </Typography>
