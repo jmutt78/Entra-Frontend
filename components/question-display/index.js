@@ -25,7 +25,7 @@ import "./index.css";
 
 const styles = ({ palette, layout }) => ({
   container: {
-    width: layout.width,
+    width: '100%',
     maxWidth: 1200,
     height: "100%",
     minHeight: layout.contentMinHeight
