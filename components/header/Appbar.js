@@ -13,19 +13,9 @@ import './Appbar.css'
 const styles = ({ layout, palette }) => ({
   root: {
     width: layout.width,
-    height: layout.headerHeight,
-    backgroundColor: palette.secondary.main,
-  },
-  flexContainer: {
-    boxShadow:
-      '0px 2px 4px -4px rgba(0,0,0,0.2), 0px 4px 5px -5px rgba(0,0,0,0.14), 0px 1px 10px -10px rgba(0,0,0,0.12)',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-    width: '100%',
+    minHeight: layout.headerHeight,
     height: '100%',
-    padding: '0 20px',
+    backgroundColor: palette.secondary.main,
   },
   subContainer: {
     display: 'flex',
@@ -95,7 +85,7 @@ const Appbar = ({ isLoggedIn, classes }) => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.flexContainer}>
+      <div className="appbarFlex">
         <div className={classes.subContainer}>
           <Typography variant="h6" className={classes.logoContainer}>
             <Link href="/">
