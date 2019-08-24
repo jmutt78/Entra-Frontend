@@ -104,6 +104,7 @@ function QuestionList(props) {
                 showDetails={true}
                 name={props.name}
                 key={question.id}
+                display={question.askedBy[0].display}
               />
             );
           })}

@@ -8,6 +8,7 @@ const QUESTION_LIST_QUERY = gql`
       title
       description
       createdAt
+
       approval
       answers {
         id
@@ -23,6 +24,7 @@ const QUESTION_LIST_QUERY = gql`
       askedBy {
         id
         name
+        display
       }
       bookMark {
         id

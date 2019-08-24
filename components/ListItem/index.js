@@ -19,15 +19,15 @@ export const CustomTableCell = withStyles(theme => ({
 
 const styles = ({ layout, palette }) => ({
   title: {
-    color: '#2d3436',
+    color: "#2d3436",
     padding: "5px 0 15px 0",
     margin: 0,
     maxWidth: 800,
     fontWeight: "bold",
-    lineHeight: '3rem',
+    lineHeight: "3rem"
   },
   body: {
-    color: '#2d3436',
+    color: "#2d3436",
     padding: "5px 0 15px 0",
     margin: 0,
     maxWidth: 800
@@ -35,7 +35,7 @@ const styles = ({ layout, palette }) => ({
   nameLink: {
     fontWeight: 500,
     textDecoration: "none",
-    color: '#2d3436'
+    color: "#e27d60"
   },
   tableRow: {
     cursor: "pointer",
@@ -44,7 +44,7 @@ const styles = ({ layout, palette }) => ({
     }
   },
   button: {
-    color: palette.primary.dark
+    // /color: palette.primary.dark
   }
 });
 
@@ -67,7 +67,8 @@ const ListItem = ({
   linkTo,
   userName,
   userId,
-  showDetails
+  showDetails,
+  display
 }) => {
   return (
     <TableRow
@@ -115,7 +116,7 @@ const ListItem = ({
               query: { id: userId }
             }}
           >
-            <a className={classes.nameLink}>{userName}</a>
+            <a className={classes.nameLink}>{display}</a>
           </Link>
           <span> on </span>
           <span>{format(parseISO(createdAt), "MMMM dd, yyyy")}</span>

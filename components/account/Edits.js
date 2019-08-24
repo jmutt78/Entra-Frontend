@@ -57,13 +57,13 @@ const UPDATE_USER_MUTATION = gql`
 const styles = ({ layout, palette, spacing }) => ({
   container: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "column"
   },
   title: {
     fontSize: "40px",
     textAlign: "Left",
-    color: "rgba(0, 0, 0, 0.87)"
-    lineHeight: '3rem',
+    color: "rgba(0, 0, 0, 0.87)",
+    lineHeight: "3rem"
   },
   inputField: {
     width: "100%",
@@ -115,14 +115,12 @@ const styles = ({ layout, palette, spacing }) => ({
 });
 
 class UpdateUser extends Component {
-
   state = {
     name: this.props.data.me.name,
     email: this.props.data.me.email,
     display: this.props.data.me.display,
     uploadingFile: null
   };
-
 
   handleChange = e => {
     const { name, type, value } = e.target;
@@ -145,7 +143,7 @@ class UpdateUser extends Component {
     });
   };
 
-  uploadFile = async (e) => {
+  uploadFile = async e => {
     const files = e.target.files;
     const data = new FormData();
     data.append("file", files[0]);
