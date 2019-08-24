@@ -70,14 +70,16 @@
     display: none;
   }
   .navLinkActive {
-    width: 100%;
+    width: 100vw;
+    margin-left: -40px;
   }
   .navLink {
-    width: 100%;
+    width: 100vw;
+    margin-left: -40px;
   }
   .visibleOnMobile {
     visibility: visible;
-    position: absolute;
+    position: sticky;
     display: flex;
     justify-content: center;
     align-items: center;

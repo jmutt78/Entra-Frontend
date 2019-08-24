@@ -15,6 +15,7 @@ const styles = ({ layout, palette }) => ({
     width: layout.width,
     background: palette.accent.blue,
     minHeight: layout.headerHeight,
+    display: 'flex',
   },
 
   navText: {
