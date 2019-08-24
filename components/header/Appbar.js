@@ -14,7 +14,6 @@ const styles = ({ layout, palette }) => ({
   root: {
     width: layout.width,
     minHeight: layout.headerHeight,
-    height: '100%',
     backgroundColor: palette.secondary.main,
   },
   subContainer: {
@@ -86,7 +85,7 @@ const Appbar = ({ isLoggedIn, classes }) => {
   return (
     <div className={classes.root}>
       <div className="appbarFlex">
-        <div className={classes.subContainer}>
+        <div className="subContainer">
           <Typography variant="h6" className={classes.logoContainer}>
             <Link href="/">
               <img src="/static/logo.png" className={classes.logo} />
