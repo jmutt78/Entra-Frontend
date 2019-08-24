@@ -31,6 +31,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     marginTop: '-15px',
+    padding: '0 5px',
   },
   successText: {
     color: '#2d3436', //theme.palette.accent.dark,
@@ -46,6 +47,7 @@ const styles = theme => ({
     fontSize: '40px',
     textAlign: 'Left',
     color: 'rgba(0, 0, 0, 0.87)',
+    lineHeight: '3rem',
   },
   inputField: {
     width: '100%',

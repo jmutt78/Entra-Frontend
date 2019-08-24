@@ -57,12 +57,13 @@ const UPDATE_USER_MUTATION = gql`
 const styles = ({ layout, palette, spacing }) => ({
   container: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   title: {
     fontSize: "40px",
     textAlign: "Left",
     color: "rgba(0, 0, 0, 0.87)"
+    lineHeight: '3rem',
   },
   inputField: {
     width: "100%",

@@ -4,10 +4,9 @@ import { ServerStyleSheets } from '@material-ui/styles'
 import theme from '../src/theme'
 
 const containerStyles = {
-  minWidth: theme.layout.width,
-  minHeight: theme.layout.height,
-  width: '100%',
-  height: '100%',
+  width: theme.layout.width,
+  height: theme.layout.height,
+  overflow: 'scroll',
 }
 
 class MyDocument extends Document {

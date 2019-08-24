@@ -34,7 +34,7 @@ const styles = ({ spacing, palette }) => ({
   },
   title: {
     color: "#2d3436",
-    padding: "5px 0 15px 0",
+    padding: "25px 0 15px 5px",
     margin: 0,
     maxWidth: 800,
     fontSize: "40px",
