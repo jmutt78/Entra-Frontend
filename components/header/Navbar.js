@@ -3,6 +3,7 @@ import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import NavLink from './NavLink'
+import MenuIcon from '@material-ui/icons/Menu'
 
 import Avatar from './Avatar'
 import User from '../auth/User.js'
@@ -67,6 +68,7 @@ const Navbar = ({ classes }) => {
       <User>
         {({ data: { me } }) => (
           <div className={classes.root}>
+            <div className="visibleOnMobile"><img src="static/menu.svg" alt="menu" style={{width: 40, height: 40}} /></div>
             <div className="navbarFlex">
               <Typography className="navigationContainer">
                 {me &&
