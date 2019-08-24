@@ -6,6 +6,7 @@ import theme from '../src/theme'
 const containerStyles = {
   width: theme.layout.width,
   height: theme.layout.height,
+  overflow: 'scroll',
 }
 
 class MyDocument extends Document {
