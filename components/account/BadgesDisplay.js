@@ -25,7 +25,7 @@ const styles = theme => ({
   },
   container: {
     width: '100%',
-    padding: '10px 20px 50px 10px',
+    padding: 10,
   },
   root: {
     margin: theme.spacing(1),
