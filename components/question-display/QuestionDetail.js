@@ -18,6 +18,8 @@ import { withStyles } from "@material-ui/core/styles";
 
 import ApproveQuestion from "../approval/AppoveQuestion.js";
 
+import "./index.css";
+
 const styles = ({ layout, palette, spacing }) => ({
   title: {
     color: palette.accent.dark,
@@ -39,9 +41,6 @@ const styles = ({ layout, palette, spacing }) => ({
   },
   tableRow: {
     background: palette.secondary.main
-  },
-  button: {
-    color: palette.accent.dark
   },
   detailContainer: {
     padding: "5px 15px"
@@ -94,10 +93,6 @@ const styles = ({ layout, palette, spacing }) => ({
     justifyContent: "space-between",
     padding: "10px 0 0 0"
   },
-  tagButtons: {
-    display: "flex",
-    padding: "0 0 10px 0"
-  }
 });
 
 const PromptBar = ({ classes, user }) => {
@@ -179,13 +174,12 @@ const QuestionDetail = ({
               <div>
                 {description && <h3 className={classes.body}>{description}</h3>}
                 {tags && (
-                  <div className={classes.tagButtons}>
+                  <div className="tagButtons">
                     {tags.map(({ id, name }) => (
-                      <div key={id}>
+                      <div key={id} style={{padding: '2px 0'}}>
                         <Button
                           size="small"
                           variant="contained"
-                          className={classes.button}
                           onClick={e => {
                             e.preventDefault();
                             e.stopPropagation();

@@ -5,3 +5,14 @@
 .MuiButton-label {
   white-space: nowrap;
 }
+
+.tagButtons {
+  display: flex;
+  padding: 0 0 10px;
+}
+
+@media (max-width: 700px) {
+  .tagButtons {
+    flex-direction: column;
+  }
+}
