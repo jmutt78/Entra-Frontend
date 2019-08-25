@@ -13,13 +13,12 @@ const styles = ({ layout }) => {
       height: layout.height,
       display: 'flex',
       flexDirection: 'column',
-      overflow: 'scroll',
     },
     contentContainer: {
       display: 'flex',
       flex: 1,
       minHeight: layout.contentMinHeight,
-      overflow: 'scroll',
+      overflowX: 'scroll',
     },
   }
 }

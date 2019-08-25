@@ -6,7 +6,6 @@ import flush from "styled-jsx/server";
 const containerStyles = {
   width: theme.layout.width,
   height: theme.layout.height,
-  overflow: 'scroll',
 }
 
 class MyDocument extends Document {
