@@ -82,20 +82,10 @@ const styles = ({ layout, palette, spacing }) => ({
     display: 'flex',
     alignItems: 'center',
   },
-  viewContainer: {
-    display: 'flex',
-    alignItems: 'center',
-  },
   viewsCount: {
     color: palette.accent.dark,
     fontSize: '1.2rem',
     padding: '5px 0 5px 8px',
-  },
-  itemFooter: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '10px 0 0 0',
   },
 })
 
@@ -192,7 +182,8 @@ const QuestionDetail = ({
 
               <EditButton question={question} user={user} classes={classes} />
 
-              <div className={classes.itemFooter}>
+              <div className="itemFooter">
+
                 <div className={classes.credits}>
                   <Link
                     href={{
@@ -221,14 +212,16 @@ const QuestionDetail = ({
                   </div>
                 </div>
 
+
                 <Tooltip title={`${question.views} views`} placement="top">
-                  <div className={classes.viewContainer}>
+                  <div className="viewContainer">
                     <Icon src="/static/visibility.svg" />
                     <span className={classes.viewsCount}>{`${question.views} ${
                       question.views > 1 ? 'views' : 'view'
                     }`}</span>
                   </div>
                 </Tooltip>
+
               </div>
             </TableCell>
           </TableRow>

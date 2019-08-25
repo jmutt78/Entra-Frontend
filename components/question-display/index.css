@@ -11,8 +11,31 @@
   padding: 0 0 10px;
 }
 
+.itemFooter {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0 0 0;
+}
+
+.viewContainer {
+  display: flex;
+  align-items: center;
+}
+
 @media (max-width: 700px) {
   .tagButtons {
     flex-direction: column;
   }
 }
+
+@media (max-width: 500px) {
+  .viewContainer {
+    margin: 10px 0 -10px 0;
+  }
+  .itemFooter {
+    flex-direction: column;
+  }
+}
+
+
