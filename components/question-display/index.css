@@ -1,3 +1,7 @@
 #tableBorderRemoveTarget th {
   border: none !important;
 }
+
+.MuiButton-label {
+  white-space: nowrap;
+}
