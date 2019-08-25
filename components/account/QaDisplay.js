@@ -40,7 +40,7 @@ const styles = ({ spacing, palette }) => ({
     maxWidth: 800,
     fontWeight: "bold",
     textAlign: "left",
-    lineHeight: "2.5rem"
+    lineHeight: "2.5rem",
   }
 });
 

@@ -39,7 +39,7 @@ const styles = ({ spacing, palette }) => ({
     maxWidth: 800,
     fontSize: "40px",
     textAlign: "left",
-    lineHeight: "2.5rem"
+    lineHeight: "2.5rem",
   },
   button: {
     margin: "20px 0 5px 0",

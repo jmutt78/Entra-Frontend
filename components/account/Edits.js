@@ -63,7 +63,7 @@ const styles = ({ layout, palette, spacing }) => ({
     fontSize: "40px",
     textAlign: "Left",
     color: "rgba(0, 0, 0, 0.87)",
-    lineHeight: "3rem"
+    lineHeight: "3rem",
   },
   inputField: {
     width: "100%",

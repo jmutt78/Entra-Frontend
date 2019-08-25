@@ -24,7 +24,7 @@ const styles = ({ layout, palette }) => ({
     margin: 0,
     maxWidth: 800,
     fontWeight: "bold",
-    lineHeight: "3rem"
+    lineHeight: "3rem",
   },
   body: {
     color: "#2d3436",
