@@ -24,12 +24,6 @@
   align-items: center;
 }
 
-@media (max-width: 700px) {
-  .tagButtons {
-    /* flex-direction: column; */
-  }
-}
-
 @media (max-width: 500px) {
   .viewContainer {
     margin: 0 0 10px 0;
