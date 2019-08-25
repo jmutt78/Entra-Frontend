@@ -25,9 +25,10 @@ class UserAnswers extends Component {
           first: perPage
         }}
       >
-        {({ data: { answers }, loading, error }) => {
+        {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>;
           if (error) return <Error error={error} />;
+          const { answers } = data;
           return (
             <AnswerList
               answers={answers}

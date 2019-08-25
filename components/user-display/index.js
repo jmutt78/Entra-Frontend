@@ -10,7 +10,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import gql from "graphql-tag";
 
-const USER_QUERY = gql`
+export const USER_QUERY = gql`
   query USER_QUERY($id: ID!) {
     user(id: $id) {
       id
@@ -115,4 +115,3 @@ class DisplayUser extends Component {
 }
 
 export default withStyles(styles)(DisplayUser);
-export { USER_QUERY };
