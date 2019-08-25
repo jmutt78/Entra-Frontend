@@ -9,8 +9,8 @@ import './Page.css'
 const styles = ({ layout }) => {
   return {
     root: {
-      width: layout.width,
-      height: layout.height,
+      width: "100%", //layout.width,
+      height: "100%", //layout.height,
       display: 'flex',
       flexDirection: 'column',
       overflow: 'scroll',
@@ -18,7 +18,7 @@ const styles = ({ layout }) => {
     contentContainer: {
       display: 'flex',
       flex: 1,
-      minHeight: layout.contentMinHeight,
+      minHeight: "calc(100% - 80px - 80px)", //layout.contentMinHeight,
       overflow: 'scroll',
     },
   }

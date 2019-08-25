@@ -28,7 +28,7 @@ const styles = ({ palette, layout }) => ({
     width: '100%',
     maxWidth: 1200,
     height: "100%",
-    minHeight: layout.contentMinHeight
+    minHeight: 80, //layout.contentMinHeight
   },
   titleContainer: {
     padding: "0 1rem 0 0"
@@ -51,12 +51,12 @@ const styles = ({ palette, layout }) => ({
     padding: "8px 8px 5px 0"
   },
   downVote: {
-    color: palette.accent.blue,
+    color: '#85bdcb', //palette.accent.blue,
     fontSize: "1.4rem",
     padding: "8px 0 5px 8px"
   },
   viewsCount: {
-    color: palette.accent.dark,
+    color: '#2d3436', //palette.accent.dark,
     fontSize: "1.4rem",
     padding: "5px 0 5px 8px"
   }
@@ -68,13 +68,13 @@ const CustomTableCell = withStyles(theme => ({
   }
 }))(TableCell);
 
-const CREATE_QUESTION_VOTE_MUTATION = gql`
+export const CREATE_QUESTION_VOTE_MUTATION = gql`
   mutation CREATE_QUESTION_VOTE_MUTATION($questionId: ID!, $vote: String) {
     createQuestionVote(questionId: $questionId, vote: $vote)
   }
 `;
 
-const CREATE_QUESTION_VIEW_MUTATION = gql`
+export const CREATE_QUESTION_VIEW_MUTATION = gql`
   mutation CREATE_QUESTION_VIEW_MUTATION($questionId: ID!) {
     createQuestionView(questionId: $questionId)
   }
@@ -88,8 +88,10 @@ const Wrapper = ({ client, classes, id }) => {
         id
       }}
     >
-      {({ data: { question }, loading }) => {
+      {({ data, loading, error }) => {
         if (loading) return <p>Loading...</p>;
+        if (error) return <Error error={error} />;
+        const { question } = data;
         if (!question) {
           return <p>Question not found</p>;
         }
