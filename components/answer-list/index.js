@@ -93,6 +93,7 @@ class AnswerList extends Component {
                   }}
                   userName={answer.answeredBy.name}
                   userId={answer.answeredBy.id}
+                  display={answer.answeredBy.display}
                 />
               );
             })}

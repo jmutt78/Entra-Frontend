@@ -31,13 +31,15 @@ import questionListQuery from "../question-list/questionListQuery";
 const styles = ({ layout, palette }) => ({
   container: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    padding: '0 5px',
   },
   table: {},
   title: {
     fontSize: "40px",
     textAlign: "Left",
     color: "rgba(0, 0, 0, 0.87)"
+    lineHeight: '3rem',
   },
   inputField: {
     width: "100%",

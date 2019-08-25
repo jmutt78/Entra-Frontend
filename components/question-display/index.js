@@ -25,7 +25,7 @@ import "./index.css";
 
 const styles = ({ palette, layout }) => ({
   container: {
-    width: '100%', //layout.width,
+    width: '100%',
     maxWidth: 1200,
     height: "100%",
     minHeight: 80, //layout.contentMinHeight
@@ -37,7 +37,7 @@ const styles = ({ palette, layout }) => ({
     fontSize: "40px",
     textAlign: "Left",
     color: "rgba(0, 0, 0, 0.87)",
-    lineHeight: "2.5rem"
+    lineHeight: '3rem',
   },
   voteContainer: {
     display: "flex"
