@@ -7,8 +7,8 @@ import { withStyles } from '@material-ui/core/styles'
 const styles = ({ layout }) => {
   return {
     root: {
-      minWidth: layout.width,
-      minHeight: layout.height,
+      minWidth: '100%', //layout.width,
+      minHeight: 80, //layout.height,
       width: '100%',
       height: '100%',
       display: 'flex',
@@ -18,7 +18,7 @@ const styles = ({ layout }) => {
       display: 'flex',
       padding: '2rem 2rem 1rem 2rem',
       flex: 1,
-      minHeight: layout.contentMinHeight,
+      minHeight: 'calc(100% - 80px - 80px)' //layout.contentMinHeight,
     },
   }
 }

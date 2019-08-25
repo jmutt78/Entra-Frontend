@@ -26,7 +26,7 @@ Router.onRouteChangeError = () => {
 const styles = ({ layout }) => {
   return {
     root: {
-      minWidth: layout.width,
+      minWidth: "100%", //layout.width,
       width: "100%"
     }
   };
