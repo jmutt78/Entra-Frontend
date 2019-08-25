@@ -4,7 +4,6 @@ import { format, parseISO } from 'date-fns'
 
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
-import ButtonGroup from '@material-ui/core/ButtonGroup'
 import DeleteQuestion from '../delete-question'
 import Icon from '../ui/Icon'
 import Table from '@material-ui/core/Table'
@@ -33,6 +32,7 @@ const styles = ({ layout, palette, spacing }) => ({
     margin: 0,
     maxWidth: 800,
     fontWeight: 300,
+    wordBreak: 'break-all',
   },
   nameLink: {
     fontWeight: 500,

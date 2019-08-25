@@ -36,6 +36,7 @@ const styles = ({ spacing, palette }) => ({
     margin: 0,
     maxWidth: 800,
     fontWeight: 300,
+    wordBreak: 'break-all',
   },
   nameLink: {
     fontWeight: 500,
@@ -182,7 +183,6 @@ const Answer = ({ answer, classes, user, client, question }) => {
               <EditAndDelete answer={answer} classes={classes} user={user} question={question} />
 
               <div className="answerFooter">
-
                 <div className={classes.credits}>
                   <Link
                     href={{
@@ -236,7 +236,6 @@ const Answer = ({ answer, classes, user, client, question }) => {
                     </div>
                   </Tooltip>
                 </div>
-
               </div>
             </TableCell>
           </TableRow>
