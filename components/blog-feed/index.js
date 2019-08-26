@@ -42,6 +42,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
+    padding: '2rem 0',
   },
   title: {
     fontSize: "40px",
@@ -77,7 +78,7 @@ class Blogs extends Component {
                 </TableHead>
               </Table>
               <div className={classes.container}>
-                {posts.map(post => <Post post={post} />)}
+                {posts.map(post => <Post post={post} key={post.node.id} />)}
               </div>
             </div>
           )

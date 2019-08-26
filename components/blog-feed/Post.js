@@ -15,11 +15,6 @@ import Typography from '@material-ui/core/Typography'
 import './index.css';
 
 const styles = theme => ({
-  card: {
-    maxWidth: 1000,
-    margin: theme.spacing(5),
-    cursor: 'pointer',
-  },
   media: {
     height: 0,
     paddingTop: '56.25%', // 16:9
@@ -46,14 +41,14 @@ const dateProps = {
 
 const Post = ({ post, classes }) => {
   return (
-    <div key={post.node.id}>
+    <div>
       <Link
         href={{
           pathname: '/post',
           query: { id: post.node.id },
         }}
       >
-        <Card className={classes.card}>
+        <Card className="card">
           <CardHeader
             avatar={<div className="postAvatar"><Avatar aria-label="Recipe" className={classes.avatarInner} src="/static/square_logo.png" /></div>}
             title={post.node.title}
