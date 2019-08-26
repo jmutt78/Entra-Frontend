@@ -122,11 +122,11 @@ export function BadgeItem({ type, classes }) {
 
 export function BadgesList({ badges, classes }) {
   const yourBadges = pickBy(badges, value => value === true)
-  const badgeKeys = Object.keys(yourBadges)
-  // const badgeKeys = Object.keys(badges)
+  // const badgeKeys = Object.keys(yourBadges)
+  const badgeKeys = Object.keys(badges)
   if (!badgeKeys.length) {
     return (
-      <Typography variant="h6" align="center">
+      <Typography variant="h6" style={{padding: '0 0 30px 50px'}}>
         No bages yet
       </Typography>
     )
