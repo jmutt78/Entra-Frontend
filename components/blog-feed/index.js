@@ -110,7 +110,7 @@ class Blogs extends Component {
                               <Avatar
                                 aria-label="Recipe"
                                 className={classes.avatar}
-                                src="/static/Screen Shot 2019-07-17 at 2.47.56 PM.jpg"
+                                src=""
                               />
                             }
                             title={post.node.title}
