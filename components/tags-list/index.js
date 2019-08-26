@@ -8,7 +8,7 @@ import tagsListQuery from "./tagsListQuery.js";
 import { useQuery } from "@apollo/react-hooks";
 import Error from "./../ErrorMessage.js";
 
-const TAG_QUERY = gql`
+export const TAG_QUERY = gql`
   query TAG_QUERY($id: ID!) {
     tag(id: $id) {
       name
