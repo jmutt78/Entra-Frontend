@@ -37,7 +37,6 @@ const styles = ({ layout, palette }) => ({
 })
 
 const Navbar = ({ classes }) => {
-  // const [menu, setMenu] = useState(window.innerWidth > 700)
   const [menu, setMenu] = useState(null)
 
   const navLinks = [
@@ -71,7 +70,7 @@ const Navbar = ({ classes }) => {
       <User>
         {({ data: { me } }) => (
           <div className={classes.root}>
-            <div className="visibleOnMobile" onClick={setMenu.bind(null, !menu)}>
+            <div className="visibleOnMobile" onClick={_ => setMenu(!menu)}>
               <img src="static/menu.svg" alt="menu" style={{ width: 40, height: 40 }} />
             </div>
             <div className="navbarFlex">
