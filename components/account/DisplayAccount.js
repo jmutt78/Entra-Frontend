@@ -59,7 +59,7 @@ class DisplayAccount extends Component {
                 <TableHead>
                   <TableRow>
                     <TableCell>
-                      <Typography variant="display3" className={classes.title}>
+                      <Typography variant="h3" className={classes.title}>
                         {`${user.name}'s Profile`}
                       </Typography>
                     </TableCell>

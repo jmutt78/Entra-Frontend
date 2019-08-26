@@ -89,7 +89,7 @@ class Blogs extends Component {
               <Grid item xs={3} />
               <Grid item xs={6}>
                 <Typography
-                  variant="display3"
+                  variant="h3"
                   centered
                   className={classes.container}
                 >

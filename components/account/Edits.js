@@ -210,7 +210,7 @@ class UpdateUser extends Component {
               <TableHead>
                 <TableRow>
                   <TableCell>
-                    <Typography variant="display3" className={classes.title}>
+                    <Typography variant="h3" className={classes.title}>
                       Edit your Profile
                     </Typography>
                   </TableCell>

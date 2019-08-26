@@ -27,7 +27,7 @@ const Terms = ({ classes }) => {
         <TableHead>
           <TableRow>
             <TableCell>
-              <Typography variant="display3" className={classes.title}>
+              <Typography variant="h3" className={classes.title}>
                 Our Team
               </Typography>
             </TableCell>

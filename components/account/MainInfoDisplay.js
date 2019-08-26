@@ -79,8 +79,8 @@ class MainInfoDisplay extends Component {
               </div>
               <div className={classes.detailsContainer}>
                 <Typography variant="h6">{user.display}</Typography>
-                <Typography variant="subheading">Location: {user.location}</Typography>
-                <Typography variant="subheading">Industry: {user.industry}</Typography>
+                <Typography variant="subtitle1">Location: {user.location}</Typography>
+                <Typography variant="subtitle1">Industry: {user.industry}</Typography>
                 <Typography>Member Since {format(parseISO(dateToFormat), 'MMMM dd, yyyy')}</Typography>
               </div>
 
