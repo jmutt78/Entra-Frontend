@@ -19,7 +19,7 @@ import DeleteAnswer from "../delete-answer";
 import SelectAnswer from "../approval/SelectAnswer";
 import questionQuery from "../question-display/questionQuery";
 
-const CREATE_ANSWER_VOTE_MUTATION = gql`
+export const CREATE_ANSWER_VOTE_MUTATION = gql`
   mutation CREATE_ANSWER_VOTE_MUTATION($answerId: ID!, $vote: String) {
     createAnswerVote(answerId: $answerId, vote: $vote) {
       id
@@ -299,4 +299,3 @@ const Answer = ({ answer, classes, user, client, question }) => {
 };
 
 export default withStyles(styles)(withApollo(Answer));
-export const AnswerComp = withStyles(styles)(Answer);

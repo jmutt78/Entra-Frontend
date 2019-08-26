@@ -37,7 +37,13 @@ async function setup(shouldWait, shouldError=false, graphqlError=true) {
                             {
                                 id: '1',
                                 title: 'title',
-                                askedBy: [{ id: 1, name: 'Steve' }],
+                                askedBy: [
+                                    { 
+                                        id: 1, 
+                                        name: 'Steve',
+                                        display: 'display',
+                                    }
+                                ],
                                 createdAt: '2019-08-15',
                                 answers: [],
                                 description: '',

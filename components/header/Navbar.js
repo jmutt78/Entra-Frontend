@@ -12,9 +12,9 @@ import './Navbar.css'
 
 const styles = ({ layout, palette }) => ({
   root: {
-    width: layout.width,
-    background: palette.accent.blue,
-    minHeight: layout.headerHeight,
+    width: "100%", //layout.width,
+    background: '#85bdcb', //palette.accent.blue,
+    minHeight: 80, //layout.headerHeight,
     display: 'flex',
   },
   navText: {
