@@ -17,6 +17,7 @@ import HowToReg from '@material-ui/icons/HowToReg'
 import School from '@material-ui/icons/School'
 import Favorite from '@material-ui/icons/Favorite'
 import Cached from '@material-ui/icons/Cached'
+import Tooltip from '@material-ui/core/Tooltip'
 
 const styles = theme => ({
   container: {
@@ -111,12 +112,14 @@ export function BadgeItem({ type, classes }) {
   const badgeConfig = badgesConfig[type]
 
   return badgeConfig ? (
-    <div className={classes.item}>
-      <badgeConfig.icon style={{ fontSize: 64 }} />
-      <Typography variant="h6" style={{ textAlign: 'center' }}>
-        {badgeConfig.title}
-      </Typography>
-    </div>
+    <Tooltip title={`${badgeConfig.title} Badge`} placement="top">
+      <div className={classes.item}>
+        <badgeConfig.icon style={{ fontSize: 64 }} />
+        <Typography variant="h6" style={{ textAlign: 'center' }}>
+          {badgeConfig.title}
+        </Typography>
+      </div>
+    </Tooltip>
   ) : null
 }
 
@@ -126,7 +129,7 @@ export function BadgesList({ badges, classes }) {
   const badgeKeys = Object.keys(badges)
   if (!badgeKeys.length) {
     return (
-      <Typography variant="h6" style={{padding: '0 0 30px 50px'}}>
+      <Typography variant="h6" style={{ padding: '0 0 30px 50px' }}>
         No bages yet
       </Typography>
     )
