@@ -12,7 +12,7 @@ import CardHeader from '@material-ui/core/CardHeader'
 import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
 
-import './index.css';
+import './index.css'
 
 const styles = theme => ({
   media: {
@@ -23,20 +23,31 @@ const styles = theme => ({
     width: '100%',
     height: '100%',
     marginTop: '-5px',
-  }
+  },
+  excerpt: {
+    fontSize: '1.1rem',
+  },
+  buttonText: {
+    fontSize: '1.1rem',
+    cursor: 'pointer',
+  },
+  buttonContainer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    padding: '0 15px 15px 0',
+  },
 })
 
 const titleProps = {
   style: {
     fontSize: '1.8rem',
-
-  }
+  },
 }
 const dateProps = {
   style: {
     fontSize: '1.1rem',
-
-  }
+  },
 }
 
 const Post = ({ post, classes }) => {
@@ -50,11 +61,16 @@ const Post = ({ post, classes }) => {
       >
         <Card className="card">
           <CardHeader
-            avatar={<div className="postAvatar"><Avatar aria-label="Recipe" className={classes.avatarInner} src="/static/square_logo.png" /></div>}
+            avatar={
+              <div className="postAvatar">
+                <Avatar aria-label="Recipe" className={classes.avatarInner} src="/static/square_logo.png" />
+              </div>
+            }
             title={post.node.title}
             subheaderTypographyProps={dateProps}
             titleTypographyProps={titleProps}
             subheader={format(parseISO(post.node.date), 'MMMM dd, yyyy')}
+            style={{padding: '30px 15px'}}
           />
           <CardMedia
             className={classes.media}
@@ -64,6 +80,7 @@ const Post = ({ post, classes }) => {
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
               <div
+                className={classes.excerpt}
                 dangerouslySetInnerHTML={{
                   __html: post.node.excerpt,
                 }}
@@ -71,9 +88,11 @@ const Post = ({ post, classes }) => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small" color="primary">
-              Read More
-            </Button>
+            <Typography component="div" className={classes.buttonContainer}>
+              <Button size="small" color="primary">
+                <span className={classes.buttonText}>Read More</span>
+              </Button>
+            </Typography>
           </CardActions>
         </Card>
       </Link>
