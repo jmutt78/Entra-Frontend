@@ -33,12 +33,11 @@ const styles = theme => ({
   },
   card: {
     width: '100%',
-    height: 400,
     maxWidth: 1000,
   },
   title: {
     color: '#2d3436', //theme.palette.accent.dark,
-    padding: 30,
+    padding: '40px 0 20px 50px',
     fontWeight: 'bold',
     textAlign: 'left',
     lineHeight: '2.5rem',
@@ -110,32 +109,19 @@ const badgesConfig = {
 
 export function BadgeItem({ type, classes }) {
   const badgeConfig = badgesConfig[type]
-  return (
-    <div className={classes.item}>
-      {badgeConfig ?
+
+  return badgeConfig ? (
+    (
+      <div className={classes.item}>
         <badgeConfig.icon style={{ fontSize: 64 }} />
-        : null
-      }
-      <Typography variant="h6">
-        {badgeConfig ? badgeConfig.title : 'some title'}
-      </Typography>
-    </div>
-  )
+        <Typography variant="h6">
+          {badgeConfig.title}
+        </Typography>
+      </div>
+    )
+
+  ) : null
 }
-
-// export function BadgeItem({ type, classes }) {
-//   const badgeConfig = badgesConfig[type]
-//   const { title, icon: Icon } = badgeConfig
-//   return (
-//     <div className={classes.item}>
-//       <Icon style={{ fontSize: 64 }} />
-//       <Typography variant="h6">
-//         {title}
-//       </Typography>
-//     </div>
-//   )
-// }
-
 
 export function BadgesList({ badges, classes }) {
   const yourBadges = pickBy(badges, value => value === true)
