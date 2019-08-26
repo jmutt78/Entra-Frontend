@@ -55,6 +55,7 @@ const styles = theme => ({
   content: {
     maxWidth: '100%',
     alignItems: 'left',
+    color: theme.palette.accent.dark,
   },
   featured: {
     width: '800px',
