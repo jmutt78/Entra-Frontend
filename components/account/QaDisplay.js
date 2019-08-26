@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { Query } from 'react-apollo'
 
 import Error from './../ErrorMessage.js'
-import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 
@@ -14,22 +13,21 @@ const styles = ({ spacing, palette }) => ({
   container: {
     width: '100%',
     display: 'flex',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    padding: '0 50px',
   },
-  qaGrid: {
-    marginLeft: spacing.unit * 9,
-    marginRight: spacing.unit * 9,
-    padding: '30px',
-  },
-  grid: {
-    marginBottom: spacing(4),
-    marginLeft: spacing(2),
+  elementContainer: {
+    width: 200,
+    padding: 50,
+    maxWidth: '90%',
   },
   link: {
     textDecoration: 'none',
     color: 'grey',
   },
   title: {
-    color: '#2d3436', //palette.accent.dark,
+    color: '#2d3436',
     padding: '5px 0 0 20px',
     margin: 0,
     marginTop: 30,
@@ -83,62 +81,70 @@ class QaDisplay extends Component {
               </Typography>
 
               <div className={classes.container}>
-                <Typography variant="h4" align="center">
-                  {user.myQuestions.length}
-                </Typography>
+                <div className={classes.elementContainer}>
+                  <Typography variant="h4" align="center">
+                    {user.myQuestions.length}
+                  </Typography>
 
-                <Typography variant="h5" align="center">
-                  <Link
-                    href={{
-                      pathname: '/users',
-                      query: { id: userId },
-                    }}
-                  >
-                    <a className={classes.link}>Questions</a>
-                  </Link>
-                </Typography>
+                  <Typography variant="h5" align="center">
+                    <Link
+                      href={{
+                        pathname: '/users',
+                        query: { id: userId },
+                      }}
+                    >
+                      <a className={classes.link}>Questions</a>
+                    </Link>
+                  </Typography>
+                </div>
 
-                <Typography variant="h4" align="center">
-                  {user.myAnswers.length}
-                </Typography>
+                <div className={classes.elementContainer}>
+                  <Typography variant="h4" align="center">
+                    {user.myAnswers.length}
+                  </Typography>
 
-                <Typography variant="h5" align="center">
-                  <Link
-                    href={{
-                      pathname: '/answers',
-                      query: { id: userId },
-                    }}
-                  >
-                    <a className={classes.link}>Answers</a>
-                  </Link>
-                </Typography>
+                  <Typography variant="h5" align="center">
+                    <Link
+                      href={{
+                        pathname: '/answers',
+                        query: { id: userId },
+                      }}
+                    >
+                      <a className={classes.link}>Answers</a>
+                    </Link>
+                  </Typography>
+                </div>
 
-                <Typography variant="h4" align="center">
-                  {
-                    answers.filter((x, i) => {
-                      return x.selected
-                    }).length
-                  }
-                </Typography>
+                <div className={classes.elementContainer}>
+                  <Typography variant="h4" align="center">
+                    {
+                      answers.filter((x, i) => {
+                        return x.selected
+                      }).length
+                    }
+                  </Typography>
 
-                <Typography variant="h5" align="center">
-                  <Link
-                    href={{
-                      pathname: '/selected',
-                      query: { id: userId },
-                    }}
-                  >
-                    <a className={classes.link}>Accepted Answers</a>
-                  </Link>
-                </Typography>
+                  <Typography variant="h5" align="center">
+                    <Link
+                      href={{
+                        pathname: '/selected',
+                        query: { id: userId },
+                      }}
+                    >
+                      <a className={classes.link}>Accepted Answers</a>
+                    </Link>
+                  </Typography>
+                </div>
 
-                <Typography variant="h4" align="center">
-                  {this.handlePointCount(questions, answers)}
-                </Typography>
+                <div className={classes.elementContainer}>
+                  <Typography variant="h4" align="center">
+                    {this.handlePointCount(questions, answers)}
+                  </Typography>
 
-                <Typography variant="h5" align="center" className={classes.link}>
-                  Points
-                </Typography>
+                  <Typography variant="h5" align="center" className={classes.link}>
+                    Points
+                  </Typography>
+                </div>
               </div>
             </div>
           )
