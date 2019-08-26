@@ -111,15 +111,12 @@ export function BadgeItem({ type, classes }) {
   const badgeConfig = badgesConfig[type]
 
   return badgeConfig ? (
-    (
-      <div className={classes.item}>
-        <badgeConfig.icon style={{ fontSize: 64 }} />
-        <Typography variant="h6">
-          {badgeConfig.title}
-        </Typography>
-      </div>
-    )
-
+    <div className={classes.item}>
+      <badgeConfig.icon style={{ fontSize: 64 }} />
+      <Typography variant="h6" style={{ textAlign: 'center' }}>
+        {badgeConfig.title}
+      </Typography>
+    </div>
   ) : null
 }
 
@@ -156,7 +153,6 @@ export class BadgesDisplay extends Component {
           </Typography>
 
           <BadgesList badges={user.badges} classes={classes} />
-
         </Card>
       </div>
     )
