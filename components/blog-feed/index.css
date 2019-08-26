@@ -1,0 +1,10 @@
+.postAvatar {
+  width: 3.8rem;
+  height: 3.8rem;
+}
+
+@media (max-width: 700px) {
+  .postAvatar {
+    display: none;
+  }
+}

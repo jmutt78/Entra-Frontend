@@ -12,6 +12,8 @@ import CardHeader from '@material-ui/core/CardHeader'
 import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
 
+import './index.css';
+
 const styles = theme => ({
   card: {
     maxWidth: 1000,
@@ -22,9 +24,10 @@ const styles = theme => ({
     height: 0,
     paddingTop: '56.25%', // 16:9
   },
-  avatar: {
-    width: '3.8rem',
-    height: '3.8rem',
+  avatarInner: {
+    width: '100%',
+    height: '100%',
+    marginTop: '-5px',
   }
 })
 
@@ -52,7 +55,7 @@ const Post = ({ post, classes }) => {
       >
         <Card className={classes.card}>
           <CardHeader
-            avatar={<Avatar aria-label="Recipe" className={classes.avatar} src="/static/square_logo.png" />}
+            avatar={<div className="postAvatar"><Avatar aria-label="Recipe" className={classes.avatarInner} src="/static/square_logo.png" /></div>}
             title={post.node.title}
             subheaderTypographyProps={dateProps}
             titleTypographyProps={titleProps}
