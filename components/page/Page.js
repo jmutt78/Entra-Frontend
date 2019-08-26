@@ -9,16 +9,18 @@ import './Page.css'
 const styles = ({ layout }) => {
   return {
     root: {
-      width: layout.width,
-      height: layout.height,
+      width: "100%", //layout.width,
+      height: "100%", //layout.height,
       display: 'flex',
       flexDirection: 'column',
     },
     contentContainer: {
       display: 'flex',
       flex: 1,
+
       minHeight: layout.contentMinHeight,
       overflowX: 'scroll',
+
     },
   }
 }

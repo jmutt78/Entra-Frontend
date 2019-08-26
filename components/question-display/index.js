@@ -23,8 +23,10 @@ const styles = ({ palette, layout }) => ({
   container: {
     width: '100%',
     maxWidth: 1200,
+
     height: '100%',
     minHeight: layout.contentMinHeight,
+
   },
   title: {
     fontSize: '40px',
@@ -45,6 +47,7 @@ const styles = ({ palette, layout }) => ({
     padding: '0 1rem',
   },
   downVote: {
+
     color: palette.accent.blue,
     fontSize: '1.4rem',
     padding: '0 1rem'
@@ -55,13 +58,14 @@ const styles = ({ palette, layout }) => ({
   },
 })
 
-const CREATE_QUESTION_VOTE_MUTATION = gql`
+
+export const CREATE_QUESTION_VOTE_MUTATION = gql`
   mutation CREATE_QUESTION_VOTE_MUTATION($questionId: ID!, $vote: String) {
     createQuestionVote(questionId: $questionId, vote: $vote)
   }
 `
 
-const CREATE_QUESTION_VIEW_MUTATION = gql`
+export const CREATE_QUESTION_VIEW_MUTATION = gql`
   mutation CREATE_QUESTION_VIEW_MUTATION($questionId: ID!) {
     createQuestionView(questionId: $questionId)
   }
@@ -75,8 +79,10 @@ const Wrapper = ({ client, classes, id }) => {
         id,
       }}
     >
+
       {({ data: { question }, loading }) => {
         if (loading) return <p>Loading...</p>
+
         if (!question) {
           return <p>Question not found</p>
         }

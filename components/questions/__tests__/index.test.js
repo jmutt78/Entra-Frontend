@@ -6,14 +6,18 @@ import { MockedProvider } from 'react-apollo/test-utils';
 import 'jest-matcher-one-of';
 import wait from 'waait';
 import { GraphQLError } from 'graphql';
-import questionListQuery from "../../question-list/questionListQuery";
-import { PAGINATION_QUERY } from "../../pagination/paginationQuery.js";
-import MyQuestions from "../../my-questions";
+import ErrorComp from "../../ErrorMessage.js";
+import Questions from "../index";
 import QuestionList from "../../question-list";
+import questionListQuery from "../../question-list/questionListQuery";
 
-async function setup(shouldWait, shouldError) {
+async function setup(shouldWait, shouldError=false, graphqlError=true) {
 
     let mocks;
+    const filter = "all";
+    const props = {
+        page: 1,
+    }
 
     if(!shouldError) {
 
@@ -22,7 +26,7 @@ async function setup(shouldWait, shouldError) {
                 request: {
                     query: questionListQuery,
                     variables: {
-                        filter: 'my',
+                        filter,
                         skip: 0,
                         first: 10
                     }
@@ -43,33 +47,51 @@ async function setup(shouldWait, shouldError) {
                                 upVotes: 0,
                                 downVotes: 0,
                                 bookMark: []
-                            }
+                            },
                         ],
                     },
                 },
             },
         ];
     } 
-    else {
+    else if(graphqlError) {
 
         mocks = [
             {
                 request: {
                     query: questionListQuery,
                     variables: {
-                        filter: "my",
+                        filter,
                         skip: 0,
-                        first: 10,
+                        first: 10
                     },
                 },
-                error: new Error('Error while fetching data from server'),
+                result: {
+                    errors: [new GraphQLError('GraphQL Error!')]
+                }
+            },
+        ];
+    }
+    else if(!graphqlError) {
+
+        mocks = [
+            {
+                request: {
+                    query: questionListQuery,
+                    variables: {
+                        filter,
+                        skip: 0,
+                        first: 10
+                    },
+                },
+                error: new Error('Network Error!'),
             },
         ];
     }
 
     const component = mount(
         <MockedProvider mocks={mocks} addTypename={false}>
-            <MyQuestions page={1} />
+            <Questions {...props} />
         </MockedProvider>
     )
 
@@ -82,30 +104,39 @@ async function setup(shouldWait, shouldError) {
 
     return {
         component: component,
-        questionlist: component.find(QuestionList)
+        error: component.find(ErrorComp),
+        questionList: component.find(QuestionList),
     }
 }
 
-describe('MyQuestions component', () => {
+describe('Questions component', () => {
 
     it('should render loading state initially', async () => {
 
-        const { component } = await setup(false, false)
+        const { component } = await setup(false)
 
         expect(component.text()).toMatch(/^Loading.../)
     })
 
+    it('should show error when graphql errors occured fetching data from server', async () => {
+
+        const { error } = await setup(true, true, true)
+      
+        expect(error.at(0).text()).toMatch(/^Shoot!GraphQL Error!/)
+    })
+
+    it('should show error when network errors occured fetching data from server', async () => {
+
+        const { error } = await setup(true, true, false)
+      
+        expect(error.at(0).text()).toMatch(/^Shoot!Network error/)
+    })
+
     it('should render QuestionList', async () => {
 
-        const { questionlist } = await setup(true, false)
+        const { questionList } = await setup(true)
         
-        expect(questionlist).toHaveLength(1)
+        expect(questionList).toHaveLength(1)
     })
 
-    it('should show error UI when failed fetching data from server', async () => {
-
-        const { component } = await setup(true, true)
-      
-        expect(component.text()).toMatch(/^Error/)
-    })
 })

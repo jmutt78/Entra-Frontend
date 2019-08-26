@@ -10,7 +10,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 
 import Error from "../ErrorMessage";
 
-const BLOG_QUERY = gql`
+export const BLOG_QUERY = gql`
   query BLOG_QUERY($id: ID!) {
     post(id: $id) {
       id
@@ -64,9 +64,10 @@ class DisplayBlog extends Component {
           id: this.props.id
         }}
       >
-        {({ data: { post }, loading, error }) => {
+        {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>;
           if (error) return <Error error={error} />;
+          const { post } = data;
           function createMarkup() {
             return { __html: createMarkup() };
           }

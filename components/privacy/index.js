@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import Error from "../ErrorMessage";
 import Head from "next/head";
 
-const PRIVACY_QUERY = gql`
+export const PRIVACY_QUERY = gql`
   query PRIVACY_QUERY($id: ID!) {
     page(id: $id) {
       content
@@ -55,9 +55,10 @@ class Privacy extends Component {
         }}
         context={{ clientName: "second" }}
       >
-        {({ data: { page }, loading, error }) => {
+        {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>;
           if (error) return <Error error={error} />;
+          const { page } = data;
           function createMarkup() {
             return { __html: createMarkup() };
           }

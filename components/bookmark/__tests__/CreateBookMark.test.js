@@ -25,9 +25,7 @@ async function setup() {
             image: '',
             myBookMarks: [
                 {
-                    questions: [
-
-                    ]
+                    questions: []
                 }
             ],
             myQuestions: [],

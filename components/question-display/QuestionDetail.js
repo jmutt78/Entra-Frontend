@@ -21,14 +21,18 @@ import './index.css'
 
 const styles = ({ layout, palette, spacing }) => ({
   title: {
+
     color: palette.accent.dark,
     padding: '5px 0 15px 0',
+
     margin: 0,
     maxWidth: 800,
   },
   body: {
+
     color: palette.accent.dark,
     padding: '5px 0 15px 0',
+
     margin: 0,
     maxWidth: 800,
     fontWeight: 300,
@@ -40,7 +44,9 @@ const styles = ({ layout, palette, spacing }) => ({
     color: '#e27d60',
   },
   tableRow: {
+
     background: palette.secondary.main,
+
   },
   detailContainer: {
     padding: '5px 15px',
@@ -63,7 +69,9 @@ const styles = ({ layout, palette, spacing }) => ({
     padding: '20px',
   },
   editButton: {
+
     backgroundColor: palette.accent.blue,
+
   },
   signupButton: {
     backgroundColor: palette.primary.dark,
@@ -83,9 +91,11 @@ const styles = ({ layout, palette, spacing }) => ({
     alignItems: 'center',
   },
   viewsCount: {
+
     color: palette.accent.dark,
     fontSize: '1.2rem',
     padding: '5px 0 5px 8px',
+
   },
 })
 
@@ -103,11 +113,13 @@ const PromptBar = ({ classes, user }) => {
   )
 }
 
+
 const EditButton = ({ question, user, classes }) => {
   const answers = question.answers.length
   const date1 = new Date(question.createdAt)
   const date2 = new Date()
   const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24))
+
 
   return user && question.askedBy[0].id === user.id && diffDays <= 1 && !answers ? (
     <Typography style={{ paddingBottom: 10 }} component={'div'}>

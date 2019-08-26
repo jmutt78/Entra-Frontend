@@ -21,7 +21,7 @@ const CustomTableCell = withStyles(theme => ({
   }
 }))(TableCell);
 
-const QUESTION_PAGINATION_QUERY = gql`
+export const QUESTION_PAGINATION_QUERY = gql`
   query QUESTION_PAGINATION_QUERY($filter: String!) {
     questionsConnection(filter: $filter) {
       aggregate {
@@ -36,9 +36,11 @@ const styles = ({ layout }) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
+
     maxWidth: 1200,
     height: "100%",
     paddingRight: 10,
+
   },
   title: {
     fontSize: "40px",
@@ -120,4 +122,3 @@ function QuestionList(props) {
 }
 
 export default withStyles(styles)(QuestionList);
-export { QUESTION_PAGINATION_QUERY };

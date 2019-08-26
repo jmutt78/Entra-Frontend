@@ -12,7 +12,7 @@ import Paper from "@material-ui/core/Paper";
 import MenuItem from "@material-ui/core/MenuItem";
 import Chip from "@material-ui/core/Chip";
 
-const SEARCH_QUESTIONS_QUERY = gql`
+export const SEARCH_QUESTIONS_QUERY = gql`
   query SEARCH_QUESTIONS_QUERY($searchTerm: String!) {
     questions(where: { title_contains: $searchTerm }) {
       id
