@@ -13,13 +13,14 @@ const styles = ({ layout }) => {
       height: "100%", //layout.height,
       display: 'flex',
       flexDirection: 'column',
-      overflow: 'scroll',
     },
     contentContainer: {
       display: 'flex',
       flex: 1,
-      minHeight: "calc(100% - 80px - 80px)", //layout.contentMinHeight,
-      overflow: 'scroll',
+
+      minHeight: layout.contentMinHeight,
+      overflowX: 'scroll',
+
     },
   }
 }

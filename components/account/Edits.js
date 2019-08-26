@@ -63,7 +63,7 @@ const styles = ({ layout, palette, spacing }) => ({
     fontSize: "40px",
     textAlign: "Left",
     color: "rgba(0, 0, 0, 0.87)",
-    lineHeight: "3rem"
+    lineHeight: "3rem",
   },
   inputField: {
     width: "100%",
@@ -210,7 +210,7 @@ class UpdateUser extends Component {
               <TableHead>
                 <TableRow>
                   <TableCell>
-                    <Typography variant="display3" className={classes.title}>
+                    <Typography variant="h3" className={classes.title}>
                       Edit your Profile
                     </Typography>
                   </TableCell>

@@ -89,7 +89,7 @@ class Blogs extends Component {
               <Grid item xs={3} />
               <Grid item xs={6}>
                 <Typography
-                  variant="display3"
+                  variant="h3"
                   centered
                   className={classes.container}
                 >
@@ -110,7 +110,7 @@ class Blogs extends Component {
                               <Avatar
                                 aria-label="Recipe"
                                 className={classes.avatar}
-                                src="/static/Screen Shot 2019-07-17 at 2.47.56 PM.jpg"
+                                src=""
                               />
                             }
                             title={post.node.title}
@@ -128,7 +128,7 @@ class Blogs extends Component {
                             <Typography
                               variant="body2"
                               color="textSecondary"
-                              component="p"
+                              component={'div'}
                             >
                               <div
                                 dangerouslySetInnerHTML={{

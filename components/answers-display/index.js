@@ -25,9 +25,8 @@ const styles = ({ spacing, palette, layout }) => ({
     marginBottom: 30,
     maxWidth: 800,
     fontWeight: "bold",
-
     textAlign: "left",
-    lineHeight: "2.5rem"
+    lineHeight: "2.5rem",
   }
 });
 
