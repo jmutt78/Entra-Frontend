@@ -7,7 +7,7 @@ import { MockedProvider } from 'react-apollo/test-utils';
 import 'jest-matcher-one-of';
 import wait from 'waait';
 import TextField from "@material-ui/core/TextField";
-import CreatBookMark, { CREATE_BOOKMARK_MUTATION } from '../CreateBookMark'
+import CreateBookMark, { CREATE_BOOKMARK_MUTATION } from '../CreateBookMark'
 
 async function setup() {
 
@@ -58,7 +58,7 @@ async function setup() {
 
     const component = mount(
         <MockedProvider mocks={mocks} addTypename={false}>
-            <CreatBookMark {...props} />
+            <CreateBookMark {...props} />
         </MockedProvider>
     )
 

@@ -89,7 +89,7 @@ class DisplayBlog extends Component {
                     src={post.featuredImage.sourceUrl}
                   />
                 </CardMedia>
-                <Typography variant="h6" color="textSecondary" display="block">
+                <Typography variant="h6" color="textSecondary" display="block" component={'div'}>
                   <div
                     className={classes.content}
                     dangerouslySetInnerHTML={{

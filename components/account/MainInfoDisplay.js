@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 
 import Error from './../ErrorMessage.js'
+import './index.css'
 
 import { CURRENT_USER_QUERY } from '../auth/User'
 
@@ -32,10 +33,6 @@ const styles = theme => ({
   divider: {
     marginTop: theme.spacing(5),
     margin: theme.spacing(1),
-  },
-  about: {
-    fontSize: 17,
-    color: 'grey',
   },
   avatarContainer: {
     display: 'flex',
@@ -82,8 +79,8 @@ class MainInfoDisplay extends Component {
               </div>
               <div className={classes.detailsContainer}>
                 <Typography variant="h6">{user.display}</Typography>
-                <Typography variant="subheading">Location: {user.location}</Typography>
-                <Typography variant="subheading">Industry: {user.industry}</Typography>
+                <Typography variant="subtitle1">Location: {user.location}</Typography>
+                <Typography variant="subtitle1">Industry: {user.industry}</Typography>
                 <Typography>Member Since {format(parseISO(dateToFormat), 'MMMM dd, yyyy')}</Typography>
               </div>
 
@@ -97,7 +94,7 @@ class MainInfoDisplay extends Component {
                 </Typography>
               ) : null}
 
-              <Typography className={classes.about}>{user.about}</Typography>
+              <Typography className="about">{user.about}</Typography>
               <Divider className={classes.divider} variant="middle" />
             </div>
           )

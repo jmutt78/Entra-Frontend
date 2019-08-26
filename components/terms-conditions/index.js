@@ -72,7 +72,7 @@ class TermsConditions extends Component {
                   {page.title}
                 </Typography>
 
-                <Typography variant="h6" color="textSecondary" display="block">
+                <Typography variant="h6" color="textSecondary" display="block" component={'div'}>
                   <div
                     className={classes.content}
                     dangerouslySetInnerHTML={{
