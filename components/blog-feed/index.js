@@ -12,6 +12,10 @@ import CardContent from '@material-ui/core/CardContent'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardMedia from '@material-ui/core/CardMedia'
 import Grid from '@material-ui/core/Grid'
+import Table from "@material-ui/core/Table";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 
@@ -48,6 +52,12 @@ const styles = theme => ({
     flexDirection: 'column',
     width: '100%',
   },
+  title: {
+    fontSize: "40px",
+    textAlign: "Left",
+    color: "rgba(0, 0, 0, 0.87)",
+    lineHeight: '3rem',
+  },
   root: {
     margin: theme.spacing(1),
     marginTop: 40,
@@ -83,52 +93,65 @@ class Blogs extends Component {
           if (error) return <Error error={error} />
           const posts = data.posts.edges
           return (
-            <div className={classes.container}>
-              {posts.map(post => {
-                return (
-                  <div key={post.node.id}>
-                    <Link
-                      href={{
-                        pathname: '/post',
-                        query: { id: post.node.id },
-                      }}
-                    >
-                      <Card className={classes.card}>
-                        <CardHeader
-                          avatar={
-                            <Avatar
-                              aria-label="Recipe"
-                              className={classes.avatar}
-                              src="/static/Screen Shot 2019-07-17 at 2.47.56 PM.jpg"
-                            />
-                          }
-                          title={post.node.title}
-                          subheader={format(parseISO(post.node.date), 'MMMM dd, yyyy')}
-                        />
-                        <CardMedia
-                          className={classes.media}
-                          image={post.node.featuredImage.sourceUrl}
-                          title="Paella dish"
-                        />
-                        <CardContent>
-                          <Typography variant="body2" color="textSecondary" component="p">
-                            <div
-                              dangerouslySetInnerHTML={{
-                                __html: post.node.excerpt,
-                              }}
-                            />
-                          </Typography>
-                        </CardContent>
-                        <CardActions>
-                          <Button size="small" color="primary">
-                            Read More
-                          </Button>
-                        </CardActions>
-                      </Card>
-                    </Link>
-                  </div>
-                )
-              })}
+            <div>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>
+                      <Typography variant="h6" className={classes.title}>
+                        Blog
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+              </Table>
+              <div className={classes.container}>
+                {posts.map(post => {
+                  return (
+                    <div key={post.node.id}>
+                      <Link
+                        href={{
+                          pathname: '/post',
+                          query: { id: post.node.id },
+                        }}
+                      >
+                        <Card className={classes.card}>
+                          <CardHeader
+                            avatar={
+                              <Avatar
+                                aria-label="Recipe"
+                                className={classes.avatar}
+                                src="/static/Screen Shot 2019-07-17 at 2.47.56 PM.jpg"
+                              />
+                            }
+                            title={post.node.title}
+                            subheader={format(parseISO(post.node.date), 'MMMM dd, yyyy')}
+                          />
+                          <CardMedia
+                            className={classes.media}
+                            image={post.node.featuredImage.sourceUrl}
+                            title="Paella dish"
+                          />
+                          <CardContent>
+                            <Typography variant="body2" color="textSecondary" component="p">
+                              <div
+                                dangerouslySetInnerHTML={{
+                                  __html: post.node.excerpt,
+                                }}
+                              />
+                            </Typography>
+                          </CardContent>
+                          <CardActions>
+                            <Button size="small" color="primary">
+                              Read More
+                            </Button>
+                          </CardActions>
+                        </Card>
+                      </Link>
+                    </div>
+                  )
+                })}
+              </div>
             </div>
           )
         }}

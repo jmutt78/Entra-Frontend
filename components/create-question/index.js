@@ -38,7 +38,7 @@ const styles = ({ layout, palette }) => ({
   title: {
     fontSize: "40px",
     textAlign: "Left",
-    color: "rgba(0, 0, 0, 0.87)"
+    color: "rgba(0, 0, 0, 0.87)",
     lineHeight: '3rem',
   },
   inputField: {
