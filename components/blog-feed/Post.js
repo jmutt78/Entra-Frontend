@@ -22,7 +22,24 @@ const styles = theme => ({
     height: 0,
     paddingTop: '56.25%', // 16:9
   },
+  avatar: {
+    width: '3.8rem',
+    height: '3.8rem',
+  }
 })
+
+const titleProps = {
+  style: {
+    fontSize: '1.8rem',
+
+  }
+}
+const dateProps = {
+  style: {
+    fontSize: '1.1rem',
+
+  }
+}
 
 const Post = ({ post, classes }) => {
   return (
@@ -35,14 +52,10 @@ const Post = ({ post, classes }) => {
       >
         <Card className={classes.card}>
           <CardHeader
-            avatar={
-              <Avatar
-                aria-label="Recipe"
-                className={classes.avatar}
-                src="/static/Screen Shot 2019-07-17 at 2.47.56 PM.jpg"
-              />
-            }
+            avatar={<Avatar aria-label="Recipe" className={classes.avatar} src="/static/square_logo.png" />}
             title={post.node.title}
+            subheaderTypographyProps={dateProps}
+            titleTypographyProps={titleProps}
             subheader={format(parseISO(post.node.date), 'MMMM dd, yyyy')}
           />
           <CardMedia
