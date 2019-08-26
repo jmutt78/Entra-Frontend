@@ -105,7 +105,7 @@ const EditAndDelete = ({ answer, classes, user, question }) => {
   const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24))
 
   return user && answer.answeredBy.id === user.id && diffDays <= 2 && selected === null ? (
-    <Typography style={{ padding: '10px 0' }}>
+    <Typography style={{ padding: '10px 0' }} component={'div'}>
       <Link
         href={{
           pathname: '/edit-answer',

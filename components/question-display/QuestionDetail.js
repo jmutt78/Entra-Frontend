@@ -110,7 +110,7 @@ const EditButton = ({ question, user, classes }) => {
   const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24))
 
   return user && question.askedBy[0].id === user.id && diffDays <= 1 && !answers ? (
-    <Typography style={{ paddingBottom: 10 }}>
+    <Typography style={{ paddingBottom: 10 }} component={'div'}>
       <Link
         href={{
           pathname: '/edit-question',

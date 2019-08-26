@@ -75,7 +75,7 @@ const Navbar = ({ classes }) => {
               <img src="static/menu.svg" alt="menu" style={{ width: 40, height: 40 }} />
             </div>
             <div className="navbarFlex">
-              <Typography className={`navigationContainer ${menu === true && 'menuShown'}`}>
+              <Typography className={`navigationContainer ${menu === true && 'menuShown'}`} component={'div'}>
                 {me &&
                   me.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission)) &&
                   adminLinks.map(({ name, target }) => (
@@ -92,7 +92,10 @@ const Navbar = ({ classes }) => {
               </Typography>
 
               {me && (
-                <Typography className={classes.avatarContainer}>
+                <Typography
+                  className={classes.avatarContainer}
+                  component={'div'}
+                >
                   <Avatar me={me} />
                   <div>{me.name}</div>
                 </Typography>

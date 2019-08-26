@@ -128,7 +128,7 @@ class Blogs extends Component {
                             <Typography
                               variant="body2"
                               color="textSecondary"
-                              component="p"
+                              component={'div'}
                             >
                               <div
                                 dangerouslySetInnerHTML={{
