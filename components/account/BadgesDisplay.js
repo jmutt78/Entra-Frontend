@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
 import { withStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Card from '@material-ui/core/Card'
 import { pickBy } from 'lodash'
@@ -20,16 +19,9 @@ import Favorite from '@material-ui/icons/Favorite'
 import Cached from '@material-ui/icons/Cached'
 
 const styles = theme => ({
-  grid: {
-    margin: theme.spacing(1),
-  },
   container: {
     width: '100%',
     padding: 10,
-  },
-  root: {
-    margin: theme.spacing(1),
-    marginTop: 40,
   },
   badge: {
     alignItems: 'center',
@@ -44,26 +36,20 @@ const styles = theme => ({
     height: 400,
     maxWidth: 1000,
   },
-  awesome: {
-    justiftyContent: 'center',
-    color: 'grey',
-    alignItems: 'center',
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
-  },
-  awesomeAward: {
-    justiftyContent: 'center',
-    color: '#E27D60',
-    alignItems: 'center',
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
-  },
   title: {
     color: '#2d3436', //theme.palette.accent.dark,
-    padding: '20px 0 0 20px',
+    padding: 30,
     fontWeight: 'bold',
     textAlign: 'left',
     lineHeight: '2.5rem',
+  },
+  item: {
+    width: 150,
+    padding: 30,
+    display: 'flex',
+    flexDirection: 'column',
+    justiftyContent: 'center',
+    alignItems: 'center',
   },
 })
 
@@ -124,20 +110,37 @@ const badgesConfig = {
 
 export function BadgeItem({ type, classes }) {
   const badgeConfig = badgesConfig[type]
-  const { title, icon: Icon } = badgeConfig
   return (
-    <Grid container item xs={2} className={classes.badge} direction="column">
-      <Icon style={{ fontSize: 64 }} />
-      <Typography variant="h6" align="center">
-        {title}
+    <div className={classes.item}>
+      {badgeConfig ?
+        <badgeConfig.icon style={{ fontSize: 64 }} />
+        : null
+      }
+      <Typography variant="h6">
+        {badgeConfig ? badgeConfig.title : 'some title'}
       </Typography>
-    </Grid>
+    </div>
   )
 }
 
+// export function BadgeItem({ type, classes }) {
+//   const badgeConfig = badgesConfig[type]
+//   const { title, icon: Icon } = badgeConfig
+//   return (
+//     <div className={classes.item}>
+//       <Icon style={{ fontSize: 64 }} />
+//       <Typography variant="h6">
+//         {title}
+//       </Typography>
+//     </div>
+//   )
+// }
+
+
 export function BadgesList({ badges, classes }) {
   const yourBadges = pickBy(badges, value => value === true)
-  const badgeKeys = Object.keys(yourBadges)
+  // const badgeKeys = Object.keys(yourBadges)
+  const badgeKeys = Object.keys(badges)
   if (!badgeKeys.length) {
     return (
       <Typography variant="h6" align="center">
@@ -146,11 +149,11 @@ export function BadgesList({ badges, classes }) {
     )
   }
   return (
-    <Grid container>
+    <div className="badgesContainer">
       {badgeKeys.map(badge => (
         <BadgeItem key={badge} type={badge} classes={classes} />
       ))}
-    </Grid>
+    </div>
   )
 }
 
@@ -162,14 +165,12 @@ export class BadgesDisplay extends Component {
     return (
       <div className={classes.container}>
         <Card className={classes.card}>
-          <Grid container className={classes.root} spacing={16}>
-            <Grid item xs={11} className={classes.badgeTitle}>
-              <Typography variant="h4" className={classes.title}>
-                Badges
-              </Typography>
-            </Grid>
-          </Grid>
+          <Typography variant="h4" className={classes.title}>
+            Badges
+          </Typography>
+
           <BadgesList badges={user.badges} classes={classes} />
+
         </Card>
       </div>
     )

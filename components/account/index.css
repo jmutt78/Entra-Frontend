@@ -24,6 +24,15 @@
   padding: 0 50px;
 }
 
+
+.badgesContainer {
+  padding: 0 30px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
 @media (max-width: 700px) {
   .container {
     justify-content: center;
