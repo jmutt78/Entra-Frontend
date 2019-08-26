@@ -9,14 +9,6 @@ import { withStyles } from '@material-ui/core/styles'
 import { PAGINATION_QUERY } from '../pagination/paginationQuery.js'
 
 const styles = ({ spacing, palette }) => ({
-  root: {},
-  container: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexWrap: 'wrap',
-    padding: '0 50px',
-  },
   elementContainer: {
     width: 200,
     padding: 50,
@@ -25,17 +17,6 @@ const styles = ({ spacing, palette }) => ({
   link: {
     textDecoration: 'none',
     color: 'grey',
-  },
-  title: {
-    color: '#2d3436',
-    padding: '5px 0 0 20px',
-    margin: 0,
-    marginTop: 30,
-    marginBottom: 30,
-    maxWidth: 800,
-    fontWeight: 'bold',
-    textAlign: 'left',
-    lineHeight: '2.5rem',
   },
 })
 
@@ -75,12 +56,12 @@ class QaDisplay extends Component {
           const questions = user.myQuestions
 
           return (
-            <div className={classes.root}>
-              <Typography variant="h3" className={classes.title}>
+            <div className="root">
+              <Typography variant="h3" className="title">
                 Activity
               </Typography>
 
-              <div className={classes.container}>
+              <div className="container">
                 <div className={classes.elementContainer}>
                   <Typography variant="h4" align="center">
                     {user.myQuestions.length}
