@@ -32,7 +32,7 @@ const styles = ({ layout, palette, spacing }) => ({
     margin: 0,
     maxWidth: 800,
     fontWeight: 300,
-    wordBreak: 'break-all',
+    // wordBreak: 'break-all',
   },
   nameLink: {
     fontWeight: 500,

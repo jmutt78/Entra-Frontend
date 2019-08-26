@@ -27,7 +27,7 @@ const styles = ({ layout, palette }) => ({
     maxWidth: 800,
     fontWeight: 'bold',
     lineHeight: '2.2rem',
-    wordBreak: 'break-all',
+    // wordBreak: 'break-all',
   },
   body: {
     color: '#2d3436',
@@ -35,7 +35,7 @@ const styles = ({ layout, palette }) => ({
     margin: 0,
     maxWidth: 800,
     lineHeight: '2.1rem',
-    wordBreak: 'break-all',
+    // wordBreak: 'break-all',
   },
   nameLink: {
     fontWeight: 500,
