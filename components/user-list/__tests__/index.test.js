@@ -7,59 +7,18 @@ import 'jest-matcher-one-of';
 import wait from 'waait';
 import { GraphQLError } from 'graphql';
 import ErrorComp from "../../ErrorMessage.js";
-import Answers from '../index';
-import Answer from "../Answer";
-import { CURRENT_USER_QUERY } from '../../auth/User';
+import UserList from "../index";
+import QuestionList from "../../question-list";
+import { USER_QUERY } from "../../user-display";
+import userListQuery from "../userListQuery.js";
 
 async function setup(shouldWait, shouldError=false, graphqlError=true) {
 
     let mocks;
-
+    const filter = "user";
     const props = {
-        user: {
-            id: 1,
-            name: 'user_name',
-            email: 'user_email@domain.com',
-            display: 'user_display',
-            createdAt: '2019-08-10',
-            updatedAt: '2019-08-10',
-            location: 'user_location',
-            about: 'user_about',
-            industry: 'user_industry',
-            image: '',
-            myBookMarks: [],
-            myQuestions: [],
-            myAnswers: [],
-            permissions: [],
-            badges: {
-                autobiographer: true,
-            },
-        },
-        question: {
-            answers: [
-                {
-                    id: 1,
-                    title: '',
-                    body: '',
-                    link: '',
-                    createdAt: '2019-08-10',
-                    tags: [],
-                    answers: [],
-                    views: 0,
-                    upVotes: 0,
-                    downVotes: 0,
-                    answeredTo: [
-                        {
-                            id: 3,
-                        }
-                    ],
-                    answeredBy: {
-                        id: 2,
-                        name: 'aaa',
-                    }
-                },
-            ]
-        }
+        id: 1,
+        page: 1,
     }
 
     if(!shouldError) {
@@ -67,12 +26,14 @@ async function setup(shouldWait, shouldError=false, graphqlError=true) {
         mocks = [
             {
                 request: {
-                    query: CURRENT_USER_QUERY,
-                    variables: {}
+                    query: USER_QUERY,
+                    variables: {
+                        id: 1,
+                    }
                 },
                 result: {
                     data: {
-                        me: { 
+                        user: {
                             id: 1,
                             name: 'user_name',
                             email: 'user_email@domain.com',
@@ -87,8 +48,53 @@ async function setup(shouldWait, shouldError=false, graphqlError=true) {
                             myQuestions: [],
                             myAnswers: [],
                             permissions: [],
-                            badges: [],
-                        },
+                            badges: {
+                                autobiographer: false,
+                                critic: false,
+                                patron: false,
+                                reviewer: false,
+                                analyst: false,
+                                commentor: false,
+                                frequentFlyer: false,
+                                niceAnswer: false,
+                                expert: false,
+                                teacher: false,
+                                pundit: false,
+                                powerVoter: false,
+                                provoker: false,
+                            },
+                        }
+                    },
+                },
+            },
+            {
+                request: {
+                    query: userListQuery,
+                    variables: {
+                        id: 1,
+                        filter,
+                        skip: 0,
+                        first: 10
+                    }
+                },
+                result: {
+                    data: {
+                        questions: [
+                            {
+                                id: '1',
+                                title: 'title',
+                                askedBy: [{ id: 1, name: 'Steve' }],
+                                createdAt: '2019-08-15',
+                                answers: [],
+                                description: '',
+                                approval: '',
+                                tags: [],
+                                views: 0,
+                                upVotes: 0,
+                                downVotes: 0,
+                                bookMark: []
+                            }
+                        ]
                     },
                 },
             },
@@ -99,8 +105,10 @@ async function setup(shouldWait, shouldError=false, graphqlError=true) {
         mocks = [
             {
                 request: {
-                    query: CURRENT_USER_QUERY,
-                    variables: {},
+                    query: USER_QUERY,
+                    variables: {
+                        id: 1,
+                    },
                 },
                 result: {
                     errors: [new GraphQLError('GraphQL Error!')]
@@ -113,8 +121,10 @@ async function setup(shouldWait, shouldError=false, graphqlError=true) {
         mocks = [
             {
                 request: {
-                    query: CURRENT_USER_QUERY,
-                    variables: {},
+                    query: USER_QUERY,
+                    variables: {
+                        id: 1,
+                    },
                 },
                 error: new Error('Network Error!'),
             },
@@ -123,26 +133,27 @@ async function setup(shouldWait, shouldError=false, graphqlError=true) {
 
     const component = mount(
         <MockedProvider mocks={mocks} addTypename={false}>
-            <Answers {...props} />
+            <UserList {...props} />
         </MockedProvider>
     )
 
     if(shouldWait) {
         
         await wait(0);
+        component.update();
 
+        await wait(0);
         component.update();
     }
 
     return {
         component: component,
         error: component.find(ErrorComp),
-        typography: component.find(Typography),
-        answer: component.find(Answer),
+        questionList: component.find(QuestionList),
     }
 }
 
-describe('Answers component', () => {
+describe('UserList component', () => {
 
     it('should render loading state initially', async () => {
 
@@ -164,19 +175,12 @@ describe('Answers component', () => {
       
         expect(error.at(0).text()).toMatch(/^Shoot!Network error/)
     })
-    
-    it('should display title', async () => {
 
-        const { typography } = await setup(true, false)
+    it('should render QuestionList', async () => {
+
+        const { component,questionList } = await setup(true)
         
-        expect(typography.text()).toMatch(/^Answers/)
-    })
-
-    it('should render Answer', async () => {
-
-        const { answer } = await setup(true, false)
-        
-        expect(answer).toHaveLength(1)
+        expect(questionList).toHaveLength(1)
     })
 
 })

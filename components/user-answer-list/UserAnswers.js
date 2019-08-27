@@ -26,9 +26,10 @@ class UserAnswers extends Component {
           first: perPage
         }}
       >
-        {({ data: { answers }, loading, error }) => {
+        {({ data, loading, error }) => {
           if (loading) return <CircularProgress style={{margin: 20}} />
           if (error) return <Error error={error} />;
+          const { answers } = data;
           return (
             <AnswerList
               answers={answers}

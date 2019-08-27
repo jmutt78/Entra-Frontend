@@ -93,7 +93,7 @@ function QuestionList(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {questions.map(question => {
+          {questions && questions.map(question => {
             return (
               <ListItem
                 item={question}

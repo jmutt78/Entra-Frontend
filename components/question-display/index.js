@@ -26,7 +26,7 @@ const styles = ({ palette, layout }) => ({
     maxWidth: 1200,
 
     height: '100%',
-    minHeight: layout.contentMinHeight,
+    minHeight: "calc(100%)-80px-80px", //layout.contentMinHeight,
 
   },
   title: {
@@ -49,12 +49,12 @@ const styles = ({ palette, layout }) => ({
   },
   downVote: {
 
-    color: palette.accent.blue,
+    color: '#85bdcb', //palette.accent.blue,
     fontSize: '1.4rem',
     padding: '0 1rem'
   },
   viewsCount: {
-    color: palette.accent.dark,
+    color: '#2d3436', //palette.accent.dark,
     fontSize: '1.4rem',
   },
 })

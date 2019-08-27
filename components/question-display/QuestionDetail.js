@@ -22,7 +22,7 @@ import './index.css'
 const styles = ({ layout, palette, spacing }) => ({
   title: {
 
-    color: palette.accent.dark,
+    color: '#2d3436', //palette.accent.dark,
     padding: '5px 0 15px 0',
 
     margin: 0,
@@ -30,7 +30,7 @@ const styles = ({ layout, palette, spacing }) => ({
   },
   body: {
 
-    color: palette.accent.dark,
+    color: '#2d3436', //palette.accent.dark,
     padding: '5px 0 15px 0',
 
     margin: 0,
@@ -70,7 +70,7 @@ const styles = ({ layout, palette, spacing }) => ({
   },
   editButton: {
 
-    backgroundColor: palette.accent.blue,
+    backgroundColor: '#85bdcb', //palette.accent.blue,
 
   },
   signupButton: {
@@ -92,7 +92,7 @@ const styles = ({ layout, palette, spacing }) => ({
   },
   viewsCount: {
 
-    color: palette.accent.dark,
+    color: '#2d3436', //palette.accent.dark,
     fontSize: '1.2rem',
     padding: '5px 0 5px 8px',
 
@@ -114,7 +114,7 @@ const PromptBar = ({ classes, user }) => {
 }
 
 
-const EditButton = ({ question, user, classes }) => {
+export const EditButton = ({ question, user, classes }) => {
   const answers = question.answers.length
   const date1 = new Date(question.createdAt)
   const date2 = new Date()

@@ -7,15 +7,16 @@ import 'jest-matcher-one-of';
 import wait from 'waait';
 import { GraphQLError } from 'graphql';
 import ErrorComp from "../../ErrorMessage.js";
-import Questions from "../index";
-import QuestionList from "../../question-list";
-import questionListQuery from "../../question-list/questionListQuery";
+import UserAnswers from "../UserAnswers";
+import AnswerList from "../../answer-list";
+import userAnswerQuery from "../answerListQuery.js";
 
 async function setup(shouldWait, shouldError=false, graphqlError=true) {
 
     let mocks;
-    const filter = "all";
+    const filter = "user";
     const props = {
+        id: 1,
         page: 1,
     }
 
@@ -24,8 +25,9 @@ async function setup(shouldWait, shouldError=false, graphqlError=true) {
         mocks = [
             {
                 request: {
-                    query: questionListQuery,
+                    query: userAnswerQuery,
                     variables: {
+                        id: 1,
                         filter,
                         skip: 0,
                         first: 10
@@ -33,28 +35,7 @@ async function setup(shouldWait, shouldError=false, graphqlError=true) {
                 },
                 result: {
                     data: {
-                        questions: [
-                            {
-                                id: '1',
-                                title: 'title',
-                                askedBy: [
-                                    { 
-                                        id: 1, 
-                                        name: 'Steve',
-                                        display: 'display',
-                                    }
-                                ],
-                                createdAt: '2019-08-15',
-                                answers: [],
-                                description: '',
-                                approval: '',
-                                tags: [],
-                                views: 0,
-                                upVotes: 0,
-                                downVotes: 0,
-                                bookMark: []
-                            },
-                        ],
+                        answers: []
                     },
                 },
             },
@@ -65,8 +46,9 @@ async function setup(shouldWait, shouldError=false, graphqlError=true) {
         mocks = [
             {
                 request: {
-                    query: questionListQuery,
+                    query: userAnswerQuery,
                     variables: {
+                        id: 1,
                         filter,
                         skip: 0,
                         first: 10
@@ -83,8 +65,9 @@ async function setup(shouldWait, shouldError=false, graphqlError=true) {
         mocks = [
             {
                 request: {
-                    query: questionListQuery,
+                    query: userAnswerQuery,
                     variables: {
+                        id: 1,
                         filter,
                         skip: 0,
                         first: 10
@@ -97,7 +80,7 @@ async function setup(shouldWait, shouldError=false, graphqlError=true) {
 
     const component = mount(
         <MockedProvider mocks={mocks} addTypename={false}>
-            <Questions {...props} />
+            <UserAnswers {...props} />
         </MockedProvider>
     )
 
@@ -111,11 +94,11 @@ async function setup(shouldWait, shouldError=false, graphqlError=true) {
     return {
         component: component,
         error: component.find(ErrorComp),
-        questionList: component.find(QuestionList),
+        answerList: component.find(AnswerList),
     }
 }
 
-describe('Questions component', () => {
+describe('UserAnswers component', () => {
 
     it('should render loading state initially', async () => {
 
@@ -138,11 +121,11 @@ describe('Questions component', () => {
         expect(error.at(0).text()).toMatch(/^Shoot!Network error/)
     })
 
-    it('should render QuestionList', async () => {
+    it('should render AnswerList', async () => {
 
-        const { questionList } = await setup(true)
+        const { answerList } = await setup(true)
         
-        expect(questionList).toHaveLength(1)
+        expect(answerList).toHaveLength(1)
     })
 
 })

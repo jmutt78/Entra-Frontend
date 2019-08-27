@@ -7,54 +7,32 @@ import 'jest-matcher-one-of';
 import wait from 'waait';
 import { GraphQLError } from 'graphql';
 import ErrorComp from "../../ErrorMessage.js";
-import Questions from "../index";
-import QuestionList from "../../question-list";
-import questionListQuery from "../../question-list/questionListQuery";
+import TermsConditions, { TERMS_QUERY } from "../index";
+import CreateTag from "../../create-question/CreateTag.js";
+import { TAGS_QUERY } from "../../create-question/Tags";
 
 async function setup(shouldWait, shouldError=false, graphqlError=true) {
 
     let mocks;
-    const filter = "all";
-    const props = {
-        page: 1,
-    }
-
+    
     if(!shouldError) {
 
         mocks = [
             {
                 request: {
-                    query: questionListQuery,
+                    query: TERMS_QUERY,
                     variables: {
-                        filter,
-                        skip: 0,
-                        first: 10
-                    }
+                        id: "cGFnZToyMDkw"
+                    },
+                    context: { clientName: "second" }
                 },
                 result: {
                     data: {
-                        questions: [
-                            {
-                                id: '1',
-                                title: 'title',
-                                askedBy: [
-                                    { 
-                                        id: 1, 
-                                        name: 'Steve',
-                                        display: 'display',
-                                    }
-                                ],
-                                createdAt: '2019-08-15',
-                                answers: [],
-                                description: '',
-                                approval: '',
-                                tags: [],
-                                views: 0,
-                                upVotes: 0,
-                                downVotes: 0,
-                                bookMark: []
-                            },
-                        ],
+                        page: {
+                            id: 1,
+                            title: 'bKpTYwzxNb17o9Q5AIXu',
+                            content: 'jyMs6i2hvq5IvzJqDrBK',
+                        }
                     },
                 },
             },
@@ -65,12 +43,11 @@ async function setup(shouldWait, shouldError=false, graphqlError=true) {
         mocks = [
             {
                 request: {
-                    query: questionListQuery,
+                    query: TERMS_QUERY,
                     variables: {
-                        filter,
-                        skip: 0,
-                        first: 10
+                        id: "cGFnZToyMDkw"
                     },
+                    context: { clientName: "second" }
                 },
                 result: {
                     errors: [new GraphQLError('GraphQL Error!')]
@@ -83,12 +60,11 @@ async function setup(shouldWait, shouldError=false, graphqlError=true) {
         mocks = [
             {
                 request: {
-                    query: questionListQuery,
+                    query: TERMS_QUERY,
                     variables: {
-                        filter,
-                        skip: 0,
-                        first: 10
+                        id: "cGFnZToyMDkw"
                     },
+                    context: { clientName: "second" }
                 },
                 error: new Error('Network Error!'),
             },
@@ -97,7 +73,7 @@ async function setup(shouldWait, shouldError=false, graphqlError=true) {
 
     const component = mount(
         <MockedProvider mocks={mocks} addTypename={false}>
-            <Questions {...props} />
+            <TermsConditions />
         </MockedProvider>
     )
 
@@ -111,11 +87,10 @@ async function setup(shouldWait, shouldError=false, graphqlError=true) {
     return {
         component: component,
         error: component.find(ErrorComp),
-        questionList: component.find(QuestionList),
     }
 }
 
-describe('Questions component', () => {
+describe('TermsConditions component', () => {
 
     it('should render loading state initially', async () => {
 
@@ -126,7 +101,7 @@ describe('Questions component', () => {
 
     it('should show error when graphql errors occured fetching data from server', async () => {
 
-        const { error } = await setup(true, true, true)
+        const { component, error } = await setup(true, true, true)
       
         expect(error.at(0).text()).toMatch(/^Shoot!GraphQL Error!/)
     })
@@ -138,11 +113,18 @@ describe('Questions component', () => {
         expect(error.at(0).text()).toMatch(/^Shoot!Network error/)
     })
 
-    it('should render QuestionList', async () => {
+    it('should display title', async () => {
 
-        const { questionList } = await setup(true)
-        
-        expect(questionList).toHaveLength(1)
+        const { component } = await setup(true)
+
+        expect(component.text()).toMatch(/bKpTYwzxNb17o9Q5AIXu/)
     })
 
+    it('should display content', async () => {
+
+        const { component } = await setup(true)
+
+        expect(component.text()).toMatch(/jyMs6i2hvq5IvzJqDrBK/)
+    })
+    
 })

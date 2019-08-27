@@ -36,9 +36,10 @@ class UserList extends Component {
                 first: perPage
               }}
             >
-              {({ data: { questions }, loading, error }) => {
+              {({ data, loading, error }) => {
                 if (loading) return <CircularProgress style={{margin: 20}} />
                 if (error) return <Error error={error} />;
+                const { questions } = data;
 
                 return (
                   <QuestionList

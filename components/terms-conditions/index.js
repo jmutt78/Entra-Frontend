@@ -11,7 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Error from "../ErrorMessage";
 import Head from "next/head";
 
-const TERMS_QUERY = gql`
+export const TERMS_QUERY = gql`
   query TERMS_QUERY($id: ID!) {
     page(id: $id) {
       content
@@ -55,9 +55,11 @@ class TermsConditions extends Component {
         }}
         context={{ clientName: "second" }}
       >
-        {({ data: { page }, loading }) => {
-          console.log(page);
+        {({ data, loading, error }) => {
           if (loading) return <CircularProgress style={{margin: 20}} />
+          if (error) return <Error error={error} />
+          const { page } = data;
+
           function createMarkup() {
             return { __html: createMarkup() };
           }

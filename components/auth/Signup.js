@@ -12,6 +12,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import PropTypes from "prop-types";
+import classNames from 'classnames';
 
 import Error from "./../ErrorMessage.js";
 import { CURRENT_USER_QUERY } from "./User";
@@ -107,7 +108,7 @@ class Signup extends Component {
             <div className={classes.formContainer}>
               <form
                 method="post"
-                className={classes.form}
+                className={classNames(classes.form, "signup-form")}
                 onSubmit={async e => {
                   e.preventDefault();
                   await signup();

@@ -9,7 +9,7 @@ import { useQuery } from "@apollo/react-hooks";
 import Error from "./../ErrorMessage.js";
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const TAG_QUERY = gql`
+export const TAG_QUERY = gql`
   query TAG_QUERY($id: ID!) {
     tag(id: $id) {
       name
