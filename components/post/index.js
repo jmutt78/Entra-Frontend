@@ -3,10 +3,12 @@ import { Query } from 'react-apollo'
 
 import gql from 'graphql-tag'
 
+
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import CardMedia from '@material-ui/core/CardMedia'
+
 
 import Error from '../ErrorMessage'
 import './index.css'
@@ -77,9 +79,11 @@ class DisplayBlog extends Component {
         }}
       >
         {({ data, loading, error }) => {
+
           if (loading) return <p>Loading...</p>
           if (error) return <Error error={error} />
           const { post } = data
+
           function createMarkup() {
             return { __html: createMarkup() }
           }
@@ -95,6 +99,7 @@ class DisplayBlog extends Component {
                 <Typography className={classes.title}>by {post.author.name}</Typography>
 
                 <CardMedia>
+
                   <img className={classes.featured} src={post.featuredImage.sourceUrl} />
             </CardMedia>
 
@@ -109,6 +114,7 @@ class DisplayBlog extends Component {
             </div>
             </div>
           )
+
         }}
       </Query>
     )

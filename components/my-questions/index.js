@@ -3,6 +3,7 @@ import { Query } from "react-apollo";
 import { perPage } from "../../config.js";
 import QuestionList from "../question-list";
 import questionListQuery from "../question-list/questionListQuery";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class MyQuestions extends Component {
   render() {
@@ -18,7 +19,7 @@ class MyQuestions extends Component {
         }}
       >
         {({ loading, error, data }) => {
-          if (loading) return <p>Loading...</p>;
+          if (loading) return <CircularProgress style={{margin: 20}} />
           if (error) return <p>Error</p>;
 
           const { questions } = data;

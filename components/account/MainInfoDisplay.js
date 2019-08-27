@@ -7,9 +7,11 @@ import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles'
 
 import Error from './../ErrorMessage.js'
+import './index.css'
 
 import { CURRENT_USER_QUERY } from '../auth/User'
 
@@ -33,10 +35,6 @@ const styles = theme => ({
     marginTop: theme.spacing(5),
     margin: theme.spacing(1),
   },
-  about: {
-    fontSize: 17,
-    color: 'grey',
-  },
   avatarContainer: {
     display: 'flex',
     alignItems: 'center',
@@ -57,7 +55,7 @@ class MainInfoDisplay extends Component {
     return (
       <Query query={CURRENT_USER_QUERY}>
         {({ data, loading, error }) => {
-          if (loading) return <p>Loading...</p>
+          if (loading) return <CircularProgress style={{margin: 20}} />
           if (error) return <Error error={error} />
 
           const { classes } = this.props
@@ -82,8 +80,8 @@ class MainInfoDisplay extends Component {
               </div>
               <div className={classes.detailsContainer}>
                 <Typography variant="h6">{user.display}</Typography>
-                <Typography variant="subheading">Location: {user.location}</Typography>
-                <Typography variant="subheading">Industry: {user.industry}</Typography>
+                <Typography variant="subtitle1">Location: {user.location}</Typography>
+                <Typography variant="subtitle1">Industry: {user.industry}</Typography>
                 <Typography>Member Since {format(parseISO(dateToFormat), 'MMMM dd, yyyy')}</Typography>
               </div>
 
@@ -97,7 +95,7 @@ class MainInfoDisplay extends Component {
                 </Typography>
               ) : null}
 
-              <Typography className={classes.about}>{user.about}</Typography>
+              <Typography className="about">{user.about}</Typography>
               <Divider className={classes.divider} variant="middle" />
             </div>
           )

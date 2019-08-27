@@ -7,6 +7,7 @@ import QuestionList from "../question-list";
 import userListQuery from "./userListQuery.js";
 import { USER_QUERY } from "../user-display";
 import Error from "./../ErrorMessage.js";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class UserList extends Component {
   render() {
@@ -21,7 +22,7 @@ class UserList extends Component {
         }}
       >
         {({ data, loading, error }) => {
-          if (loading) return <p>Loading...</p>;
+          if (loading) return <CircularProgress style={{margin: 20}} />
           if (error) return <Error error={error} />;
           const name = data.user.name;
 
@@ -36,7 +37,7 @@ class UserList extends Component {
               }}
             >
               {({ data: { questions }, loading, error }) => {
-                if (loading) return <p>Loading...</p>;
+                if (loading) return <CircularProgress style={{margin: 20}} />
                 if (error) return <Error error={error} />;
 
                 return (

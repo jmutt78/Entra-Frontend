@@ -1,0 +1,20 @@
+.answerFooter {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0 0 0;
+}
+
+.votesContainer {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 700px) {
+  .votesContainer {
+    margin: 0 0 10px 0;
+  }
+  .answerFooter {
+    flex-direction: column-reverse;
+  }
+}

@@ -7,8 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
-
-import Link from "next/link";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import questionQuery from "../question-display/questionQuery";
 import { CURRENT_USER_QUERY } from "../auth/User";
@@ -141,7 +140,7 @@ class CreateAnswer extends React.Component {
     return (
       <Query query={CURRENT_USER_QUERY}>
         {({ data, loading, error }) => {
-          if (loading) return <p>Loading...</p>;
+          if (loading) return <CircularProgress style={{margin: 20}} />
           if (error) return <p>Error</p>;
           const user = data.me;
           if (!user) {

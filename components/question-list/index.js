@@ -36,10 +36,11 @@ const styles = ({ layout }) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    width: "100%", //layout.width,
+
     maxWidth: 1200,
     height: "100%",
-    minHeight: 80 //layout.contentMinHeight
+    paddingRight: 10,
+
   },
   title: {
     fontSize: "40px",
@@ -63,7 +64,7 @@ function QuestionList(props) {
     <div className={classes.container}>
       <Table className={classes.table}>
         <TableHead>
-          <TableRow>
+          <TableRow style={{marginRight: 10}}>
             <TableCell>
               <Typography className={classes.title}>
                 {upperFirst(props.name) || "Questions"}

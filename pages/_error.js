@@ -43,7 +43,7 @@ class Error extends React.Component {
           <TableHead>
             <TableRow>
               <TableCell>
-                <Typography variant="display3" className={this.props.classes.title}>
+                <Typography variant="h3" className={this.props.classes.title}>
                   {this.props.statusCode}
                 </Typography>
               </TableCell>

@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react'
 import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
@@ -11,6 +12,7 @@ import { withStyles } from '@material-ui/core/styles'
 
 import Error from '../ErrorMessage.js'
 import Post from './Post';
+
 
 // TODO: pagination
 // TODO: tags
@@ -82,6 +84,7 @@ class Blogs extends Component {
               </div>
             </div>
           )
+
         }}
       </Query>
     )

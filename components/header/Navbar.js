@@ -37,7 +37,6 @@ const styles = ({ layout, palette }) => ({
 })
 
 const Navbar = ({ classes }) => {
-  // const [menu, setMenu] = useState(window.innerWidth > 700)
   const [menu, setMenu] = useState(null)
 
   const navLinks = [
@@ -71,11 +70,11 @@ const Navbar = ({ classes }) => {
       <User>
         {({ data: { me } }) => (
           <div className={classes.root}>
-            <div className="visibleOnMobile" onClick={setMenu.bind(null, !menu)}>
+            <div className="visibleOnMobile" onClick={_ => setMenu(!menu)}>
               <img src="static/menu.svg" alt="menu" style={{ width: 40, height: 40 }} />
             </div>
             <div className="navbarFlex">
-              <Typography className={`navigationContainer ${menu === true && 'menuShown'}`}>
+              <Typography className={`navigationContainer ${menu === true && 'menuShown'}`} component={'div'}>
                 {me &&
                   me.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission)) &&
                   adminLinks.map(({ name, target }) => (
@@ -92,7 +91,10 @@ const Navbar = ({ classes }) => {
               </Typography>
 
               {me && (
-                <Typography className={classes.avatarContainer}>
+                <Typography
+                  className={classes.avatarContainer}
+                  component={'div'}
+                >
                   <Avatar me={me} />
                   <div>{me.name}</div>
                 </Typography>

@@ -94,7 +94,7 @@ const Appbar = ({ isLoggedIn, classes }) => {
           </Typography>
         </div>
 
-        <Typography className={classes.subContainer}>
+        <Typography className={classes.subContainer} component={'div'}>
           {navLinks.map(({ name, target }) => (
             <NavLink key={name} activeClassName={classes.navLinkActive} href={target}>
               <a className={classes.navLink}>{name}</a>

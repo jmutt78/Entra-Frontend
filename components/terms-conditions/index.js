@@ -7,7 +7,7 @@ import { format, parseISO } from "date-fns";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Error from "../ErrorMessage";
 import Head from "next/head";
 
@@ -57,7 +57,7 @@ class TermsConditions extends Component {
       >
         {({ data: { page }, loading }) => {
           console.log(page);
-          if (loading) return <p>Loading...</p>;
+          if (loading) return <CircularProgress style={{margin: 20}} />
           function createMarkup() {
             return { __html: createMarkup() };
           }
@@ -70,7 +70,7 @@ class TermsConditions extends Component {
                   {page.title}
                 </Typography>
 
-                <Typography variant="h6" color="textSecondary" display="block">
+                <Typography variant="h6" color="textSecondary" display="block" component={'div'}>
                   <div
                     className={classes.content}
                     dangerouslySetInnerHTML={{
