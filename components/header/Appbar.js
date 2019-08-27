@@ -7,6 +7,7 @@ import User from '../auth/User.js'
 import Button from '@material-ui/core/Button'
 import Link from 'next/link'
 import NavLink from './NavLink'
+import classNames from 'classnames'
 
 import './Appbar.css'
 
@@ -108,7 +109,7 @@ const Appbar = ({ isLoggedIn, classes }) => {
               return (
                 <Typography className={me ? classes.hidden : classes.subContainer}>
                   <Link href="/signin">
-                    <Button variant="contained" color="secondary" className={classes.loginButton}>
+                  <Button variant="contained" color="secondary" className={classNames(classes.loginButton, "login-btn")}>
                       Login
                     </Button>
                   </Link>

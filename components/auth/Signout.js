@@ -35,7 +35,7 @@ class Signout extends React.Component {
           return (
             <div>
               <Error error={error} />
-              <Typography onClick={e => this.handleSignout(e, signout)}>
+              <Typography className="signout-btn" onClick={e => this.handleSignout(e, signout)}>
                 Sign Out
               </Typography>
             </div>

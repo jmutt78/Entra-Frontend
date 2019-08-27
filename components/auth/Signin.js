@@ -140,6 +140,7 @@ class Signin extends Component {
             <div className={classes.formContainer}>
               <form
                 method="post"
+                className="signin-form"
                 onSubmit={async e => {
                   e.preventDefault()
                   await signup()
