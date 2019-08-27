@@ -4,6 +4,7 @@ import { perPage } from "../../config.js";
 import AnswerList from "./index";
 import answersListQuery from "./answerListQuery";
 import Error from "./../ErrorMessage.js";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class AprrovalAnswers extends Component {
   render() {
@@ -19,7 +20,7 @@ class AprrovalAnswers extends Component {
         }}
       >
         {({ loading, error, data }) => {
-          if (loading) return <p>Loading...</p>;
+          if (loading) return <CircularProgress style={{margin: 20}} />
           if (error) return <Error error={error} />;
           const { answers } = data;
           return (

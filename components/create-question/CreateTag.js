@@ -58,7 +58,8 @@ const DialogActions = withStyles(theme => ({
 
 const styles = {
   textField: {
-    width: 400
+    width: 400,
+    maxWidth: '100%',
   }
 };
 

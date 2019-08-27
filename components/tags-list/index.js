@@ -7,6 +7,7 @@ import QuestionList from "../question-list";
 import tagsListQuery from "./tagsListQuery.js";
 import { useQuery } from "@apollo/react-hooks";
 import Error from "./../ErrorMessage.js";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const TAG_QUERY = gql`
   query TAG_QUERY($id: ID!) {
@@ -30,7 +31,7 @@ class TagsList extends Component {
         }}
       >
         {({ data, loading, error }) => {
-          if (loading) return <p>Loading...</p>;
+          if (loading) return <CircularProgress style={{margin: 20}} />
           if (error) return <Error error={error} />;
           const name = data.tag.name;
           return (
@@ -44,7 +45,7 @@ class TagsList extends Component {
               }}
             >
               {({ data: { questions }, loading }) => {
-                if (loading) return <p>Loading...</p>;
+                if (loading) return <CircularProgress style={{margin: 20}} />
 
                 return (
                   <QuestionList
