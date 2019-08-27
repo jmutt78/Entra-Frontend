@@ -17,7 +17,7 @@ import { CURRENT_USER_QUERY } from '../auth/User'
 const styles = theme => ({
   root: {
     width: '100%',
-    maxWidth: 1200,
+    maxWidth: 800,
   },
   container: {
     display: 'flex',
