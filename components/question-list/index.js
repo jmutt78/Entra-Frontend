@@ -36,8 +36,8 @@ const styles = ({ layout }) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-
     maxWidth: 1200,
+    minWidth: '90%',
     height: "100%",
     paddingRight: 10,
 
