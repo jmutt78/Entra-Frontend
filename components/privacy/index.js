@@ -2,15 +2,12 @@ import React, { Component } from "react";
 import { Query } from "react-apollo";
 
 import gql from "graphql-tag";
-import { format, parseISO } from "date-fns";
 
 import { withStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import CircularProgress from '@material-ui/core/CircularProgress';
 
+import Typography from "@material-ui/core/Typography";
+import CardMedia from "@material-ui/core/CardMedia";
 import Error from "../ErrorMessage";
-import Head from "next/head";
 
 export const PRIVACY_QUERY = gql`
   query PRIVACY_QUERY($id: ID!) {
@@ -23,12 +20,18 @@ export const PRIVACY_QUERY = gql`
 `;
 
 const styles = theme => ({
-  grid: {
-    margin: theme.spacing(1)
-  },
   root: {
-    margin: theme.spacing(1),
-    marginTop: 40
+    width: "100%",
+    maxWidth: 1500,
+    justifyContent: "center"
+  },
+  container: {
+    maxWidth: 700,
+    margin: "0 auto",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    padding: "0 20px"
   },
   title: {
     marginTop: theme.spacing(5),
@@ -39,9 +42,14 @@ const styles = theme => ({
   },
   content: {
     maxWidth: "100%",
-    alignItems: "left"
+    alignItems: "left",
+    color: theme.palette.accent.dark
   },
-  featured: { width: "800px", maxWidth: "100%", flexGrow: 1 }
+  featured: {
+    width: "800px",
+    maxWidth: "100%",
+    flexGrow: 1
+  }
 });
 
 class Privacy extends Component {
@@ -57,22 +65,23 @@ class Privacy extends Component {
         context={{ clientName: "second" }}
       >
         {({ data, loading, error }) => {
-          if (loading) return <CircularProgress style={{margin: 20}} />
+          if (loading) return <p>Loading...</p>;
           if (error) return <Error error={error} />;
           const { page } = data;
+
           function createMarkup() {
             return { __html: createMarkup() };
           }
           return (
-            <Grid container className={classes.root} spacing={16}>
-              <Grid item xs={3} />
+            <div className={classes.root}>
+              <div className={classes.container}>
+                <Error error={error} />
 
-              <Grid item xs={6} className={classes.grid}>
                 <Typography className={classes.title} variant="h2">
                   {page.title}
                 </Typography>
 
-                <Typography variant="h6" color="textSecondary" display="block" component={'div'}>
+                <Typography variant="h6" color="textSecondary" display="block">
                   <div
                     className={classes.content}
                     dangerouslySetInnerHTML={{
@@ -80,8 +89,8 @@ class Privacy extends Component {
                     }}
                   />
                 </Typography>
-              </Grid>
-            </Grid>
+              </div>
+            </div>
           );
         }}
       </Query>
