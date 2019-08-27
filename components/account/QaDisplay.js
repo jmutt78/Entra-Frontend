@@ -18,12 +18,28 @@ const styles = ({ spacing, palette }) => ({
     textDecoration: 'none',
     color: 'grey',
   },
-})
+
+  title: {
+    color: '#2d3436', //palette.accent.dark,
+    padding: "5px 0 0 20px",
+    margin: 0,
+    marginTop: 30,
+    marginBottom: 30,
+    maxWidth: 800,
+    fontWeight: "bold",
+    textAlign: "left",
+    lineHeight: "2.5rem",
+  }
+});
+
 
 class QaDisplay extends Component {
   handlePointCount(questions, answers) {
     const allQuestions = questions.map(data => data.questionVote)
-    const flatQuestionVotes = allQuestions.reduce((acc, vote) => [...acc, ...vote], [])
+    const flatQuestionVotes = allQuestions.reduce(
+      (acc, vote) => [...acc, ...vote],
+      []
+    )
     const questionVotes = flatQuestionVotes.map(data => data.vote)
     const questionCount = questionVotes.reduce((n, x) => n + (x === 'up'), 0)
 
@@ -38,99 +54,85 @@ class QaDisplay extends Component {
   render() {
     const { classes } = this.props
 
+    const user = this.props.user
+    const answers = user.myAnswers
+    const userId = user.id
+
+    const questions = user.myQuestions
+
     return (
-      <Query
-        query={PAGINATION_QUERY}
-        variables={{
-          filter: 'my',
-        }}
-        fetchPolicy="network-only"
-      >
-        {({ data, loading, error }) => {
-          if (loading) return <p>Loading...</p>
-          if (error) return <Error error={error} />
-          const user = this.props.user
-          const answers = user.myAnswers
-          const userId = user.id
+      <div className="root">
+        <Typography variant="h3" className="title">
+          Activity
+        </Typography>
 
-          const questions = user.myQuestions
+        <div className="container">
+          <div className={classes.elementContainer}>
+            <Typography variant="h4" align="center">
+              {user.myQuestions.length}
+            </Typography>
 
-          return (
-            <div className="root">
-              <Typography variant="h3" className="title">
-                Activity
-              </Typography>
+            <Typography variant="h5" align="center">
+              <Link
+                href={{
+                  pathname: '/users',
+                  query: { id: userId },
+                }}
+              >
+                <a className={classes.link}>Questions</a>
+              </Link>
+            </Typography>
+          </div>
 
-              <div className="container">
-                <div className={classes.elementContainer}>
-                  <Typography variant="h4" align="center">
-                    {user.myQuestions.length}
-                  </Typography>
+          <div className={classes.elementContainer}>
+            <Typography variant="h4" align="center">
+              {user.myAnswers.length}
+            </Typography>
 
-                  <Typography variant="h5" align="center">
-                    <Link
-                      href={{
-                        pathname: '/users',
-                        query: { id: userId },
-                      }}
-                    >
-                      <a className={classes.link}>Questions</a>
-                    </Link>
-                  </Typography>
-                </div>
+            <Typography variant="h5" align="center">
+              <Link
+                href={{
+                  pathname: '/answers',
+                  query: { id: userId },
+                }}
+              >
+                <a className={classes.link}>Answers</a>
+              </Link>
+            </Typography>
+          </div>
 
-                <div className={classes.elementContainer}>
-                  <Typography variant="h4" align="center">
-                    {user.myAnswers.length}
-                  </Typography>
+          <div className={classes.elementContainer}>
+            <Typography variant="h4" align="center">
+              {
+                answers.filter((x, i) => {
+                  return x.selected
+                }).length
+              }
+            </Typography>
 
-                  <Typography variant="h5" align="center">
-                    <Link
-                      href={{
-                        pathname: '/answers',
-                        query: { id: userId },
-                      }}
-                    >
-                      <a className={classes.link}>Answers</a>
-                    </Link>
-                  </Typography>
-                </div>
+            <Typography variant="h5" align="center">
+              <Link
+                href={{
+                  pathname: '/selected',
+                  query: { id: userId },
+                }}
+              >
+                <a className={classes.link}>Accepted Answers</a>
+              </Link>
+            </Typography>
+          </div>
 
-                <div className={classes.elementContainer}>
-                  <Typography variant="h4" align="center">
-                    {
-                      answers.filter((x, i) => {
-                        return x.selected
-                      }).length
-                    }
-                  </Typography>
+          <div className={classes.elementContainer}>
+            <Typography variant="h4" align="center">
+              {this.handlePointCount(questions, answers)}
+            </Typography>
 
-                  <Typography variant="h5" align="center">
-                    <Link
-                      href={{
-                        pathname: '/selected',
-                        query: { id: userId },
-                      }}
-                    >
-                      <a className={classes.link}>Accepted Answers</a>
-                    </Link>
-                  </Typography>
-                </div>
-
-                <div className={classes.elementContainer}>
-                  <Typography variant="h4" align="center">
-                    {this.handlePointCount(questions, answers)}
-                  </Typography>
-
-                  <Typography variant="h5" align="center" className={classes.link}>
-                    Points
-                  </Typography>
-                </div>
-              </div>
-            </div>
-          )
-        }}
-      </Query>
+            <Typography variant="h5" align="center" className={classes.link}>
+              Points
+            </Typography>
+          </div>
+        </div>
+      </div>
     )
   }
 }

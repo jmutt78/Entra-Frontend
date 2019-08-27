@@ -1,10 +1,11 @@
-import React, { Component } from "react";
-import { Query } from "react-apollo";
-import { format, parseISO } from "date-fns";
-import QaDisplay from "../account/QaDisplay";
-import MainInfoDisplay from "../account/MainInfoDisplay";
-import BadgesDisplay from "../account/BadgesDisplay";
-import Error from "./../ErrorMessage.js";
+import React, { Component } from 'react'
+import { Query } from 'react-apollo'
+import { format, parseISO } from 'date-fns'
+import QaDisplay from '../account/QaDisplay'
+import MainInfoDisplay from '../account/MainInfoDisplay'
+import BadgesDisplay from '../account/BadgesDisplay'
+import Error from './../ErrorMessage.js'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -90,9 +91,9 @@ class DisplayUser extends Component {
         }}
       >
         {({ data, loading, variables, error }) => {
-          if (loading) return <p>Loading...</p>;
-          if (error) return <Error error={error} />;
-          const user = data.user;
+          if (loading) return <CircularProgress style={{margin: 20}} />
+          if (error) return <Error error={error} />
+          const user = data.user
           return (
             <Grid container className={classes.root} spacing={16}>
               <Grid item xs={12}>
