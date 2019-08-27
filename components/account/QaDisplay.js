@@ -18,7 +18,20 @@ const styles = ({ spacing, palette }) => ({
     textDecoration: 'none',
     color: 'grey',
   },
-})
+
+  title: {
+    color: '#2d3436', //palette.accent.dark,
+    padding: "5px 0 0 20px",
+    margin: 0,
+    marginTop: 30,
+    marginBottom: 30,
+    maxWidth: 800,
+    fontWeight: "bold",
+    textAlign: "left",
+    lineHeight: "2.5rem",
+  }
+});
+
 
 class QaDisplay extends Component {
   handlePointCount(questions, answers) {
