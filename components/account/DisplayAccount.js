@@ -11,6 +11,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { CURRENT_USER_QUERY } from '../auth/User'
 
@@ -52,7 +53,7 @@ class DisplayAccount extends Component {
     return (
       <Query query={CURRENT_USER_QUERY}>
         {({ data, loading, error }) => {
-          if (loading) return <p>Loading...</p>
+          if (loading) return <CircularProgress style={{margin: 20}} />
           if (error) return <Error error={error} />
 
           const user = data.me

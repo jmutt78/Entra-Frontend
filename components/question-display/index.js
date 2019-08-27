@@ -11,6 +11,7 @@ import CreateAnswer from '../create-answer'
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
 
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Error from './../ErrorMessage.js'
 import NoQuestion from './NoQuestion'
 import QuestionDetail from './QuestionDetail'
@@ -81,8 +82,7 @@ const Wrapper = ({ client, classes, id }) => {
     >
 
       {({ data: { question }, loading }) => {
-        if (loading) return <p>Loading...</p>
-
+        if (loading) return <CircularProgress style={{margin: 20}} />
         if (!question) {
           return <p>Question not found</p>
         }
@@ -134,7 +134,7 @@ class DisplayQuestion extends Component {
     return (
       <Query query={CURRENT_USER_QUERY}>
         {({ data, loading, error }) => {
-          if (loading) return <p>Loading...</p>
+          if (loading) return <CircularProgress style={{margin: 20}} />
           if (error) return <Error error={error} />
           const user = data.me
 

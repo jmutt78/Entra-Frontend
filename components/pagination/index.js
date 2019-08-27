@@ -7,6 +7,7 @@ import { withStyles } from '@material-ui/core/styles'
 import PaginationActions from './PaginationActions'
 import { perPage } from '../../config.js'
 import Error from '../ErrorMessage'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import './index.css'
 
@@ -27,7 +28,7 @@ function Pagination({ filter, page, classes, query, connectionKey }) {
   return (
     <Query query={query} variables={{ filter: filter }}>
       {({ data, loading, error }) => {
-        if (loading) return <p>Loading...</p>
+        if (loading) return <CircularProgress style={{margin: 20}} />
         if (error) return <Error error={error} />
 
         const count = data[connectionKey].aggregate.count

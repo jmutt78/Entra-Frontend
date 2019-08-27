@@ -19,6 +19,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import CreateTag from "../create-question/CreateTag.js";
 import questionListQuery from "../question-list/questionListQuery";
@@ -158,7 +159,7 @@ class QuestionForm extends React.Component {
     return (
       <Query query={TAGS_QUERY}>
         {({ loading, data, error }) => {
-          if (loading) return <p>Loading...</p>;
+          if (loading) return <CircularProgress style={{margin: 20}} />
           if (error) return <Error error={error} />;
           return (
             <Mutation

@@ -5,6 +5,7 @@ import QaDisplay from '../account/QaDisplay'
 import MainInfoDisplay from '../account/MainInfoDisplay'
 import BadgesDisplay from '../account/BadgesDisplay'
 import Error from './../ErrorMessage.js'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -90,7 +91,7 @@ class DisplayUser extends Component {
         }}
       >
         {({ data, loading, variables, error }) => {
-          if (loading) return <p>Loading...</p>
+          if (loading) return <CircularProgress style={{margin: 20}} />
           if (error) return <Error error={error} />
           const user = data.user
           return (

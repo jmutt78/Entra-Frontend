@@ -13,6 +13,7 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const possiblePermissions = ["ADMIN", "USER", "MODERATOR", "PERMISSIONUPDATE"];
 
@@ -57,7 +58,7 @@ class Permissions extends Component {
     return (
       <Query query={ALL_USERS_QUERY}>
         {({ data, loading, error }) => {
-          if (loading) return <p>Loading...</p>;
+          if (loading) return <CircularProgress style={{margin: 20}} />
           if (error) return <p>Error</p>;
 
           return (

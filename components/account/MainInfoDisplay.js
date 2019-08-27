@@ -7,6 +7,7 @@ import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles'
 
 import Error from './../ErrorMessage.js'
@@ -54,7 +55,7 @@ class MainInfoDisplay extends Component {
     return (
       <Query query={CURRENT_USER_QUERY}>
         {({ data, loading, error }) => {
-          if (loading) return <p>Loading...</p>
+          if (loading) return <CircularProgress style={{margin: 20}} />
           if (error) return <Error error={error} />
 
           const { classes } = this.props
