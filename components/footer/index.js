@@ -1,53 +1,53 @@
-import Link from 'next/link'
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import './footer.css'
+import Link from "next/link";
+import { withStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import "./footer.css";
 
 const styles = ({ palette }) => ({
   creditBarContainer: {
-    background: '#2d3436',
-    display: 'flex',
-    justifyContent: 'center',
+    background: "#2d3436",
+    display: "flex",
+    justifyContent: "center"
   },
   creditBarText: {
-    color: '#85bdcb', //palette.accent.blue,
-    padding: '1.5rem 2rem',
+    color: "#85bdcb", //palette.accent.blue,
+    padding: "1.5rem 2rem",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold"
   },
   paddingLeft: {
-    width: '10vw',
+    width: "10vw"
   },
   paddingRight: {
-    width: '6vw',
+    width: "6vw"
   },
   listItem: {
-    padding: '0.8rem 0',
+    padding: "0.8rem 0"
   },
 
   heading: {
-    color: '#85bdcb', //palette.accent.blue,
+    color: "#85bdcb", //palette.accent.blue,
     fontSize: 17,
-    fontWeight: 'bold',
+    fontWeight: "bold"
   },
   link: {
     fontSize: 16,
-    color: '#2d3436',
-    textDecoration: 'none',
+    color: "#2d3436",
+    textDecoration: "none",
     fontWeight: 500,
-    cursor: 'pointer',
-    '&:hover': {
-      color: '#85bdcb', //palette.accent.blue,
-    },
+    cursor: "pointer",
+    "&:hover": {
+      color: "#85bdcb" //palette.accent.blue,
+    }
   },
   img: {
     marginRight: 15,
     width: 30,
-    color: 'grey',
-  },
-})
+    color: "grey"
+  }
+});
 
 export const CreditBar = ({ classes }) => {
   return (
@@ -56,8 +56,8 @@ export const CreditBar = ({ classes }) => {
         &copy; Copyright {new Date().getFullYear()} Entra
       </Typography>
     </div>
-  )
-}
+  );
+};
 
 export const FooterBar = ({ classes }) => {
   return (
@@ -104,8 +104,8 @@ export const FooterBar = ({ classes }) => {
 
           <ListItem className={classes.listItem}>
             <Typography>
-              <Link href="/team">
-                <span className={classes.link}>Our Team</span>
+              <Link href="/why">
+                <span className={classes.link}>Our Why</span>
               </Link>
             </Typography>
           </ListItem>
@@ -124,32 +124,48 @@ export const FooterBar = ({ classes }) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img className={classes.img} src="/static/icons8-facebook-circled-48.png" />
+              <img
+                className={classes.img}
+                src="/static/icons8-facebook-circled-48.png"
+              />
             </a>
-            <a href="https://www.instagram.com/entra.io/" target="_blank" rel="noopener noreferrer">
-              <img className={classes.img} src="/static/icons8-instagram-old-50.png" />
+            <a
+              href="https://www.instagram.com/entra.io/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                className={classes.img}
+                src="/static/icons8-instagram-old-50.png"
+              />
             </a>
             <a
               href="https://www.linkedin.com/company/entraio/about"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img className={classes.img} src="/static/icons8-linkedin-48.png" />
+              <img
+                className={classes.img}
+                src="/static/icons8-linkedin-48.png"
+              />
             </a>
             <a
               href="https://www.twitter.com/entraio"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img className={classes.img} src="/static/icons8-twitter-squared-48.png" />
+              <img
+                className={classes.img}
+                src="/static/icons8-twitter-squared-48.png"
+              />
             </a>
           </ListItem>
         </List>
       </div>
       <div className={classes.paddingRight} />
     </div>
-  )
-}
+  );
+};
 
 const Footer = ({ classes }) => {
   return (
@@ -157,7 +173,7 @@ const Footer = ({ classes }) => {
       <FooterBar classes={classes} />
       <CreditBar classes={classes} />
     </>
-  )
-}
+  );
+};
 
-export default withStyles(styles)(Footer)
+export default withStyles(styles)(Footer);
