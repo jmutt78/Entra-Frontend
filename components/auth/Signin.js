@@ -21,6 +21,7 @@ import Error from './../ErrorMessage.js'
 import { CURRENT_USER_QUERY } from './User'
 import GoogleLoginButton from './GoogleLoginButton'
 import FacebookLoginButton from './FacebookLoginButton'
+import LinkedinLoginButton from './LinkedinLoginButton'
 
 export const SIGNIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
@@ -96,7 +97,9 @@ export const SignupPrompt = ({ classes }) => {
   return (
     <AppBar className={classes.signupPromptContainer} position="static">
       <Toolbar className={classes.flexContainer}>
-        <Typography className={classes.signupText}>Don't have an account?</Typography>
+        <Typography className={classes.signupText}>
+          Don't have an account?
+        </Typography>
         <Link href="/signup">
           <Button size="medium" className={classes.signupButton}>
             SIGN UP NOW
@@ -183,7 +186,11 @@ class Signin extends Component {
                   </label>
 
                   <Typography
-                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
                   >
                     <Link href="/resetpage">
                       <a
@@ -196,7 +203,11 @@ class Signin extends Component {
                         FORGOT PASSWORD?
                       </a>
                     </Link>
-                    <Button size="large" className={classes.button} type="submit">
+                    <Button
+                      size="large"
+                      className={classes.button}
+                      type="submit"
+                    >
                       Log In!
                     </Button>
                   </Typography>
@@ -208,6 +219,7 @@ class Signin extends Component {
                 >
                   <GoogleLoginButton />
                   <FacebookLoginButton />
+                  <LinkedinLoginButton />
                   <SignupPrompt classes={classes} />
                 </div>
               </form>
