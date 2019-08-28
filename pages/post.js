@@ -1,6 +1,11 @@
-import React from 'react'
-import DisplayBlog from '../components/post'
+import React from "react";
+import DisplayBlog from "../components/post";
+import Layout from "../components/layout/index.js";
 
-const Post = props => <DisplayBlog id={props.query.id} />
+const Post = props => (
+  <Layout>
+    <DisplayBlog id={props.query.id} />
+  </Layout>
+);
 
-export default Post
+export default Post;

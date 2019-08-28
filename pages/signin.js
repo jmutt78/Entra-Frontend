@@ -1,5 +1,10 @@
-import Signin from '../components/auth/Signin'
+import Signin from "../components/auth/Signin";
+import Layout from "../components/layout/index.js";
 
-const SigninPage = props => <Signin />
+const SigninPage = props => (
+  <Layout>
+    <Signin />
+  </Layout>
+);
 
-export default SigninPage
+export default SigninPage;
