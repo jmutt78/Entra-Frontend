@@ -19,6 +19,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import CreateTag from "../create-question/CreateTag.js";
 import questionListQuery from "../question-list/questionListQuery";
@@ -75,7 +76,7 @@ const styles = ({ layout, palette }) => ({
   }
 });
 
-const UPDATE_QUESTION_MUTATION = gql`
+export const UPDATE_QUESTION_MUTATION = gql`
   mutation updateQuestion(
     $id: ID!
     $title: String!
@@ -136,7 +137,7 @@ class QuestionForm extends React.Component {
     const res = await updateQuestion({
       variables: {
         id: this.props.question.id,
-        approval: null,
+        approval: false,
 
         ...this.state,
         tags: this.state.tags.map(tag => ({
@@ -158,7 +159,7 @@ class QuestionForm extends React.Component {
     return (
       <Query query={TAGS_QUERY}>
         {({ loading, data, error }) => {
-          if (loading) return <p>Loading...</p>;
+          if (loading) return <CircularProgress style={{margin: 20}} />
           if (error) return <Error error={error} />;
           return (
             <Mutation
@@ -177,10 +178,7 @@ class QuestionForm extends React.Component {
                       <TableHead>
                         <TableRow>
                           <TableCell>
-                            <Typography
-                              variant="display3"
-                              className={classes.title}
-                            >
+                            <Typography variant="h6" className={classes.title}>
                               Edit question
                             </Typography>
                           </TableCell>

@@ -1,17 +1,29 @@
-import React, { Component } from 'react'
-import Router from 'next/router'
-import { Mutation } from 'react-apollo'
-import gql from 'graphql-tag'
-import TextField from '@material-ui/core/TextField'
-import { withStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
-import PropTypes from 'prop-types'
-import Error from './../ErrorMessage.js'
-import { CURRENT_USER_QUERY } from './User'
+import React, { Component } from "react";
+import Router from "next/router";
+import { Mutation } from "react-apollo";
+import gql from "graphql-tag";
 
-const SIGNUP_MUTATION = gql`
-  mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!, $display: String!) {
+import Table from "@material-ui/core/Table";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TextField from "@material-ui/core/TextField";
+import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import PropTypes from "prop-types";
+import classNames from 'classnames';
+
+import Error from "./../ErrorMessage.js";
+import { CURRENT_USER_QUERY } from "./User";
+
+export const SIGNUP_MUTATION = gql`
+  mutation SIGNUP_MUTATION(
+    $email: String!
+    $name: String!
+    $password: String!
+    $display: String!
+  ) {
     signup(email: $email, name: $name, password: $password, display: $display) {
       id
       email
@@ -19,56 +31,60 @@ const SIGNUP_MUTATION = gql`
       display
     }
   }
-`
+`;
 const styles = theme => ({
   container: {
-    display: 'flex',
-    width: '100%',
+    display: "flex",
+    width: "100%",
+    flexDirection: "column"
+  },
+  title: {
+    fontSize: "40px",
+    textAlign: "Left",
+    color: "rgba(0, 0, 0, 0.87)"
   },
   formContainer: {
-    width: '100%',
+    width: "100%",
     maxWidth: 1000,
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    justifyContent: "center",
+    padding: "10px 0 20px 0"
   },
   form: {
-    width: '100%',
+    width: "100%",
     maxWidth: 500,
-    padding: '50px 0 0 0',
+    padding: "50px 0 0 0"
   },
   inputField: {
-    width: '100%',
-    marginBottom: 30,
+    width: "100%",
+    marginBottom: 30
   },
   fieldset: {
     border: 0,
     padding: 0,
-    margin: 0,
+    margin: 0
   },
   formControl: {
-    width: '100%',
+    width: "100%"
   },
   button: {
-    marginBottom: theme.spacing.unit,
-    backgroundColor: '#E27D60',
-  },
-  text: {
-    marginBottom: 20,
-  },
-})
+    marginBottom: theme.spacing(1),
+    backgroundColor: "#E27D60"
+  }
+});
 
 class Signup extends Component {
   state = {
-    name: '',
-    password: '',
-    email: '',
-    display: '',
-  }
+    name: "",
+    password: "",
+    email: "",
+    display: ""
+  };
   saveToState = e => {
-    this.setState({ [e.target.name]: e.target.value })
-  }
+    this.setState({ [e.target.name]: e.target.value });
+  };
   render() {
-    const { classes } = this.props
+    const { classes } = this.props;
     return (
       <Mutation
         mutation={SIGNUP_MUTATION}
@@ -77,32 +93,41 @@ class Signup extends Component {
       >
         {(signup, { error, loading }) => (
           <div className={classes.container}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <Typography variant="h3" className={classes.title}>
+                      Sign Up
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+            </Table>
+
             <div className={classes.formContainer}>
               <form
                 method="post"
-                className={classes.form}
+                className={classNames(classes.form, "signup-form")}
                 onSubmit={async e => {
-                  e.preventDefault()
-                  await signup()
+                  e.preventDefault();
+                  await signup();
                   this.setState({
-                    name: '',
-                    password: '',
-                    email: '',
-                    display: '',
-                  })
-                  Router.push('/')
+                    name: "",
+                    password: "",
+                    email: "",
+                    display: ""
+                  });
+                  Router.push("/");
                 }}
               >
                 <fieldset
                   disabled={loading}
                   aria-busy={loading}
                   style={{
-                    borderWidth: '0px',
+                    borderWidth: "0px"
                   }}
                 >
-                  <Typography variant="h4" className={classes.text}>
-                    Sign up for an account
-                  </Typography>
                   <Error error={error} />
                   <label htmlFor="name">
                     <TextField
@@ -151,7 +176,11 @@ class Signup extends Component {
                   </label>
 
                   <div>
-                    <Button size="large" className={classes.button} type="submit">
+                    <Button
+                      size="large"
+                      className={classes.button}
+                      type="submit"
+                    >
                       Sign Up!
                     </Button>
                   </div>
@@ -161,12 +190,12 @@ class Signup extends Component {
           </div>
         )}
       </Mutation>
-    )
+    );
   }
 }
 
 Signup.propTypes = {
-  classes: PropTypes.object.isRequired,
-}
+  classes: PropTypes.object.isRequired
+};
 
-export default withStyles(styles)(Signup)
+export default withStyles(styles)(Signup);

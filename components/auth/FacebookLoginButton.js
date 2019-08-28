@@ -23,6 +23,7 @@ const styles = theme => ({
     width: '100%',
     background: '#4c69ba',
     margin: '10px 0',
+    padding: 5,
   }
 });
 
@@ -55,4 +56,5 @@ class FacebookLoginButton extends React.Component {
   }
 }
 
+export const FacebookLoginButtonWithoutApollo = withStyles(styles)(FacebookLoginButton);
 export default withStyles(styles)(withApollo(FacebookLoginButton));

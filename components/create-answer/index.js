@@ -7,11 +7,11 @@ import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-import Link from "next/link";
-
-import questionQuery from "../question-display/questionQuery.js";
+import questionQuery from "../question-display/questionQuery";
 import { CURRENT_USER_QUERY } from "../auth/User";
+import answersListQuery from "../answer-list/answerListQuery";
 
 const styles = ({ spacing, palette }) => ({
   container: {
@@ -33,18 +33,16 @@ const styles = ({ spacing, palette }) => ({
   },
   title: {
     color: "#2d3436",
-    padding: "5px 0 15px 0",
+    padding: "25px 0 15px 5px",
     margin: 0,
     maxWidth: 800,
-    fontWeight: 300,
-
-    fontSize: "1.8rem",
+    fontSize: "40px",
     textAlign: "left",
-    lineHeight: "2.5rem"
+    lineHeight: "2.5rem",
   },
   button: {
     margin: "20px 0 5px 0",
-    background: palette.accent.blue
+    background: "#d5d5d5"
     // '&:hover': {
     //   background: '#2d3436',
     // },
@@ -52,8 +50,8 @@ const styles = ({ spacing, palette }) => ({
 });
 
 export const CREATE_ANSWER = gql`
-  mutation creatAnswer($questionId: ID!, $body: String!) {
-    createAnswer(questionId: $questionId, body: $body) {
+  mutation creatAnswer($questionId: ID!, $body: String!, $approval: Boolean) {
+    createAnswer(questionId: $questionId, body: $body, approval: $approval) {
       id
       body
     }
@@ -62,7 +60,8 @@ export const CREATE_ANSWER = gql`
 
 class CreateAnswer extends React.Component {
   state = {
-    body: ""
+    body: "",
+    approval: false
   };
 
   handleDescriptionChange = e => {
@@ -73,6 +72,7 @@ class CreateAnswer extends React.Component {
 
   submitForm = async (e, createQuestion) => {
     e.preventDefault();
+
     const res = await createQuestion({
       variables: {
         questionId: this.props.question.id,
@@ -98,8 +98,8 @@ class CreateAnswer extends React.Component {
         <div style={{ maxWidth: 600, marginLeft: "-10px" }}>
           <Divider variant="middle" />
         </div>
-        <Typography variant="display3" className={classes.title}>
-          <h2>Have an answer?</h2>
+        <Typography variant="h6" className={classes.title}>
+          Have an answer?
         </Typography>
 
         <form method="post" onSubmit={e => this.submitForm(e, createQuestion)}>
@@ -139,8 +139,9 @@ class CreateAnswer extends React.Component {
 
     return (
       <Query query={CURRENT_USER_QUERY}>
-        {({ data, loading }) => {
-          if (loading) return <p>Loading...</p>;
+        {({ data, loading, error }) => {
+          if (loading) return <CircularProgress style={{margin: 20}} />
+          if (error) return <p>Error</p>;
           const user = data.me;
           if (!user) {
             return <div />;
@@ -156,7 +157,15 @@ class CreateAnswer extends React.Component {
                   query: questionQuery,
                   variables: { id: this.props.question.id }
                 },
-                { query: CURRENT_USER_QUERY }
+                { query: CURRENT_USER_QUERY },
+                {
+                  query: answersListQuery,
+                  variables: { filter: "my" }
+                },
+                {
+                  query: answersListQuery,
+                  variables: { filter: "approval" }
+                }
               ]}
             >
               {(createQuestion, { error, loading }) => {

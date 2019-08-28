@@ -7,7 +7,7 @@ import Error from "./../ErrorMessage.js";
 import Router from "next/router";
 import { CURRENT_USER_QUERY } from "./User";
 
-const SIGN_OUT_MUTATION = gql`
+export const SIGN_OUT_MUTATION = gql`
   mutation SIGN_OUT_MUTATION {
     signout {
       message
@@ -35,7 +35,7 @@ class Signout extends React.Component {
           return (
             <div>
               <Error error={error} />
-              <Typography onClick={e => this.handleSignout(e, signout)}>
+              <Typography className="signout-btn" onClick={e => this.handleSignout(e, signout)}>
                 Sign Out
               </Typography>
             </div>

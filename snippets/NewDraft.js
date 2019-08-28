@@ -13,7 +13,7 @@ import { CURRENT_USER_QUERY } from "../auth/User";
 
 const styles = theme => ({
   grid: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   },
   container: {
     display: "flex"
@@ -22,7 +22,7 @@ const styles = theme => ({
     flex: 1
   },
   root: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     marginTop: 40
   },
   inputField: {

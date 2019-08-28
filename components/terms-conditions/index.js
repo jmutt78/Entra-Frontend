@@ -2,16 +2,14 @@ import React, { Component } from "react";
 import { Query } from "react-apollo";
 
 import gql from "graphql-tag";
-import { format, parseISO } from "date-fns";
 
 import { withStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+
 import Typography from "@material-ui/core/Typography";
-
+import CardMedia from "@material-ui/core/CardMedia";
 import Error from "../ErrorMessage";
-import Head from "next/head";
 
-const TERMS_QUERY = gql`
+export const TERMS_QUERY = gql`
   query TERMS_QUERY($id: ID!) {
     page(id: $id) {
       content
@@ -22,25 +20,36 @@ const TERMS_QUERY = gql`
 `;
 
 const styles = theme => ({
-  grid: {
-    margin: theme.spacing.unit
-  },
   root: {
-    margin: theme.spacing.unit,
-    marginTop: 40
+    width: "100%",
+    maxWidth: 1500,
+    justifyContent: "center"
+  },
+  container: {
+    maxWidth: 700,
+    margin: "0 auto",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    padding: "0 20px"
   },
   title: {
-    marginTop: theme.spacing.unit * 5,
-    marginBottom: theme.spacing.unit * 5,
+    marginTop: theme.spacing(5),
+    marginBottom: theme.spacing(5),
     color: "#343434",
     flexGrow: 1,
     textAlign: "center"
   },
   content: {
     maxWidth: "100%",
-    alignItems: "left"
+    alignItems: "left",
+    color: theme.palette.accent.dark
   },
-  featured: { width: "800px", maxWidth: "100%", flexGrow: 1 }
+  featured: {
+    width: "800px",
+    maxWidth: "100%",
+    flexGrow: 1
+  }
 });
 
 class TermsConditions extends Component {
@@ -55,17 +64,19 @@ class TermsConditions extends Component {
         }}
         context={{ clientName: "second" }}
       >
-        {({ data: { page }, loading }) => {
-          console.log(page);
+        {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>;
+          if (error) return <Error error={error} />;
+          const { page } = data;
+
           function createMarkup() {
             return { __html: createMarkup() };
           }
           return (
-            <Grid container className={classes.root} spacing={16}>
-              <Grid item xs={3} />
+            <div className={classes.root}>
+              <div className={classes.container}>
+                <Error error={error} />
 
-              <Grid item xs={6} className={classes.grid}>
                 <Typography className={classes.title} variant="h2">
                   {page.title}
                 </Typography>
@@ -78,8 +89,8 @@ class TermsConditions extends Component {
                     }}
                   />
                 </Typography>
-              </Grid>
-            </Grid>
+              </div>
+            </div>
           );
         }}
       </Query>

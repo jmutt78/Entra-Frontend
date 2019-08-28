@@ -4,21 +4,23 @@ import Meta from '../meta/Meta.js'
 import Footer from '../footer'
 import { withStyles } from '@material-ui/core/styles'
 
+import './Page.css'
+
 const styles = ({ layout }) => {
   return {
     root: {
-      minWidth: layout.width,
-      minHeight: layout.height,
-      width: '100%',
-      height: '100%',
+      width: "100%", //layout.width,
+      height: "100%", //layout.height,
       display: 'flex',
       flexDirection: 'column',
     },
     contentContainer: {
       display: 'flex',
-      padding: '2rem 2rem 1rem 2rem',
       flex: 1,
+
       minHeight: layout.contentMinHeight,
+      overflowX: 'scroll',
+
     },
   }
 }
@@ -28,7 +30,9 @@ const Page = ({ children, classes }) => {
     <div className={classes.root}>
       <Meta />
       <Header />
-      <div className={classes.contentContainer}>{children}</div>
+      <div className="contentContainerPadding">
+        <div className={classes.contentContainer}>{children}</div>
+      </div>
       <Footer />
     </div>
   )

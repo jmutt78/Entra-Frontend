@@ -1,0 +1,47 @@
+.about {
+  font-size: 17;
+  color: grey;
+  padding: 0 15px;
+}
+
+.title {
+  color: #2d3436;
+  padding-left: 20px;
+  margin: 0;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  max-width: 800px;
+  font-weight: bold;
+  text-align: left;
+  line-height: 2.5rem;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 0 50px;
+}
+
+
+.badgesContainer {
+  padding: 0 20px 20px 20px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 700px) {
+  .container {
+    justify-content: center;
+  }
+  .title {
+    text-align: center;
+    padding: 0;
+  }
+  .badgesContainer {
+    justify-content: center;
+  }
+}

@@ -1,8 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 
-import Grid from "@material-ui/core/Grid";
-
 import NProgress from "nprogress";
 
 import Navbar from "./Navbar";
@@ -26,7 +24,7 @@ Router.onRouteChangeError = () => {
 const styles = ({ layout }) => {
   return {
     root: {
-      minWidth: layout.width,
+      minWidth: "100%", //layout.width,
       width: "100%"
     }
   };

@@ -1,16 +1,20 @@
 import React, { Component } from "react";
 import { Query } from "react-apollo";
-import { format, parseISO } from "date-fns";
+
+import Error from "./../ErrorMessage.js";
 import QaDisplay from "../account/QaDisplay";
 import MainInfoDisplay from "../account/MainInfoDisplay";
 import BadgesDisplay from "../account/BadgesDisplay";
-import Error from "./../ErrorMessage.js";
-
+import Table from "@material-ui/core/Table";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import gql from "graphql-tag";
 
-const USER_QUERY = gql`
+export const USER_QUERY = gql`
   query USER_QUERY($id: ID!) {
     user(id: $id) {
       id
@@ -67,15 +71,35 @@ const USER_QUERY = gql`
   }
 `;
 
-// TODO: badge dispaly is not working properly
-
 const styles = theme => ({
-  grid: {
-    margin: theme.spacing.unit
-  },
   root: {
-    margin: theme.spacing.unit,
-    marginTop: 40
+    width: "100%",
+    maxWidth: 800
+  },
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  title: {
+    fontSize: "40px",
+    textAlign: "Left",
+    color: "rgba(0, 0, 0, 0.87)",
+    lineHeight: "3rem"
+  },
+  contentContainer: {
+    width: "100%",
+    maxWidth: 1000,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center"
+  },
+  link: {
+    textDecoration: "none",
+    color: "rgba(0, 0, 0, 0.87)"
+  },
+  icon: {
+    color: "black"
   }
 });
 
@@ -90,23 +114,31 @@ class DisplayUser extends Component {
         }}
       >
         {({ data, loading, variables, error }) => {
-          if (loading) return <p>Loading...</p>;
+          if (loading) return <CircularProgress style={{ margin: 20 }} />;
           if (error) return <Error error={error} />;
           const user = data.user;
           return (
-            <Grid container className={classes.root} spacing={16}>
-              <Grid item xs={12}>
-                <MainInfoDisplay user={user} />
-              </Grid>
-              <Grid item xs={2} className={classes.grid} />
-              <Grid item xs={9} className={classes.grid}>
-                <QaDisplay user={user} />
-              </Grid>
-              <Grid item xs={12} className={classes.grid}>
-                <BadgesDisplay user={user} />
-              </Grid>
-              <Grid item xs={2} className={classes.grid} />
-            </Grid>
+            <div className={classes.root}>
+              <div container className={classes.container}>
+                <Table className={classes.table}>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        <Typography variant="h3" className={classes.title}>
+                          {`${user.name}'s Profile`}
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                </Table>
+
+                <div className={classes.contentContainer}>
+                  <MainInfoDisplay user={user} />
+                  <QaDisplay user={user} />
+                  <BadgesDisplay user={user} />
+                </div>
+              </div>
+            </div>
           );
         }}
       </Query>
@@ -115,4 +147,3 @@ class DisplayUser extends Component {
 }
 
 export default withStyles(styles)(DisplayUser);
-export { USER_QUERY };

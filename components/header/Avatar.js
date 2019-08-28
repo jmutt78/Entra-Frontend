@@ -6,6 +6,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { withStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
+import classNames from 'classnames';
 
 const styles = {
   bigAvatar: {
@@ -30,6 +31,9 @@ class MyProfile extends React.Component {
   };
 
   handleImage(me, classes) {
+    if (!me) {
+      return null
+    }
     if (me.image == null || me.image == "") {
       return <Avatar className={classes.bigAvatar}>{me.name[0]}</Avatar>;
     }
@@ -45,7 +49,7 @@ class MyProfile extends React.Component {
 
     return (
       <div>
-        <div className={classes.grow} onClick={this.handleClick}>
+        <div className={classNames(classes.grow, "nav-avatar")} onClick={this.handleClick}>
           {this.handleImage(me, classes)}
         </div>
 

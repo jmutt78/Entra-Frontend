@@ -11,7 +11,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import TableRow from "@material-ui/core/TableRow";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
-
+import gql from "graphql-tag";
 import ListItem from "../ListItem";
 import Pagination from "../pagination";
 
@@ -21,15 +21,26 @@ const CustomTableCell = withStyles(theme => ({
   }
 }))(TableCell);
 
+export const QUESTION_PAGINATION_QUERY = gql`
+  query QUESTION_PAGINATION_QUERY($filter: String!) {
+    questionsConnection(filter: $filter) {
+      aggregate {
+        count
+      }
+    }
+  }
+`;
+
 const styles = ({ layout }) => ({
   container: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    // width: layout.width,
+
     maxWidth: 1200,
-    height: "100%"
-    // minHeight: layout.contentMinHeight
+    height: "100%",
+    paddingRight: 10,
+
   },
   title: {
     fontSize: "40px",
@@ -53,7 +64,7 @@ function QuestionList(props) {
     <div className={classes.container}>
       <Table className={classes.table}>
         <TableHead>
-          <TableRow>
+          <TableRow style={{marginRight: 10}}>
             <TableCell>
               <Typography className={classes.title}>
                 {upperFirst(props.name) || "Questions"}
@@ -82,7 +93,7 @@ function QuestionList(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {questions.map(question => {
+          {questions && questions.map(question => {
             return (
               <ListItem
                 item={question}
@@ -94,12 +105,18 @@ function QuestionList(props) {
                 showDetails={true}
                 name={props.name}
                 key={question.id}
+                display={question.askedBy[0].display}
               />
             );
           })}
         </TableBody>
       </Table>
-      <Pagination page={page} filter={filter} />
+      <Pagination
+        page={page}
+        filter={filter}
+        query={QUESTION_PAGINATION_QUERY}
+        connectionKey="questionsConnection"
+      />
     </div>
   );
 }

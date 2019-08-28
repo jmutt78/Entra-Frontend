@@ -8,7 +8,7 @@ import Icon from "@material-ui/core/Icon";
 import CheckIcon from "@material-ui/icons/Check";
 import Error from "./../ErrorMessage.js";
 
-const SELECT_ANSWER_MUTATION = gql`
+export const SELECT_ANSWER_MUTATION = gql`
   mutation selectAnswer($id: ID!) {
     selectAnswer(id: $id) {
       id
