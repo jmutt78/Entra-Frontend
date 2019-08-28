@@ -10,7 +10,11 @@ export default () => (
     {({ data, loading, error }) => {
       if (loading) return <CircularProgress style={{ margin: 20 }} />
       if (error) return <Error error={error} />
-      return <QuestionList questions={data.questions} filter={'all'} page="1" name={'Latest Questions'} />
+      return (
+        <div style={{ padding: '20px 0' }}>
+          <QuestionList questions={data.questions} filter={'all'} page="1" name={'Latest Questions'} />
+        </div>
+      )
     }}
   </Query>
 )
