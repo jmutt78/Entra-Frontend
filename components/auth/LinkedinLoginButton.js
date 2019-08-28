@@ -1,59 +1,33 @@
-import React from "react";
-import { withApollo } from "react-apollo";
-import { CURRENT_USER_QUERY } from "./User";
-import Router from "next/router";
-import gql from "graphql-tag";
-import { withStyles } from "@material-ui/core/styles";
-import Linkedin from "./Linkedin";
-
-const LINKEDIN_LOGIN_MUTATION = gql`
-  mutation LINKEDIN_LOGIN_MUTATION($name: String!, $email: String!) {
-    linkedinLogin(name: $name, email: $email) {
-      id
-      email
-      name
-    }
-  }
-`;
+import React from 'react'
+import { withStyles } from '@material-ui/core/styles'
+import Linkedin from './Linkedin'
 
 const styles = theme => ({
   container: {
-    backgroundColor: "#337ab7",
-    borderColor: "#2e6da4"
-  }
-});
+    backgroundColor: '#337ab7',
+    borderColor: '#2e6da4',
+  },
+})
 
 class LinkedinLoginButton extends React.Component {
   onSuccess = response => {
-    console.log(response, "onSuccess");
-    this.props.client
-      .mutate({
-        mutation: LINKEDIN_LOGIN_MUTATION,
-        variables: {
-          name: response.name,
-          email: response.email
-        },
-        refetchQueries: [{ query: CURRENT_USER_QUERY }]
-      })
-      .then(() => {
-        Router.push("/");
-      });
-  };
-  onFailure = e => {};
+    console.log(response, 'onSuccess')
+  }
+  onFailure = e => {}
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
     return (
       <div className={classes.container}>
         <Linkedin
           clientId={process.env.LINKEDIN_CLIENT_ID}
-          redirectUri="http://localhost:7777/signin"
+          redirectUri={process.env.LINKEDIN_REDIRECT_URI}
           onSuccess={this.onSuccess}
           onFailure={this.onFailure}
-          redirectPath="/signin"
+          redirectPath="/linkedin"
         />
       </div>
-    );
+    )
   }
 }
 
-export default withStyles(styles)(withApollo(LinkedinLoginButton));
+export default withStyles(styles)(LinkedinLoginButton)
