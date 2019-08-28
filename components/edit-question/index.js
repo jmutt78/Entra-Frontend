@@ -3,6 +3,7 @@ import { Query } from "react-apollo";
 import QuestionForm from "./QuestionForm";
 import Error from "./../ErrorMessage.js";
 
+import CircularProgress from '@material-ui/core/CircularProgress';
 import questionQuery from "../question-display/questionQuery";
 
 class UpdateQuestion extends Component {
@@ -14,9 +15,11 @@ class UpdateQuestion extends Component {
           id: this.props.id
         }}
       >
-        {({ data: { question }, loading, error }) => {
-          if (loading) return <p>Loading...</p>;
+        {({ data, loading, error }) => {
+          if (loading) return <CircularProgress style={{margin: 20}} />
           if (error) return <Error error={error} />;
+          const { question } = data;
+
           return <QuestionForm question={question} />;
         }}
       </Query>

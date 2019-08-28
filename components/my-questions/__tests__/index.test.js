@@ -7,7 +7,7 @@ import 'jest-matcher-one-of';
 import wait from 'waait';
 import { GraphQLError } from 'graphql';
 import questionListQuery from "../../question-list/questionListQuery";
-import { PAGINATION_QUERY } from "../../pagination"
+import { PAGINATION_QUERY } from "../../pagination/paginationQuery.js";
 import MyQuestions from "../../my-questions";
 import QuestionList from "../../question-list";
 
@@ -29,20 +29,22 @@ async function setup(shouldWait, shouldError) {
                 },
                 result: {
                     data: {
-                        questions: [{ 
-                            id: '1',
-                            title: 'title',
-                            askedBy: [{id: 1, name: 'Steve'}],
-                            createdAt: '2019-08-15',
-                            answers: [],
-                            description: '',
-                            approval: '',
-                            tags: [],
-                            views: 0,
-                            upVotes: 0,
-                            downVotes: 0,
-                            bookMark: []
-                        }],
+                        questions: [
+                            {
+                                id: '1',
+                                title: 'title',
+                                askedBy: [{ id: 1, name: 'Steve' }],
+                                createdAt: '2019-08-15',
+                                answers: [],
+                                description: '',
+                                approval: '',
+                                tags: [],
+                                views: 0,
+                                upVotes: 0,
+                                downVotes: 0,
+                                bookMark: []
+                            }
+                        ],
                     },
                 },
             },

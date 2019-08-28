@@ -9,7 +9,7 @@ import { CURRENT_USER_QUERY } from "../auth/User";
 import questionQuery from "../question-display/questionQuery";
 import Error from "./../ErrorMessage.js";
 
-const CREATE_BOOKMARK_MUTATION = gql`
+export const CREATE_BOOKMARK_MUTATION = gql`
   mutation createBookMark($questionId: ID!) {
     createBookMark(questionId: $questionId) {
       id
@@ -18,36 +18,14 @@ const CREATE_BOOKMARK_MUTATION = gql`
 `;
 
 const styles = {
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20
-  },
-  buttonReject: {
-    backgroundColor: "#E27D60",
-    marginTop: 10
-  },
-  buttonAccept: {
-    backgroundColor: "#85BDCB",
-    marginTop: 10
-  },
-  buttonAccepted: {
-    backgroundColor: "#85BDCB",
-    marginTop: 10,
-    marginRight: 10
-  },
-  buttonRejected: {
-    backgroundColor: "#E27D60",
-    marginTop: 10
-  },
   icon: {
     fontSize: 30,
     cursor: "pointer",
-    marginLeft: 20,
-    marginTop: 10
+    marginTop: 5,
   }
 };
 
-class CreatBookMark extends Component {
+class CreateBookMark extends Component {
   submitForm = async (e, createBookMark) => {
     e.preventDefault();
     const res = await createBookMark({
@@ -129,4 +107,4 @@ class CreatBookMark extends Component {
   }
 }
 
-export default withStyles(styles)(CreatBookMark);
+export default withStyles(styles)(CreateBookMark);

@@ -16,12 +16,12 @@ import { TAGS_QUERY } from "./Tags";
 const DialogTitle = withStyles(theme => ({
   root: {
     margin: 0,
-    padding: theme.spacing.unit * 4
+    padding: theme.spacing(4)
   },
   closeButton: {
     position: "absolute",
-    right: theme.spacing.unit,
-    top: theme.spacing.unit,
+    right: theme.spacing(1),
+    top: theme.spacing(1),
     color: theme.palette.grey[500]
   }
 }))(props => {
@@ -45,24 +45,25 @@ const DialogTitle = withStyles(theme => ({
 const DialogContent = withStyles(theme => ({
   root: {
     margin: 0,
-    padding: `0 ${theme.spacing.unit * 4}px`
+    padding: `0 ${theme.spacing(4)}px`
   }
 }))(MuiDialogContent);
 
 const DialogActions = withStyles(theme => ({
   root: {
     margin: 0,
-    padding: theme.spacing.unit * 4
+    padding: theme.spacing(4)
   }
 }))(MuiDialogActions);
 
 const styles = {
   textField: {
-    width: 400
+    width: 400,
+    maxWidth: '100%',
   }
 };
 
-const CREATE_TAG_MUTATION = gql`
+export const CREATE_TAG_MUTATION = gql`
   mutation CREATE_TAG_MUTATION($name: String!) {
     createTag(name: $name) {
       id

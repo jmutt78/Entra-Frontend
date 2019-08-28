@@ -3,12 +3,17 @@ import PropTypes from "prop-types";
 import Document, { Head, Main, NextScript } from "next/document";
 import flush from "styled-jsx/server";
 
+const containerStyles = {
+  width: theme.layout.width,
+  height: theme.layout.height,
+}
+
 class MyDocument extends Document {
   render() {
     const { pageContext } = this.props;
 
     return (
-      <html lang="en" dir="ltr">
+      <html lang="en" style={containerStyles}>
         <Head>
           <meta charSet="utf-8" />
           {/* Use minimum-scale=1 to enable GPU rasterization */}
@@ -27,9 +32,17 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap"
             rel="stylesheet"
           />
+
+          <link rel="apple-touch-icon" sizes="180x180" href="../static/favicon/apple-touch-icon.png" />
+          <link rel="icon" type="image/png" sizes="32x32" href="../static/favicon/favicon-32x32.png" />
+          <link rel="icon" type="image/png" sizes="16x16" href="../static/favicon/favicon-16x16.png" />
+          <link rel="manifest" href="../static/favicon/site.webmanifest" />
+          <meta name="msapplication-TileColor" content="#da532c" />
+          <meta name="theme-color" content="#ffffff" />
+
         </Head>
-        <body>
-          <Main />
+        <body style={containerStyles}>
+          <Main style={containerStyles} />
           <NextScript />
         </body>
       </html>

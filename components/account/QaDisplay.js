@@ -1,147 +1,140 @@
-import React, { Component } from "react";
-import Link from "next/link";
-import { Query } from "react-apollo";
-import { withStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Error from "./../ErrorMessage.js";
+import React, { Component } from 'react'
+import Link from 'next/link'
+import { Query } from 'react-apollo'
 
-import { PAGINATION_QUERY } from "../pagination/";
+import Error from './../ErrorMessage.js'
+import Typography from '@material-ui/core/Typography'
+import { withStyles } from '@material-ui/core/styles'
 
-const styles = theme => ({
-  grid: {
-    marginBottom: theme.spacing(4),
-    marginLeft: theme.spacing(2)
-  },
-  root: {
-    marginBottom: theme.spacing(1),
-    marginTop: 40
-  },
-  qaGrid: {
-    marginLeft: theme.spacing(9),
-    marginRight: theme.spacing(9)
+import { PAGINATION_QUERY } from '../pagination/paginationQuery.js'
+
+const styles = ({ spacing, palette }) => ({
+  elementContainer: {
+    width: 200,
+    padding: 50,
+    maxWidth: '90%',
   },
   link: {
-    textDecoration: "none",
-    color: "grey"
+    textDecoration: 'none',
+    color: 'grey',
   },
-  linkGrid: {}
+
+  title: {
+    color: '#2d3436', //palette.accent.dark,
+    padding: "5px 0 0 20px",
+    margin: 0,
+    marginTop: 30,
+    marginBottom: 30,
+    maxWidth: 800,
+    fontWeight: "bold",
+    textAlign: "left",
+    lineHeight: "2.5rem",
+  }
 });
+
 
 class QaDisplay extends Component {
   handlePointCount(questions, answers) {
-    const allQuestions = questions.map(data => data.questionVote);
+    const allQuestions = questions.map(data => data.questionVote)
     const flatQuestionVotes = allQuestions.reduce(
       (acc, vote) => [...acc, ...vote],
       []
-    );
-    const questionVotes = flatQuestionVotes.map(data => data.vote);
-    const questionCount = questionVotes.reduce((n, x) => n + (x === "up"), 0);
+    )
+    const questionVotes = flatQuestionVotes.map(data => data.vote)
+    const questionCount = questionVotes.reduce((n, x) => n + (x === 'up'), 0)
 
-    const allAnswers = answers.map(data => data.answerVote);
-    const flatVotes = allAnswers.reduce((acc, vote) => [...acc, ...vote], []);
-    const answerVote = flatVotes.map(data => data.vote);
-    const answerCount = answerVote.reduce((n, x) => n + (x === "up"), 0);
-    const count = answerCount + questionCount;
-    return count;
+    const allAnswers = answers.map(data => data.answerVote)
+    const flatVotes = allAnswers.reduce((acc, vote) => [...acc, ...vote], [])
+    const answerVote = flatVotes.map(data => data.vote)
+    const answerCount = answerVote.reduce((n, x) => n + (x === 'up'), 0)
+    const count = answerCount + questionCount
+    return count
   }
+
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
+
+    const user = this.props.user
+    const answers = user.myAnswers
+    const userId = user.id
+
+    const questions = user.myQuestions
 
     return (
-      <Query
-        query={PAGINATION_QUERY}
-        variables={{
-          filter: "my"
-        }}
-        fetchPolicy="network-only"
-      >
-        {({ data, loading, error }) => {
-          if (loading) return <p>Loading...</p>;
-          if (error) return <Error error={error} />;
-          const user = this.props.user;
-          const answers = user.myAnswers;
-          const userId = user.id;
+      <div className="root">
+        <Typography variant="h3" className="title">
+          Activity
+        </Typography>
 
-          const questions = user.myQuestions;
+        <div className="container">
+          <div className={classes.elementContainer}>
+            <Typography variant="h4" align="center">
+              {user.myQuestions.length}
+            </Typography>
 
-          // //const question = data.questionsConnection.aggregate.count;
-          // //console.log(data.questionsConnection.aggregate);
+            <Typography variant="h5" align="center">
+              <Link
+                href={{
+                  pathname: '/users',
+                  query: { id: userId },
+                }}
+              >
+                <a className={classes.link}>Questions</a>
+              </Link>
+            </Typography>
+          </div>
 
-          return (
-            <Grid container className={classes.root} spacing={16}>
-              <Grid item xs={8} className={classes.grid}>
-                <Typography variant="h4">Activity</Typography>
-              </Grid>
+          <div className={classes.elementContainer}>
+            <Typography variant="h4" align="center">
+              {user.myAnswers.length}
+            </Typography>
 
-              <Grid item xs={2} className={classes.grid} />
-              <Grid item xs={1} className={classes.qaGrid}>
-                <Typography variant="h4" align="center">
-                  {user.myQuestions.length}
-                </Typography>
-                <Typography variant="h5" align="center">
-                  <Link
-                    href={{
-                      pathname: "/users",
-                      query: { id: userId }
-                    }}
-                  >
-                    <a className={classes.link}>Questions</a>
-                  </Link>
-                </Typography>
-              </Grid>
-              <Grid item xs={1} className={classes.qaGrid}>
-                <Typography variant="h4" align="center">
-                  {user.myAnswers.length}
-                </Typography>
-                <Typography variant="h5" align="center">
-                  <Link
-                    href={{
-                      pathname: "/answers",
-                      query: { id: userId }
-                    }}
-                  >
-                    <a className={classes.link}>Answers</a>
-                  </Link>
-                </Typography>
-              </Grid>
-              <Grid item xs={1} className={classes.qaGrid}>
-                <Typography variant="h4" align="center">
-                  {
-                    answers.filter((x, i) => {
-                      return x.selected;
-                    }).length
-                  }
-                </Typography>
-                <Typography variant="h5" align="center">
-                  <Link
-                    href={{
-                      pathname: "/selected",
-                      query: { id: userId }
-                    }}
-                  >
-                    <a className={classes.link}>Accepted Answers</a>
-                  </Link>
-                </Typography>
-              </Grid>
-              <Grid item xs={1} className={classes.qaGrid}>
-                <Typography variant="h4" align="center">
-                  {this.handlePointCount(questions, answers)}
-                </Typography>
-                <Typography
-                  variant="h5"
-                  align="center"
-                  className={classes.link}
-                >
-                  Points
-                </Typography>
-              </Grid>
-            </Grid>
-          );
-        }}
-      </Query>
-    );
+            <Typography variant="h5" align="center">
+              <Link
+                href={{
+                  pathname: '/answers',
+                  query: { id: userId },
+                }}
+              >
+                <a className={classes.link}>Answers</a>
+              </Link>
+            </Typography>
+          </div>
+
+          <div className={classes.elementContainer}>
+            <Typography variant="h4" align="center">
+              {
+                answers.filter((x, i) => {
+                  return x.selected
+                }).length
+              }
+            </Typography>
+
+            <Typography variant="h5" align="center">
+              <Link
+                href={{
+                  pathname: '/selected',
+                  query: { id: userId },
+                }}
+              >
+                <a className={classes.link}>Accepted Answers</a>
+              </Link>
+            </Typography>
+          </div>
+
+          <div className={classes.elementContainer}>
+            <Typography variant="h4" align="center">
+              {this.handlePointCount(questions, answers)}
+            </Typography>
+
+            <Typography variant="h5" align="center" className={classes.link}>
+              Points
+            </Typography>
+          </div>
+        </div>
+      </div>
+    )
   }
 }
 
-export default withStyles(styles)(QaDisplay);
+export default withStyles(styles)(QaDisplay)

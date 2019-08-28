@@ -26,17 +26,20 @@ import { withStyles } from "@material-ui/core/styles";
 
 import CreateTag from "./CreateTag";
 import { TAGS_QUERY } from "./Tags";
+import questionListQuery from "../question-list/questionListQuery";
 
 const styles = ({ layout, palette }) => ({
   container: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    padding: '0 5px',
   },
   table: {},
   title: {
     fontSize: "40px",
     textAlign: "Left",
-    color: "rgba(0, 0, 0, 0.87)"
+    color: "rgba(0, 0, 0, 0.87)",
+    lineHeight: '3rem',
   },
   inputField: {
     width: "100%",
@@ -84,8 +87,14 @@ export const CREATE_QUESTION_MUTATION = gql`
     $title: String!
     $description: String
     $tags: [TagInput!]!
+    $approval: Boolean
   ) {
-    createQuestion(title: $title, description: $description, tags: $tags) {
+    createQuestion(
+      title: $title
+      description: $description
+      tags: $tags
+      approval: $approval
+    ) {
       id
       title
       tags {
@@ -140,8 +149,19 @@ class CreateQuestion extends React.Component {
               variables={{
                 title,
                 description,
-                tags: tags.map(tag => ({ name: tag }))
+                tags: tags.map(tag => ({ name: tag })),
+                approval: false
               }}
+              refetchQueries={[
+                {
+                  query: questionListQuery,
+                  variables: { filter: "my" }
+                },
+                {
+                  query: questionListQuery,
+                  variables: { filter: "approval" }
+                }
+              ]}
             >
               {(createQuestion, { error, loading }) => {
                 return (
@@ -151,10 +171,7 @@ class CreateQuestion extends React.Component {
                       <TableHead>
                         <TableRow>
                           <TableCell>
-                            <Typography
-                              variant="display3"
-                              className={classes.title}
-                            >
+                            <Typography variant="h6" className={classes.title}>
                               Ask a question
                             </Typography>
                           </TableCell>

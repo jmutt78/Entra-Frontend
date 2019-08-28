@@ -5,6 +5,7 @@ import questionQuery from "../question-display/questionQuery.js";
 import gql from "graphql-tag";
 import Button from "@material-ui/core/Button";
 import Error from "./../ErrorMessage.js";
+import answersListQuery from "../answer-list/answerListQuery";
 
 export const APPROVE_ANSWER_MUTATION = gql`
   mutation updateAnswer($id: ID!, $approval: Boolean) {
@@ -92,6 +93,10 @@ class ApproveAnswer extends Component {
           {
             query: questionQuery,
             variables: { id: this.props.questionId }
+          },
+          {
+            query: answersListQuery,
+            variables: { filter: "approval" }
           }
         ]}
       >

@@ -3,8 +3,9 @@ import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import AnswerForm from "./AnswerForm";
 import Error from "./../ErrorMessage.js";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-const SINGLE_ANSWER_QUERY = gql`
+export const SINGLE_ANSWER_QUERY = gql`
   query SINGLE_ANSWER_QUERY($id: ID!) {
     answer(id: $id) {
       id
@@ -24,9 +25,10 @@ class UpdateAnswer extends Component {
   render() {
     return (
       <Query query={SINGLE_ANSWER_QUERY} variables={{ id: this.props.id }}>
-        {({ data: { answer }, loading, error }) => {
-          if (loading) return <p>Loading...</p>;
+        {({ data, loading, error }) => {
+          if (loading) return <CircularProgress style={{margin: 20}} />
           if (error) return <Error error={error} />;
+          const { answer } = data;
           return <AnswerForm answer={answer} />;
         }}
       </Query>
@@ -35,4 +37,3 @@ class UpdateAnswer extends Component {
 }
 
 export default UpdateAnswer;
-export { SINGLE_ANSWER_QUERY };

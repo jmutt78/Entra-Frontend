@@ -10,7 +10,7 @@ var INLINE_STYLES = [
 ];
 
 const InlineStyleControls = props => {
-  var currentStyle = props.editorState.getCurrentInlineStyle();
+  var currentStyle = props.editorState ? props.editorState.getCurrentInlineStyle() : null;
   return (
     <div
       style={{
@@ -23,7 +23,7 @@ const InlineStyleControls = props => {
       {INLINE_STYLES.map(type => (
         <StyleButton
           key={type.label}
-          active={currentStyle.has(type.style)}
+          active={currentStyle ? currentStyle.has(type.style) : false}
           label={type.label}
           onToggle={props.onToggle}
           style={type.style}

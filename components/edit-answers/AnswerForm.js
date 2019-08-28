@@ -65,7 +65,7 @@ const styles = ({ layout, palette }) => ({
   }
 });
 
-const UPDATE_ANSWER_MUTATION = gql`
+export const UPDATE_ANSWER_MUTATION = gql`
   mutation updateAnswer($id: ID!, $body: String!, $approval: Boolean) {
     updateAnswer(id: $id, body: $body, approval: $approval) {
       id
@@ -96,7 +96,7 @@ class AnswerForm extends Component {
     const res = await updateAnswer({
       variables: {
         id: this.props.answer.id,
-        approval: null,
+        approval: false,
         ...this.state
       }
     });
@@ -120,7 +120,7 @@ class AnswerForm extends Component {
                 <TableHead>
                   <TableRow>
                     <TableCell>
-                      <Typography variant="display3" className={classes.title}>
+                      <Typography variant="h6" className={classes.title}>
                         Edit Answer
                       </Typography>
                     </TableCell>
@@ -173,4 +173,3 @@ class AnswerForm extends Component {
 }
 
 export default withStyles(styles)(AnswerForm);
-export { UPDATE_ANSWER_MUTATION };

@@ -17,11 +17,13 @@ const BLOCK_TYPES = [
 
 const BlockStyleControls = props => {
   const { editorState } = props;
-  const selection = editorState.getSelection();
+  const selection = editorState ? editorState.getSelection() : null;
   const blockType = editorState
-    .getCurrentContent()
-    .getBlockForKey(selection.getStartKey())
-    .getType();
+    ? editorState
+      .getCurrentContent()
+      .getBlockForKey(selection.getStartKey())
+      .getType()
+    : null;
 
   return (
     <div

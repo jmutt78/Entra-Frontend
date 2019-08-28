@@ -30,6 +30,7 @@ const SINGLE_QUESTION_QUERY = gql`
         downVotes
         answeredBy: answeredBy {
           id
+          name
           display
           image
           createdAt

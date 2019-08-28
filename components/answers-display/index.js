@@ -4,6 +4,7 @@ import { Query } from "react-apollo";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Error from "./../ErrorMessage.js";
 import { CURRENT_USER_QUERY } from "../auth/User";
 import Answer from "./Answer";
@@ -25,9 +26,8 @@ const styles = ({ spacing, palette, layout }) => ({
     marginBottom: 30,
     maxWidth: 800,
     fontWeight: "bold",
-
     textAlign: "left",
-    lineHeight: "2.5rem"
+    lineHeight: "2.5rem",
   }
 });
 
@@ -37,7 +37,7 @@ const Answers = ({ classes, question, user }) => {
   return question.answers.length === 0 ? null : (
     <Query query={CURRENT_USER_QUERY}>
       {({ loading, error, data }) => {
-        if (loading) return <p>Loading...</p>;
+        if (loading) return <CircularProgress style={{margin: 20}} />
         if (error) return <Error error={error} />;
         const user = data.me;
 
@@ -58,7 +58,12 @@ const Answers = ({ classes, question, user }) => {
             )}
 
             {answers.map(answer => (
-              <Answer answer={answer} user={user} question={question} />
+              <Answer
+                answer={answer}
+                user={user}
+                question={question}
+                key={answer.id}
+              />
             ))}
           </div>
         );

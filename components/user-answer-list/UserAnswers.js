@@ -4,6 +4,7 @@ import { perPage } from "../../config.js";
 import AnswerList from "../answer-list";
 import userAnswerQuery from "./answerListQuery.js";
 import Error from "./../ErrorMessage.js";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class UserAnswers extends Component {
   handleName(answers) {
@@ -25,9 +26,10 @@ class UserAnswers extends Component {
           first: perPage
         }}
       >
-        {({ data: { answers }, loading, error }) => {
-          if (loading) return <p>Loading...</p>;
+        {({ data, loading, error }) => {
+          if (loading) return <CircularProgress style={{margin: 20}} />
           if (error) return <Error error={error} />;
+          const { answers } = data;
           return (
             <AnswerList
               answers={answers}
