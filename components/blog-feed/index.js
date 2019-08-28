@@ -1,18 +1,17 @@
-
-import React, { Component } from 'react'
-import gql from 'graphql-tag'
-import { Query } from 'react-apollo'
+import React, { Component } from "react";
+import gql from "graphql-tag";
+import { Query } from "react-apollo";
 
 import Table from "@material-ui/core/Table";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
+import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@material-ui/core/styles";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-import Error from '../ErrorMessage.js'
-import Post from './Post';
-
+import Error from "../ErrorMessage.js";
+import Post from "./Post";
 
 // TODO: pagination
 // TODO: tags
@@ -37,35 +36,35 @@ export const BLOG_LIST_QUERY = gql`
       }
     }
   }
-`
+`;
 
 const styles = theme => ({
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-    padding: '2rem 0',
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+    padding: "2rem 0"
   },
   title: {
     fontSize: "40px",
     textAlign: "Left",
     color: "rgba(0, 0, 0, 0.87)",
-    lineHeight: '3rem',
+    lineHeight: "3rem"
   },
   expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-})
+    transform: "rotate(180deg)"
+  }
+});
 
 class Blogs extends Component {
   render() {
-    const { classes } = this.props
+    const { classes } = this.props;
     return (
-      <Query query={BLOG_LIST_QUERY} context={{ clientName: 'second' }}>
+      <Query query={BLOG_LIST_QUERY} context={{ clientName: "second" }}>
         {({ data, loading, error }) => {
-          if (loading) return <p>Loading...</p>
-          if (error) return <Error error={error} />
-          const posts = data.posts.edges
+          if (loading) return <CircularProgress style={{ margin: 20 }} />;
+          if (error) return <Error error={error} />;
+          const posts = data.posts.edges;
           return (
             <div>
               <Table className={classes.table}>
@@ -80,15 +79,16 @@ class Blogs extends Component {
                 </TableHead>
               </Table>
               <div className={classes.container}>
-                {posts.map(post => <Post post={post} key={post.node.id} />)}
+                {posts.map(post => (
+                  <Post post={post} key={post.node.id} />
+                ))}
               </div>
             </div>
-          )
-
+          );
         }}
       </Query>
-    )
+    );
   }
 }
 
-export default withStyles(styles)(Blogs)
+export default withStyles(styles)(Blogs);

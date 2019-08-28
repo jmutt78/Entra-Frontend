@@ -5,8 +5,8 @@ import gql from "graphql-tag";
 
 import { withStyles } from "@material-ui/core/styles";
 
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
-import CardMedia from "@material-ui/core/CardMedia";
 import Error from "../ErrorMessage";
 
 export const WHY_QUERY = gql`
@@ -65,7 +65,7 @@ class Why extends Component {
         context={{ clientName: "second" }}
       >
         {({ data, loading, error }) => {
-          if (loading) return <p>Loading...</p>;
+          if (loading) return <CircularProgress style={{ margin: 20 }} />;
           if (error) return <Error error={error} />;
           const { page } = data;
 
