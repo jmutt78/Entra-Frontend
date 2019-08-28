@@ -4,9 +4,9 @@ const Hero = () => {
   return (
     <div className="heroContainer">
       <div className="heroContent">
-        <h1 className="heroHeader">Entra</h1>
-        <p className="heroText">Get inspired. Get help. Grow.</p>
-        <p className="heroText">Entra is currently in private beta. Signup to reseave your invitation</p>
+        <h1 className="heroHeader sans">Entra</h1>
+        <p className="heroText serif">Get inspired. Get help. Grow.</p>
+        <p className="heroText serif">Entra is currently in private beta. Signup to reseave your invitation</p>
       </div>
     </div>
   )
