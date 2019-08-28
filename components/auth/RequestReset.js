@@ -1,76 +1,77 @@
-import React, { Component } from 'react'
-import { Mutation } from 'react-apollo'
-import PropTypes from 'prop-types'
-import gql from 'graphql-tag'
+import React, { Component } from "react";
+import { Mutation } from "react-apollo";
+import PropTypes from "prop-types";
+import gql from "graphql-tag";
+import Router from "next/router";
 
-import Button from '@material-ui/core/Button'
-import Error from './../ErrorMessage.js'
-import Grid from '@material-ui/core/Grid'
-import Table from '@material-ui/core/Table'
-import TableCell from '@material-ui/core/TableCell'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
-import TextField from '@material-ui/core/TextField'
-import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
+import Button from "@material-ui/core/Button";
+import Error from "./../ErrorMessage.js";
+import Grid from "@material-ui/core/Grid";
+import Table from "@material-ui/core/Table";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    marginTop: '-15px',
-    padding: '0 5px',
+    display: "flex",
+    flexDirection: "column",
+    marginTop: "-15px",
+    padding: "0 5px"
   },
   successText: {
-    color: '#2d3436', //theme.palette.accent.dark,
-    fontSize: '1.2rem',
-    padding: '0 10px 25px 0',
+    color: "#2d3436", //theme.palette.accent.dark,
+    fontSize: "1.2rem",
+    padding: "0 10px 25px 0"
   },
   text: {
-    color: '#2d3436', //theme.palette.accent.dark,
-    fontSize: '1.2rem',
-    padding: '0 10px 28px 10px',
+    color: "#2d3436", //theme.palette.accent.dark,
+    fontSize: "1.2rem",
+    padding: "0 10px 28px 10px"
   },
   title: {
-    fontSize: '40px',
-    textAlign: 'Left',
-    color: 'rgba(0, 0, 0, 0.87)',
-    lineHeight: '3rem',
+    fontSize: "40px",
+    textAlign: "Left",
+    color: "rgba(0, 0, 0, 0.87)",
+    lineHeight: "3rem"
   },
   inputField: {
-    width: '100%',
-    marginBottom: 30,
+    width: "100%",
+    marginBottom: 30
   },
   label: {
     marginLeft: 10,
-    marginBotom: 10,
+    marginBotom: 10
   },
   formContainer: {
-    width: '100%',
+    width: "100%",
     maxWidth: 1000,
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    justifyContent: "center"
   },
   form: {
-    width: '100%',
+    width: "100%",
     maxWidth: 500,
-    padding: '50px 0 0 0',
+    padding: "50px 0 0 0"
   },
   fieldset: {
     border: 0,
     padding: 0,
-    margin: 0,
+    margin: 0
   },
   formControl: {
-    width: '100%',
+    width: "100%"
   },
   buttonContainer: {
-    display: 'flex',
-    width: '100%',
-    justifyContent: 'flex-end',
-    paddingTop: 10,
-  },
-})
+    display: "flex",
+    width: "100%",
+    justifyContent: "flex-end",
+    paddingTop: 10
+  }
+});
 
 export const REQUEST_RESET_MUTATION = gql`
   mutation REQUEST_RESET_MUTATION($email: String!) {
@@ -78,17 +79,17 @@ export const REQUEST_RESET_MUTATION = gql`
       message
     }
   }
-`
+`;
 
 class ResetPassword extends Component {
   state = {
-    email: '',
-  }
+    email: ""
+  };
   saveToState = e => {
-    this.setState({ [e.target.name]: e.target.value })
-  }
+    this.setState({ [e.target.name]: e.target.value });
+  };
   render() {
-    const { classes } = this.props
+    const { classes } = this.props;
     return (
       <Mutation mutation={REQUEST_RESET_MUTATION} variables={this.state}>
         {(reset, { error, loading, called }) => (
@@ -109,9 +110,10 @@ class ResetPassword extends Component {
               <form
                 method="post"
                 onSubmit={async e => {
-                  e.preventDefault()
-                  await reset()
-                  this.setState({ email: '' })
+                  e.preventDefault();
+                  await reset();
+                  this.setState({ email: "" });
+                  Router.push("/");
                 }}
                 className={classes.form}
               >
@@ -121,12 +123,16 @@ class ResetPassword extends Component {
                   aria-busy={loading}
                 >
                   <Typography className={classes.text}>
-                    Enter your email address to recieve a link to rest your password.
+                    Enter your email address to recieve a link to rest your
+                    password.
                   </Typography>
 
-                  <Error error={error} styles={{padding: 0, margin: 0}}/>
+                  <Error error={error} styles={{ padding: 0, margin: 0 }} />
                   {!error && !loading && called && (
-                    <Typography className={classes.successText} style={{ color: '#27ae60' }}>
+                    <Typography
+                      className={classes.successText}
+                      style={{ color: "#27ae60" }}
+                    >
                       Success! Check your email for a reset link!
                     </Typography>
                   )}
@@ -153,12 +159,12 @@ class ResetPassword extends Component {
           </Grid>
         )}
       </Mutation>
-    )
+    );
   }
 }
 
 ResetPassword.propTypes = {
-  classes: PropTypes.object.isRequired,
-}
+  classes: PropTypes.object.isRequired
+};
 
-export default withStyles(styles)(ResetPassword)
+export default withStyles(styles)(ResetPassword);

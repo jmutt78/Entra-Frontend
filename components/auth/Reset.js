@@ -1,102 +1,111 @@
-import React, { Component } from 'react'
-import { Mutation } from 'react-apollo'
-import gql from 'graphql-tag'
-import PropTypes from 'prop-types'
+import React, { Component } from "react";
+import { Mutation } from "react-apollo";
+import gql from "graphql-tag";
+import PropTypes from "prop-types";
+import Router from "next/router";
 
-import Button from '@material-ui/core/Button'
-import Grid from '@material-ui/core/Grid'
-import Table from '@material-ui/core/Table'
-import TableCell from '@material-ui/core/TableCell'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
-import TextField from '@material-ui/core/TextField'
-import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import Table from "@material-ui/core/Table";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@material-ui/core/styles";
 
-import Error from './../ErrorMessage.js'
-import { CURRENT_USER_QUERY } from './User'
+import Error from "./../ErrorMessage.js";
+import { CURRENT_USER_QUERY } from "./User";
 
 export const RESET_MUTATION = gql`
-  mutation RESET_MUTATION($resetToken: String!, $password: String!, $confirmPassword: String!) {
-    resetPassword(resetToken: $resetToken, password: $password, confirmPassword: $confirmPassword) {
+  mutation RESET_MUTATION(
+    $resetToken: String!
+    $password: String!
+    $confirmPassword: String!
+  ) {
+    resetPassword(
+      resetToken: $resetToken
+      password: $password
+      confirmPassword: $confirmPassword
+    ) {
       id
       email
       name
     }
   }
-`
+`;
 
 const styles = theme => ({
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    marginTop: '-15px',
-    padding: '0 5px',
+    display: "flex",
+    flexDirection: "column",
+    marginTop: "-15px",
+    padding: "0 5px"
   },
   successText: {
-    color: '#2d3436', //theme.palette.accent.dark,
-    fontSize: '1.2rem',
-    padding: '0 10px 25px 0',
+    color: "#2d3436", //theme.palette.accent.dark,
+    fontSize: "1.2rem",
+    padding: "0 10px 25px 0"
   },
   text: {
-    color: '#2d3436', //theme.palette.accent.dark,
-    fontSize: '1.2rem',
-    padding: '0 10px 28px 10px',
+    color: "#2d3436", //theme.palette.accent.dark,
+    fontSize: "1.2rem",
+    padding: "0 10px 28px 10px"
   },
   title: {
-    fontSize: '40px',
-    textAlign: 'Left',
-    color: 'rgba(0, 0, 0, 0.87)',
-    lineHeight: '3rem',
+    fontSize: "40px",
+    textAlign: "Left",
+    color: "rgba(0, 0, 0, 0.87)",
+    lineHeight: "3rem"
   },
   inputField: {
-    width: '100%',
-    marginBottom: 30,
+    width: "100%",
+    marginBottom: 30
   },
   label: {
     marginLeft: 10,
-    marginBotom: 10,
+    marginBotom: 10
   },
   formContainer: {
-    width: '100%',
+    width: "100%",
     maxWidth: 1000,
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    justifyContent: "center"
   },
   form: {
-    width: '100%',
+    width: "100%",
     maxWidth: 500,
-    padding: '50px 0 0 0',
+    padding: "50px 0 0 0"
   },
   fieldset: {
     border: 0,
     padding: 0,
-    margin: 0,
+    margin: 0
   },
   formControl: {
-    width: '100%',
+    width: "100%"
   },
   buttonContainer: {
-    display: 'flex',
-    width: '100%',
-    justifyContent: 'flex-end',
-    paddingTop: 10,
-  },
-})
+    display: "flex",
+    width: "100%",
+    justifyContent: "flex-end",
+    paddingTop: 10
+  }
+});
 
 class Reset extends Component {
   static propTypes = {
-    resetToken: PropTypes.string.isRequired,
-  }
+    resetToken: PropTypes.string.isRequired
+  };
   state = {
-    password: '',
-    confirmPassword: '',
-  }
+    password: "",
+    confirmPassword: ""
+  };
   saveToState = e => {
-    this.setState({ [e.target.name]: e.target.value })
-  }
+    this.setState({ [e.target.name]: e.target.value });
+  };
   render() {
-    const { classes } = this.props
+    const { classes } = this.props;
 
     return (
       <Mutation
@@ -104,7 +113,7 @@ class Reset extends Component {
         variables={{
           resetToken: this.props.resetToken,
           password: this.state.password,
-          confirmPassword: this.state.confirmPassword,
+          confirmPassword: this.state.confirmPassword
         }}
         refetchQueries={[{ query: CURRENT_USER_QUERY }]}
       >
@@ -126,13 +135,18 @@ class Reset extends Component {
               <form
                 method="post"
                 onSubmit={async e => {
-                  e.preventDefault()
-                  await reset()
-                  this.setState({ password: '', confirmPassword: '' })
+                  e.preventDefault();
+                  await reset();
+                  this.setState({ password: "", confirmPassword: "" });
+                  Router.push("/");
                 }}
                 className={classes.form}
               >
-                <fieldset className={classes.fieldset} disabled={loading} aria-busy={loading}>
+                <fieldset
+                  className={classes.fieldset}
+                  disabled={loading}
+                  aria-busy={loading}
+                >
                   <Error error={error} />
 
                   <label htmlFor="email">
@@ -169,12 +183,12 @@ class Reset extends Component {
           </Grid>
         )}
       </Mutation>
-    )
+    );
   }
 }
 
 Reset.propTypes = {
-  classes: PropTypes.object.isRequired,
-}
+  classes: PropTypes.object.isRequired
+};
 
-export default withStyles(styles)(Reset)
+export default withStyles(styles)(Reset);
