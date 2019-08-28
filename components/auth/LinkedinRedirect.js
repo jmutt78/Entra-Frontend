@@ -4,6 +4,7 @@ import { withApollo } from "react-apollo";
 import { CURRENT_USER_QUERY } from "./User";
 import Router from "next/router";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { withStyles } from "@material-ui/core/styles";
 
 const LINKEDIN_LOGIN_MUTATION = gql`
   mutation LINKEDIN_LOGIN_MUTATION($code: String!) {
@@ -14,6 +15,15 @@ const LINKEDIN_LOGIN_MUTATION = gql`
     }
   }
 `;
+
+const styles = theme => ({
+  container: {
+    display: "flex",
+    flex: 1,
+    width: "100%",
+    justifyContent: "center"
+  }
+});
 
 class LinkedinRedirect extends React.Component {
   componentDidMount() {
@@ -30,8 +40,14 @@ class LinkedinRedirect extends React.Component {
       });
   }
   render() {
-    return <CircularProgress style={{ margin: 20 }} />;
+    const { classes } = this.props;
+
+    return (
+      <div className={classes.container}>
+        <CircularProgress style={{ marginTop: 50 }} />
+      </div>
+    );
   }
 }
 
-export default withApollo(LinkedinRedirect);
+export default withStyles(styles)(withApollo(LinkedinRedirect));
