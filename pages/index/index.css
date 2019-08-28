@@ -1,10 +1,16 @@
 .landingContainer {
+  width: 100%;
 }
 
 .heroContainer {
   /* height: calc(100vh - 160px); */
   /* overflow: hidden; */
   /* margin-bottom: 140px; */
+  height: calc(100vh - 160px);
+  background: linear-gradient(to right, rgb(17, 17, 17), transparent),
+    url("https://i1.wp.com/entra.io/wp-content/uploads/2019/05/venveo-609390-unsplash.jpg?fit=6435%2C4290")
+      center top no-repeat fixed;
+  background-size: cover;
 }
 
 .heroImageContainer {
