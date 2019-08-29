@@ -124,6 +124,42 @@
   margin-bottom: 100px;
 }
 
+.gridContainer {
+  display: flex;
+}
+
+.gridContent {
+  width: 50%;
+}
+
+.gridImageContainer {
+  width: 50%;
+  background-size: cover;
+}
+
+
+.gridHeader {
+
+}
+
+.gridSubHeader {
+
+}
+
+.sectionbreak {
+
+}
+
+.gridSectionHead {
+
+}
+
+.gridSectionBody {
+
+}
+
+
+
 @media (max-width: 600px) {
   .areyouHeader {
     margin-top: 0;
