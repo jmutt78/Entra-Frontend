@@ -70,11 +70,9 @@
 }
 
 .areyouContainer {
-  height: 30rem;
   background: content-box radial-gradient(rgb(37, 37, 37, 0.5), rgb(37, 37, 37, 0.5)),
     url(/static/areyou.jpg) center top no-repeat fixed;
   background-size: cover;
-
 }
 
 .areyouContent {
@@ -91,10 +89,24 @@
 .areyouHeader {
   padding-top: 2rem;
   font-size: 4rem;
+  margin-bottom: 1.1rem;
 }
 
 .areyouText {
   margin: 0;
   font-size: 1.6rem;
 }
+.sectionbreak {
+  width: 90%;
+  margin-top: 2.2rem;
+  margin-bottom: 100px;
+}
 
+@media (max-width: 600px) {
+  .areyouHeader {
+    margin-top: 0;
+  }
+.sectionbreak {
+    margin-bottom: 50px;
+  }
+}

@@ -9,6 +9,7 @@ const Areyou = () => {
           An Entra is a person that seeks to make the world a better place by creating. We believe that there
           is more than enough opportunity for everyone, so we strive to help other Entras.
         </p>
+        <hr className="sectionbreak" />
       </div>
     </div>
   )
