@@ -9,12 +9,12 @@ const styles = {
   container: {
     padding: '40px 20px 80px 20px',
     maxWidth: 1000,
-    // TEMP
-    overflowX: 'hidden',
     alignSelf: 'center',
     justifySelf: 'center',
     textAlign: 'center',
     margin: '0 auto',
+    // TEMP
+    overflowX: 'hidden',
   },
 }
 

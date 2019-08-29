@@ -1,9 +1,9 @@
 .sans {
-  font-family: Montserrat, 'Helvetica', 'Arial', sans-serif;
+  font-family: Montserrat, "Helvetica", "Arial", sans-serif;
 }
 
 .serif {
-  font-family: Lora, 'Helvetica', 'Arial', sans-serif
+  font-family: Lora, "Helvetica", "Arial", sans-serif;
 }
 
 .darkText {
@@ -16,7 +16,8 @@
 
 .heroContainer {
   height: calc(100vh - 160px);
-  background: content-box radial-gradient(rgb(37, 37, 37, 0.5), rgb(37, 37, 37, 0.5)), url(/static/hero.jpg) center top no-repeat fixed;
+  background: content-box radial-gradient(rgb(37, 37, 37, 0.5), rgb(37, 37, 37, 0.5)),
+    url(/static/hero.jpg) center top no-repeat fixed;
   background-size: cover;
 }
 
@@ -47,7 +48,6 @@
 
 .whyContainer {
   width: 100vw;
-  height: 15rem;
   background: #f2f4ef;
 }
 
@@ -56,13 +56,19 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  padding: 30px 0;
 }
 
 .whyHeader {
-
+  font-size: 2.8em;
+  font-weight: 700;
+  color: #343434;
+  font-variant-ligatures: common-ligatures;
 }
 
 .whyText {
-
+  color: #767676;
+  font-size: 1.8em;
+  padding: 0 20px 50px 20px;
+  margin: 0;
 }
-
