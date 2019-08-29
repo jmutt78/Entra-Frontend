@@ -14,6 +14,7 @@
 
 .landingContainer {
   width: 100%;
+  background: #f2f4ef;
 }
 
 .heroContainer {
@@ -131,6 +132,7 @@
 .gridContent {
   width: 50%;
   background: #f2f4ef;
+  padding: 1rem 10% 4rem 10%;
 }
 
 .gridImageContainer {
@@ -141,23 +143,38 @@
 
 
 .gridHeader {
+  font-size: 1.8rem;
+}
+
+
+.light {
 
 }
 
 .gridSubHeader {
-
+  color: #767676;
+  font-size: 1.4rem;
+  font-weight: 400;
 }
 
-.sectionbreak {
+.gridSectionbreak {
+  width: 100%;
+  border: 0;
+  border-width: 1px;
+  border-color: #e6eae0;
+  border-top: 2px solid #eeeeee;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
 
 }
 
 .gridSectionHead {
-
+  font-weight: 600;
 }
 
 .gridSectionBody {
-
+  color: #767676;
+  font-size: 1.2rem;
 }
 
 
