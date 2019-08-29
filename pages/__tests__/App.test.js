@@ -1,3 +1,4 @@
+/*
 const faker = require('faker');
 const puppeteer = require('puppeteer');
 
@@ -80,3 +81,4 @@ describe('Logout', () => {
 afterAll(() => {
     browser.close()
 })
+*/
