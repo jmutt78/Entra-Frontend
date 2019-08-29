@@ -1,11 +1,14 @@
+
 import React from 'react'
 import Typography from "@material-ui/core/Typography"
 import { withRouter } from 'next/router'
+
 
 import User from '../../components/auth/User'
 
 const Hero = ({ router }) => {
   return (
+
     <User>
       {({ data: { me } }) => (
         <div className="heroContainer">
@@ -37,3 +40,4 @@ const Hero = ({ router }) => {
 }
 
 export default withRouter(Hero)
+
