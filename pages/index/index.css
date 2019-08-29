@@ -1,9 +1,11 @@
 .sans {
-  font-family: Montserrat, "Helvetica", "Arial", sans-serif;
+  font-family: Montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 .serif {
-  font-family: Lora, "Helvetica", "Arial", sans-serif;
+  font-family: Lora, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 .darkText {
@@ -107,7 +109,7 @@
   .areyouHeader {
     margin-top: 0;
   }
-.sectionbreak {
+  .sectionbreak {
     margin-bottom: 50px;
   }
 }
