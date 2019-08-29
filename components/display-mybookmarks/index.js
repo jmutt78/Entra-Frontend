@@ -3,7 +3,7 @@ import { Query } from "react-apollo";
 import { perPage } from "../../config.js";
 import QuestionList from "../question-list";
 import questionListQuery from "../question-list/questionListQuery";
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 class MyBookMark extends Component {
   render() {
@@ -19,12 +19,13 @@ class MyBookMark extends Component {
         }}
       >
         {({ data, loading, error }) => {
-          if (loading) return <CircularProgress style={{margin: 20}} />
+          if (loading) return <CircularProgress style={{ margin: 20 }} />;
           if (error) return <p>Error</p>;
           const { questions } = data;
 
           return (
             <QuestionList
+              enablePagination={true}
               questions={questions}
               filter={filter}
               page={page}

@@ -44,7 +44,7 @@ class UserAnswers extends Component {
               answers={answers}
               filter={filter}
               name={this.handleName(answers)}
-              enablePagination={this.handlePagination(answers)}
+              enablePagination={true}
               page={page}
             />
           );

@@ -37,10 +37,9 @@ const styles = ({ layout }) => ({
     flexDirection: "column",
     justifyContent: "space-between",
     maxWidth: 1200,
-    minWidth: '90%',
+    minWidth: "90%",
     height: "100%",
-    paddingRight: 10,
-
+    paddingRight: 10
   },
   title: {
     fontSize: "40px",
@@ -58,13 +57,13 @@ const styles = ({ layout }) => ({
 });
 
 function QuestionList(props) {
-  const { classes, questions, filter, page } = props;
+  const { classes, questions, filter, page, enablePagination } = props;
 
   return (
     <div className={classes.container}>
       <Table className={classes.table}>
         <TableHead>
-          <TableRow style={{marginRight: 10}}>
+          <TableRow style={{ marginRight: 10 }}>
             <TableCell>
               <Typography className={classes.title}>
                 {upperFirst(props.name) || "Questions"}
@@ -93,30 +92,33 @@ function QuestionList(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {questions && questions.map(question => {
-            return (
-              <ListItem
-                item={question}
-                userName={question.askedBy[0].name}
-                linkTo={{
-                  pathname: "/question",
-                  query: { id: question.id }
-                }}
-                showDetails={true}
-                name={props.name}
-                key={question.id}
-                display={question.askedBy[0].display}
-              />
-            );
-          })}
+          {questions &&
+            questions.map(question => {
+              return (
+                <ListItem
+                  item={question}
+                  userName={question.askedBy[0].name}
+                  linkTo={{
+                    pathname: "/question",
+                    query: { id: question.id }
+                  }}
+                  showDetails={true}
+                  name={props.name}
+                  key={question.id}
+                  display={question.askedBy[0].display}
+                />
+              );
+            })}
         </TableBody>
       </Table>
-      <Pagination
-        page={page}
-        filter={filter}
-        query={QUESTION_PAGINATION_QUERY}
-        connectionKey="questionsConnection"
-      />
+      {enablePagination && (
+        <Pagination
+          page={page}
+          filter={filter}
+          query={QUESTION_PAGINATION_QUERY}
+          connectionKey="questionsConnection"
+        />
+      )}
     </div>
   );
 }
