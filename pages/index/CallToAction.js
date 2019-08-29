@@ -30,4 +30,4 @@ const CallToAction = ({ router }) => {
   )
 }
 
-export default withRouter(Why)
+export default withRouter(CallToAction)
