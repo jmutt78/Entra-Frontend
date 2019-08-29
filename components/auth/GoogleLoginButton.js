@@ -20,10 +20,10 @@ const styles = theme => ({
   container: {
     display: "flex",
     justifyContent: "center",
-    width: '100%',
+    width: "100%",
     padding: "12px 0",
-    background: '#dedede',
-    margin: '10px 0',
+    background: "#dedede",
+    margin: "10px 0"
   }
 });
 
@@ -39,7 +39,7 @@ class GoogleLoginButton extends React.Component {
         refetchQueries: [{ query: CURRENT_USER_QUERY }]
       })
       .then(() => {
-        Router.push("/");
+        Router.push("/all");
       });
   };
   onFailure = response => {
@@ -61,5 +61,7 @@ class GoogleLoginButton extends React.Component {
   }
 }
 
-export const GoogleLoginButtonWithoutApollo = withStyles(styles)(GoogleLoginButton);
+export const GoogleLoginButtonWithoutApollo = withStyles(styles)(
+  GoogleLoginButton
+);
 export default withStyles(styles)(withApollo(GoogleLoginButton));
