@@ -34,7 +34,8 @@ const styles = ({ palette, layout }) => ({
     textAlign: 'Left',
     color: 'rgba(0, 0, 0, 0.87)',
     lineHeight: '3rem',
-    // wordBreak: 'break-all',
+    fontWeight: 600,
+    letterSpacing: '-1px',
   },
   voteContainer: {
     display: 'flex',
