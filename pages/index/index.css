@@ -47,6 +47,7 @@
 }
 
 .heroSignupButton {
+  cursor: pointer;
   width: 300px;
   height: 3.5rem;
   max-width: 90%;
@@ -74,6 +75,14 @@
   align-items: center;
   text-align: center;
   padding: 30px 0;
+}
+
+.callToActionContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 60px 0;
 }
 
 .whyHeader {
