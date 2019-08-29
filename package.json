@@ -133,6 +133,9 @@
               "displayName": true
             }
           ]
+        ],
+        "ignore": [
+          "**/__tests__"
         ]
       },
       "test": {
