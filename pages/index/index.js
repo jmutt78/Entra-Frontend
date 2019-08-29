@@ -4,8 +4,8 @@ import Grid from "./Grid";
 import Areyou from "./Areyou";
 import Hero from "./Hero";
 import Questions from "./Questions";
-import Why from "./Why";
-import CallToAction from "./CallToAction";
+import Why from "./why";
+import CallToAction from "./callToAction";
 import ViewAll from "./AllQuestionCTA.js";
 import Layout from "../../components/layout/index.js";
 
