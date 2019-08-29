@@ -1,0 +1,115 @@
+.sans {
+  font-family: Montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.serif {
+  font-family: Lora, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.darkText {
+  color: #343434;
+}
+
+.landingContainer {
+  width: 100%;
+}
+
+.heroContainer {
+  height: calc(100vh - 160px);
+  background: content-box radial-gradient(rgb(37, 37, 37, 0.5), rgb(37, 37, 37, 0.5)),
+    url(/static/hero.jpg) center top no-repeat fixed;
+  background-size: cover;
+}
+
+.heroContent {
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  text-align: center;
+  padding: 0 15px;
+}
+
+.heroHeader {
+  padding-top: 3rem;
+  font-size: 6rem;
+  text-transform: uppercase;
+}
+
+.heroText {
+  font-size: 1.6rem;
+}
+
+.whyContainer {
+  width: 100vw;
+  background: #f2f4ef;
+}
+
+.whyContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 30px 0;
+}
+
+.whyHeader {
+  font-size: 2.8em;
+  font-weight: 700;
+  color: #343434;
+  font-variant-ligatures: common-ligatures;
+}
+
+.whyText {
+  color: #767676;
+  font-size: 1.8em;
+  padding: 0 20px 50px 20px;
+  margin: 0;
+}
+
+.areyouContainer {
+  background: content-box radial-gradient(rgb(37, 37, 37, 0.5), rgb(37, 37, 37, 0.5)),
+    url(/static/areyou.jpg) center top no-repeat fixed;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+}
+
+.areyouContent {
+  height: 100%;
+  color: white;
+  text-align: center;
+  padding: 0 15px;
+  max-width: 1200px;
+}
+
+.areyouHeader {
+  padding-top: 2rem;
+  font-size: 4rem;
+  margin-bottom: 1.1rem;
+}
+
+.areyouText {
+  margin: 0;
+  font-size: 1.6rem;
+}
+.sectionbreak {
+  width: 90%;
+  margin-top: 2.2rem;
+  margin-bottom: 100px;
+}
+
+@media (max-width: 600px) {
+  .areyouHeader {
+    margin-top: 0;
+  }
+  .sectionbreak {
+    margin-bottom: 50px;
+  }
+}

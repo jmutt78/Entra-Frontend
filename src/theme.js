@@ -30,8 +30,25 @@ export default {
     }
   },
   typography: {
-    useNextVariants: true,
   },
+  typography: {
+    useNextVariants: true,
+    fontFamily: [
+      'Montserrat',
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+  },
+
+
   layout: {
     ...layout,
     contentMinHeight: `calc(${layout.height} - ${layout.headerHeight}px - ${layout.navHeight}px)`,

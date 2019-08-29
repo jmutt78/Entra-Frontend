@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Document, { Head, Main, NextScript } from "next/document";
-import flush from "styled-jsx/server";
+import React from 'react'
+import PropTypes from 'prop-types'
+import Document, { Head, Main, NextScript } from 'next/document'
+import flush from 'styled-jsx/server'
 
 const containerStyles = {
   width: theme.layout.width,
@@ -10,7 +10,7 @@ const containerStyles = {
 
 class MyDocument extends Document {
   render() {
-    const { pageContext } = this.props;
+    const { pageContext } = this.props
 
     return (
       <html lang="en" style={containerStyles}>
@@ -22,31 +22,28 @@ class MyDocument extends Document {
             content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
           />
           {/* PWA primary color */}
-          <meta
-            name="theme-color"
-            content={
-              pageContext ? pageContext.theme.palette.primary.main : null
-            }
-          />
+          <meta name="theme-color" content={pageContext ? pageContext.theme.palette.primary.main : null} />
           <link
             href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap"
             rel="stylesheet"
           />
-
+          <link
+            href="https://fonts.googleapis.com/css?family=Lora:400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap"
+            rel="stylesheet"
+          />
           <link rel="apple-touch-icon" sizes="180x180" href="../static/favicon/apple-touch-icon.png" />
           <link rel="icon" type="image/png" sizes="32x32" href="../static/favicon/favicon-32x32.png" />
           <link rel="icon" type="image/png" sizes="16x16" href="../static/favicon/favicon-16x16.png" />
           <link rel="manifest" href="../static/favicon/site.webmanifest" />
           <meta name="msapplication-TileColor" content="#da532c" />
           <meta name="theme-color" content="#ffffff" />
-
         </Head>
         <body style={containerStyles}>
           <Main style={containerStyles} />
           <NextScript />
         </body>
       </html>
-    );
+    )
   }
 }
 
@@ -74,24 +71,24 @@ MyDocument.getInitialProps = ctx => {
   // 4. page.render
 
   // Render app and page and get the context of the page with collected side effects.
-  let pageContext;
+  let pageContext
   const page = ctx.renderPage(Component => {
     const WrappedComponent = props => {
-      pageContext = props.pageContext;
-      return <Component {...props} />;
-    };
+      pageContext = props.pageContext
+      return <Component {...props} />
+    }
 
     WrappedComponent.propTypes = {
-      pageContext: PropTypes.object.isRequired
-    };
+      pageContext: PropTypes.object.isRequired,
+    }
 
-    return WrappedComponent;
-  });
+    return WrappedComponent
+  })
 
-  let css;
+  let css
   // It might be undefined, e.g. after an error.
   if (pageContext) {
-    css = pageContext.sheetsRegistry.toString();
+    css = pageContext.sheetsRegistry.toString()
   }
 
   return {
@@ -107,8 +104,8 @@ MyDocument.getInitialProps = ctx => {
         />
         {flush() || null}
       </React.Fragment>
-    )
-  };
-};
+    ),
+  }
+}
 
-export default MyDocument;
+export default MyDocument

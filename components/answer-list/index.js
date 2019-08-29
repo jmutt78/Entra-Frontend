@@ -36,6 +36,7 @@ const styles = ({ layout }) => ({
     justifyContent: "space-between",
     // width: layout.width,
     maxWidth: 1200,
+    minWidth: '90%',
     height: "100%"
     // minHeight: layout.contentMinHeight
   },
