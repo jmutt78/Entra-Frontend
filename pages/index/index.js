@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Grid from './Grid'
+import Areyou from './Areyou'
 import Hero from './Hero'
 import Questions from './Questions'
 import Why from './Why'
@@ -102,6 +103,7 @@ const Landingpage = () => {
           },
         ]}
       />
+      <Areyou />
     </div>
   )
 }
