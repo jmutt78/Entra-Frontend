@@ -1,14 +1,14 @@
-import React from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
+import React from "react"
+import Link from "next/link"
+import { useRouter } from "next/router"
 
-import Button from "@material-ui/core/Button";
-import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
-import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
-import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button"
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft"
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight"
+import Typography from "@material-ui/core/Typography"
+import { withStyles } from "@material-ui/core/styles"
 
-import { perPage } from "../../config.js";
+import { perPage } from "../../config.js"
 
 const styles = ({ palette }) => ({
   container: {
@@ -23,18 +23,17 @@ const styles = ({ palette }) => ({
       backgroundColor: palette.primary.main
     }
   }
-});
+})
 
 function PaginationActions({ classes, page, pages }) {
-  const { pathname } = useRouter();
-
+  const { pathname, query } = useRouter()
   return (
     <Typography className={classes.container}>
       <Link
         prefetch
         href={{
           pathname,
-          query: { page: page - 1 }
+          query: { ...query, page: page - 1 }
         }}
       >
         <Button
@@ -53,7 +52,7 @@ function PaginationActions({ classes, page, pages }) {
         prefetch
         href={{
           pathname,
-          query: { page: page + 1 }
+          query: { ...query, page: page + 1 }
         }}
       >
         <Button
@@ -68,7 +67,7 @@ function PaginationActions({ classes, page, pages }) {
         </Button>
       </Link>
     </Typography>
-  );
+  )
 }
 
-export default withStyles(styles)(PaginationActions);
+export default withStyles(styles)(PaginationActions)
