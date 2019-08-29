@@ -1,6 +1,8 @@
 import React from 'react'
-import Questions from './Questions'
+
+import Areyou from './Areyou'
 import Hero from './Hero'
+import Questions from './Questions'
 import Why from './Why'
 
 import './index.css'
@@ -11,6 +13,7 @@ const Landingpage = () => {
       <Hero />
       <Why />
       <Questions />
+      <Areyou />
     </div>
   )
 }
