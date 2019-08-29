@@ -130,11 +130,13 @@
 
 .gridContent {
   width: 50%;
+  background: #f2f4ef;
 }
 
 .gridImageContainer {
   width: 50%;
   background-size: cover;
+  min-height: 100%;
 }
 
 
