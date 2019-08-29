@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography'
 import { withRouter } from 'next/router'
 import User from '../../components/auth/User'
 
-const Why = ({ router }) => {
+const CallToAction = ({ router }) => {
   return (
     <User>
       {({ data: { me } }) => (
