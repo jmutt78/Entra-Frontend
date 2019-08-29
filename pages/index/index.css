@@ -17,7 +17,6 @@
 }
 
 .heroContainer {
-  height: calc(100vh - 160px);
   background: content-box radial-gradient(rgb(37, 37, 37, 0.5), rgb(37, 37, 37, 0.5)),
     url(/static/hero.jpg) center top no-repeat fixed;
   background-size: cover;
@@ -32,13 +31,14 @@
   align-items: center;
   color: white;
   text-align: center;
-  padding: 0 15px;
+  padding: 4rem 15px;
 }
 
 .heroHeader {
-  padding-top: 3rem;
   font-size: 6rem;
   text-transform: uppercase;
+  padding-top: 0;
+  margin-top: 0;
 }
 
 .heroText {
@@ -47,12 +47,13 @@
 
 .heroSignupButton {
   width: 300px;
-  height: 3rem;
+  height: 3.5rem;
   max-width: 90%;
   border: none;
   border-radius: 100px;
   background: #e27d60;
   margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .heroSignupButtonText {
@@ -129,5 +130,9 @@
   }
   .sectionbreak {
     margin-bottom: 50px;
+  }
+
+  .heroContent {
+    padding: 2rem 15px;
   }
 }
