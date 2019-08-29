@@ -17,7 +17,7 @@ const Grid = ({ image, head, sub, flexDirection, sections }) => {
       </div>
       <div
         className="gridImageContainer"
-        style={{ background: `url(${image}) center top no-repeat, #f2f4ef` }}
+        style={{ backgroundImage: `url(${image})` }}
       />
     </div>
   )
