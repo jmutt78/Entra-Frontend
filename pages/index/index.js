@@ -5,6 +5,7 @@ import Areyou from './Areyou'
 import Hero from './Hero'
 import Questions from './Questions'
 import Why from './Why'
+import CallToAction from './CallToAction'
 
 import './index.css'
 
@@ -103,6 +104,7 @@ const Landingpage = () => {
           },
         ]}
       />
+      <CallToAction />
       <Areyou />
     </div>
   )

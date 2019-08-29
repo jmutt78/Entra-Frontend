@@ -127,7 +127,7 @@
 
 .gridContainer {
   display: flex;
-  padding: 2rem 0 5rem 0;
+  /* padding: 2rem 0 5rem 0; */
 }
 
 .gridContent {
