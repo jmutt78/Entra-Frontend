@@ -2,11 +2,13 @@ import React from 'react'
 
 const Areyou = () => {
   return (
-    <div className="heroContainer">
-      <div className="heroContent">
-        <h1 className="heroHeader sans">Entra</h1>
-        <p className="heroText serif">Get inspired. Get help. Grow.</p>
-        <p className="heroText serif">Entra is currently in private beta. Signup to reseave your invitation</p>
+    <div className="areyouContainer">
+      <div className="areyouContent">
+        <h1 className="areyouHeader sans">Are You An Entra?</h1>
+        <p className="areyouText serif">
+          An Entra is a person that seeks to make the world a better place by creating. We believe that there
+          is more than enough opportunity for everyone, so we strive to help other Entras.
+        </p>
       </div>
     </div>
   )

@@ -21,10 +21,6 @@
   background-size: cover;
 }
 
-.heroImage {
-  height: calc(100vh - 160px);
-}
-
 .heroContent {
   width: 100vw;
   height: 100%;
@@ -72,3 +68,33 @@
   padding: 0 20px 50px 20px;
   margin: 0;
 }
+
+.areyouContainer {
+  height: 30rem;
+  background: content-box radial-gradient(rgb(37, 37, 37, 0.5), rgb(37, 37, 37, 0.5)),
+    url(/static/areyou.jpg) center top no-repeat fixed;
+  background-size: cover;
+
+}
+
+.areyouContent {
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  text-align: center;
+  padding: 0 15px;
+}
+
+.areyouHeader {
+  padding-top: 2rem;
+  font-size: 4rem;
+}
+
+.areyouText {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
