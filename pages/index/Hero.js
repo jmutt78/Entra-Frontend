@@ -1,5 +1,5 @@
 import React from 'react'
-
+import Typography from "@material-ui/core/Typography"
 import { withRouter } from 'next/router'
 
 import User from '../../components/auth/User'
@@ -17,6 +17,7 @@ const Hero = ({ router }) => {
             </p>
             {me ? null : (
               <button
+                className="heroSignupButton"
                 onClick={e => {
                   e.preventDefault()
                   e.stopPropagation()
@@ -25,7 +26,7 @@ const Hero = ({ router }) => {
                   })
                 }}
               >
-                Signup
+                <Typography className="heroSignupButtonText">SIGNUP NOW</Typography>
               </button>
             )}
           </div>
