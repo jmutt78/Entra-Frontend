@@ -1,21 +1,26 @@
-import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import Linkedin from './Linkedin'
+import React from "react";
+import { withStyles } from "@material-ui/core/styles";
+import Linkedin from "./Linkedin";
 
 const styles = theme => ({
   container: {
-    backgroundColor: '#337ab7',
-    borderColor: '#2e6da4',
-  },
-})
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+    backgroundColor: "#337ab7",
+    background: "#2e6da4",
+    margin: "10px 0",
+    cursor: "pointer"
+  }
+});
 
 class LinkedinLoginButton extends React.Component {
   onSuccess = response => {
-    console.log(response, 'onSuccess')
-  }
-  onFailure = e => {}
+    console.log(response, "onSuccess");
+  };
+  onFailure = e => {};
   render() {
-    const { classes } = this.props
+    const { classes } = this.props;
     return (
       <div className={classes.container}>
         <Linkedin
@@ -26,8 +31,8 @@ class LinkedinLoginButton extends React.Component {
           redirectPath="/linkedin"
         />
       </div>
-    )
+    );
   }
 }
 
-export default withStyles(styles)(LinkedinLoginButton)
+export default withStyles(styles)(LinkedinLoginButton);

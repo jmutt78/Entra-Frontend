@@ -4,7 +4,7 @@ import { perPage } from "../../config.js";
 import AnswerList from "../answer-list";
 import userAnswerQuery from "./answerListQuery.js";
 import Error from "./../ErrorMessage.js";
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 class UserAnswers extends Component {
   handleName(answers) {
@@ -14,8 +14,17 @@ class UserAnswers extends Component {
       return answers[0].answeredBy.name;
     }
   }
+
+  handlePagination(answers) {
+    if (answers.length < 10) {
+      return false;
+    } else {
+      return true;
+    }
+  }
   render() {
     const filter = "user";
+    const { page } = this.props;
     return (
       <Query
         query={userAnswerQuery}
@@ -27,7 +36,7 @@ class UserAnswers extends Component {
         }}
       >
         {({ data, loading, error }) => {
-          if (loading) return <CircularProgress style={{margin: 20}} />
+          if (loading) return <CircularProgress style={{ margin: 20 }} />;
           if (error) return <Error error={error} />;
           const { answers } = data;
           return (
@@ -35,6 +44,8 @@ class UserAnswers extends Component {
               answers={answers}
               filter={filter}
               name={this.handleName(answers)}
+              enablePagination={this.handlePagination(answers)}
+              page={page}
             />
           );
         }}
