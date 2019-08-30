@@ -89,7 +89,7 @@ const Appbar = ({ isLoggedIn, classes }) => {
       <div className="appbarFlex">
         <div className="subContainer">
           <Typography variant="h6" className={classes.logoContainer}>
-            <Link href="/">
+            <Link href="/all">
               <img src="/static/logo.png" className={classes.logo} />
             </Link>
           </Typography>

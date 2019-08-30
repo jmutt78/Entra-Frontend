@@ -59,6 +59,7 @@ class TagsList extends Component {
 
                 return (
                   <QuestionList
+                    enablePagination={true}
                     questions={questions}
                     paginationQuery={TAGS_QUESTIONS_PAGINATION_QUERY}
                     paginationVariables={{ filter, id }}

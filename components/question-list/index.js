@@ -25,9 +25,9 @@ const styles = ({ layout }) => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
     maxWidth: 1200,
-    minWidth: '90%',
-    height: '100%',
-    paddingRight: 10,
+    minWidth: "90%",
+    height: "100%",
+    paddingRight: 10
   },
   title: {
     fontSize: '40px',
@@ -93,8 +93,8 @@ function QuestionList(props) {
                   item={question}
                   userName={question.askedBy[0].name}
                   linkTo={{
-                    pathname: '/question',
-                    query: { id: question.id },
+                    pathname: "/question",
+                    query: { id: question.id }
                   }}
                   showDetails={true}
                   name={props.name}

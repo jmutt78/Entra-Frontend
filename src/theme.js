@@ -30,8 +30,6 @@ export default {
     }
   },
   typography: {
-  },
-  typography: {
     useNextVariants: true,
     fontFamily: [
       'Montserrat',

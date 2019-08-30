@@ -36,7 +36,7 @@ class LinkedinRedirect extends React.Component {
         refetchQueries: [{ query: CURRENT_USER_QUERY }]
       })
       .then(() => {
-        Router.push("/");
+        Router.push("/all");
       });
   }
   render() {

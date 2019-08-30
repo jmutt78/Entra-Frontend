@@ -17,6 +17,13 @@ const MY_ANSWERS_PAGINATION_QUERY = gql`
 `;
 
 class MyAnswers extends Component {
+  handlePagination(answers) {
+    if (answers.length < 10) {
+      return false;
+    } else {
+      return true;
+    }
+  }
   render() {
     const { page } = this.props;
     const filter = "my";
@@ -30,7 +37,7 @@ class MyAnswers extends Component {
         }}
       >
         {({ loading, error, data }) => {
-          if (loading) return <CircularProgress style={{ margin: 20 }} />
+          if (loading) return <CircularProgress style={{ margin: 20 }} />;
           if (error) return <p>Error</p>;
           const { answers } = data;
 

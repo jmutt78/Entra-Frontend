@@ -20,10 +20,8 @@ const styles = theme => ({
   container: {
     display: "flex",
     justifyContent: "center",
-    width: '100%',
-    background: '#4c69ba',
-    margin: '10px 0',
-    padding: 5,
+    width: "100%",
+    background: "#4c69ba"
   }
 });
 
@@ -39,7 +37,7 @@ class FacebookLoginButton extends React.Component {
         refetchQueries: [{ query: CURRENT_USER_QUERY }]
       })
       .then(() => {
-        Router.push("/");
+        Router.push("/all");
       });
   };
   render() {
@@ -56,5 +54,7 @@ class FacebookLoginButton extends React.Component {
   }
 }
 
-export const FacebookLoginButtonWithoutApollo = withStyles(styles)(FacebookLoginButton);
+export const FacebookLoginButtonWithoutApollo = withStyles(styles)(
+  FacebookLoginButton
+);
 export default withStyles(styles)(withApollo(FacebookLoginButton));

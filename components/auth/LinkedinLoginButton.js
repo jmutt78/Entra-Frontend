@@ -7,7 +7,7 @@ const styles = theme => ({
     display: "flex",
     justifyContent: "center",
     width: "100%",
-    backgroundColor: "#337ab7",
+
     background: "#2e6da4",
     margin: "10px 0",
     cursor: "pointer"

@@ -36,6 +36,7 @@ class MyBookMark extends Component {
 
           return (
             <QuestionList
+              enablePagination={true}
               questions={questions}
               paginationQuery={MY_BOOKMARK_QUESTIONS_PAGINATION_QUERY}
               paginationVariables={{ filter }}

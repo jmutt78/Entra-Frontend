@@ -53,6 +53,7 @@ class UserList extends Component {
 
                 return (
                   <QuestionList
+                    enablePagination={true}
                     questions={questions}
                     paginationQuery={USER_QUESTIONS_PAGINATION_QUERY}
                     paginationVariables={{ filter, id }}
