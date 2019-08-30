@@ -1,4 +1,5 @@
-var envIsProd = (process.env.NODE_ENV === 'production');
+//var envIsProd = (process.env.NODE_ENV === 'production');
+var envIsProd = true;
 const faker = envIsProd ? null : require('faker');
 const puppeteer = envIsProd ? null : require('puppeteer');
 
