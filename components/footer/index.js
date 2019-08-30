@@ -1,51 +1,51 @@
-import Link from "next/link";
-import { withStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import "./footer.css";
+import Link from 'next/link';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import './footer.css';
 
 const styles = ({ palette }) => ({
   creditBarContainer: {
-    background: "#2d3436",
-    display: "flex",
-    justifyContent: "center"
+    background: '#2d3436',
+    display: 'flex',
+    justifyContent: 'center'
   },
   creditBarText: {
-    color: "#85bdcb", //palette.accent.blue,
-    padding: "1.5rem 2rem",
+    color: '#85bdcb', //palette.accent.blue,
+    padding: '1.5rem 2rem',
     fontSize: 18,
-    fontWeight: "bold"
+    fontWeight: 'bold'
   },
   paddingLeft: {
-    width: "10vw"
+    width: '10vw'
   },
   paddingRight: {
-    width: "6vw"
+    width: '6vw'
   },
   listItem: {
-    padding: "0.8rem 0"
+    padding: '0.8rem 0'
   },
 
   heading: {
-    color: "#85bdcb", //palette.accent.blue,
+    color: '#85bdcb', //palette.accent.blue,
     fontSize: 17,
-    fontWeight: "bold"
+    fontWeight: 'bold'
   },
   link: {
     fontSize: 16,
-    color: "#2d3436",
-    textDecoration: "none",
+    color: '#2d3436',
+    textDecoration: 'none',
     fontWeight: 500,
-    cursor: "pointer",
-    "&:hover": {
-      color: "#85bdcb" //palette.accent.blue,
+    cursor: 'pointer',
+    '&:hover': {
+      color: '#85bdcb' //palette.accent.blue,
     }
   },
   img: {
     marginRight: 15,
     width: 30,
-    color: "grey"
+    color: 'grey'
   }
 });
 
@@ -107,6 +107,19 @@ export const FooterBar = ({ classes }) => {
               <Link href="/why">
                 <span className={classes.link}>Our Why</span>
               </Link>
+            </Typography>
+          </ListItem>
+
+          <ListItem className={classes.listItem}>
+            <Typography>
+              <a
+                href="https://entra.drift.help/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={classes.link}
+              >
+                Help
+              </a>
             </Typography>
           </ListItem>
         </List>
