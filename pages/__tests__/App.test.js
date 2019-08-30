@@ -1,3 +1,8 @@
+export default () => ({
+  title: 'Temp',
+  description: 'Temporary component'
+})
+
 /*
 const faker = require('faker');
 const puppeteer = require('puppeteer');
