@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
-
 import Pagination from "../pagination";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -10,18 +9,9 @@ import TableRow from "@material-ui/core/TableRow";
 import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
 import { upperFirst } from "lodash";
-import gql from "graphql-tag";
 import ListItem from "../ListItem";
 
-const ANSWER_PAGINATION_QUERY = gql`
-  query ANSWER_PAGINATION_QUERY($filter: String!) {
-    answersConnection(filter: $filter) {
-      aggregate {
-        count
-      }
-    }
-  }
-`;
+
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -54,7 +44,7 @@ const styles = ({ layout }) => ({
 
 class AnswerList extends Component {
   render() {
-    const { classes, answers, filter, page, enablePagination } = this.props;
+    const { classes, answers, page, paginationQuery, paginationVariables } = this.props;
 
     const customColumnStyle = {
       maxWidth: ".3px"
@@ -100,11 +90,11 @@ class AnswerList extends Component {
             })}
           </TableBody>
         </Table>
-        {enablePagination && (
+        {paginationQuery && (
           <Pagination
             page={page}
-            filter={filter}
-            query={ANSWER_PAGINATION_QUERY}
+            query={paginationQuery}
+            variables={paginationVariables}
             connectionKey="answersConnection"
           />
         )}

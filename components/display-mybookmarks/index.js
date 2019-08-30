@@ -1,13 +1,24 @@
-import React, { Component } from "react";
-import { Query } from "react-apollo";
-import { perPage } from "../../config.js";
-import QuestionList from "../question-list";
-import questionListQuery from "../question-list/questionListQuery";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import React, { Component } from 'react';
+import { Query } from 'react-apollo';
+import { perPage } from '../../config.js';
+import QuestionList from '../question-list';
+import questionListQuery from '../question-list/questionListQuery';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import gql from 'graphql-tag';
+
+export const MY_BOOKMARK_QUESTIONS_PAGINATION_QUERY = gql`
+  query MY_BOOKMARK_QUESTIONS_PAGINATION_QUERY($filter: String!) {
+    questionsConnection(filter: $filter) {
+      aggregate {
+        count
+      }
+    }
+  }
+`;
 
 class MyBookMark extends Component {
   render() {
-    const filter = "My BookMarked";
+    const filter = 'My BookMarked';
     const { page } = this.props;
     return (
       <Query
@@ -27,9 +38,10 @@ class MyBookMark extends Component {
             <QuestionList
               enablePagination={true}
               questions={questions}
-              filter={filter}
+              paginationQuery={MY_BOOKMARK_QUESTIONS_PAGINATION_QUERY}
+              paginationVariables={{ filter }}
               page={page}
-              name={"my bookmarks"}
+              name={'my bookmarks'}
             />
           );
         }}
