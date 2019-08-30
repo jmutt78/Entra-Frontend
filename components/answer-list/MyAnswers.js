@@ -3,7 +3,18 @@ import { Query } from "react-apollo";
 import { perPage } from "../../config.js";
 import AnswerList from "./index";
 import answersListQuery from "./answerListQuery.js";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import gql from 'graphql-tag'
+
+const MY_ANSWERS_PAGINATION_QUERY = gql`
+  query MY_ANSWERS_PAGINATION_QUERY($filter: String!) {
+    answersConnection(filter: $filter) {
+      aggregate {
+        count
+      }
+    }
+  }
+`;
 
 class MyAnswers extends Component {
   handlePagination(answers) {
@@ -33,9 +44,9 @@ class MyAnswers extends Component {
           return (
             <AnswerList
               answers={answers}
-              filter={filter}
               page={page}
-              enablePagination={true}
+              paginationQuery={MY_ANSWERS_PAGINATION_QUERY}
+              paginationVariables={{ filter }}
             />
           );
         }}

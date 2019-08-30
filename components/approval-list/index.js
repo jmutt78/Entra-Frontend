@@ -1,13 +1,24 @@
-import React, { Component } from "react";
-import { Query } from "react-apollo";
-import { perPage } from "../../config.js";
-import QuestionList from "../question-list";
-import questionListQuery from "../question-list/questionListQuery";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import React, { Component } from 'react';
+import { Query } from 'react-apollo';
+import { perPage } from '../../config.js';
+import QuestionList from '../question-list';
+import questionListQuery from '../question-list/questionListQuery';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import gql from 'graphql-tag';
+
+export const APPROVAL_QUESTIONS_PAGINATION_QUERY = gql`
+  query APPROVAL_QUESTIONS_PAGINATION_QUERY($filter: String!) {
+    questionsConnection(filter: $filter) {
+      aggregate {
+        count
+      }
+    }
+  }
+`;
 
 class AprrovalQuestions extends Component {
   render() {
-    const filter = "approval";
+    const filter = 'approval';
     const { page } = this.props;
     return (
       <Query
@@ -27,10 +38,10 @@ class AprrovalQuestions extends Component {
           return (
             <QuestionList
               questions={questions}
-              filter={filter}
               page={page}
-              name={"approval questions"}
-              enablePagination={true}
+              paginationQuery={APPROVAL_QUESTIONS_PAGINATION_QUERY}
+              paginationVariables={{ filter }}
+              name={'approval questions'}
             />
           );
         }}

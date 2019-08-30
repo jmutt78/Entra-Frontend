@@ -5,6 +5,17 @@ import AnswerList from "../answer-list";
 import userAnswerQuery from "./answerListQuery.js";
 import Error from "./../ErrorMessage.js";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import gql from 'graphql-tag'
+
+const SELECTED_ANSWERS_PAGINATION_QUERY = gql`
+  query SELECTED_ANSWERS_PAGINATION_QUERY($id: ID!, $filter: String!) {
+    answersConnection(where: {answeredBy: {id: $id}}, filter: $filter) {
+      aggregate {
+        count
+      }
+    }
+  }
+`;
 
 class SelectedUserAnswers extends Component {
   handleName(answers) {
@@ -14,23 +25,16 @@ class SelectedUserAnswers extends Component {
       return answers[0].answeredBy.name;
     }
   }
-  handlePagination(answers) {
-    if (answers.length < 10) {
-      return false;
-    } else {
-      return true;
-    }
-  }
   render() {
     const filter = "selected";
-    const { page } = this.props;
+    const { page, id } = this.props;
     return (
       <Query
         query={userAnswerQuery}
         variables={{
-          id: this.props.id,
+          id,
           filter,
-          skip: this.props.page * perPage - perPage,
+          skip: page * perPage - perPage,
           first: perPage
         }}
       >
@@ -38,14 +42,13 @@ class SelectedUserAnswers extends Component {
           if (loading) return <CircularProgress style={{ margin: 20 }} />;
           if (error) return <Error error={error} />;
           const { answers } = data;
-          console.log(answers);
           return (
             <AnswerList
               answers={answers}
-              filter={filter}
               name={this.handleName(answers)}
-              enablePagination={this.handlePagination(answers)}
               page={page}
+              paginationQuery={SELECTED_ANSWERS_PAGINATION_QUERY}
+              paginationVariables={{ filter, id }}
             />
           );
         }}
