@@ -83,9 +83,12 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "faker": "^4.1.0",
     "graphql-tools": "^4.0.5",
+    "husky": "^3.0.4",
     "jest": "^23.6.0",
     "jest-cli": "^24.9.0",
     "jest-transform-graphql": "^2.1.0",
+    "prettier": "1.18.2",
+    "pretty-quick": "^1.11.1",
     "puppeteer": "^1.19.0"
   },
   "jest": {
@@ -102,6 +105,11 @@
     "moduleNameMapper": {
       "\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",
       "\\.(gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
     }
   },
   "//": "This is our babel config, I prefer this over a .babelrc file",
