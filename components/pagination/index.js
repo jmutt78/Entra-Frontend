@@ -24,11 +24,11 @@ const styles = ({ palette }) => ({
   },
 })
 
-function Pagination({ filter, page, classes, query, connectionKey }) {
+function Pagination({ variables, page, classes, query, connectionKey }) {
   return (
-    <Query query={query} variables={{ filter: filter }}>
+    <Query query={query} variables={variables}>
       {({ data, loading, error }) => {
-        if (loading) return <CircularProgress style={{margin: 20}} />
+        if (loading) return <CircularProgress style={{ margin: 20 }} />
         if (error) return <Error error={error} />
 
         const count = data[connectionKey].aggregate.count
