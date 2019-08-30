@@ -4,7 +4,9 @@ const webpack = require("webpack");
 
 module.exports = withCSS({
   webpack(config, options) {
-    config.plugins.push(new webpack.EnvironmentPlugin(localEnv));
+    if (localEnv !== undefined) {
+      config.plugins.push(new webpack.EnvironmentPlugin(localEnv));
+    }
 
     config.module.rules.push({
       test: /\.svg$/,
