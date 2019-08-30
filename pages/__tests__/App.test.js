@@ -1,18 +1,13 @@
-export default () => ({
-  title: 'Temp',
-  description: 'Temporary component'
-})
+var envIsProd = (process.env.NODE_ENV === 'production');
+const faker = envIsProd ? null : require('faker');
+const puppeteer = envIsProd ? null : require('puppeteer');
 
-/*
-const faker = require('faker');
-const puppeteer = require('puppeteer');
-
-const person = {
+const person = envIsProd ? {} : {
     name: faker.name.firstName() + ' ' + faker.name.lastName(),
     email: faker.internet.email(),
     password: faker.random.word(),
 };
-const appUrlBase = 'http://localhost:7777';
+const appUrlBase = envIsProd ? 'http://' : 'http://localhost:7777';
 const routes = {
     public: {
         signup: `${appUrlBase}/signup`,
@@ -29,12 +24,14 @@ let browser;
 let page;
 
 beforeAll(async () => {
-    browser = await puppeteer.launch({
-        headless: false,
-        // devtools: true,
-        slowMo: 250,
-    });
-    page = await browser.newPage();
+    if (!envIsProd) {
+      browser = await puppeteer.launch({
+          headless: false,
+          // devtools: true,
+          slowMo: 250,
+      });
+      page = await browser.newPage();
+    }
 })
 
 describe('Signup', () => {
@@ -84,6 +81,7 @@ describe('Logout', () => {
 });
 
 afterAll(() => {
+  if (!envIsProd) {
     browser.close()
+  }
 })
-*/
