@@ -8,6 +8,8 @@
     "build": "next build",
     "prestart": "next build",
     "start": "next start",
+    "prestart-prod": "next build",
+    "start-prod": "next start -p 8081",
     "test": "NODE_ENV=test jest --watch",
     "test-win": "SET NODE_ENV=test&& jest --watch",
     "heroku-postbuild": "next build"
