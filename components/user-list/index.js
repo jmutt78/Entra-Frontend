@@ -10,8 +10,8 @@ import Error from './../ErrorMessage.js';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 export const USER_QUESTIONS_PAGINATION_QUERY = gql`
-  query USER_QUESTIONS_PAGINATION_QUERY(id: $ID!, $filter: String!) {
-    questionsConnection(where: {askedBy_some: {id: $id}}, filter: $filter) {
+  query USER_QUESTIONS_PAGINATION_QUERY($id: ID!, $filter: String!) {
+    questionsConnection(where: { askedBy_some: { id: $id } }, filter: $filter) {
       aggregate {
         count
       }
@@ -28,7 +28,7 @@ class UserList extends Component {
       <Query
         query={USER_QUERY}
         variables={{
-          id,
+          id
         }}
       >
         {({ data, loading, error }) => {
@@ -43,7 +43,7 @@ class UserList extends Component {
                 id: this.props.id,
                 filter,
                 skip: page * perPage - perPage,
-                first: perPage,
+                first: perPage
               }}
             >
               {({ data, loading, error }) => {
