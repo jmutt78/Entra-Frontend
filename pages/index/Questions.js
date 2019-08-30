@@ -3,7 +3,39 @@ import { Query } from "react-apollo";
 import QuestionList from "../../components/question-list";
 import Error from "../../components/ErrorMessage";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import query from "./query";
+//import query from "./query";
+import gql from 'graphql-tag';
+var query = gql`
+  query QUESTION_LIST_QUERY {
+    questions(filter: "all", first: 5) {
+      id
+      title
+      description
+      createdAt
+
+      approval
+      answers {
+        id
+        body
+      }
+      tags {
+        id
+        name
+      }
+      views
+      upVotes
+      downVotes
+      askedBy {
+        id
+        name
+        display
+      }
+      bookMark {
+        id
+      }
+    }
+  }
+`;
 
 const styles = {
   container: {
