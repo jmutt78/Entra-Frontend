@@ -4,6 +4,17 @@ import { perPage } from "../../config.js";
 import AnswerList from "./index";
 import answersListQuery from "./answerListQuery.js";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import gql from 'graphql-tag'
+
+const MY_ANSWERS_PAGINATION_QUERY = gql`
+  query MY_ANSWERS_PAGINATION_QUERY($filter: String!) {
+    answersConnection(filter: $filter) {
+      aggregate {
+        count
+      }
+    }
+  }
+`;
 
 class MyAnswers extends Component {
   render() {
@@ -19,16 +30,16 @@ class MyAnswers extends Component {
         }}
       >
         {({ loading, error, data }) => {
-          if (loading) return <CircularProgress style={{margin: 20}} />
+          if (loading) return <CircularProgress style={{ margin: 20 }} />
           if (error) return <p>Error</p>;
           const { answers } = data;
 
           return (
             <AnswerList
               answers={answers}
-              filter={filter}
               page={page}
-              enablePagination={true}
+              paginationQuery={MY_ANSWERS_PAGINATION_QUERY}
+              paginationVariables={{ filter }}
             />
           );
         }}

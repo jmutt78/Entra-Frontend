@@ -5,6 +5,18 @@ import AnswerList from "../answer-list";
 import userAnswerQuery from "./answerListQuery.js";
 import Error from "./../ErrorMessage.js";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import gql from 'graphql-tag'
+
+const USER_ANSWERS_PAGINATION_QUERY = gql`
+  query USER_ANSWERS_PAGINATION_QUERY($id: ID!, $filter: String!) {
+    answersConnection(where: {answeredBy: {id: $id}}, filter: $filter) {
+      aggregate {
+        count
+      }
+    }
+  }
+`;
+
 
 class UserAnswers extends Component {
   handleName(answers) {
@@ -22,16 +34,17 @@ class UserAnswers extends Component {
       return true;
     }
   }
+
   render() {
     const filter = "user";
-    const { page } = this.props;
+    const { page, id } = this.props;
     return (
       <Query
         query={userAnswerQuery}
         variables={{
-          id: this.props.id,
+          id,
           filter,
-          skip: this.props.page * perPage - perPage,
+          skip: page * perPage - perPage,
           first: perPage
         }}
       >
@@ -42,10 +55,10 @@ class UserAnswers extends Component {
           return (
             <AnswerList
               answers={answers}
-              filter={filter}
               name={this.handleName(answers)}
-              enablePagination={this.handlePagination(answers)}
               page={page}
+              paginationQuery={USER_ANSWERS_PAGINATION_QUERY}
+              paginationVariables={{ filter, id }}
             />
           );
         }}
