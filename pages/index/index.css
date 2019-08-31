@@ -1,13 +1,13 @@
 .sans {
-  font-family: Montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol";
+  font-family: Montserrat, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol';
 }
 
 .serif {
-  font-family: Lora, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol";
+  font-family: Lora, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol';
 }
 
 .darkText {
@@ -219,8 +219,17 @@
   .sectionbreak {
     margin-bottom: 50px;
   }
+  .gridContent {
+    width: 100%;
+    background: #f2f4ef;
+    padding: 1rem 10% 4rem 10%;
+  }
 
   .heroContent {
     padding: 2rem 15px;
+  }
+
+  .gridImageContainer {
+    display: none;
   }
 }
