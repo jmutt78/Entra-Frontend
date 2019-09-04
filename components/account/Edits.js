@@ -1,23 +1,23 @@
-import React, { Component } from "react";
-import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
-import TextField from "@material-ui/core/TextField";
-import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Error from "./../ErrorMessage.js";
-import Router from "next/router";
+import React, { Component } from 'react';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
+import TextField from '@material-ui/core/TextField';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Error from './../ErrorMessage.js';
+import Router from 'next/router';
 
-import Table from "@material-ui/core/Table";
+import Table from '@material-ui/core/Table';
 
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Avatar from "@material-ui/core/Avatar";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import { CURRENT_USER_QUERY } from "../auth/User";
-import { omit } from "lodash";
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Avatar from '@material-ui/core/Avatar';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import { CURRENT_USER_QUERY } from '../auth/User';
+import { omit } from 'lodash';
 
 const UPDATE_USER_MUTATION = gql`
   mutation UPDATE_USER_MUTATION(
@@ -56,17 +56,17 @@ const UPDATE_USER_MUTATION = gql`
 
 const styles = ({ layout, palette, spacing }) => ({
   container: {
-    display: "flex",
-    flexDirection: "column"
+    display: 'flex',
+    flexDirection: 'column'
   },
   title: {
-    fontSize: "40px",
-    textAlign: "Left",
-    color: "rgba(0, 0, 0, 0.87)",
-    lineHeight: "3rem",
+    fontSize: '40px',
+    textAlign: 'Left',
+    color: 'rgba(0, 0, 0, 0.87)',
+    lineHeight: '3rem'
   },
   inputField: {
-    width: "100%",
+    width: '100%',
     marginBottom: 30
   },
   label: {
@@ -74,9 +74,9 @@ const styles = ({ layout, palette, spacing }) => ({
     marginBotom: 10
   },
   form: {
-    width: "100%",
+    width: '100%',
     maxWidth: 500,
-    padding: "30px 0 0 0"
+    padding: '30px 0 0 0'
   },
   fieldset: {
     border: 0,
@@ -84,19 +84,19 @@ const styles = ({ layout, palette, spacing }) => ({
     margin: 0
   },
   formControl: {
-    width: "100%"
+    width: '100%'
   },
   tagsContainer: {
-    display: "flex"
+    display: 'flex'
   },
   tagButton: {
     marginLeft: 10,
-    background: "#e3e3e3"
+    background: '#e3e3e3'
   },
   buttonContainer: {
-    display: "flex",
-    width: "100%",
-    justifyContent: "flex-end"
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'flex-end'
   },
 
   bigAvatar: {
@@ -108,9 +108,9 @@ const styles = ({ layout, palette, spacing }) => ({
     marginLeft: spacing.unit
   },
   avatarContainer: {
-    display: "flex",
-    alignItems: "center",
-    padding: "0 0 35px 0"
+    display: 'flex',
+    alignItems: 'center',
+    padding: '0 0 35px 0'
   }
 });
 
@@ -124,7 +124,7 @@ class UpdateUser extends Component {
 
   handleChange = e => {
     const { name, type, value } = e.target;
-    const val = type === "number" ? parseFloat(value) : value;
+    const val = type === 'number' ? parseFloat(value) : value;
     this.setState({ [name]: val });
   };
 
@@ -134,33 +134,34 @@ class UpdateUser extends Component {
     await updateUserMutation({
       variables: {
         id,
-        ...omit(this.state, ["uploadingFile"])
+        ...omit(this.state, ['uploadingFile'])
       },
       refetchQueries: [{ query: CURRENT_USER_QUERY }]
     });
     Router.push({
-      pathname: "/account/myaccount"
+      pathname: '/account/myaccount'
     });
   };
 
   uploadFile = async e => {
     const files = e.target.files;
     const data = new FormData();
-    data.append("file", files[0]);
-    data.append("upload_preset", "EntraAccountPhoto");
+    data.append('file', files[0]);
+    data.append('upload_preset', 'EntraAccountPhoto');
     this.setState({
       uploadingFile: true
     });
 
     const res = await fetch(
-      "https://api.cloudinary.com/v1_1/docusite/image/upload",
+      'https://api.cloudinary.com/v1_1/docusite/image/upload',
       {
-        method: "POST",
+        method: 'POST',
         body: data
       }
     );
 
     const file = await res.json();
+
     this.setState({
       image: file.secure_url,
       uploadingFile: false
@@ -169,7 +170,7 @@ class UpdateUser extends Component {
 
   returnblank(item) {
     if (item == null) {
-      return "";
+      return '';
     } else {
       return item;
     }
@@ -177,14 +178,14 @@ class UpdateUser extends Component {
 
   handleImage = (user, classes) => {
     const image = this.state.image || user.image;
-    if (image === null || image === "") {
+    if (image === null || image === '') {
       return <Avatar className={classes.bigAvatar}>{user.name[0]}</Avatar>;
     }
 
     return <Avatar alt={user.name} src={image} className={classes.bigAvatar} />;
   };
   uploadMessage(image) {
-    if (image == null || image == "") {
+    if (image == null || image == '') {
       return <div />;
     }
     return (
@@ -227,7 +228,7 @@ class UpdateUser extends Component {
                 disabled={loading}
                 aria-busy={loading}
                 style={{
-                  borderWidth: "0px"
+                  borderWidth: '0px'
                 }}
               >
                 <div className={classes.avatarContainer}>
@@ -235,7 +236,7 @@ class UpdateUser extends Component {
                   <input
                     accept="image/*"
                     className={classes.smallField}
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     id="raised-button-file"
                     multiple
                     type="file"
@@ -248,7 +249,7 @@ class UpdateUser extends Component {
                       className={classes.button}
                       size="small"
                     >
-                      Change Avatar{" "}
+                      Change Avatar{' '}
                       <CloudUploadIcon className={classes.rightIcon} />
                     </Button>
                   </label>
@@ -339,7 +340,7 @@ class UpdateUser extends Component {
                     type="submit"
                     disabled={uploadingFile}
                   >
-                    Sav{loading ? "ing" : "e"} Changes
+                    Sav{loading ? 'ing' : 'e'} Changes
                   </Button>
                 </div>
               </fieldset>
