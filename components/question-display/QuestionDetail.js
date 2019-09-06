@@ -1,63 +1,59 @@
-import React from 'react'
-import Link from 'next/link'
-import { format, parseISO } from 'date-fns'
+import React from 'react';
+import Link from 'next/link';
+import { format, parseISO } from 'date-fns';
 
-import Avatar from '@material-ui/core/Avatar'
-import Button from '@material-ui/core/Button'
-import DeleteQuestion from '../delete-question'
-import Icon from '../ui/Icon'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableRow from '@material-ui/core/TableRow'
-import Typography from '@material-ui/core/Typography'
-import Tooltip from '@material-ui/core/Tooltip'
-import { withRouter } from 'next/router'
-import { withStyles } from '@material-ui/core/styles'
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import DeleteQuestion from '../delete-question';
+import Icon from '../ui/Icon';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
+import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
+import { withRouter } from 'next/router';
+import { withStyles } from '@material-ui/core/styles';
 
-import ApproveQuestion from '../approval/AppoveQuestion.js'
+import ApproveQuestion from '../approval/AppoveQuestion.js';
 
-import './index.css'
+import './index.css';
 
 const styles = ({ layout, palette, spacing }) => ({
   title: {
-
     color: '#2d3436', //palette.accent.dark,
     padding: '5px 0 15px 0',
 
     margin: 0,
-    maxWidth: 800,
+    maxWidth: 800
   },
   body: {
-
     color: '#2d3436', //palette.accent.dark,
     padding: '5px 0 15px 0',
 
     margin: 0,
     maxWidth: 800,
-    fontWeight: 300,
+    fontWeight: 300
     // wordBreak: 'break-all',
   },
   nameLink: {
     fontWeight: 500,
     textDecoration: 'none',
-    color: '#e27d60',
+    color: '#e27d60'
   },
   tableRow: {
-
-    background: palette.secondary.main,
-
+    background: palette.secondary.main
   },
   detailContainer: {
-    padding: '5px 15px',
+    padding: '5px 15px'
   },
   buttonTop: {
     backgroundColor: '#E27D60',
-    marginLeft: spacing(2),
+    marginLeft: spacing(2)
   },
   textTop: {
     color: 'white',
-    fontSize: 20,
+    fontSize: 20
   },
   top: {
     backgroundColor: '#85BDCB',
@@ -66,77 +62,84 @@ const styles = ({ layout, palette, spacing }) => ({
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    padding: '20px',
+    padding: '20px'
   },
   editButton: {
-
-    backgroundColor: '#85bdcb', //palette.accent.blue,
-
+    backgroundColor: '#85bdcb' //palette.accent.blue,
   },
   signupButton: {
     backgroundColor: palette.primary.dark,
     '&:hover': {
-      backgroundColor: palette.primary.main,
+      backgroundColor: palette.primary.main
     },
-    marginLeft: 10,
+    marginLeft: 10
   },
   avatar: {
     width: 70,
     height: 70,
-    cursor: 'pointer',
+    cursor: 'pointer'
   },
   credits: {
     paddingTop: 5,
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   viewsCount: {
-
     color: '#2d3436', //palette.accent.dark,
     fontSize: '1.2rem',
-    padding: '5px 0 5px 8px',
-
-  },
-})
+    padding: '5px 0 5px 8px'
+  }
+});
 
 const PromptBar = ({ classes, user }) => {
   return user ? null : (
     <div className={classes.top} position="static">
-      <Typography className={classes.textTop}>Do you have an Answer? 👉</Typography>
+      <Typography className={classes.textTop}>
+        Do you have an Answer? 👉
+      </Typography>
 
       <Link href="/signup">
-        <Button variant="contained" color="secondary" className={classes.signupButton}>
+        <Button
+          variant="contained"
+          color="secondary"
+          className={classes.signupButton}
+        >
           Sign up now
         </Button>
       </Link>
     </div>
-  )
-}
-
+  );
+};
 
 export const EditButton = ({ question, user, classes }) => {
-  const answers = question.answers.length
-  const date1 = new Date(question.createdAt)
-  const date2 = new Date()
-  const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24))
+  const answers = question.answers.length;
+  const date1 = new Date(question.createdAt);
+  const date2 = new Date();
+  const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
 
-
-  return user && question.askedBy[0].id === user.id && diffDays <= 1 && !answers ? (
+  return user &&
+    question.askedBy[0].id === user.id &&
+    diffDays <= 1 &&
+    !answers ? (
     <Typography style={{ paddingBottom: 10 }} component={'div'}>
       <Link
         href={{
           pathname: '/edit-question',
-          query: { id: question.id },
+          query: { id: question.id }
         }}
       >
-        <Button variant="contained" color="secondary" className={classes.editButton}>
+        <Button
+          variant="contained"
+          color="secondary"
+          className={classes.editButton}
+        >
           EDIT
         </Button>
       </Link>
       <DeleteQuestion id={question.id} />
     </Typography>
-  ) : null
-}
+  ) : null;
+};
 
 const QuestionDetail = ({
   item: { id, description, createdAt, tags, askedBy },
@@ -144,19 +147,26 @@ const QuestionDetail = ({
   userName,
   question,
   classes,
-  user,
+  user
 }) => {
   const hasPermissions =
-    !!user && user.permissions.some(permission => ['ADMIN', 'MODERATOR'].includes(permission))
-  const isApproved = question.approval === true
-
+    !!user &&
+    user.permissions.some(permission =>
+      ['ADMIN', 'MODERATOR'].includes(permission)
+    );
+  const isApproved = question.approval === true;
+  console.log(question);
   return (
     <div className={classes.detailContainer}>
       <PromptBar classes={classes} user={user} />
       <Table>
         <TableBody>
           <TableRow className={classes.tableRow}>
-            <TableCell component="th" scope="row" style={{ padding: '25px 35px' }}>
+            <TableCell
+              component="th"
+              scope="row"
+              style={{ padding: '25px 35px' }}
+            >
               <div>
                 {description && <h3 className={classes.body}>{description}</h3>}
                 {tags && (
@@ -167,12 +177,12 @@ const QuestionDetail = ({
                           size="small"
                           variant="contained"
                           onClick={e => {
-                            e.preventDefault()
-                            e.stopPropagation()
+                            e.preventDefault();
+                            e.stopPropagation();
                             router.push({
                               pathname: '/tags',
-                              query: { id: id },
-                            })
+                              query: { id: id }
+                            });
                           }}
                         >
                           {name}
@@ -195,19 +205,25 @@ const QuestionDetail = ({
               <EditButton question={question} user={user} classes={classes} />
 
               <div className="itemFooter">
-
                 <div className={classes.credits}>
                   <Link
                     href={{
                       pathname: '/user',
-                      query: { id: question.askedBy[0].id },
+                      query: { id: question.askedBy[0].id }
                     }}
                   >
-                    <Avatar
-                      alt={question.askedBy[0].display[0]}
-                      src={question.askedBy[0].image}
-                      className={classes.avatar}
-                    />
+                    {question.askedBy[0].image === null ||
+                    question.askedBy[0].image === '' ? (
+                      <Avatar className={classes.avatar}>
+                        {question.askedBy[0].display[0]}
+                      </Avatar>
+                    ) : (
+                      <Avatar
+                        alt="Remy Sharp"
+                        src={question.askedBy[0].image}
+                        className={classes.avatar}
+                      />
+                    )}
                   </Link>
 
                   <div style={{ padding: '0 0 0 10px' }}>
@@ -215,15 +231,17 @@ const QuestionDetail = ({
                     <Link
                       href={{
                         pathname: '/user',
-                        query: { id: question.askedBy[0].id },
+                        query: { id: question.askedBy[0].id }
                       }}
                     >
-                      <a className={classes.nameLink}>{question.askedBy[0].display}</a>
+                      <a className={classes.nameLink}>
+                        {question.askedBy[0].display}
+                      </a>
                     </Link>{' '}
-                    on <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
+                    on{' '}
+                    <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
                   </div>
                 </div>
-
 
                 <Tooltip title={`${question.views} views`} placement="top">
                   <div className="viewContainer">
@@ -233,14 +251,13 @@ const QuestionDetail = ({
                     }`}</span>
                   </div>
                 </Tooltip>
-
               </div>
             </TableCell>
           </TableRow>
         </TableBody>
       </Table>
     </div>
-  )
-}
+  );
+};
 
-export default withRouter(withStyles(styles)(QuestionDetail))
+export default withRouter(withStyles(styles)(QuestionDetail));
