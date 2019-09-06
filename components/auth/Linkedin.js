@@ -43,6 +43,11 @@ export class LinkedIn extends Component {
     console.log(this.getUrl(), this);
   };
 
+  constructor(props) {
+    super(props);
+    console.log("Linkedin Constructor: ", props);
+  }
+
   render() {
     const { className } = this.props;
     return (
