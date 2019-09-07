@@ -22,7 +22,7 @@ const Landingpage = () => {
 
         <Grid
           image="/static/ask.jpeg"
-          flexDirection="row-reverse"
+          alignment="left"
           head="Ask a Question"
           sub="Ask anything related to business."
           sections={[
@@ -44,7 +44,7 @@ const Landingpage = () => {
           image="/static/answers.jpeg"
           head="Get Answers"
           sub="Crowdsource answers from other entrepreneurs and advisors."
-          flexDirection="row"
+          alignment="right"
           sections={[
             {
               icon: '/static/5.png',
@@ -76,7 +76,7 @@ const Landingpage = () => {
           image="/static/clout.jpg"
           head="Gain clout and notoriety"
           sub="Become an expert, help other Entras and grow your network."
-          flexDirection="row-reverse"
+          alignment="left"
           sections={[
             {
               icon: '/static/7.png',

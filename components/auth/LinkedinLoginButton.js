@@ -1,22 +1,22 @@
-import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-import Linkedin from "./Linkedin";
+import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import Linkedin from './Linkedin';
 
 const styles = theme => ({
   container: {
-    display: "flex",
-    justifyContent: "center",
-    width: "100%",
+    display: 'flex',
+    justifyContent: 'center',
+    maxWidth: '100%',
 
-    background: "#2e6da4",
-    margin: "10px 0",
-    cursor: "pointer"
+    background: '#2e6da4',
+    margin: '10px 0',
+    cursor: 'pointer'
   }
 });
 
 class LinkedinLoginButton extends React.Component {
   onSuccess = response => {
-    console.log(response, "onSuccess");
+    console.log(response, 'onSuccess');
   };
   onFailure = e => {};
   render() {
