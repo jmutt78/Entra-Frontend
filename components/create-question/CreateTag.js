@@ -1,17 +1,17 @@
-import React from "react";
-import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
-import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogActions from "@material-ui/core/DialogActions";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import { TAGS_QUERY } from "./Tags";
+import React from 'react';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import MuiDialogContent from '@material-ui/core/DialogContent';
+import MuiDialogActions from '@material-ui/core/DialogActions';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import { TAGS_QUERY } from './Tags';
 
 const DialogTitle = withStyles(theme => ({
   root: {
@@ -19,7 +19,7 @@ const DialogTitle = withStyles(theme => ({
     padding: theme.spacing(4)
   },
   closeButton: {
-    position: "absolute",
+    position: 'absolute',
     right: theme.spacing(1),
     top: theme.spacing(1),
     color: theme.palette.grey[500]
@@ -59,7 +59,7 @@ const DialogActions = withStyles(theme => ({
 const styles = {
   textField: {
     width: 400,
-    maxWidth: '100%',
+    maxWidth: '100%'
   }
 };
 
@@ -74,7 +74,8 @@ export const CREATE_TAG_MUTATION = gql`
 
 class CreateTag extends React.Component {
   state = {
-    name: ""
+    name: '',
+    posting: null
   };
   handleChange = e => {
     this.setState({
@@ -107,21 +108,22 @@ class CreateTag extends React.Component {
                   className={classes.textField}
                 />
               </label>
-              <div style={{ color: "red" }}>
-                {error && error.message.replace("GraphQL error: ", "")}
+              <div style={{ color: 'red' }}>
+                {error && error.message.replace('GraphQL error: ', '')}
               </div>
             </DialogContent>
 
             <DialogActions>
               <Button
+                disabled={loading}
                 variant="contained"
                 onClick={async () => {
                   await createTag();
-                  this.setState({ name: "" });
+                  this.setState({ name: '' });
                   onClose();
                 }}
               >
-                Save tag
+                Sav{loading ? 'ing' : 'e'}
               </Button>
             </DialogActions>
           </Dialog>
