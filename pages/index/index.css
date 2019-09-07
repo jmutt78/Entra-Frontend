@@ -158,7 +158,14 @@
 
 .gridContainer {
   display: flex;
-  /* padding: 2rem 0 5rem 0; */
+}
+
+.gridContainerLeft {
+  flex-direction: row;
+}
+
+.gridContainerRight {
+  flex-direction: row-reverse;
 }
 
 .gridContent {
@@ -225,11 +232,24 @@
     padding: 1rem 10% 4rem 10%;
   }
 
+  .gridImageContainer {
+    width: 100%;
+    height: 400px;
+  }
+
+  .gridContainerLeft {
+    flex-direction: column-reverse;
+  }
+
+  .gridContainerRight {
+    flex-direction: column-reverse;
+  }
+
   .heroContent {
     padding: 2rem 15px;
   }
 
-  .gridImageContainer {
-    display: none;
-  }
+  /* .gridImageContainer { */
+  /*   display: none; */
+  /* } */
 }
