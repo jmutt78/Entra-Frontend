@@ -22,7 +22,7 @@
 .heroContainer {
   background: content-box
       radial-gradient(rgb(37, 37, 37, 0.5), rgb(37, 37, 37, 0.5)),
-    url(/static/hero.jpg) center top no-repeat scroll;
+    url(/static/hero.jpg) center top no-repeat fixed;
   background-size: cover;
   overflow: hidden;
 }
@@ -123,7 +123,7 @@
 .areyouContainer {
   background: content-box
       radial-gradient(rgb(37, 37, 37, 0.5), rgb(37, 37, 37, 0.5)),
-    url(/static/areyou.jpg) center top no-repeat scroll;
+    url(/static/areyou.jpg) center center no-repeat fixed;
   background-size: cover;
   display: flex;
   flex-direction: column;
@@ -248,8 +248,14 @@
   .heroContent {
     padding: 2rem 15px;
   }
-
-  /* .gridImageContainer { */
-  /*   display: none; */
-  /* } */
+  .areyouContainer {
+    background: content-box
+        radial-gradient(rgb(37, 37, 37, 0.5), rgb(37, 37, 37, 0.5)),
+      url(/static/areyou.jpg) center center no-repeat scroll;
+  }
+  .heroContainer {
+    background: content-box
+        radial-gradient(rgb(37, 37, 37, 0.5), rgb(37, 37, 37, 0.5)),
+      url(/static/hero.jpg) center top no-repeat scroll;
+  }
 }
