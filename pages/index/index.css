@@ -256,6 +256,6 @@
   .heroContainer {
     background: content-box
         radial-gradient(rgb(37, 37, 37, 0.5), rgb(37, 37, 37, 0.5)),
-      url(/static/hero.jpg) center top no-repeat scroll;
+      url(/static/hero.jpg) center center no-repeat scroll;
   }
 }
