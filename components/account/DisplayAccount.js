@@ -50,7 +50,6 @@ const styles = theme => ({
 class DisplayAccount extends Component {
   render() {
     const { classes } = this.props
-    console.log("Process", process.env);
     return (
       <Query query={CURRENT_USER_QUERY}>
         {({ data, loading, error }) => {
