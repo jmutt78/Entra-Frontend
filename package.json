@@ -33,7 +33,7 @@
     "classnames": "^2.2.6",
     "date-fns": "^2.0.0-beta.5",
     "dateformat": "^3.0.3",
-    "dotenv": "^8.0.0",
+    "dotenv": "6.0.0",
     "downshift": "^2.2.3",
     "draft-js": "^0.10.5",
     "enzyme": "^3.10.0",
