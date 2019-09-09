@@ -4,11 +4,10 @@ const webpack = require("webpack");
 
 module.exports = withCSS({
   webpack(config, options) {
-    console.log("localEnv", localEnv);
     if (localEnv == null) {
-      console.log("Process.env", process.env);
+      //console.log("Process.env", process.env);
       // TODO: Add key values from process.env here
-      config.plugins.push(new webpack.EnvironmentPlugin({}));
+      config.plugins.push(new webpack.EnvironmentPlugin(process.env));
     } else {
       config.plugins.push(new webpack.EnvironmentPlugin(localEnv));
     }
