@@ -39,8 +39,7 @@ export class LinkedIn extends Component {
   };
 
   handleConnectLinkedInClick = e => {
-    //window.location.href = this.getUrl();
-    console.log(this.getUrl(), this);
+    window.location.href = this.getUrl();
   };
 
   constructor(props) {
