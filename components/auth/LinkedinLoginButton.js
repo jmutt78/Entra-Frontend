@@ -21,6 +21,7 @@ class LinkedinLoginButton extends React.Component {
   onFailure = e => {};
   render() {
     const { classes } = this.props;
+    console.log("Process", process.env);
     return (
       <div className={classes.container}>
         <Linkedin
