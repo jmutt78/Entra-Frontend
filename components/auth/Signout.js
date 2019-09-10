@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
-import MenuItem from "@material-ui/core/MenuItem";
-import Typography from "@material-ui/core/Typography";
-import Error from "./../ErrorMessage.js";
-import Router from "next/router";
-import { CURRENT_USER_QUERY } from "./User";
+import React, { Component } from 'react';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
+import MenuItem from '@material-ui/core/MenuItem';
+import Typography from '@material-ui/core/Typography';
+import Error from './../ErrorMessage.js';
+import Router from 'next/router';
+import { CURRENT_USER_QUERY } from './User';
 
 export const SIGN_OUT_MUTATION = gql`
   mutation SIGN_OUT_MUTATION {
@@ -20,9 +20,8 @@ class Signout extends React.Component {
     e.preventDefault();
     const res = await signout();
 
-    console.log("Updated!!");
     Router.push({
-      pathname: "/"
+      pathname: '/'
     });
   };
   render() {
@@ -35,7 +34,10 @@ class Signout extends React.Component {
           return (
             <div>
               <Error error={error} />
-              <Typography className="signout-btn" onClick={e => this.handleSignout(e, signout)}>
+              <Typography
+                className="signout-btn"
+                onClick={e => this.handleSignout(e, signout)}
+              >
                 Sign Out
               </Typography>
             </div>
