@@ -218,9 +218,11 @@ class Signin extends Component {
                     padding: '40px 0 0 0'
                   }}
                 >
-                  <GoogleLoginButton />
-                  <FacebookLoginButton />
-                  <LinkedinLoginButton />
+                  {
+                    // <GoogleLoginButton />
+                    // <FacebookLoginButton />
+                    // <LinkedinLoginButton />
+                  }
                   <SignupPrompt classes={classes} />
                 </div>
               </form>
