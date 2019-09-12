@@ -1,19 +1,27 @@
-import React from "react";
-import Link from "next/link";
-import Signout from "../auth/Signout";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import { withStyles } from "@material-ui/core/styles";
-import Avatar from "@material-ui/core/Avatar";
-import Typography from "@material-ui/core/Typography";
+import React from 'react';
+import Link from 'next/link';
 import classNames from 'classnames';
+
+import Avatar from '@material-ui/core/Avatar';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
+
+import Signout from './auth/Signout';
 
 const styles = {
   bigAvatar: {
     margin: 15,
     width: 50,
     height: 50,
-    cursor: "pointer"
+    cursor: 'pointer'
+  },
+  smallAvatar: {
+    margin: 5,
+    width: 25,
+    height: 25,
+    cursor: 'pointer'
   }
 };
 
@@ -32,10 +40,16 @@ class MyProfile extends React.Component {
 
   handleImage(me, classes) {
     if (!me) {
-      return null
+      return null;
     }
-    if (me.image == null || me.image == "") {
-      return <Avatar className={classes.bigAvatar}>{me.name[0]}</Avatar>;
+    if (me.image == null || me.image == '') {
+      return (
+        <Avatar
+          className={this.props.small ? classes.smallAvatar : classes.bigAvatar}
+        >
+          {me.name[0]}
+        </Avatar>
+      );
     }
     return (
       <Avatar alt="Remy Sharp" src={me.image} className={classes.bigAvatar} />
@@ -49,7 +63,10 @@ class MyProfile extends React.Component {
 
     return (
       <div>
-        <div className={classNames(classes.grow, "nav-avatar")} onClick={this.handleClick}>
+        <div
+          className={classNames(classes.grow, 'nav-avatar')}
+          onClick={this.handleClick}
+        >
           {this.handleImage(me, classes)}
         </div>
 

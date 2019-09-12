@@ -4,7 +4,6 @@ import { upperFirst } from 'lodash';
 import ListItem from '../ListItem';
 import PageHeader from '../PageHeader';
 import Pagination from '../pagination';
-import QuestionAnswer from '@material-ui/icons/QuestionAnswer';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = ({ layout }) => ({
@@ -49,7 +48,7 @@ function QuestionList(props) {
           return (
             <ListItem
               item={question}
-              userName={question.askedBy[0].name}
+              user={question.askedBy[0]}
               linkTo={{
                 pathname: '/question',
                 query: { id: question.id }
