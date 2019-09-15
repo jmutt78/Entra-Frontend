@@ -26,14 +26,13 @@ const styles = ({ layout, palette }) => ({
   container: {
     display: 'flex',
     alignItems: 'center',
-    padding: '15px 0'
+    padding: '5px 0'
   },
   votesBox: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: '4.5rem',
     cursor: 'pointer'
   },
   votesCount: {
@@ -143,7 +142,10 @@ const ListItem = ({
       </div>
       <div className={classNames(classes.votesBox, 'votesBox')}>
         <Tooltip title="vote up" placement="top" onClick={upVote}>
-          <UpIcon style={userVote > 0 ? { color: '#e8a77f' } : {}} />
+          <UpIcon
+            style={userVote > 0 ? { color: '#e8a77f' } : {}}
+            fontSize="large"
+          />
         </Tooltip>
         <div
           className={classes.votesCount}
@@ -158,7 +160,10 @@ const ListItem = ({
           {upVotes - downVotes + userVote}
         </div>
         <Tooltip title="vote down" placement="top" onClick={downVote}>
-          <DownIcon style={userVote < 0 ? { color: '#85bdcb' } : {}} />
+          <DownIcon
+            style={userVote < 0 ? { color: '#85bdcb' } : {}}
+            fontSize="large"
+          />
         </Tooltip>
       </div>
 
