@@ -26,7 +26,7 @@ const styles = ({ layout, palette }) => ({
   container: {
     display: 'flex',
     alignItems: 'center',
-    padding: '5px 0'
+    padding: '5px 10px'
   },
   votesBox: {
     display: 'flex',
@@ -142,32 +142,34 @@ const ListItem = ({
       <div className="avatarBox">
         <Avatar me={user} small linkToId={userId} />
       </div>
-      <div className={classNames(classes.votesBox, 'votesBox')}>
-        <Tooltip title="vote up" placement="top" onClick={upVote}>
-          <UpIcon
-            style={userVote > 0 ? { color: '#e8a77f' } : {}}
-            fontSize="large"
-          />
-        </Tooltip>
-        <div
-          className={classes.votesCount}
-          style={
-            userVote > 0
-              ? { color: '#e8a77f' }
-              : userVote < 0
-              ? { color: '#85bdcb' }
-              : {}
-          }
-        >
-          {upVotes - downVotes + userVote}
+      {answers && (
+        <div className={classNames(classes.votesBox, 'votesBox')}>
+          <Tooltip title="vote up" placement="top" onClick={upVote}>
+            <UpIcon
+              style={userVote > 0 ? { color: '#e8a77f' } : {}}
+              fontSize="large"
+            />
+          </Tooltip>
+          <div
+            className={classes.votesCount}
+            style={
+              userVote > 0
+                ? { color: '#e8a77f' }
+                : userVote < 0
+                ? { color: '#85bdcb' }
+                : {}
+            }
+          >
+            {upVotes - downVotes + userVote}
+          </div>
+          <Tooltip title="vote down" placement="top" onClick={downVote}>
+            <DownIcon
+              style={userVote < 0 ? { color: '#85bdcb' } : {}}
+              fontSize="large"
+            />
+          </Tooltip>
         </div>
-        <Tooltip title="vote down" placement="top" onClick={downVote}>
-          <DownIcon
-            style={userVote < 0 ? { color: '#85bdcb' } : {}}
-            fontSize="large"
-          />
-        </Tooltip>
-      </div>
+      )}
 
       <div className={classes.textBox}>
         <Typography

@@ -22,6 +22,6 @@
 
 @media (max-width: 500px) {
   .votesBox {
-    padding: 0 1rem 0 1rem;
+    padding: 0 1rem 0 0.5rem;
   }
 }
