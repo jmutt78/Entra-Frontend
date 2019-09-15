@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withRouter } from 'next/router';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -36,7 +36,7 @@ const styles = ({ layout, palette }) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     height: '4.5rem',
-    padding: '0 1rem',
+    padding: '0 1.5rem 0 1rem',
     cursor: 'pointer'
   },
   votesCount: {
@@ -103,25 +103,37 @@ const ListItem = ({
   showDetails,
   display
 }) => {
+  const [userVote, setUserVote] = useState(0);
+
   const upVote = () => {
-    client.mutate({
-      mutation: CREATE_QUESTION_VOTE_MUTATION,
-      variables: {
-        questionId: id,
-        vote: 'up'
-      }
-      // refetchQueries: [{ query: questionQuery, variables: { id } }],
-    });
+    if (userVote > 0) {
+      setUserVote(0);
+    } else {
+      setUserVote(1);
+      client.mutate({
+        mutation: CREATE_QUESTION_VOTE_MUTATION,
+        variables: {
+          questionId: id,
+          vote: 'up'
+        }
+        // refetchQueries: [{ query: questionQuery, variables: { id } }],
+      });
+    }
   };
   const downVote = () => {
-    client.mutate({
-      mutation: CREATE_QUESTION_VOTE_MUTATION,
-      variables: {
-        questionId: id,
-        vote: 'down'
-      }
-      // refetchQueries: [{ query: questionQuery, variables: { id } }],
-    });
+    if (userVote < 0) {
+      setUserVote(0);
+    } else {
+      setUserVote(-1);
+      client.mutate({
+        mutation: CREATE_QUESTION_VOTE_MUTATION,
+        variables: {
+          questionId: id,
+          vote: 'down'
+        }
+        // refetchQueries: [{ query: questionQuery, variables: { id } }],
+      });
+    }
   };
 
   return (
@@ -131,11 +143,22 @@ const ListItem = ({
       </div>
       <div className={classes.votesBox}>
         <Tooltip title="vote up" placement="top" onClick={upVote}>
-          <UpIcon />
+          <UpIcon style={userVote > 0 ? { color: '#e8a77f' } : {}} />
         </Tooltip>
-        <div className={classes.votesCount}>{upVotes - downVotes}</div>
+        <div
+          className={classes.votesCount}
+          style={
+            userVote > 0
+              ? { color: '#e8a77f' }
+              : userVote < 0
+              ? { color: '#85bdcb' }
+              : {}
+          }
+        >
+          {upVotes - downVotes + userVote}
+        </div>
         <Tooltip title="vote down" placement="top" onClick={downVote}>
-          <DownIcon />
+          <DownIcon style={userVote < 0 ? { color: '#85bdcb' } : {}} />
         </Tooltip>
       </div>
 
