@@ -4,3 +4,24 @@
   padding: 0 0 10px;
 }
 
+.avatarBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.votesBox {
+  padding: 0 1.5rem 0 1rem;
+}
+
+@media (max-width: 700px) {
+  .avatarBox {
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .votesBox {
+    padding: 0 1rem 0 1rem;
+  }
+}

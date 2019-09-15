@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
 import { withApollo } from 'react-apollo';
@@ -27,23 +28,17 @@ const styles = ({ layout, palette }) => ({
     alignItems: 'center',
     padding: '5px 0'
   },
-
-  avatarBox: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   votesBox: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
     height: '4.5rem',
-    padding: '0 1.5rem 0 1rem',
     cursor: 'pointer'
   },
   votesCount: {
-    fontWeight: 600
+    fontWeight: 600,
+    fontSize: '1rem'
   },
   textBox: {
     display: 'flex',
@@ -142,10 +137,10 @@ const ListItem = ({
 
   return (
     <div className={classes.container}>
-      <div className={classes.avatarBox}>
+      <div className="avatarBox">
         <Avatar me={user} small linkToId={askedBy[0].id} />
       </div>
-      <div className={classes.votesBox}>
+      <div className={classNames(classes.votesBox, 'votesBox')}>
         <Tooltip title="vote up" placement="top" onClick={upVote}>
           <UpIcon style={userVote > 0 ? { color: '#e8a77f' } : {}} />
         </Tooltip>
