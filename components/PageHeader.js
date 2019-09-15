@@ -9,6 +9,9 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = ({ layout }) => ({
+  table: {
+    margin: '0 0 25px 0'
+  },
   title: {
     fontSize: '40px',
     textAlign: 'Left',

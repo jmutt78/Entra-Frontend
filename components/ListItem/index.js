@@ -1,25 +1,28 @@
 import React from 'react';
-import Link from 'next/link';
-import { format, parseISO } from 'date-fns';
-
-// import Avatar from "@material-ui/core/Avatar";
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'next/router';
+import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
+
+import UpIcon from '@material-ui/icons/KeyboardArrowUp';
+import DownIcon from '@material-ui/icons/KeyboardArrowDown';
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
+// import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
 
 import Avatar from '../Avatar';
 import './index.css';
 
-// export const CustomTableCell = withStyles(theme => ({
-//   head: {
-//     width: 5,
-//   },
-// }))(TableCell)
+export const CREATE_QUESTION_VOTE_MUTATION = gql`
+  mutation CREATE_QUESTION_VOTE_MUTATION($questionId: ID!, $vote: String) {
+    createQuestionVote(questionId: $questionId, vote: $vote)
+  }
+`;
 
 const styles = ({ layout, palette }) => ({
   container: {
-    display: 'flex'
+    display: 'flex',
+    alignItems: 'center'
   },
 
   avatarBox: {
@@ -31,7 +34,13 @@ const styles = ({ layout, palette }) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    height: '4.5rem',
+    padding: '0 1rem',
+    cursor: 'pointer'
+  },
+  votesCount: {
+    fontWeight: 600
   },
   textBox: {
     display: 'flex',
@@ -50,37 +59,41 @@ const styles = ({ layout, palette }) => ({
     lineHeight: '3rem'
   },
   body: {
+    fontSize: '1rem',
     color: '#2d3436',
     padding: '5px 0 15px 0',
     margin: 0,
     maxWidth: 800,
     lineHeight: '2.1rem'
   },
-  tags: {},
+  // tags: {},
 
-  nameLink: {
-    fontWeight: 500,
-    textDecoration: 'none',
-    color: '#e27d60'
-  },
+  // nameLink: {
+  //   fontWeight: 500,
+  //   textDecoration: 'none',
+  //   color: '#e27d60'
+  // },
   button: {
     // /color: palette.primary.dark
   }
 });
 
 const ListItem = ({
+  question,
+  client,
   item: {
-    id,
-    title,
-    body,
-    link,
-    createdAt,
-    tags,
     answers,
-    views,
-    upVotes,
+    askedBy,
+    body,
+    createdAt,
+    description,
     downVotes,
-    askedBy
+    id,
+    link,
+    tags,
+    title,
+    upVotes,
+    views
   },
   classes,
   router,
@@ -90,22 +103,49 @@ const ListItem = ({
   showDetails,
   display
 }) => {
+  const upVote = () => {
+    client.mutate({
+      mutation: CREATE_QUESTION_VOTE_MUTATION,
+      variables: {
+        questionId: id,
+        vote: 'up'
+      }
+      // refetchQueries: [{ query: questionQuery, variables: { id } }],
+    });
+  };
+  const downVote = () => {
+    client.mutate({
+      mutation: CREATE_QUESTION_VOTE_MUTATION,
+      variables: {
+        questionId: id,
+        vote: 'down'
+      }
+      // refetchQueries: [{ query: questionQuery, variables: { id } }],
+    });
+  };
+
   return (
-    <div className={classes.container} onClick={() => router.push(linkTo)}>
+    <div className={classes.container}>
       <div className={classes.avatarBox}>
         <Avatar me={user} small />
       </div>
       <div className={classes.votesBox}>
-        <div>{upVotes}</div>
-        <div>{downVotes}</div>
+        <Tooltip title="vote up" placement="top" onClick={upVote}>
+          <UpIcon />
+        </Tooltip>
+        <div className={classes.votesCount}>{upVotes - downVotes}</div>
+        <Tooltip title="vote down" placement="top" onClick={downVote}>
+          <DownIcon />
+        </Tooltip>
       </div>
+
       <div className={classes.textBox}>
         <Typography variant="h5" className={classes.title}>
           {title}
         </Typography>
 
         <Typography variant="h5" className={classes.body}>
-          {body}
+          {body || description}
         </Typography>
 
         {/*tags && (
@@ -134,19 +174,21 @@ const ListItem = ({
         )*/}
       </div>
 
-      <Typography style={{ paddingTop: 5 }}>
-        <span>Posted by </span>
-        <Link
-          href={{
-            pathname: '/user',
-            query: { id: userId }
-          }}
-        >
-          <a className={classes.nameLink}>{display}</a>
-        </Link>
-        <span> on </span>
-        <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
-      </Typography>
+      {/*
+          <Typography style={{ paddingTop: 5 }}>
+            <span>Posted by </span>
+            <Link
+              href={{
+                pathname: '/user',
+                  query: { id: userId }
+              }}
+            >
+              <a className={classes.nameLink}>{display}</a>
+          </Link>
+          <span> on </span>
+          <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
+          </Typography>
+      */}
 
       {/*showDetails && (
         <>
@@ -158,4 +200,4 @@ const ListItem = ({
   );
 };
 
-export default withRouter(withStyles(styles)(ListItem));
+export default withRouter(withStyles(styles)(withApollo(ListItem)));
