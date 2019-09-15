@@ -35,16 +35,10 @@ class AnswerList extends Component {
       paginationQuery,
       paginationVariables
     } = this.props;
-
-    const customColumnStyle = {
-      maxWidth: '.3px'
-    };
-
     return (
       <div className={classes.container}>
         <PageHeader title={upperFirst(this.props.name) || 'Answers'} />
         {answers.map(answer => {
-          console.log({ answer });
           return (
             <ListItem
               key={answer.id}

@@ -62,10 +62,11 @@ const styles = ({ layout, palette }) => ({
     margin: 0,
     color: '#2d3436',
     maxWidth: 800,
-    lineHeight: '1.9rem',
+    lineHeight: '1.8rem',
     fontSize: '1.1rem',
     textAlign: 'left',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    fontWeight: 500
   },
   // tags: {},
 
@@ -205,13 +206,17 @@ const ListItem = ({
             <a className={classes.nameLink}>{display}</a>
           </Link>{' '}
           on <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
-          {answers && (
-            <>
-              <span> · </span>
-              <span>
-                {answers.length} Answer{answers.length === 1 ? '' : 's'}
-              </span>
-            </>
+          <span> · </span>
+          {answers ? (
+            <span>
+              {answers.length} Answer{answers.length === 1 ? '' : 's'}
+            </span>
+          ) : (
+            <span>
+              {Math.abs(upVotes - downVotes)}{' '}
+              {upVotes - downVotes < 0 ? 'Down' : 'Up'}vote
+              {Math.abs(upVotes - downVotes) === 1 ? '' : 's'}
+            </span>
           )}
         </div>
 
