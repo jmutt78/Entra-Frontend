@@ -1,11 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
+import { withRouter } from 'next/router';
 
 import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
 import Signout from './auth/Signout';
@@ -31,7 +31,14 @@ class MyProfile extends React.Component {
   };
 
   handleClick = event => {
-    this.setState({ anchorEl: event.currentTarget });
+    if (this.props.linkToId) {
+      this.props.router.push({
+        pathname: '/user',
+        query: { id: this.props.linkToId }
+      });
+    } else {
+      this.setState({ anchorEl: event.currentTarget });
+    }
   };
 
   handleClose = () => {
@@ -92,4 +99,4 @@ class MyProfile extends React.Component {
   }
 }
 
-export default withStyles(styles)(MyProfile);
+export default withRouter(withStyles(styles)(MyProfile));

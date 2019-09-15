@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { withRouter } from 'next/router';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { format, parseISO } from 'date-fns';
 
 import UpIcon from '@material-ui/icons/KeyboardArrowUp';
 import DownIcon from '@material-ui/icons/KeyboardArrowDown';
@@ -22,7 +24,8 @@ export const CREATE_QUESTION_VOTE_MUTATION = gql`
 const styles = ({ layout, palette }) => ({
   container: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    padding: '5px 0'
   },
 
   avatarBox: {
@@ -50,14 +53,15 @@ const styles = ({ layout, palette }) => ({
   },
 
   title: {
-    color: '#2d3436',
-    padding: '5px 0 15px 0',
+    padding: 0,
     margin: 0,
+    color: '#2d3436',
     maxWidth: 800,
-
     fontWeight: 'bold',
-    lineHeight: '3rem'
+    lineHeight: '2rem',
+    cursor: 'pointer'
   },
+
   body: {
     fontSize: '1rem',
     color: '#2d3436',
@@ -68,11 +72,11 @@ const styles = ({ layout, palette }) => ({
   },
   // tags: {},
 
-  // nameLink: {
-  //   fontWeight: 500,
-  //   textDecoration: 'none',
-  //   color: '#e27d60'
-  // },
+  nameLink: {
+    fontWeight: 500,
+    textDecoration: 'none',
+    color: '#e27d60'
+  },
   button: {
     // /color: palette.primary.dark
   }
@@ -139,7 +143,7 @@ const ListItem = ({
   return (
     <div className={classes.container}>
       <div className={classes.avatarBox}>
-        <Avatar me={user} small />
+        <Avatar me={user} small linkToId={askedBy[0].id} />
       </div>
       <div className={classes.votesBox}>
         <Tooltip title="vote up" placement="top" onClick={upVote}>
@@ -163,13 +167,32 @@ const ListItem = ({
       </div>
 
       <div className={classes.textBox}>
-        <Typography variant="h5" className={classes.title}>
+        <Typography
+          variant="h6"
+          className={classes.title}
+          onClick={() => router.push(linkTo)}
+        >
           {title}
         </Typography>
 
+        <div>
+          Asked by{' '}
+          <Link
+            href={{
+              pathname: '/user',
+              query: { id: askedBy[0].id }
+            }}
+          >
+            <a className={classes.nameLink}>{askedBy[0].display}</a>
+          </Link>{' '}
+          on <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
+        </div>
+
+        {/*
         <Typography variant="h5" className={classes.body}>
           {body || description}
         </Typography>
+        */}
 
         {/*tags && (
           <div className="tags">
