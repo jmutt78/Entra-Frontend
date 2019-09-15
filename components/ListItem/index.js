@@ -26,7 +26,7 @@ const styles = ({ layout, palette }) => ({
   container: {
     display: 'flex',
     alignItems: 'center',
-    padding: '5px 0'
+    padding: '15px 0'
   },
   votesBox: {
     display: 'flex',
@@ -53,7 +53,8 @@ const styles = ({ layout, palette }) => ({
     color: '#2d3436',
     maxWidth: 800,
     fontWeight: 'bold',
-    lineHeight: '2rem',
+    lineHeight: '1.9rem',
+    textAlign: 'left',
     cursor: 'pointer'
   },
 
@@ -181,6 +182,10 @@ const ListItem = ({
             <a className={classes.nameLink}>{askedBy[0].display}</a>
           </Link>{' '}
           on <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
+          <span> · </span>
+          <span>
+            {answers.length} Answer{answers.length === 1 ? '' : 's'}
+          </span>
         </div>
 
         {/*
