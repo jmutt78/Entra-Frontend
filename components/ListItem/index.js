@@ -58,12 +58,14 @@ const styles = ({ layout, palette }) => ({
   },
 
   body: {
-    fontSize: '1rem',
-    color: '#2d3436',
-    padding: '5px 0 15px 0',
+    padding: 0,
     margin: 0,
+    color: '#2d3436',
     maxWidth: 800,
-    lineHeight: '2.1rem'
+    lineHeight: '1.9rem',
+    fontSize: '1.1rem',
+    textAlign: 'left',
+    cursor: 'pointer'
   },
   // tags: {},
 
@@ -138,7 +140,7 @@ const ListItem = ({
   return (
     <div className={classes.container}>
       <div className="avatarBox">
-        <Avatar me={user} small linkToId={askedBy[0].id} />
+        <Avatar me={user} small linkToId={userId} />
       </div>
       <div className={classNames(classes.votesBox, 'votesBox')}>
         <Tooltip title="vote up" placement="top" onClick={upVote}>
@@ -176,28 +178,40 @@ const ListItem = ({
           {title}
         </Typography>
 
-        <div>
-          Asked by{' '}
+        {body && (
+          <Typography
+            variant="p"
+            className={classes.body}
+            onClick={() => router.push(linkTo)}
+          >
+            {body}
+          </Typography>
+        )}
+
+        <div
+          style={
+            answers ? { padding: '5px 0 0 0' } : { padding: '5px 0 15px 0' }
+          }
+        >
+          {answers ? 'Asked by' : 'Answered by'}{' '}
           <Link
             href={{
               pathname: '/user',
-              query: { id: askedBy[0].id }
+              query: { id: userId }
             }}
           >
-            <a className={classes.nameLink}>{askedBy[0].display}</a>
+            <a className={classes.nameLink}>{display}</a>
           </Link>{' '}
           on <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
-          <span> · </span>
-          <span>
-            {answers.length} Answer{answers.length === 1 ? '' : 's'}
-          </span>
+          {answers && (
+            <>
+              <span> · </span>
+              <span>
+                {answers.length} Answer{answers.length === 1 ? '' : 's'}
+              </span>
+            </>
+          )}
         </div>
-
-        {/*
-        <Typography variant="h5" className={classes.body}>
-          {body || description}
-        </Typography>
-        */}
 
         {/*tags && (
           <div className="tags">
