@@ -190,7 +190,7 @@ const ListItem = ({
 
         <div
           style={
-            answers ? { padding: '5px 0 0 0' } : { padding: '5px 0 15px 0' }
+            answers ? { padding: '5px 0 0 0' } : { padding: '5px 0 10px 0' }
           }
         >
           {answers ? 'Asked by' : 'Answered by'}{' '}
