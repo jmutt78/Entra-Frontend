@@ -31,7 +31,6 @@ class MyProfile extends React.Component {
   };
 
   handleClick = event => {
-    console.log('clicked');
     if (this.props.linkToId) {
       this.props.router.push({
         pathname: '/user',
@@ -68,7 +67,6 @@ class MyProfile extends React.Component {
     const { anchorEl } = this.state;
     const { classes } = this.props;
     const me = this.props.me;
-    console.log(this.props);
 
     return (
       <div>
