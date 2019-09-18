@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
+import React, { Component } from 'react';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
 
-import Button from "@material-ui/core/Button";
-import { withStyles } from "@material-ui/core/styles";
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
 
-import questionQuery from "../question-display/questionQuery.js";
-import answersListQuery from "../answer-list/answerListQuery";
-import { CURRENT_USER_QUERY } from "../auth/User";
-import Error from "./../ErrorMessage.js";
+import questionQuery from '../question-display/questionQuery.js';
+import answersListQuery from '../answer-list/answerListQuery';
+import { CURRENT_USER_QUERY } from '../auth/User';
+import Error from './../ErrorMessage.js';
 
 export const DELETE_ANSWER_MUTATION = gql`
   mutation DELETE_ANSWER_MUTATION($id: ID!) {
@@ -42,11 +42,11 @@ class DeleteAnswer extends Component {
           },
           {
             query: answersListQuery,
-            variables: { filter: "my" }
+            variables: { filter: 'my' }
           },
           {
             query: answersListQuery,
-            variables: { filter: "approval" }
+            variables: { filter: 'approval' }
           }
         ]}
         update={this.update}
@@ -58,9 +58,8 @@ class DeleteAnswer extends Component {
               variant="contained"
               color="secondary"
               onClick={() => {
-                if (confirm("Are you sure you want to delete this item?")) {
+                if (confirm('Are you sure you want to delete this item?')) {
                   deleteAnswer();
-                  console.log(this.props.questionId);
                 }
               }}
             >

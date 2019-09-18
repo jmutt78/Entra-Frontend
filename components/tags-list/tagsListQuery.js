@@ -1,5 +1,5 @@
-import gql from "graphql-tag";
-import { perPage } from "../../config.js";
+import gql from 'graphql-tag';
+import { perPage } from '../../config.js';
 
 const TAG_LIST_QUERY = gql`
   query TAG_LIST_QUERY($id: ID!, $filter: String!, $skip: Int = 0, $first: Int = ${perPage}) {
@@ -22,6 +22,7 @@ const TAG_LIST_QUERY = gql`
       downVotes
       askedBy {
         id
+        display
         name
       }
       bookMark {

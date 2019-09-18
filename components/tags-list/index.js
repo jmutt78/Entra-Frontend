@@ -37,7 +37,7 @@ class TagsList extends Component {
       <Query
         query={TAG_QUERY}
         variables={{
-          id,
+          id
         }}
       >
         {({ data, loading, error }) => {
@@ -51,7 +51,7 @@ class TagsList extends Component {
                 id: this.props.id,
                 filter,
                 skip: page * perPage - perPage,
-                first: perPage,
+                first: perPage
               }}
             >
               {({ data: { questions }, loading }) => {
