@@ -31,6 +31,7 @@ class MyProfile extends React.Component {
   };
 
   handleClick = event => {
+    console.log('clicked');
     if (this.props.linkToId) {
       this.props.router.push({
         pathname: '/user',
@@ -67,12 +68,13 @@ class MyProfile extends React.Component {
     const { anchorEl } = this.state;
     const { classes } = this.props;
     const me = this.props.me;
+    console.log(this.props);
 
     return (
       <div>
         <div
           className={classNames(classes.grow, 'nav-avatar')}
-          onClick={this.handleClick}
+          onClick={this.props.small ? null : this.handleClick}
         >
           {this.handleImage(me, classes)}
         </div>
