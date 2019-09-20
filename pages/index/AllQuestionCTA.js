@@ -22,7 +22,6 @@ const ViewAll = ({ router }) => {
           </Typography>
         </button>
       </div>
-      <hr className="sectionbreak" />
     </div>
   );
 };
