@@ -1,54 +1,55 @@
-import React from 'react'
+import React from 'react';
 
-import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
 
-import User from '../auth/User.js'
-import Button from '@material-ui/core/Button'
-import Link from 'next/link'
-import NavLink from './NavLink'
-import classNames from 'classnames'
+import User from '../auth/User.js';
+import Button from '@material-ui/core/Button';
+import Link from 'next/link';
+import NavLink from './NavLink';
+import classNames from 'classnames';
 
-import './Appbar.css'
+import './Appbar.css';
 
 const styles = ({ layout, palette }) => ({
   root: {
     width: layout.width,
     minHeight: layout.headerHeight,
     backgroundColor: palette.secondary.main,
-    boxShadow: '0px 2px 4px -4px rgba(0, 0, 0, 0.2), 0px 4px 5px -5px rgba(0, 0, 0, 0.14), 0px 1px 10px -10px rgba(0, 0, 0, 0.12)',
+    boxShadow:
+      '0px 2px 4px -4px rgba(0, 0, 0, 0.2), 0px 4px 5px -5px rgba(0, 0, 0, 0.14), 0px 1px 10px -10px rgba(0, 0, 0, 0.12)'
   },
   subContainer: {
     display: 'flex',
     height: '33%',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   hidden: {
-    visibility: 'hidden',
+    visibility: 'hidden'
   },
   button: {
-    margin: 12,
+    margin: 12
   },
   signupButton: {
     backgroundColor: '#E27D60',
     margin: 12,
     '&:hover': {
-      backgroundColor: palette.accent.main,
-    },
+      backgroundColor: palette.accent.main
+    }
   },
   loginButton: {
     margin: 12,
     backgroundColor: palette.accent.grey,
     '&:hover': {
-      backgroundColor: palette.accent.main,
-    },
+      backgroundColor: palette.accent.main
+    }
   },
   logo: {
     maxHeight: 50,
-    cursor: 'pointer',
+    cursor: 'pointer'
   },
   logoContainer: {
-    padding: '12px 0 0 0',
+    padding: '12px 0 0 0'
   },
   navLink: {
     display: 'flex',
@@ -58,8 +59,8 @@ const styles = ({ layout, palette }) => ({
     padding: '12px 10px 8px 10px',
     textDecoration: 'none',
     '&:hover': {
-      color: palette.primary.dark,
-    },
+      color: palette.primary.dark
+    }
   },
   navLinkActive: {
     alignItems: 'center',
@@ -68,21 +69,25 @@ const styles = ({ layout, palette }) => ({
     fontSize: '1.2rem',
     fontWeight: 500,
     height: layout.headerHeight,
-    padding: '12px 10px 8px 10px',
-  },
-})
+    padding: '12px 10px 8px 10px'
+  }
+});
 
 const Appbar = ({ isLoggedIn, classes }) => {
   const navLinks = [
     {
       name: 'Ask a question',
-      target: isLoggedIn ? '/qa' : '/signup',
+      target: isLoggedIn ? '/qa' : '/signup'
     },
     {
       name: 'Blog',
-      target: '/blog',
+      target: '/blog'
     },
-  ]
+    {
+      name: 'Stories',
+      target: '/stories'
+    }
+  ];
 
   return (
     <div className={classes.root}>
@@ -97,7 +102,11 @@ const Appbar = ({ isLoggedIn, classes }) => {
 
         <Typography className={classes.subContainer} component={'div'}>
           {navLinks.map(({ name, target }) => (
-            <NavLink key={name} activeClassName={classes.navLinkActive} href={target}>
+            <NavLink
+              key={name}
+              activeClassName={classes.navLinkActive}
+              href={target}
+            >
               <a className={classes.navLink}>{name}</a>
             </NavLink>
           ))}
@@ -107,27 +116,37 @@ const Appbar = ({ isLoggedIn, classes }) => {
           {({ data: { me } }) => {
             if (!me) {
               return (
-                <Typography className={me ? classes.hidden : classes.subContainer}>
+                <Typography
+                  className={me ? classes.hidden : classes.subContainer}
+                >
                   <Link href="/signin">
-                  <Button variant="contained" color="secondary" className={classNames(classes.loginButton, "login-btn")}>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      className={classNames(classes.loginButton, 'login-btn')}
+                    >
                       Login
                     </Button>
                   </Link>
 
                   <Link href="/signup">
-                    <Button variant="contained" color="secondary" className={classes.signupButton}>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      className={classes.signupButton}
+                    >
                       Sign up
                     </Button>
                   </Link>
                 </Typography>
-              )
+              );
             }
-            return null
+            return null;
           }}
         </User>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default withStyles(styles)(Appbar)
+export default withStyles(styles)(Appbar);

@@ -2,10 +2,10 @@ import React from 'react';
 import Blog from '../components/blog-feed';
 import Layout from '../components/layout/index.js';
 
-const BlogFeed = props => (
+const StoriesFeed = props => (
   <Layout>
-    <Blog categoryId={16} name={'Blog'} />
+    <Blog categoryId={67} name={'Stories'} />
   </Layout>
 );
 
-export default BlogFeed;
+export default StoriesFeed;
