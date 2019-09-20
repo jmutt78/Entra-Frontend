@@ -1,8 +1,8 @@
-import React from "react";
-import Typography from "@material-ui/core/Typography";
-import { withRouter } from "next/router";
+import React from 'react';
+import Typography from '@material-ui/core/Typography';
+import { withRouter } from 'next/router';
 
-import User from "../../components/auth/User";
+import User from '../../components/auth/User';
 
 const Hero = ({ router }) => {
   return (
@@ -11,14 +11,11 @@ const Hero = ({ router }) => {
         <div className="heroContainer">
           <div className="heroContent">
             <h1 className="heroHeader sans">Entra</h1>
-            <p className="heroText serif">Get inspired. Get help. Grow.</p>
+            <p className="heroText serif">
+              It’s Not Just You And The “Big Bad World” Anymore. You’ve Found
+              Your New Home.
+            </p>
 
-            {me ? null : (
-              <p className="heroText serif">
-                Entra is currently in private beta. Signup to reserve your
-                invitation
-              </p>
-            )}
             {me ? null : (
               <button
                 className="heroSignupButton"
@@ -26,12 +23,12 @@ const Hero = ({ router }) => {
                   e.preventDefault();
                   e.stopPropagation();
                   router.push({
-                    pathname: "/signup"
+                    pathname: '/signup'
                   });
                 }}
               >
                 <Typography className="heroSignupButtonText">
-                  SIGNUP NOW
+                  ASK A QUESTION NOW
                 </Typography>
               </button>
             )}
