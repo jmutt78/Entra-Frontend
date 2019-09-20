@@ -10,6 +10,12 @@ const Why = () => {
           better marketers, better professionals, better mentors, and better
           business owners.
         </p>
+        <p className="whyText serif">
+          Whether you are just starting out and looking for some solid advice,
+          or you have experience and knowledge you want to share with the next
+          generation so we can make a better world, Entra is the right place for
+          you.
+        </p>
       </div>
     </div>
   );

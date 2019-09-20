@@ -1,6 +1,6 @@
-import React from "react";
-import Typography from "@material-ui/core/Typography";
-import { withRouter } from "next/router";
+import React from 'react';
+import Typography from '@material-ui/core/Typography';
+import { withRouter } from 'next/router';
 
 const ViewAll = ({ router }) => {
   return (
@@ -12,16 +12,17 @@ const ViewAll = ({ router }) => {
             e.preventDefault();
             e.stopPropagation();
             router.push({
-              pathname: "/all"
+              pathname: '/all'
             });
           }}
         >
           <Typography className="heroSignupButtonText">
-            {" "}
-            {"VIEW ALL QUESTIONS"}
+            {' '}
+            {'VIEW ALL QUESTIONS'}
           </Typography>
         </button>
       </div>
+      <hr className="sectionbreak" />
     </div>
   );
 };

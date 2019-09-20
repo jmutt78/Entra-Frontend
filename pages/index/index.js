@@ -17,14 +17,12 @@ const Landingpage = () => {
       <div className="landingContainer">
         <Hero />
         <Why />
-        <Questions />
-        <ViewAll />
-
+        <h2 className="landingHeader sans">
+          It’s time to make entrepreneurship accessible for everyone:
+        </h2>
         <Grid
-          image="/static/ask.jpeg"
+          image="/static/inspired.jpg"
           alignment="left"
-          head="Ask a Question"
-          sub="Ask anything related to business."
           sections={[
             {
               icon: '/static/3.png',
@@ -41,9 +39,7 @@ const Landingpage = () => {
           ]}
         />
         <Grid
-          image="/static/answers.jpeg"
-          head="Get Answers"
-          sub="Crowdsource answers from other entrepreneurs and advisors."
+          image="/static/ask.jpeg"
           alignment="right"
           sections={[
             {
@@ -74,8 +70,6 @@ const Landingpage = () => {
         />
         <Grid
           image="/static/clout.jpg"
-          head="Gain clout and notoriety"
-          sub="Become an expert, help other Entras and grow your network."
           alignment="left"
           sections={[
             {
@@ -92,8 +86,11 @@ const Landingpage = () => {
             }
           ]}
         />
-        <CallToAction />
+
         <Areyou />
+        <CallToAction />
+        <Questions />
+        <ViewAll />
       </div>
     </Layout>
   );
