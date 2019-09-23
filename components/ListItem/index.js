@@ -138,6 +138,18 @@ const ListItem = ({
     }
   };
 
+  const formatBody = (string, length) => {
+    if (string.length <= length) return string;
+    const s = string.indexOf(' ', length);
+    if (s < 0) {
+      const S = string.slice(0, length).lastIndexOf(' ');
+      if (S < 0) return `${body.slice(0, length)}...`;
+      return `${string.slice(0, S)}...`;
+    }
+    if (s > 120) return `${body.slice(0, length)}...`;
+    return `${string.slice(0, s)}...`;
+  };
+
   return (
     <div className={classes.container}>
       <div className="avatarBox">
@@ -187,7 +199,7 @@ const ListItem = ({
             className={classes.body}
             onClick={() => router.push(linkTo)}
           >
-            {body}
+            {formatBody(body, 100)}
           </Typography>
         )}
 
