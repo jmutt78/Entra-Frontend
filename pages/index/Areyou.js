@@ -19,7 +19,6 @@ const Areyou = () => {
           to join! See who you can help and find out which answers await you
           today!
         </p>
-        <hr className="sectionbreak" />
       </div>
     </div>
   );

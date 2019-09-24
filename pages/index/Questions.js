@@ -62,7 +62,7 @@ export default () => (
             questions={data.questions}
             filter={'all'}
             page="1"
-            name={'Latest Questions'}
+            name={'Check Out Some Popular Questions'}
           />
         </div>
       );

@@ -21,9 +21,15 @@ const Landingpage = () => {
           It’s time to make entrepreneurship accessible for everyone:
         </h2>
         <Grid
-          image="/static/inspired.jpg"
+          image="/static/women-working.jpg"
           alignment="left"
           sections={[
+            {
+              icon: '/static/9.png',
+
+              body:
+                'Whether you are just starting out and looking for some solid advice, or you have experience and knowledge you want to share with the next generation so we can make a better world, Entra is the right place for you.'
+            },
             {
               icon: '/static/1.png',
 
@@ -39,7 +45,7 @@ const Landingpage = () => {
           ]}
         />
         <Grid
-          image="/static/ask.jpeg"
+          image="/static/man-working.jpg"
           alignment="right"
           sections={[
             {
@@ -49,13 +55,13 @@ const Landingpage = () => {
                 'Contribute to build your status as an industry expert and a successful authority'
             },
             {
-              icon: '/static/5.png',
+              icon: '/static/6.png',
 
               body:
                 'Get the answers you are looking for to daily problems without paying buckets full of cash for expensive programs'
             },
             {
-              icon: '/static/6.png',
+              icon: '/static/5.png',
 
               body:
                 'Make lifelong connections that will bring you additional profits and fulfillment for years to come'

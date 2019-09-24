@@ -26,7 +26,11 @@ const styles = ({ layout }) => {
 };
 
 const Page = ({ children, classes, router }) => {
-  const isLanding = router.pathname === '/';
+  const isLanding =
+    router.pathname === '/' ||
+    router.pathname === '/landing1' ||
+    router.pathname === '/landing2' ||
+    router.pathname === '/landing3';
   return (
     <div className={classes.root}>
       <Meta />
