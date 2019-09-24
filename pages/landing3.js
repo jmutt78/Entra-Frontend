@@ -1,17 +1,17 @@
 import React from 'react';
 
-import Grid from './Grid';
-import Areyou from './Areyou';
-import Hero from './Hero';
-import Questions from './Questions';
-import Why from './why';
-import CallToAction from './callToAction';
-import ViewAll from './AllQuestionCTA.js';
-import Layout from '../../components/layout/index.js';
+import Grid from './index/Grid';
+import Areyou from './index/Areyou';
+import Hero from './index/Hero';
+import Questions from './index/Questions';
+import Why from './index/why';
+import CallToAction from './index/callToAction';
+import ViewAll from './index/AllQuestionCTA.js';
+import Layout from '../components/layout/index.js';
 
-import './index.css';
+import './index/index.css';
 
-const Landingpage = () => {
+const Page = () => {
   return (
     <Layout>
       <div className="landingContainer">
@@ -24,12 +24,6 @@ const Landingpage = () => {
           image="/static/women-working.jpg"
           alignment="left"
           sections={[
-            {
-              icon: '/static/9.png',
-
-              body:
-                'Whether you are just starting out and looking for some solid advice, or you have experience and knowledge you want to share with the next generation so we can make a better world, Entra is the right place for you.'
-            },
             {
               icon: '/static/1.png',
 
@@ -55,13 +49,13 @@ const Landingpage = () => {
                 'Contribute to build your status as an industry expert and a successful authority'
             },
             {
-              icon: '/static/6.png',
+              icon: '/static/5.png',
 
               body:
                 'Get the answers you are looking for to daily problems without paying buckets full of cash for expensive programs'
             },
             {
-              icon: '/static/5.png',
+              icon: '/static/6.png',
 
               body:
                 'Make lifelong connections that will bring you additional profits and fulfillment for years to come'
@@ -78,4 +72,4 @@ const Landingpage = () => {
   );
 };
 
-export default Landingpage;
+export default Page;

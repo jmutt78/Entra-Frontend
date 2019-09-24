@@ -6,10 +6,10 @@ const Why = () => {
       <div className="whyContent">
         <h2 className="whyHeader sans">Welcome to Entra</h2>
         <p className="whyText serif">
-          The crowd-sourcing Q & A platform where we can all learn to be better:
-          better marketers, better professionals, better mentors, and better
-          business owners.
+          It’s Not Just You And The “Big Bad World” Anymore. You’ve Found Your
+          New Home.
         </p>
+        <hr className="sectionbreak" />
       </div>
     </div>
   );

@@ -10,6 +10,10 @@
     'Segoe UI Symbol';
 }
 
+.container {
+  padding: 0;
+}
+
 .darkText {
   color: #343434;
 }
@@ -48,6 +52,7 @@
 .heroText {
   font-size: 1.6rem;
   font-weight: bold;
+  padding: 0 70px 0px 70px;
 }
 
 .heroSignupButton {
@@ -91,6 +96,18 @@
   padding: 30px 0;
 }
 
+.landingHeader {
+  font-size: 2.8em;
+  font-weight: 700;
+  color: #343434;
+  font-variant-ligatures: common-ligatures;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 30px 0;
+}
+
 .callToActionContent {
   display: flex;
   flex-direction: column;
@@ -112,12 +129,14 @@
   font-weight: 700;
   color: #343434;
   font-variant-ligatures: common-ligatures;
+  padding: 0 70px 50px 70px;
 }
 
 .whyText {
   color: #767676;
   font-size: 1.8em;
-  padding: 0 20px 50px 20px;
+  padding: 0 70px 50px 70px;
+  text-align: left;
   margin: 0;
 }
 
@@ -137,8 +156,9 @@
   height: 100%;
   color: white;
   text-align: center;
-  padding: 0 15px;
+
   max-width: 1200px;
+  padding: 0 15px 50px 15px;
 }
 
 .areyouHeader {
@@ -149,6 +169,7 @@
 
 .areyouText {
   margin: 0;
+  text-align: left;
   font-size: 1.6rem;
 }
 .sectionbreak {
@@ -221,8 +242,24 @@
 }
 
 @media (max-width: 600px) {
+  .whyHeader {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #343434;
+    font-variant-ligatures: common-ligatures;
+    padding: 0 10px 0px 10px;
+  }
+
   .areyouHeader {
     margin-top: 0;
+    font-size: 2rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .areyouText {
+    margin: 0;
+    text-align: left;
+    font-size: 1rem;
   }
   .sectionbreak {
     margin-bottom: 50px;
@@ -231,6 +268,14 @@
     width: 100%;
     background: #f2f4ef;
     padding: 1rem 10% 4rem 10%;
+  }
+
+  .whyText {
+    color: #767676;
+    font-size: 1.4em;
+    padding: 0 20px 5px 20px;
+    text-align: left;
+    margin: 0;
   }
 
   .gridImageContainer {
@@ -258,5 +303,15 @@
     background: content-box
         radial-gradient(rgb(37, 37, 37, 0.5), rgb(37, 37, 37, 0.5)),
       url(/static/hero.jpg) center center no-repeat scroll;
+  }
+
+  .heroText {
+    font-size: 1.4rem;
+    font-weight: bold;
+    padding: 0;
+  }
+  .landingHeader {
+    font-size: 1.8em;
+    padding: 5;
   }
 }
