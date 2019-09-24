@@ -67,7 +67,7 @@ class Blogs extends Component {
           if (error) return <Error error={error} />;
           const posts = data.posts.edges;
           return (
-            <div>
+            <div style={{ maxWidth: '100vw' }}>
               <Table className={classes.table}>
                 <TableHead>
                   <TableRow>
