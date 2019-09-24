@@ -1,17 +1,17 @@
 import React from 'react';
 
-import Grid from './Grid';
-import Areyou from './Areyou';
-import Hero from './Hero';
-import Questions from './Questions';
-import Why from './why';
-import CallToAction from './callToAction';
-import ViewAll from './AllQuestionCTA.js';
-import Layout from '../../components/layout/index.js';
+import Grid from './index/Grid';
+import Areyou from './index/Areyou';
+import Hero from './index/Hero';
+import Questions from './index/Questions';
+import Why from './index/why';
+import CallToAction from './index/callToAction';
+import ViewAll from './index/AllQuestionCTA.js';
+import Layout from '../components/layout/index.js';
 
-import './index.css';
+import './index/index.css';
 
-const Landingpage = () => {
+const Page = () => {
   return (
     <Layout>
       <div className="landingContainer">
@@ -72,4 +72,4 @@ const Landingpage = () => {
   );
 };
 
-export default Landingpage;
+export default Page;
