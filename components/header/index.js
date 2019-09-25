@@ -1,13 +1,13 @@
-import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
 
-import NProgress from "nprogress";
+import NProgress from 'nprogress';
 
-import Navbar from "./Navbar";
-import Appbar from "./Appbar";
+import Navbar from './Navbar';
+import Appbar from './Appbar';
 
-import Router from "next/router";
-import User from "../auth/User.js";
+import Router from 'next/router';
+import User from '../auth/User.js';
 
 Router.onRouteChangeStart = () => {
   NProgress.start();
@@ -24,8 +24,8 @@ Router.onRouteChangeError = () => {
 const styles = ({ layout }) => {
   return {
     root: {
-      minWidth: "100%", //layout.width,
-      width: "100%"
+      minWidth: '100%', //layout.width,
+      width: '100%'
     }
   };
 };
@@ -36,7 +36,7 @@ const Header = ({ classes }) => {
       {({ data: { me } }) => (
         <div className={classes.root}>
           {me && <Navbar />}
-          <Appbar isLoggedIn={!!me} />
+          <Appbar isLoggedIn={!!me} me={me} />
         </div>
       )}
     </User>

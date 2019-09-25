@@ -1,48 +1,49 @@
-import React from "react";
-import Router from "next/router";
-import Typography from "@material-ui/core/Typography";
-import gql from "graphql-tag";
-import { Mutation, Query } from "react-apollo";
-import Error from "./../ErrorMessage.js";
+import React from 'react';
+import Router from 'next/router';
+import Typography from '@material-ui/core/Typography';
+import gql from 'graphql-tag';
+import { Mutation, Query } from 'react-apollo';
+import Error from './../ErrorMessage.js';
 
-import Table from "@material-ui/core/Table";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
+import Table from '@material-ui/core/Table';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
-import AddIcon from "@material-ui/icons/Add";
-import Button from "@material-ui/core/Button";
-import Checkbox from "@material-ui/core/Checkbox";
-import Fab from "@material-ui/core/Fab";
-import FilledInput from "@material-ui/core/FilledInput";
-import FormControl from "@material-ui/core/FormControl";
-import Grid from "@material-ui/core/Grid";
-import InputLabel from "@material-ui/core/InputLabel";
-import ListItemText from "@material-ui/core/ListItemText";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import TextField from "@material-ui/core/TextField";
-import { withStyles } from "@material-ui/core/styles";
+import AddIcon from '@material-ui/icons/Add';
+import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+import Fab from '@material-ui/core/Fab';
+import FilledInput from '@material-ui/core/FilledInput';
+import FormControl from '@material-ui/core/FormControl';
+import Grid from '@material-ui/core/Grid';
+import InputLabel from '@material-ui/core/InputLabel';
+import ListItemText from '@material-ui/core/ListItemText';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
+import { withStyles } from '@material-ui/core/styles';
 
-import CreateTag from "./CreateTag";
-import { TAGS_QUERY } from "./Tags";
-import questionListQuery from "../question-list/questionListQuery";
+import CreateTag from './CreateTag';
+import { Mixpanel } from '../../utils/Mixpanel';
+import { TAGS_QUERY } from './Tags';
+import questionListQuery from '../question-list/questionListQuery';
 
 const styles = ({ layout, palette }) => ({
   container: {
-    display: "flex",
-    flexDirection: "column",
-    padding: '0 5px',
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '0 5px'
   },
   table: {},
   title: {
-    fontSize: "40px",
-    textAlign: "Left",
-    color: "rgba(0, 0, 0, 0.87)",
-    lineHeight: '3rem',
+    fontSize: '40px',
+    textAlign: 'Left',
+    color: 'rgba(0, 0, 0, 0.87)',
+    lineHeight: '3rem'
   },
   inputField: {
-    width: "100%",
+    width: '100%',
     marginBottom: 30
   },
   label: {
@@ -50,15 +51,15 @@ const styles = ({ layout, palette }) => ({
     marginBotom: 10
   },
   formContainer: {
-    width: "100%",
+    width: '100%',
     maxWidth: 1000,
-    display: "flex",
-    justifyContent: "center"
+    display: 'flex',
+    justifyContent: 'center'
   },
   form: {
-    width: "100%",
+    width: '100%',
     maxWidth: 500,
-    padding: "50px 0 0 0"
+    padding: '50px 0 0 0'
   },
   fieldset: {
     border: 0,
@@ -66,19 +67,19 @@ const styles = ({ layout, palette }) => ({
     margin: 0
   },
   formControl: {
-    width: "100%"
+    width: '100%'
   },
   tagsContainer: {
-    display: "flex"
+    display: 'flex'
   },
   tagButton: {
     marginLeft: 10,
-    background: "#e3e3e3"
+    background: '#e3e3e3'
   },
   buttonContainer: {
-    display: "flex",
-    width: "100%",
-    justifyContent: "flex-end"
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'flex-end'
   }
 });
 
@@ -109,8 +110,8 @@ export const CREATE_QUESTION_MUTATION = gql`
 class CreateQuestion extends React.Component {
   state = {
     showCreateTagModal: false,
-    title: "",
-    description: "",
+    title: '',
+    description: '',
     tags: []
   };
   openCreateTagModal = () => {
@@ -155,11 +156,11 @@ class CreateQuestion extends React.Component {
               refetchQueries={[
                 {
                   query: questionListQuery,
-                  variables: { filter: "my" }
+                  variables: { filter: 'my' }
                 },
                 {
                   query: questionListQuery,
-                  variables: { filter: "approval" }
+                  variables: { filter: 'approval' }
                 }
               ]}
             >
@@ -185,15 +186,15 @@ class CreateQuestion extends React.Component {
                         onSubmit={async e => {
                           e.preventDefault();
                           const res = await createQuestion();
-
+                          Mixpanel.track('Question Asked');
                           Router.push({
-                            pathname: "/question",
+                            pathname: '/question',
                             query: { id: res.data.createQuestion.id }
                           });
 
                           this.setState({
-                            title: "",
-                            description: "",
+                            title: '',
+                            description: '',
                             tags: []
                           });
                         }}
@@ -237,7 +238,7 @@ class CreateQuestion extends React.Component {
                                     id="filled-age-native-simple"
                                   />
                                 }
-                                renderValue={selected => selected.join(", ")}
+                                renderValue={selected => selected.join(', ')}
                                 className={classes.inputField}
                               >
                                 {data.tags.map(tag => (
