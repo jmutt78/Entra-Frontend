@@ -5,6 +5,7 @@ import Footer from '../footer';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'next/router';
 import classNames from 'classnames';
+
 import Drift from 'react-driftjs';
 
 import './Page.css';

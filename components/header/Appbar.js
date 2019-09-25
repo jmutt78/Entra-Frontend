@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import Link from 'next/link';
 import NavLink from './NavLink';
 import classNames from 'classnames';
-
+import { Mixpanel } from '../../utils/Mixpanel';
 import './Appbar.css';
 
 const styles = ({ layout, palette }) => ({
@@ -73,12 +73,20 @@ const styles = ({ layout, palette }) => ({
   }
 });
 
+function handleSignin(e) {
+  Mixpanel.track('Signup');
+}
+
+function handleLogin(e) {
+  Mixpanel.track('Login');
+}
+
+function handlenavLinks(e) {
+  Mixpanel.track('ask a question');
+}
+
 const Appbar = ({ isLoggedIn, classes }) => {
   const navLinks = [
-    {
-      name: 'Ask a question',
-      target: isLoggedIn ? '/qa' : '/signup'
-    },
     {
       name: 'Blog',
       target: '/blog'
@@ -101,6 +109,15 @@ const Appbar = ({ isLoggedIn, classes }) => {
         </div>
 
         <Typography className={classes.subContainer} component={'div'}>
+          <NavLink
+            activeClassName={classes.navLinkActive}
+            href={isLoggedIn ? '/qa' : '/signup'}
+          >
+            <a className={classes.navLink} onClick={handlenavLinks}>
+              Ask a question
+            </a>
+          </NavLink>
+
           {navLinks.map(({ name, target }) => (
             <NavLink
               key={name}
@@ -124,6 +141,7 @@ const Appbar = ({ isLoggedIn, classes }) => {
                       variant="contained"
                       color="secondary"
                       className={classNames(classes.loginButton, 'login-btn')}
+                      onClick={handleLogin}
                     >
                       Login
                     </Button>
@@ -134,6 +152,7 @@ const Appbar = ({ isLoggedIn, classes }) => {
                       variant="contained"
                       color="secondary"
                       className={classes.signupButton}
+                      onClick={handleSignin}
                     >
                       Sign up
                     </Button>
