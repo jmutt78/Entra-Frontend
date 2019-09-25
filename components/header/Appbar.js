@@ -85,7 +85,7 @@ function handlenavLinks(e) {
   Mixpanel.track('ask a question');
 }
 
-const Appbar = ({ isLoggedIn, classes }) => {
+const Appbar = ({ isLoggedIn, classes, me }) => {
   const navLinks = [
     {
       name: 'Blog',
@@ -96,7 +96,13 @@ const Appbar = ({ isLoggedIn, classes }) => {
       target: '/stories'
     }
   ];
-
+  if (me) {
+    Mixpanel.identify(me.id);
+    Mixpanel.people.set({
+      $name: me.name,
+      $email: me.email
+    });
+  }
   return (
     <div className={classes.root}>
       <div className="appbarFlex">

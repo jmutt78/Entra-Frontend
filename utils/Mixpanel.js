@@ -1,5 +1,5 @@
 import mixpanel from 'mixpanel-browser';
-mixpanel.init('bfc78222da8bc97ec71a9e3d053adab6');
+mixpanel.init('59a5230bfd7a84ed31296264899ab6e6');
 
 let actions = {
   identify: id => {

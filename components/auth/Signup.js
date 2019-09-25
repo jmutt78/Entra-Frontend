@@ -1,21 +1,21 @@
-import React, { Component } from "react";
-import Router from "next/router";
-import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
+import React, { Component } from 'react';
+import Router from 'next/router';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
 
-import Table from "@material-ui/core/Table";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TextField from "@material-ui/core/TextField";
-import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import PropTypes from "prop-types";
+import Table from '@material-ui/core/Table';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import TextField from '@material-ui/core/TextField';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Error from "./../ErrorMessage.js";
-import { CURRENT_USER_QUERY } from "./User";
+import Error from './../ErrorMessage.js';
+import { CURRENT_USER_QUERY } from './User';
 
 export const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION(
@@ -34,29 +34,29 @@ export const SIGNUP_MUTATION = gql`
 `;
 const styles = theme => ({
   container: {
-    display: "flex",
-    width: "100%",
-    flexDirection: "column"
+    display: 'flex',
+    width: '100%',
+    flexDirection: 'column'
   },
   title: {
-    fontSize: "40px",
-    textAlign: "Left",
-    color: "rgba(0, 0, 0, 0.87)"
+    fontSize: '40px',
+    textAlign: 'Left',
+    color: 'rgba(0, 0, 0, 0.87)'
   },
   formContainer: {
-    width: "100%",
+    width: '100%',
     maxWidth: 1000,
-    display: "flex",
-    justifyContent: "center",
-    padding: "10px 0 20px 0"
+    display: 'flex',
+    justifyContent: 'center',
+    padding: '10px 0 20px 0'
   },
   form: {
-    width: "100%",
+    width: '100%',
     maxWidth: 500,
-    padding: "50px 0 0 0"
+    padding: '50px 0 0 0'
   },
   inputField: {
-    width: "100%",
+    width: '100%',
     marginBottom: 30
   },
   fieldset: {
@@ -65,20 +65,20 @@ const styles = theme => ({
     margin: 0
   },
   formControl: {
-    width: "100%"
+    width: '100%'
   },
   button: {
     marginBottom: theme.spacing(1),
-    backgroundColor: "#E27D60"
+    backgroundColor: '#E27D60'
   }
 });
 
 class Signup extends Component {
   state = {
-    name: "",
-    password: "",
-    email: "",
-    display: ""
+    name: '',
+    password: '',
+    email: '',
+    display: ''
   };
   saveToState = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -108,24 +108,25 @@ class Signup extends Component {
             <div className={classes.formContainer}>
               <form
                 method="post"
-                className={classNames(classes.form, "signup-form")}
+                className={classNames(classes.form, 'signup-form')}
                 onSubmit={async e => {
                   e.preventDefault();
                   await signup();
+
                   this.setState({
-                    name: "",
-                    password: "",
-                    email: "",
-                    display: ""
+                    name: '',
+                    password: '',
+                    email: '',
+                    display: ''
                   });
-                  Router.push("/");
+                  Router.push('/');
                 }}
               >
                 <fieldset
                   disabled={loading}
                   aria-busy={loading}
                   style={{
-                    borderWidth: "0px"
+                    borderWidth: '0px'
                   }}
                 >
                   <Error error={error} />
