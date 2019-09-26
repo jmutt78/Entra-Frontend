@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
-import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
 import { format, parseISO } from 'date-fns';
 
 import Typography from '@material-ui/core/Typography';
@@ -12,12 +10,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Avatar from '../Avatar';
 import Vote from '../Vote';
 import './index.css';
-
-export const CREATE_QUESTION_VOTE_MUTATION = gql`
-  mutation CREATE_QUESTION_VOTE_MUTATION($questionId: ID!, $vote: String) {
-    createQuestionVote(questionId: $questionId, vote: $vote)
-  }
-`;
 
 const styles = ({ layout, palette }) => ({
   container: {
@@ -102,28 +94,6 @@ const ListItem = ({
   showDetails,
   display
 }) => {
-  const voteDown = () => {
-    client.mutate({
-      mutation: CREATE_QUESTION_VOTE_MUTATION,
-      variables: {
-        questionId: id,
-        vote: 'up'
-      },
-      refetchQueries: [{ query: questionQuery, variables: { id } }]
-    });
-  };
-
-  const voteUp = () => {
-    client.mutate({
-      mutation: CREATE_QUESTION_VOTE_MUTATION,
-      variables: {
-        questionId: id,
-        vote: 'down'
-      },
-      refetchQueries: [{ query: questionQuery, variables: { id } }]
-    });
-  };
-
   return (
     <div className={classes.container}>
       <div className="avatarBox">
@@ -131,12 +101,7 @@ const ListItem = ({
       </div>
       {answers && (
         <div className="votesBox">
-          <Vote
-            voteDown={voteDown}
-            voteUp={voteUp}
-            upVotes={upVotes}
-            downVotes={downVotes}
-          />
+          <Vote id={id} />
         </div>
       )}
 
@@ -240,4 +205,4 @@ const ListItem = ({
   );
 };
 
-export default withRouter(withStyles(styles)(withApollo(ListItem)));
+export default withRouter(withStyles(styles)(ListItem));
