@@ -22,6 +22,7 @@
 .viewContainer {
   display: flex;
   align-items: center;
+  cursor: default;
 }
 
 .titleContainer {
@@ -37,9 +38,9 @@
 /* } */
 
 @media (max-width: 500px) {
-  .viewContainer {
-    margin: 0 0 10px 0;
-  }
+  /* .viewContainer { */
+  /*   margin: 0 0 10px 0; */
+  /* } */
   .itemFooter {
     flex-direction: column-reverse;
   }

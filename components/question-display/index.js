@@ -247,19 +247,30 @@ class DisplayQuestion extends Component {
                   {question.title}
                 </Typography>
               </div>
-              <div style={{ padding: '10px 0 0 30px' }}>
-                <Tags tags={question.tags} router={this.props.router} />
-              </div>
+
               <div
                 style={{
+                  padding: '10px 30px 0 30px',
                   display: 'flex',
-                  cursor: 'pointer',
-                  padding: '10px 0 20px 30px'
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  flexWrap: 'wrap'
                 }}
               >
-                <Bookmark user={user} question={question} />
-                {'   '}
-                <Views views={question.views} />
+                <Tags tags={question.tags} router={this.props.router} />
+                <div
+                  style={{
+                    display: 'flex',
+                    cursor: 'pointer',
+                    padding: '10px 0 20px 0',
+                    alignItems: 'center',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <Bookmark user={user} question={question} />
+                  {'   '}
+                  <Views views={question.views} />
+                </div>
               </div>
 
               <Credits

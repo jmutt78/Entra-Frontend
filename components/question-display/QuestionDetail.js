@@ -1,17 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
-import { format, parseISO } from 'date-fns';
 
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import DeleteQuestion from '../delete-question';
-import Icon from '../ui/Icon';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
-import Tooltip from '@material-ui/core/Tooltip';
 import { withRouter } from 'next/router';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -203,54 +199,7 @@ const QuestionDetail = ({
 
               <EditButton question={question} user={user} classes={classes} />
 
-              <div className="itemFooter">
-                <div className={classes.credits}>
-                  <Link
-                    href={{
-                      pathname: '/user',
-                      query: { id: question.askedBy[0].id }
-                    }}
-                  >
-                    {question.askedBy[0].image === null ||
-                    question.askedBy[0].image === '' ? (
-                      <Avatar className={classes.avatar}>
-                        {question.askedBy[0].display[0]}
-                      </Avatar>
-                    ) : (
-                      <Avatar
-                        alt={question.askedBy[0].name}
-                        src={question.askedBy[0].image}
-                        className={classes.avatar}
-                      />
-                    )}
-                  </Link>
-
-                  <div style={{ padding: '0 0 0 10px' }}>
-                    Asked by{' '}
-                    <Link
-                      href={{
-                        pathname: '/user',
-                        query: { id: question.askedBy[0].id }
-                      }}
-                    >
-                      <a className={classes.nameLink}>
-                        {question.askedBy[0].display}
-                      </a>
-                    </Link>{' '}
-                    on{' '}
-                    <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
-                  </div>
-                </div>
-
-                <Tooltip title={`${question.views} views`} placement="top">
-                  <div className="viewContainer">
-                    <Icon src="/static/visibility.svg" />
-                    <span className={classes.viewsCount}>{`${question.views} ${
-                      question.views > 1 ? 'views' : 'view'
-                    }`}</span>
-                  </div>
-                </Tooltip>
-              </div>
+              <div className="itemFooter"></div>
             </TableCell>
           </TableRow>
         </TableBody>
