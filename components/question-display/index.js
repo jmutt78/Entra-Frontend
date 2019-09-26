@@ -90,7 +90,7 @@ const Wrapper = ({ client, classes, id, router }) => {
   );
 };
 
-const Tags = ({ tags }) => {
+const Tags = ({ tags, router }) => {
   if (!tags || !tags.length) return null;
 
   return (
@@ -103,7 +103,7 @@ const Tags = ({ tags }) => {
             onClick={e => {
               e.preventDefault();
               e.stopPropagation();
-              this.props.router.push({
+              router.push({
                 pathname: '/tags',
                 query: { id }
               });
@@ -165,7 +165,7 @@ class DisplayQuestion extends Component {
                 </Typography>
               </div>
               <div className="controls">
-                <Tags tags={question.tags} />
+                <Tags tags={question.tags} router={this.props.router} />
                 {user && (
                   <Tooltip title="Bookmark this" placement="top">
                     <CreateBookMark user={user} question={question} />
