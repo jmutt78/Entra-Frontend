@@ -277,10 +277,6 @@ class DisplayQuestion extends Component {
                 <Divider variant="middle" />
               </div>
 
-              <Credits
-                user={question.askedBy[0]}
-                createdAt={question.createdAt}
-              />
               <QuestionDetail
                 item={question}
                 linkTo={{
@@ -289,6 +285,11 @@ class DisplayQuestion extends Component {
                 }}
                 question={question}
                 user={user}
+              />
+
+              <Credits
+                user={question.askedBy[0]}
+                createdAt={question.createdAt}
               />
 
               <Answers id={this.props.id} question={question} />
