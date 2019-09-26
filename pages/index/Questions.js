@@ -7,7 +7,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import gql from 'graphql-tag';
 var query = gql`
   query QUESTION_LIST_QUERY {
-    questions(filter: "all", first: 5) {
+    questions(filter: "all", last: 5) {
       id
       title
       description
@@ -62,7 +62,7 @@ export default () => (
             questions={data.questions}
             filter={'all'}
             page="1"
-            name={'Check Out Some Popular Questions'}
+            name={'Check Out Our Latest Questions'}
           />
         </div>
       );
