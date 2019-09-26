@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
-import classNames from 'classnames';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { format, parseISO } from 'date-fns';
 
-import UpIcon from '@material-ui/icons/KeyboardArrowUp';
-import DownIcon from '@material-ui/icons/KeyboardArrowDown';
-import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 // import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
 import Avatar from '../Avatar';
+import Vote from '../Vote';
 import './index.css';
 
 export const CREATE_QUESTION_VOTE_MUTATION = gql`
@@ -105,37 +102,26 @@ const ListItem = ({
   showDetails,
   display
 }) => {
-  const [userVote, setUserVote] = useState(0);
-
-  const upVote = () => {
-    if (userVote > 0) {
-      setUserVote(0);
-    } else {
-      setUserVote(1);
-      client.mutate({
-        mutation: CREATE_QUESTION_VOTE_MUTATION,
-        variables: {
-          questionId: id,
-          vote: 'up'
-        }
-        // refetchQueries: [{ query: questionQuery, variables: { id } }],
-      });
-    }
+  const voteDown = () => {
+    client.mutate({
+      mutation: CREATE_QUESTION_VOTE_MUTATION,
+      variables: {
+        questionId: id,
+        vote: 'up'
+      }
+      // refetchQueries: [{ query: questionQuery, variables: { id } }],
+    });
   };
-  const downVote = () => {
-    if (userVote < 0) {
-      setUserVote(0);
-    } else {
-      setUserVote(-1);
-      client.mutate({
-        mutation: CREATE_QUESTION_VOTE_MUTATION,
-        variables: {
-          questionId: id,
-          vote: 'down'
-        }
-        // refetchQueries: [{ query: questionQuery, variables: { id } }],
-      });
-    }
+
+  const voteUp = () => {
+    client.mutate({
+      mutation: CREATE_QUESTION_VOTE_MUTATION,
+      variables: {
+        questionId: id,
+        vote: 'down'
+      }
+      // refetchQueries: [{ query: questionQuery, variables: { id } }],
+    });
   };
 
   return (
@@ -144,31 +130,13 @@ const ListItem = ({
         <Avatar me={user} small linkToId={userId} />
       </div>
       {answers && (
-        <div className={classNames(classes.votesBox, 'votesBox')}>
-          <Tooltip title="vote up" placement="top" onClick={upVote}>
-            <UpIcon
-              style={userVote > 0 ? { color: '#e8a77f' } : {}}
-              fontSize="large"
-            />
-          </Tooltip>
-          <div
-            className={classes.votesCount}
-            style={
-              userVote > 0
-                ? { color: '#e8a77f' }
-                : userVote < 0
-                ? { color: '#85bdcb' }
-                : {}
-            }
-          >
-            {upVotes - downVotes + userVote}
-          </div>
-          <Tooltip title="vote down" placement="top" onClick={downVote}>
-            <DownIcon
-              style={userVote < 0 ? { color: '#85bdcb' } : {}}
-              fontSize="large"
-            />
-          </Tooltip>
+        <div className="votesBox">
+          <Vote
+            voteDown={voteDown}
+            voteUp={voteUp}
+            upVotes={upVotes}
+            downVotes={downVotes}
+          />
         </div>
       )}
 
