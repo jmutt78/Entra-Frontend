@@ -31,7 +31,8 @@ const Page = ({ children, classes, router }) => {
     router.pathname === '/' ||
     router.pathname === '/landing1' ||
     router.pathname === '/landing2' ||
-    router.pathname === '/landing3';
+    router.pathname === '/landing3' ||
+    router.pathname === '/giveaway';
   return (
     <div className={classes.root}>
       <Meta />
