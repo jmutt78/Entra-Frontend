@@ -7,6 +7,7 @@ import { format, parseISO } from 'date-fns';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 import Link from 'next/link';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
@@ -29,25 +30,26 @@ import './index.css';
 const styles = ({ palette, layout }) => ({
   container: {
     width: '100%',
-    maxWidth: 1200,
-
+    maxWidth: 1000,
+    paddingTop: 5,
     height: '100%',
     minHeight: 'calc(100%)-80px-80px' //layout.contentMinHeight,
   },
   title: {
-    display: 'flex',
-    fontSize: '30px',
-    textAlign: 'Left',
     color: 'rgba(0, 0, 0, 0.87)',
-    lineHeight: '2.4rem',
-    fontWeight: 600,
-    letterSpacing: '-1px',
+    display: 'flex',
     alignItems: 'center'
+  },
+  titleText: {
+    fontSize: '33px',
+    lineHeight: '2.7rem',
+    fontWeight: 600,
+    letterSpacing: '-1px'
   },
   voteContainer: {
     padding: '0 15px 0 0',
-    display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    float: 'left'
   }
 });
 
@@ -61,7 +63,7 @@ const viewsStyles = ({ palette, layout }) => ({
 
 const creditsStyles = ({ palette, layout }) => ({
   creditsContainer: {
-    padding: '0 0 20px 30px',
+    padding: '0 0 20px 20px',
     display: 'flex',
     alignItems: 'center'
   },
@@ -239,18 +241,17 @@ class DisplayQuestion extends Component {
           return (
             <div className={classes.container} id="tableBorderRemoveTarget">
               <div className="titleContainer">
-                <div className={classes.voteContainer}>
-                  <Vote id={question.id} />
-                </div>
-
                 <Typography variant="h6" className={classes.title}>
-                  {question.title}
+                  <div className={classes.voteContainer}>
+                    <Vote id={question.id} />
+                  </div>
+                  <div className={classes.titleText}>{question.title}</div>
                 </Typography>
               </div>
 
               <div
                 style={{
-                  padding: '10px 30px 0 30px',
+                  padding: '10px 30px 0 23px',
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
@@ -271,6 +272,10 @@ class DisplayQuestion extends Component {
                   {'   '}
                   <Views views={question.views} />
                 </div>
+              </div>
+
+              <div style={{ maxWidth: 1000, padding: '15px 0 20px 0' }}>
+                <Divider variant="middle" />
               </div>
 
               <Credits
