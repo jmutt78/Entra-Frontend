@@ -14,6 +14,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import CreateAnswer from '../create-answer';
 import CreateBookMark from '../bookmark/CreateBookMark.js';
 import Error from './../ErrorMessage.js';
+import Icon from '../ui/Icon';
 import NoQuestion from './NoQuestion';
 import QuestionDetail from './QuestionDetail';
 import Vote from '../Vote';
@@ -37,10 +38,13 @@ const styles = ({ palette, layout }) => ({
     color: 'rgba(0, 0, 0, 0.87)',
     lineHeight: '2.4rem',
     fontWeight: 600,
-    letterSpacing: '-1px'
+    letterSpacing: '-1px',
+    alignItems: 'center'
   },
   voteContainer: {
-    display: 'flex'
+    padding: '0 15px 0 0',
+    display: 'flex',
+    alignItems: 'center'
   },
   voteButton: {
     cursor: 'pointer'
@@ -54,6 +58,11 @@ const styles = ({ palette, layout }) => ({
     color: '#85bdcb', //palette.accent.blue,
     fontSize: '1.4rem',
     padding: '0 1rem'
+  },
+  viewsCount: {
+    color: '#2d3436', //palette.accent.dark,
+    fontSize: '1.2rem',
+    padding: '5px 0 5px 8px'
   }
 });
 
@@ -117,6 +126,34 @@ const Tags = ({ tags, router }) => {
   );
 };
 
+const Views = withStyles(styles)(({ views, classes }) => {
+  return (
+    <Tooltip title={`${views} views`} placement="top">
+      <div className="viewContainer">
+        <Icon src="/static/visibility.svg" />
+        <span className={classes.viewsCount}>{`${views} ${
+          views > 1 ? 'views' : 'view'
+        }`}</span>
+      </div>
+    </Tooltip>
+  );
+});
+
+const Bookmark = withStyles(styles)(({ user, question, classes }) => {
+  if (!user) {
+    return null;
+  }
+
+  return (
+    <Tooltip title="Bookmark this" placement="top">
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <CreateBookMark user={user} question={question} />
+        <span className={classes.viewsCount}>Bookmark this</span>
+      </div>
+    </Tooltip>
+  );
+});
+
 class DisplayQuestion extends Component {
   componentDidMount() {
     this.props.client.mutate({
@@ -159,18 +196,27 @@ class DisplayQuestion extends Component {
           return (
             <div className={classes.container} id="tableBorderRemoveTarget">
               <div className="titleContainer">
-                <Typography variant="h6" className={classes.title}>
+                <div className={classes.voteContainer}>
                   <Vote id={question.id} />
+                </div>
+
+                <Typography variant="h6" className={classes.title}>
                   {question.title}
                 </Typography>
               </div>
-              <div className="controls">
+              <div style={{ padding: '10px 0 0 30px' }}>
                 <Tags tags={question.tags} router={this.props.router} />
-                {user && (
-                  <Tooltip title="Bookmark this" placement="top">
-                    <CreateBookMark user={user} question={question} />
-                  </Tooltip>
-                )}
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  cursor: 'pointer',
+                  padding: '10px 0 20px 30px'
+                }}
+              >
+                <Bookmark user={user} question={question} />
+                {'   '}
+                <Views views={question.views} />
               </div>
 
               <QuestionDetail
