@@ -3,8 +3,11 @@ import { Query } from 'react-apollo';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'next/router';
+import { format, parseISO } from 'date-fns';
 
+import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import Link from 'next/link';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
@@ -45,24 +48,32 @@ const styles = ({ palette, layout }) => ({
     padding: '0 15px 0 0',
     display: 'flex',
     alignItems: 'center'
-  },
-  voteButton: {
-    cursor: 'pointer'
-  },
-  upVote: {
-    color: palette.primary.main,
-    fontSize: '1.4rem',
-    padding: '0 1rem'
-  },
-  downVote: {
-    color: '#85bdcb', //palette.accent.blue,
-    fontSize: '1.4rem',
-    padding: '0 1rem'
-  },
+  }
+});
+
+const viewsStyles = ({ palette, layout }) => ({
   viewsCount: {
     color: '#2d3436', //palette.accent.dark,
     fontSize: '1.2rem',
     padding: '5px 0 5px 8px'
+  }
+});
+
+const creditsStyles = ({ palette, layout }) => ({
+  creditsContainer: {
+    padding: '0 0 20px 30px',
+    display: 'flex',
+    alignItems: 'center'
+  },
+  avatar: {
+    width: 70,
+    height: 70,
+    cursor: 'pointer'
+  },
+  nameLink: {
+    fontWeight: 500,
+    textDecoration: 'none',
+    color: '#e27d60'
   }
 });
 
@@ -126,7 +137,7 @@ const Tags = ({ tags, router }) => {
   );
 };
 
-const Views = withStyles(styles)(({ views, classes }) => {
+const Views = withStyles(viewsStyles)(({ views, classes }) => {
   return (
     <Tooltip title={`${views} views`} placement="top">
       <div className="viewContainer">
@@ -139,7 +150,7 @@ const Views = withStyles(styles)(({ views, classes }) => {
   );
 });
 
-const Bookmark = withStyles(styles)(({ user, question, classes }) => {
+const Bookmark = withStyles(viewsStyles)(({ user, question, classes }) => {
   if (!user) {
     return null;
   }
@@ -151,6 +162,38 @@ const Bookmark = withStyles(styles)(({ user, question, classes }) => {
         <span className={classes.viewsCount}>Bookmark this</span>
       </div>
     </Tooltip>
+  );
+});
+
+const Credits = withStyles(creditsStyles)(({ classes, user, createdAt }) => {
+  return (
+    <div className={classes.creditsContainer}>
+      <Link
+        href={{
+          pathname: '/user',
+          query: { id: user.id }
+        }}
+      >
+        {user.image === null || user.image === '' ? (
+          <Avatar className={classes.avatar}>{user.display[0]}</Avatar>
+        ) : (
+          <Avatar alt={user.name} src={user.image} className={classes.avatar} />
+        )}
+      </Link>
+
+      <div style={{ padding: '0 0 0 10px' }}>
+        Asked by{' '}
+        <Link
+          href={{
+            pathname: '/user',
+            query: { id: user.id }
+          }}
+        >
+          <a className={classes.nameLink}>{user.display}</a>
+        </Link>{' '}
+        on <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
+      </div>
+    </div>
   );
 });
 
@@ -219,6 +262,10 @@ class DisplayQuestion extends Component {
                 <Views views={question.views} />
               </div>
 
+              <Credits
+                user={question.askedBy[0]}
+                createdAt={question.createdAt}
+              />
               <QuestionDetail
                 item={question}
                 linkTo={{

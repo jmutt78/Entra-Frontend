@@ -218,7 +218,7 @@ const QuestionDetail = ({
                       </Avatar>
                     ) : (
                       <Avatar
-                        alt="Remy Sharp"
+                        alt={question.askedBy[0].name}
                         src={question.askedBy[0].image}
                         className={classes.avatar}
                       />
