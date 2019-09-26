@@ -155,7 +155,6 @@ const QuestionDetail = ({
       ['ADMIN', 'MODERATOR'].includes(permission)
     );
   const isApproved = question.approval === true;
-  console.log(question);
   return (
     <div className={classes.detailContainer}>
       <PromptBar classes={classes} user={user} />

@@ -108,7 +108,9 @@ const Vote = ({ classes, client, id }) => {
                   : {}
               }
             >
-              {data.question.upVotes - data.question.downVotes}
+              {data.question
+                ? data.question.upVotes - data.question.downVotes
+                : null}
             </div>
             <Tooltip
               title="vote down"

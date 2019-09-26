@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
-import { withStyles } from '@material-ui/core/styles';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { withRouter } from 'next/router';
 
+import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
 
 import Answers from '../answers-display';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -52,10 +54,6 @@ const styles = ({ palette, layout }) => ({
     color: '#85bdcb', //palette.accent.blue,
     fontSize: '1.4rem',
     padding: '0 1rem'
-  },
-  viewsCount: {
-    color: '#2d3436', //palette.accent.dark,
-    fontSize: '1.4rem'
   }
 });
 
@@ -65,7 +63,7 @@ export const CREATE_QUESTION_VIEW_MUTATION = gql`
   }
 `;
 
-const Wrapper = ({ client, classes, id }) => {
+const Wrapper = ({ client, classes, id, router }) => {
   return (
     <Query
       query={questionQuery}
@@ -84,10 +82,38 @@ const Wrapper = ({ client, classes, id }) => {
             question={question}
             client={client}
             classes={classes}
+            router={router}
           />
         );
       }}
     </Query>
+  );
+};
+
+const Tags = ({ tags }) => {
+  if (!tags || !tags.length) return null;
+
+  return (
+    <div className="tagButtons">
+      {tags.map(({ id, name }) => (
+        <div key={id} style={{ padding: '2px 0' }}>
+          <Button
+            size="small"
+            variant="contained"
+            onClick={e => {
+              e.preventDefault();
+              e.stopPropagation();
+              this.props.router.push({
+                pathname: '/tags',
+                query: { id }
+              });
+            }}
+          >
+            {name}
+          </Button>
+        </div>
+      ))}
+    </div>
   );
 };
 
@@ -137,14 +163,14 @@ class DisplayQuestion extends Component {
                   <Vote id={question.id} />
                   {question.title}
                 </Typography>
-
-                <div className="controls">
-                  {user && (
-                    <Tooltip title="Bookmark this" placement="top">
-                      <CreateBookMark user={user} question={question} />
-                    </Tooltip>
-                  )}
-                </div>
+              </div>
+              <div className="controls">
+                <Tags tags={question.tags} />
+                {user && (
+                  <Tooltip title="Bookmark this" placement="top">
+                    <CreateBookMark user={user} question={question} />
+                  </Tooltip>
+                )}
               </div>
 
               <QuestionDetail
@@ -167,4 +193,4 @@ class DisplayQuestion extends Component {
   }
 }
 
-export default withStyles(styles)(withApollo(Wrapper));
+export default withRouter(withStyles(styles)(withApollo(Wrapper)));
