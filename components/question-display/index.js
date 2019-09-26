@@ -161,7 +161,6 @@ const Bookmark = withStyles(viewsStyles)(({ user, question, classes }) => {
     <Tooltip title="Bookmark this" placement="top">
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <CreateBookMark user={user} question={question} />
-        <span className={classes.viewsCount}>Bookmark this</span>
       </div>
     </Tooltip>
   );
