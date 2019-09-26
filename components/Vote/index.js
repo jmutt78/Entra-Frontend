@@ -32,38 +32,55 @@ export const CREATE_QUESTION_VOTE_MUTATION = gql`
 const Vote = ({ classes, client, id }) => {
   const [hasVoted, setHasVoted] = useState(0);
 
-  const downVote = async () => {
-    if (hasVoted > -1) {
-      setHasVoted(hasVoted - 1);
-    } else {
-      setHasVoted(0);
-    }
-
-    await client.mutate({
+  const vote = async dir => {
+    return client.mutate({
       mutation: CREATE_QUESTION_VOTE_MUTATION,
       variables: {
         questionId: id,
-        vote: 'down'
+        vote: dir
       },
       refetchQueries: [{ query: questionQuery, variables: { id } }]
     });
   };
 
-  const upVote = async () => {
-    if (hasVoted < 1) {
-      setHasVoted(hasVoted + 1);
-    } else {
-      setHasVoted(0);
+  const downVote = async () => {
+    switch (hasVoted) {
+      case 0:
+        // can vote
+        setHasVoted(-1);
+        await vote('down');
+        break;
+      case 1:
+        // cancel previous vote
+        setHasVoted(-1);
+        await vote('down');
+        break;
+      case -1:
+        // already voted - should cancel vote, but not implemented in resolver
+        break;
+      default:
+        break;
     }
+  };
 
-    await client.mutate({
-      mutation: CREATE_QUESTION_VOTE_MUTATION,
-      variables: {
-        questionId: id,
-        vote: 'up'
-      },
-      refetchQueries: [{ query: questionQuery, variables: { id } }]
-    });
+  const upVote = async () => {
+    switch (hasVoted) {
+      case 0:
+        // can vote
+        setHasVoted(1);
+        await vote('up');
+        break;
+      case 1:
+        // already voted - should cancel vote, but not implemented in resolver
+        break;
+      case -1:
+        // cancel previous vote
+        setHasVoted(1);
+        await vote('up');
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -91,7 +108,7 @@ const Vote = ({ classes, client, id }) => {
                   : {}
               }
             >
-              {data.question.upVotes - data.question.downVotes + hasVoted}
+              {data.question.upVotes - data.question.downVotes}
             </div>
             <Tooltip
               title="vote down"
