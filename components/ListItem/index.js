@@ -108,8 +108,8 @@ const ListItem = ({
       variables: {
         questionId: id,
         vote: 'up'
-      }
-      // refetchQueries: [{ query: questionQuery, variables: { id } }],
+      },
+      refetchQueries: [{ query: questionQuery, variables: { id } }]
     });
   };
 
@@ -119,8 +119,8 @@ const ListItem = ({
       variables: {
         questionId: id,
         vote: 'down'
-      }
-      // refetchQueries: [{ query: questionQuery, variables: { id } }],
+      },
+      refetchQueries: [{ query: questionQuery, variables: { id } }]
     });
   };
 
