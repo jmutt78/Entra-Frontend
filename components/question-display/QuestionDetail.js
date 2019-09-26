@@ -13,18 +13,19 @@ import './index.css';
 
 const styles = ({ layout, palette, spacing }) => ({
   container: {
-    padding: '5px 15px'
+    padding: '10px 0'
   },
   body: {
     color: '#2d3436', //palette.accent.dark,
-    padding: '5px 0 15px 0',
-
+    // TODO make this smaller on mobile, 10 - 25 - 50
+    padding: '5px 25px 5px 25px',
     margin: 0,
-    maxWidth: 800,
     fontWeight: 300
-    // wordBreak: 'break-all',
   },
-  bodyText: {},
+  bodyText: {
+    whiteSpace: 'pre-wrap',
+    fontSize: '1rem'
+  },
   editButton: {
     backgroundColor: '#85bdcb' //palette.accent.blue,
   }
@@ -125,7 +126,7 @@ const QuestionDetail = ({
       {/*<PromptBar classes={classes} user={user} />*/}
 
       <div className={classes.body}>
-        <pre className={classes.bodyText}>{description}</pre>
+        <div className={classes.bodyText}>{description}</div>
       </div>
 
       <div style={{ paddingBottom: 10 }}>

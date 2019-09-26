@@ -5,7 +5,6 @@ import gql from 'graphql-tag';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -96,9 +95,6 @@ class CreateAnswer extends React.Component {
 
     return num === true ? null : (
       <div className={classes.container}>
-        <div style={{ maxWidth: 600, marginLeft: '-10px' }}>
-          <Divider variant="middle" />
-        </div>
         <Typography variant="h6" className={classes.title}>
           Have an answer?
         </Typography>

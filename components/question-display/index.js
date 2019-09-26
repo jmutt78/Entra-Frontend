@@ -63,7 +63,8 @@ const viewsStyles = ({ palette, layout }) => ({
 
 const creditsStyles = ({ palette, layout }) => ({
   creditsContainer: {
-    padding: '0 0 20px 20px',
+    // TODO move with body text 10 - 25 - 50
+    padding: '0 0 10px 20px',
     display: 'flex',
     alignItems: 'center'
   },
@@ -291,6 +292,10 @@ class DisplayQuestion extends Component {
                 user={question.askedBy[0]}
                 createdAt={question.createdAt}
               />
+
+              <div style={{ maxWidth: 1000, padding: '15px 0 20px 0' }}>
+                <Divider variant="middle" />
+              </div>
 
               <Answers id={this.props.id} question={question} />
               <CreateAnswer question={question} />
