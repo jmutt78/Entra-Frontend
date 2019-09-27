@@ -1,11 +1,12 @@
-import React, { Component } from "react";
-import { Mutation } from "react-apollo";
-import { withStyles } from "@material-ui/core/styles";
-import questionListQuery from "../question-list/questionListQuery";
-import Error from "./../ErrorMessage.js";
-import gql from "graphql-tag";
-import Bookmark from "@material-ui/icons/Bookmark";
-import { CURRENT_USER_QUERY } from "../auth/User";
+import React, { Component } from 'react';
+import { Mutation } from 'react-apollo';
+import { withStyles } from '@material-ui/core/styles';
+import questionListQuery from '../question-list/questionListQuery';
+import Error from './../ErrorMessage.js';
+import gql from 'graphql-tag';
+import Bookmark from '@material-ui/icons/Bookmark';
+import { CURRENT_USER_QUERY } from '../auth/User';
+import { Mixpanel } from '../../utils/Mixpanel';
 
 export const DELETE_BOOKMARK_MUTATION = gql`
   mutation DELETE_BOOKMARK_MUTATION($id: ID!) {
@@ -18,8 +19,8 @@ export const DELETE_BOOKMARK_MUTATION = gql`
 const styles = {
   icon: {
     fontSize: 30,
-    cursor: "pointer",
-    color: "#E27D60"
+    cursor: 'pointer',
+    color: '#E27D60'
   }
 };
 
@@ -34,7 +35,7 @@ class DeleteBookMark extends Component {
         refetchQueries={[
           {
             query: questionListQuery,
-            variables: { filter: "My BookMarked" }
+            variables: { filter: 'My BookMarked' }
           },
           { query: CURRENT_USER_QUERY }
         ]}
@@ -45,6 +46,7 @@ class DeleteBookMark extends Component {
               className={classes.icon}
               onClick={() => {
                 deleteBookMark();
+                Mixpanel.track('Delete Bookmark');
               }}
             >
               Mark

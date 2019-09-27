@@ -1,13 +1,14 @@
-import React, { Component } from "react";
-import { Mutation } from "react-apollo";
-import { withStyles } from "@material-ui/core/styles";
-import DeleteBookMark from "./UpdateBookMark";
-import questionListQuery from "../question-list/questionListQuery";
-import gql from "graphql-tag";
-import BookmarkBorder from "@material-ui/icons/BookmarkBorder";
-import { CURRENT_USER_QUERY } from "../auth/User";
-import questionQuery from "../question-display/questionQuery";
-import Error from "./../ErrorMessage.js";
+import React, { Component } from 'react';
+import { Mutation } from 'react-apollo';
+import { withStyles } from '@material-ui/core/styles';
+import DeleteBookMark from './UpdateBookMark';
+import questionListQuery from '../question-list/questionListQuery';
+import gql from 'graphql-tag';
+import BookmarkBorder from '@material-ui/icons/BookmarkBorder';
+import { CURRENT_USER_QUERY } from '../auth/User';
+import questionQuery from '../question-display/questionQuery';
+import { Mixpanel } from '../../utils/Mixpanel';
+import Error from './../ErrorMessage.js';
 
 export const CREATE_BOOKMARK_MUTATION = gql`
   mutation createBookMark($questionId: ID!) {
@@ -20,8 +21,8 @@ export const CREATE_BOOKMARK_MUTATION = gql`
 const styles = {
   icon: {
     fontSize: 30,
-    cursor: "pointer",
-    marginTop: 5,
+    cursor: 'pointer',
+    marginTop: 5
   }
 };
 
@@ -33,6 +34,7 @@ class CreateBookMark extends Component {
         questionId: this.props.question.id
       }
     });
+    Mixpanel.track('Create Bookmark');
   };
 
   handleBookMark(user, question, classes, createBookMark) {
@@ -90,7 +92,7 @@ class CreateBookMark extends Component {
           { query: CURRENT_USER_QUERY },
           {
             query: questionListQuery,
-            variables: { filter: "My BookMarked" }
+            variables: { filter: 'My BookMarked' }
           }
         ]}
       >
