@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 // import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
+import { Mixpanel } from '../../utils/Mixpanel';
 import Avatar from '../Avatar';
 import './index.css';
 
@@ -137,6 +138,14 @@ const ListItem = ({
       });
     }
   };
+  function handleTracking(e) {
+    Mixpanel.track('Question Link');
+    router.push(linkTo);
+  }
+
+  function handleUserTracking(e) {
+    Mixpanel.track('User Profile');
+  }
 
   return (
     <div className={classes.container}>
@@ -176,7 +185,7 @@ const ListItem = ({
         <Typography
           variant="h6"
           className={classes.title}
-          onClick={() => router.push(linkTo)}
+          onClick={handleTracking}
         >
           {title}
         </Typography>
@@ -203,7 +212,9 @@ const ListItem = ({
               query: { id: userId }
             }}
           >
-            <a className={classes.nameLink}>{display}</a>
+            <a className={classes.nameLink} onClick={handleUserTracking}>
+              {display}
+            </a>
           </Link>{' '}
           on <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
           <span> · </span>

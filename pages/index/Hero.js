@@ -3,6 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import { withRouter } from 'next/router';
 
 import User from '../../components/auth/User';
+import { Mixpanel } from '../../utils/Mixpanel';
 
 const Hero = ({ router }) => {
   return (
@@ -23,6 +24,7 @@ const Hero = ({ router }) => {
                 onClick={e => {
                   e.preventDefault();
                   e.stopPropagation();
+                  Mixpanel.track('Ask A Question Hero');
                   router.push({
                     pathname: '/signup'
                   });

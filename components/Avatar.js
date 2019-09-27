@@ -7,6 +7,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
+import { Mixpanel } from '../utils/Mixpanel';
 
 import Signout from './auth/Signout';
 
