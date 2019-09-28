@@ -47,6 +47,10 @@ const styles = ({ palette, layout }) => ({
     lineHeight: '2.7rem',
     fontWeight: 600,
     letterSpacing: '-1px'
+  },
+  bodyText: {
+    whiteSpace: 'pre-wrap',
+    fontSize: '1rem'
   }
 });
 
@@ -327,15 +331,11 @@ class DisplayQuestion extends Component {
                 <Divider variant="middle" />
               </div>
 
-              <QuestionDetail
-                item={question}
-                linkTo={{
-                  pathname: '/question',
-                  query: { id: question.id }
-                }}
-                question={question}
-                user={user}
-              />
+              {question.description && (
+                <div className="QuestionDetail-body">
+                  <div className={classes.bodyText}>{question.description}</div>
+                </div>
+              )}
 
               <Credits
                 user={question.askedBy[0]}
