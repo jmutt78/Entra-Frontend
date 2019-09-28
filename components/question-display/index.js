@@ -328,7 +328,7 @@ class DisplayQuestion extends Component {
               </div>
 
               <div className="questionDetail-divider">
-                {!user ? <Divider variant="middle" /> : <PromptBar />}
+                {user ? <Divider variant="middle" /> : <PromptBar />}
               </div>
 
               {question.description && (

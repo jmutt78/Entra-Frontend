@@ -8,14 +8,16 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = ({ layout, palette, spacing }) => ({
   textTop: {
     color: 'white',
-    fontSize: 20
+    fontSize: 20,
+    display: 'flex',
+    flexWrap: 'wrap'
   },
   container: {
     backgroundColor: '#85BDCB',
     boxShadow: 'none',
     width: '100%',
     display: 'flex',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     alignItems: 'center',
     padding: '20px'
   },
@@ -33,7 +35,7 @@ const PromptBar = ({ classes }) => {
     <div className="promptBar-wrapper">
       <div className={classes.container} position="static">
         <Typography className={classes.textTop}>
-          Do you have an Answer? 👉
+          Do you have an Answer?
         </Typography>
 
         <Link href="/signup">
