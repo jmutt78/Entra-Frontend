@@ -17,7 +17,6 @@ const styles = ({ layout, palette, spacing }) => ({
   },
   body: {
     color: '#2d3436', //palette.accent.dark,
-    // TODO make this smaller on mobile, 10 - 25 - 50
     padding: '5px 25px 5px 25px',
     margin: 0,
     fontWeight: 300

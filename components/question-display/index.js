@@ -63,7 +63,6 @@ const viewsStyles = ({ palette, layout }) => ({
 
 const creditsStyles = ({ palette, layout }) => ({
   creditsContainer: {
-    // TODO move with body text 10 - 25 - 50
     padding: '0 0 10px 20px',
     display: 'flex',
     alignItems: 'center'

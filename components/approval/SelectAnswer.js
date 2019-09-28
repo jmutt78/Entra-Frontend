@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { Mutation } from "react-apollo";
-import { withStyles } from "@material-ui/core/styles";
-import questionQuery from "../question-display/questionQuery.js";
-import gql from "graphql-tag";
-import Button from "@material-ui/core/Button";
-import Icon from "@material-ui/core/Icon";
-import CheckIcon from "@material-ui/icons/Check";
-import Error from "./../ErrorMessage.js";
+import React, { Component } from 'react';
+import { Mutation } from 'react-apollo';
+import { withStyles } from '@material-ui/core/styles';
+import questionQuery from '../question-display/questionQuery.js';
+import gql from 'graphql-tag';
+import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
+import CheckIcon from '@material-ui/icons/Check';
+import Error from './../ErrorMessage.js';
 
 export const SELECT_ANSWER_MUTATION = gql`
   mutation selectAnswer($id: ID!) {
@@ -18,7 +18,7 @@ export const SELECT_ANSWER_MUTATION = gql`
 
 const styles = {
   buttonAccept: {
-    backgroundColor: "#85BDCB",
+    backgroundColor: '#85BDCB',
     marginTop: 10
   },
   acceptedText: {
@@ -26,11 +26,11 @@ const styles = {
     marginRight: 10
   },
   selected: {
-    backgroundColor: "#badc58",
+    backgroundColor: '#badc58',
     marginTop: 10,
-    cursor: "default",
-    "&:hover": {
-      backgroundColor: "#badc58"
+    cursor: 'default',
+    '&:hover': {
+      backgroundColor: '#badc58'
     }
   }
 };
@@ -47,7 +47,6 @@ class SelectAnswer extends Component {
 
   render() {
     const { classes, questionId, selected, canSelect } = this.props;
-    // TODO style this
     if (selected) {
       return (
         <Button className={classes.selected} variant="contained">
