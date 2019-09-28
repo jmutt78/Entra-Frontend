@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { format, parseISO } from 'date-fns';
+import classNames from 'classnames';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -78,12 +79,19 @@ const styles = ({ spacing, palette }) => ({
   },
   credits: {
     paddingTop: 5,
+    paddingRight: 25,
     display: 'flex',
     alignItems: 'center',
+    // flexDirection: 'column-reverse',
     justifyContent: 'space-between'
   },
-  voteContainer: {
-    display: 'flex'
+  voteContainer1: {
+    display: 'flex',
+    marginTop: 3
+  },
+  voteContainer2: {
+    display: 'flex',
+    marginTop: 6
   },
   voteButton: {
     cursor: 'pointer'
@@ -91,12 +99,12 @@ const styles = ({ spacing, palette }) => ({
   upVote: {
     color: '#e8a77f',
     fontSize: '1.4rem',
-    padding: '8px 8px 5px 0'
+    padding: '12px 8px 8px 0'
   },
   downVote: {
     color: '#85bdcb',
     fontSize: '1.4rem',
-    padding: '8px 0 5px 8px'
+    padding: '8px 0 13px 8px'
   }
 });
 
@@ -225,7 +233,7 @@ const Answer = ({ answer, classes, user, client, question }) => {
       </div>
 
       <div className="answerFooter">
-        <div className={classes.credits}>
+        <div className={classNames(classes.credits, 'answerFooterCredits')}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Link
               href={{
@@ -261,14 +269,14 @@ const Answer = ({ answer, classes, user, client, question }) => {
             </div>
           </div>
 
-          <div className="votesContainer">
+          <div className="answer-votesContainer">
             <Tooltip
               title="vote up"
               placement="top"
               className={classes.voteButton}
               onClick={() => upVote(answer.id)}
             >
-              <div className={classes.voteContainer}>
+              <div className={classes.voteContainer1}>
                 <span className={classes.upVote}>{answer.upVotes}</span>
                 <img src="/static/thumb_up.svg" />
               </div>
@@ -280,7 +288,7 @@ const Answer = ({ answer, classes, user, client, question }) => {
               className={classes.voteButton}
               onClick={() => downVote(answer.id)}
             >
-              <div className={classes.voteContainer}>
+              <div className={classes.voteContainer2}>
                 <img src="/static/thumb_down.svg" />
                 <span className={classes.downVote}>{answer.downVotes}</span>
               </div>
