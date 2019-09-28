@@ -22,7 +22,7 @@ import DeleteQuestion from '../delete-question';
 import Error from './../ErrorMessage.js';
 import Icon from '../ui/Icon';
 import NoQuestion from './NoQuestion';
-import QuestionDetail from './QuestionDetail';
+import PromptBar from './PromptBar';
 import Vote from '../Vote';
 import questionQuery from './questionQuery';
 import { CURRENT_USER_QUERY } from '../auth/User';
@@ -328,7 +328,7 @@ class DisplayQuestion extends Component {
               </div>
 
               <div className="questionDetail-divider">
-                <Divider variant="middle" />
+                {!user ? <Divider variant="middle" /> : <PromptBar />}
               </div>
 
               {question.description && (
