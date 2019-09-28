@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { Mutation } from "react-apollo";
-import { withStyles } from "@material-ui/core/styles";
-import questionQuery from "../question-display/questionQuery.js";
-import gql from "graphql-tag";
-import Button from "@material-ui/core/Button";
-import Error from "./../ErrorMessage.js";
+import React, { Component } from 'react';
+import { Mutation } from 'react-apollo';
+import { withStyles } from '@material-ui/core/styles';
+import questionQuery from '../question-display/questionQuery.js';
+import gql from 'graphql-tag';
+import Button from '@material-ui/core/Button';
+import Error from './../ErrorMessage.js';
 
 export const APPROVE_QUESTION_MUTATION = gql`
   mutation updateQuestion($id: ID!, $approval: Boolean) {
@@ -25,26 +25,15 @@ export const APPROVE_QUESTION_MUTATION = gql`
 `;
 
 const styles = {
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20
+  buttonContainer: {
+    display: 'inline',
+    padding: '0 5px'
   },
   buttonReject: {
-    backgroundColor: "#E27D60",
-    marginTop: 10
+    backgroundColor: '#E27D60'
   },
   buttonAccept: {
-    backgroundColor: "#85BDCB",
-    marginTop: 10
-  },
-  buttonAccepted: {
-    backgroundColor: "#85BDCB",
-    marginTop: 10,
-    marginRight: 10
-  },
-  buttonRejected: {
-    backgroundColor: "#E27D60",
-    marginTop: 10
+    backgroundColor: '#85BDCB'
   }
 };
 
@@ -63,7 +52,7 @@ class ApproveQuestion extends Component {
       }
     });
 
-    console.log("Updated!!");
+    console.log('Updated!!');
   };
 
   handleReject = async (e, updateQuestion) => {
@@ -76,7 +65,7 @@ class ApproveQuestion extends Component {
       }
     });
 
-    console.log("Updated!!");
+    console.log('Updated!!');
   };
 
   render() {
@@ -102,47 +91,55 @@ class ApproveQuestion extends Component {
         {(updateQuestion, { error, loading }) => {
           if (approval === null) {
             return (
-              <div>
+              <>
                 <Error error={error} />
+                <div className={classes.buttonContainer}>
+                  <Button
+                    className={classes.buttonAccept}
+                    variant="contained"
+                    onClick={e => this.handleApproval(e, updateQuestion)}
+                  >
+                    Approve
+                  </Button>
+                </div>
+                <div className={classes.buttonContainer}>
+                  <Button
+                    className={classes.buttonReject}
+                    variant="contained"
+                    onClick={e => this.handleReject(e, updateQuestion)}
+                  >
+                    Reject
+                  </Button>
+                </div>
+              </>
+            );
+          } else if (!isApproved) {
+            return (
+              <>
+                <div className={classes.buttonContainer}>
+                  <Button
+                    className={classes.buttonAccept}
+                    variant="contained"
+                    onClick={e => this.handleApproval(e, updateQuestion)}
+                  >
+                    Approve
+                  </Button>
+                </div>
+              </>
+            );
+          }
+          return (
+            <>
+              <div className={classes.buttonContainer}>
                 <Button
-                  className={classes.buttonAccepted}
-                  variant="contained"
-                  onClick={e => this.handleApproval(e, updateQuestion)}
-                >
-                  Approve
-                </Button>
-                <Button
-                  className={classes.buttonRejected}
+                  className={classes.buttonReject}
                   variant="contained"
                   onClick={e => this.handleReject(e, updateQuestion)}
                 >
                   Reject
                 </Button>
               </div>
-            );
-          } else if (!isApproved) {
-            return (
-              <div>
-                <Button
-                  className={classes.buttonAccept}
-                  variant="contained"
-                  onClick={e => this.handleApproval(e, updateQuestion)}
-                >
-                  Approve
-                </Button>
-              </div>
-            );
-          }
-          return (
-            <div>
-              <Button
-                className={classes.buttonReject}
-                variant="contained"
-                onClick={e => this.handleReject(e, updateQuestion)}
-              >
-                Reject
-              </Button>
-            </div>
+            </>
           );
         }}
       </Mutation>
