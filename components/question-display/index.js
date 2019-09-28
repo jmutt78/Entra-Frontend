@@ -1,20 +1,29 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
-
-import { withStyles } from '@material-ui/core/styles';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { withRouter } from 'next/router';
+import { format, parseISO } from 'date-fns';
 
-import Answers from '../answers-display';
-import CreateBookMark from '../bookmark/CreateBookMark.js';
-import CreateAnswer from '../create-answer';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
+import Link from 'next/link';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
 
+import Answers from '../answers-display';
+import ApproveQuestion from '../approval/AppoveQuestion.js';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import CreateAnswer from '../create-answer';
+import CreateBookMark from '../bookmark/CreateBookMark.js';
+import DeleteQuestion from '../delete-question';
 import Error from './../ErrorMessage.js';
+import Icon from '../ui/Icon';
 import NoQuestion from './NoQuestion';
-import QuestionDetail from './QuestionDetail';
+import PromptBar from './PromptBar';
+import Vote from '../Vote';
 import questionQuery from './questionQuery';
 import { CURRENT_USER_QUERY } from '../auth/User';
 import { Mixpanel } from '../../utils/Mixpanel';
@@ -24,46 +33,59 @@ import './index.css';
 const styles = ({ palette, layout }) => ({
   container: {
     width: '100%',
-    maxWidth: 1200,
-
+    maxWidth: 1000,
+    paddingTop: 5,
     height: '100%',
     minHeight: 'calc(100%)-80px-80px' //layout.contentMinHeight,
   },
   title: {
-    fontSize: '40px',
-    textAlign: 'Left',
     color: 'rgba(0, 0, 0, 0.87)',
-    lineHeight: '3rem',
+    display: 'flex',
+    alignItems: 'center'
+  },
+  titleText: {
+    fontSize: '33px',
+    lineHeight: '2.7rem',
     fontWeight: 600,
     letterSpacing: '-1px'
   },
-  voteContainer: {
-    display: 'flex'
-  },
-  voteButton: {
-    cursor: 'pointer'
-  },
-  upVote: {
-    color: palette.primary.main,
-    fontSize: '1.4rem',
-    padding: '0 1rem'
-  },
-  downVote: {
-    color: '#85bdcb', //palette.accent.blue,
-    fontSize: '1.4rem',
-    padding: '0 1rem'
-  },
-  viewsCount: {
-    color: '#2d3436', //palette.accent.dark,
-    fontSize: '1.4rem'
+  bodyText: {
+    whiteSpace: 'pre-wrap',
+    fontSize: '1rem'
   }
 });
 
-export const CREATE_QUESTION_VOTE_MUTATION = gql`
-  mutation CREATE_QUESTION_VOTE_MUTATION($questionId: ID!, $vote: String) {
-    createQuestionVote(questionId: $questionId, vote: $vote)
+const viewsStyles = ({ palette, layout }) => ({
+  viewsCount: {
+    color: '#2d3436', //palette.accent.dark,
+    fontSize: '1.2rem',
+    padding: '5px 0 5px 8px'
   }
-`;
+});
+
+const creditsStyles = ({ palette, layout }) => ({
+  creditsContainer: {
+    padding: '0 0 10px 20px',
+    display: 'flex',
+    alignItems: 'center'
+  },
+  avatar: {
+    width: 70,
+    height: 70,
+    cursor: 'pointer'
+  },
+  nameLink: {
+    fontWeight: 500,
+    textDecoration: 'none',
+    color: '#e27d60'
+  }
+});
+
+const editStyles = ({ palette, layout }) => ({
+  editButton: {
+    backgroundColor: palette.accent.blue
+  }
+});
 
 export const CREATE_QUESTION_VIEW_MUTATION = gql`
   mutation CREATE_QUESTION_VIEW_MUTATION($questionId: ID!) {
@@ -71,7 +93,7 @@ export const CREATE_QUESTION_VIEW_MUTATION = gql`
   }
 `;
 
-const Wrapper = ({ client, classes, id }) => {
+const Wrapper = ({ client, classes, id, router }) => {
   return (
     <Query
       query={questionQuery}
@@ -90,12 +112,155 @@ const Wrapper = ({ client, classes, id }) => {
             question={question}
             client={client}
             classes={classes}
+            router={router}
           />
         );
       }}
     </Query>
   );
 };
+
+const Tags = ({ tags, router }) => {
+  if (!tags || !tags.length) return null;
+
+  return (
+    <div className="tagButtons">
+      {tags.map(({ id, name }) => (
+        <div key={id} style={{ padding: '2px 0' }}>
+          <Button
+            size="small"
+            variant="contained"
+            onClick={e => {
+              e.preventDefault();
+              e.stopPropagation();
+              router.push({
+                pathname: '/tags',
+                query: { id }
+              });
+            }}
+          >
+            {name}
+          </Button>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const Views = withStyles(viewsStyles)(({ views, classes }) => {
+  return (
+    <Tooltip title={`${views} views`} placement="top">
+      <div className="viewContainer">
+        <Icon src="/static/visibility.svg" />
+        <span className={classes.viewsCount}>{`${views} ${
+          views > 1 ? 'views' : 'view'
+        }`}</span>
+      </div>
+    </Tooltip>
+  );
+});
+
+const Bookmark = withStyles(viewsStyles)(({ user, question, classes }) => {
+  if (!user) {
+    return null;
+  }
+
+  return (
+    <Tooltip title="Bookmark this" placement="top">
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <CreateBookMark user={user} question={question} />
+      </div>
+    </Tooltip>
+  );
+});
+
+const Credits = withStyles(creditsStyles)(({ classes, user, createdAt }) => {
+  return (
+    <div className={classes.creditsContainer}>
+      <Link
+        href={{
+          pathname: '/user',
+          query: { id: user.id }
+        }}
+      >
+        {user.image === null || user.image === '' ? (
+          <Avatar className={classes.avatar}>{user.display[0]}</Avatar>
+        ) : (
+          <Avatar alt={user.name} src={user.image} className={classes.avatar} />
+        )}
+      </Link>
+
+      <div style={{ padding: '0 0 0 10px' }}>
+        Asked by{' '}
+        <Link
+          href={{
+            pathname: '/user',
+            query: { id: user.id }
+          }}
+        >
+          <a className={classes.nameLink}>{user.display}</a>
+        </Link>{' '}
+        on <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
+      </div>
+    </div>
+  );
+});
+
+const EditSection = withStyles(editStyles)(
+  ({ question, user, classes, hasPermissions }) => {
+    const answers = question.answers.length;
+    const date1 = new Date(question.createdAt);
+    const date2 = new Date();
+    const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
+
+    return (user &&
+      question.askedBy[0].id === user.id &&
+      diffDays <= 1 &&
+      !answers) ||
+      hasPermissions ? (
+      <>
+        <Typography className="editSection-container" component={'div'}>
+          {user &&
+            question.askedBy[0].id === user.id &&
+            diffDays <= 1 &&
+            !answers && (
+              <>
+                <Link
+                  href={{
+                    pathname: '/edit-question',
+                    query: { id: question.id }
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    className={classes.editButton}
+                  >
+                    EDIT
+                  </Button>
+                </Link>
+                <DeleteQuestion id={question.id} />
+              </>
+            )}
+          {hasPermissions && (
+            <div style={{ display: 'inline', paddingLeft: 5 }}>
+              <ApproveQuestion
+                hasPermissions={hasPermissions}
+                isApproved={question.approval === true}
+                id={question.id}
+                approval={question.approval}
+              />
+            </div>
+          )}
+        </Typography>
+
+        <div className="questionDetail-divider">
+          <Divider variant="middle" />
+        </div>
+      </>
+    ) : null;
+  }
+);
 
 class DisplayQuestion extends Component {
   componentDidMount() {
@@ -113,33 +278,6 @@ class DisplayQuestion extends Component {
       query: CURRENT_USER_QUERY
     });
   }
-  upVote = () => {
-    this.props.client.mutate({
-      mutation: CREATE_QUESTION_VOTE_MUTATION,
-      variables: {
-        questionId: this.props.question.id,
-        vote: 'up'
-      },
-      refetchQueries: [
-        { query: questionQuery, variables: { id: this.props.question.id } }
-      ]
-    });
-    Mixpanel.track('upVote');
-  };
-  downVote = () => {
-    this.props.client.mutate({
-      mutation: CREATE_QUESTION_VOTE_MUTATION,
-      variables: {
-        questionId: this.props.question.id,
-        vote: 'down'
-      },
-      refetchQueries: [
-        { query: questionQuery, variables: { id: this.props.question.id } }
-      ]
-    });
-    Mixpanel.track('downVote');
-  };
-
   render() {
     const { classes, question } = this.props;
 
@@ -157,62 +295,63 @@ class DisplayQuestion extends Component {
               ['ADMIN', 'MODERATOR'].includes(permission)
             );
           const ownsQuestion = !!askedby && !!user && askedby.id === user.id;
-          const isApproved = question.approval === true;
 
-          if (!ownsQuestion && !hasPermissions && !isApproved) {
-            return <NoQuestion />;
-          }
+          // if (!ownsQuestion && !hasPermissions && question.approval === true) {
+          //   return <NoQuestion />;
+          // }
 
           return (
             <div className={classes.container} id="tableBorderRemoveTarget">
               <div className="titleContainer">
                 <Typography variant="h6" className={classes.title}>
-                  {question.title}
+                  <div className="voteContainer">
+                    <Vote id={question.id} />
+                  </div>
+                  <div className={classes.titleText}>{question.title}</div>
                 </Typography>
+              </div>
 
-                <div className="controls">
-                  <Tooltip
-                    title="vote up"
-                    placement="top"
-                    className={classes.voteButton}
-                    onClick={this.upVote}
-                  >
-                    <div className={classes.voteContainer}>
-                      <span className={classes.upVote}>{question.upVotes}</span>
-                      <img src="/static/thumb_up.svg" />{' '}
-                    </div>
-                  </Tooltip>
-                  <span>{'  '}</span>
-                  <Tooltip
-                    title="vote down"
-                    placement="top"
-                    className={classes.voteButton}
-                    onClick={this.downVote}
-                  >
-                    <div className={classes.voteContainer}>
-                      <img src="/static/thumb_down.svg" />
-                      <span className={classes.downVote}>
-                        {question.downVotes}
-                      </span>
-                    </div>
-                  </Tooltip>
-
-                  {user && (
-                    <Tooltip title="Bookmark this" placement="top">
-                      <CreateBookMark user={user} question={question} />
-                    </Tooltip>
-                  )}
+              <div className="subHeadingContainer">
+                <Tags tags={question.tags} router={this.props.router} />
+                <div
+                  style={{
+                    display: 'flex',
+                    cursor: 'pointer',
+                    padding: '10px 0 20px 0',
+                    alignItems: 'center',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <Bookmark user={user} question={question} />
+                  {'   '}
+                  <Views views={question.views} />
                 </div>
               </div>
 
-              <QuestionDetail
-                item={question}
-                linkTo={{
-                  pathname: '/question',
-                  query: { id: question.id }
-                }}
+              <div className="questionDetail-divider">
+                {user ? <Divider variant="middle" /> : <PromptBar />}
+              </div>
+
+              {question.description && (
+                <div className="QuestionDetail-body">
+                  <div className={classes.bodyText}>{question.description}</div>
+                </div>
+              )}
+
+              <Credits
+                user={question.askedBy[0]}
+                createdAt={question.createdAt}
+              />
+
+              <div style={{ maxWidth: 1000, padding: '15px 0 20px 0' }}>
+                <Divider variant="middle" />
+              </div>
+
+              <EditSection
                 question={question}
                 user={user}
+                classes={classes}
+                hasPermissions={hasPermissions}
               />
 
               <Answers id={this.props.id} question={question} />
@@ -225,4 +364,4 @@ class DisplayQuestion extends Component {
   }
 }
 
-export default withStyles(styles)(withApollo(Wrapper));
+export default withRouter(withStyles(styles)(withApollo(Wrapper)));

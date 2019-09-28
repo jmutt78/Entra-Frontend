@@ -21,8 +21,12 @@ export const CREATE_BOOKMARK_MUTATION = gql`
 const styles = {
   icon: {
     fontSize: 30,
-    cursor: 'pointer',
-    marginTop: 5
+    marginTop: 3
+  },
+  viewsCount: {
+    color: '#2d3436', //palette.accent.dark,
+    fontSize: '1.2rem',
+    padding: '8px 0 5px 8px'
   }
 };
 
@@ -54,13 +58,12 @@ class CreateBookMark extends Component {
 
     if (!result[0]) {
       return (
-        <div>
-          <BookmarkBorder
-            className={classes.icon}
-            onClick={e => this.submitForm(e, createBookMark)}
-          >
-            Mark
-          </BookmarkBorder>
+        <div
+          onClick={e => this.submitForm(e, createBookMark)}
+          style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+        >
+          <BookmarkBorder className={classes.icon} />
+          <span className={classes.viewsCount}>Bookmark this</span>
         </div>
       );
     } else {

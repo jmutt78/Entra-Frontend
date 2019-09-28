@@ -5,7 +5,6 @@ import gql from 'graphql-tag';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -18,7 +17,7 @@ const styles = ({ spacing, palette }) => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    padding: '40px 0 30px 20px'
+    padding: '20px 0 30px 20px'
   },
   inputField: {
     width: '100%',
@@ -42,7 +41,7 @@ const styles = ({ spacing, palette }) => ({
     lineHeight: '2.5rem'
   },
   button: {
-    margin: '20px 0 5px 0',
+    margin: '5px 0 5px 0',
     background: '#d5d5d5'
     // '&:hover': {
     //   background: '#2d3436',
@@ -96,13 +95,6 @@ class CreateAnswer extends React.Component {
 
     return num === true ? null : (
       <div className={classes.container}>
-        <div style={{ maxWidth: 600, marginLeft: '-10px' }}>
-          <Divider variant="middle" />
-        </div>
-        <Typography variant="h6" className={classes.title}>
-          Have an answer?
-        </Typography>
-
         <form method="post" onSubmit={e => this.submitForm(e, createQuestion)}>
           <fieldset
             disabled={loading}
@@ -114,7 +106,7 @@ class CreateAnswer extends React.Component {
           >
             <label htmlFor="body">
               <TextField
-                label="Answer"
+                label="Write an Answer"
                 type="text"
                 name="body"
                 variant="filled"
