@@ -14,9 +14,11 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
 import Answers from '../answers-display';
+import ApproveQuestion from '../approval/AppoveQuestion.js';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CreateAnswer from '../create-answer';
 import CreateBookMark from '../bookmark/CreateBookMark.js';
+import DeleteQuestion from '../delete-question';
 import Error from './../ErrorMessage.js';
 import Icon from '../ui/Icon';
 import NoQuestion from './NoQuestion';
@@ -71,6 +73,12 @@ const creditsStyles = ({ palette, layout }) => ({
     fontWeight: 500,
     textDecoration: 'none',
     color: '#e27d60'
+  }
+});
+
+const editStyles = ({ palette, layout }) => ({
+  editButton: {
+    backgroundColor: palette.accent.blue
   }
 });
 
@@ -193,6 +201,62 @@ const Credits = withStyles(creditsStyles)(({ classes, user, createdAt }) => {
   );
 });
 
+const EditSection = withStyles(editStyles)(
+  ({ question, user, classes, hasPermissions }) => {
+    const answers = question.answers.length;
+    const date1 = new Date(question.createdAt);
+    const date2 = new Date();
+    const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
+
+    return (user &&
+      question.askedBy[0].id === user.id &&
+      diffDays <= 1 &&
+      !answers) ||
+      hasPermissions ? (
+      <>
+        <Typography className="editSection-container" component={'div'}>
+          {user &&
+            question.askedBy[0].id === user.id &&
+            diffDays <= 1 &&
+            !answers && (
+              <>
+                <Link
+                  href={{
+                    pathname: '/edit-question',
+                    query: { id: question.id }
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    className={classes.editButton}
+                  >
+                    EDIT
+                  </Button>
+                </Link>
+                <DeleteQuestion id={question.id} />
+              </>
+            )}
+          {hasPermissions && (
+            <div style={{ display: 'inline', paddingLeft: 5 }}>
+              <ApproveQuestion
+                hasPermissions={hasPermissions}
+                isApproved={question.approval === true}
+                id={question.id}
+                approval={question.approval}
+              />
+            </div>
+          )}
+        </Typography>
+
+        <div className="questionDetail-divider">
+          <Divider variant="middle" />
+        </div>
+      </>
+    ) : null;
+  }
+);
+
 class DisplayQuestion extends Component {
   componentDidMount() {
     this.props.client.mutate({
@@ -226,9 +290,8 @@ class DisplayQuestion extends Component {
               ['ADMIN', 'MODERATOR'].includes(permission)
             );
           const ownsQuestion = !!askedby && !!user && askedby.id === user.id;
-          const isApproved = question.approval === true;
 
-          if (!ownsQuestion && !hasPermissions && !isApproved) {
+          if (!ownsQuestion && !hasPermissions && question.approval === true) {
             return <NoQuestion />;
           }
 
@@ -282,6 +345,13 @@ class DisplayQuestion extends Component {
               <div style={{ maxWidth: 1000, padding: '15px 0 20px 0' }}>
                 <Divider variant="middle" />
               </div>
+
+              <EditSection
+                question={question}
+                user={user}
+                classes={classes}
+                hasPermissions={hasPermissions}
+              />
 
               <Answers id={this.props.id} question={question} />
               <CreateAnswer question={question} />

@@ -1,20 +1,11 @@
 import React from 'react';
-import Link from 'next/link';
-
-import Button from '@material-ui/core/Button';
-import DeleteQuestion from '../delete-question';
-import Typography from '@material-ui/core/Typography';
 import { withRouter } from 'next/router';
-import { withStyles } from '@material-ui/core/styles';
 
-import ApproveQuestion from '../approval/AppoveQuestion.js';
+import { withStyles } from '@material-ui/core/styles';
 
 import './index.css';
 
 const styles = ({ layout, palette, spacing }) => ({
-  container: {
-    padding: '10px 0'
-  },
   bodyText: {
     whiteSpace: 'pre-wrap',
     fontSize: '1rem'
@@ -67,36 +58,6 @@ const styles = ({ layout, palette, spacing }) => ({
 //   );
 // });
 
-export const EditButton = ({ question, user, classes }) => {
-  const answers = question.answers.length;
-  const date1 = new Date(question.createdAt);
-  const date2 = new Date();
-  const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
-
-  return user &&
-    question.askedBy[0].id === user.id &&
-    diffDays <= 1 &&
-    !answers ? (
-    <Typography style={{ paddingBottom: 10 }} component={'div'}>
-      <Link
-        href={{
-          pathname: '/edit-question',
-          query: { id: question.id }
-        }}
-      >
-        <Button
-          variant="contained"
-          color="secondary"
-          className={classes.editButton}
-        >
-          EDIT
-        </Button>
-      </Link>
-      <DeleteQuestion id={question.id} />
-    </Typography>
-  ) : null;
-};
-
 const QuestionDetail = ({
   item: { id, description, createdAt, tags, askedBy },
   router,
@@ -105,35 +66,15 @@ const QuestionDetail = ({
   classes,
   user
 }) => {
-  const hasPermissions =
-    !!user &&
-    user.permissions.some(permission =>
-      ['ADMIN', 'MODERATOR'].includes(permission)
-    );
-  const isApproved = question.approval === true;
-
   if (!description) return null;
 
   return (
-    <div className={classes.container}>
-      {/*<PromptBar classes={classes} user={user} />*/}
-
-      <div className="QuestionDetail-body">
-        <div className={classes.bodyText}>{description}</div>
-      </div>
-
-      <div style={{ paddingBottom: 10 }}>
-        <ApproveQuestion
-          hasPermissions={hasPermissions}
-          isApproved={isApproved}
-          id={question.id}
-          approval={question.approval}
-        />
-      </div>
-
-      <EditButton question={question} user={user} classes={classes} />
+    <div className="QuestionDetail-body">
+      <div className={classes.bodyText}>{description}</div>
     </div>
   );
 };
+
+// {[><PromptBar classes={classes} user={user} /><]}
 
 export default withRouter(withStyles(styles)(QuestionDetail));
