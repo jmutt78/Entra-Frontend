@@ -1,6 +1,7 @@
-import React from "react";
-import Typography from "@material-ui/core/Typography";
-import { withRouter } from "next/router";
+import React from 'react';
+import Typography from '@material-ui/core/Typography';
+import { withRouter } from 'next/router';
+import { Mixpanel } from '../../utils/Mixpanel';
 
 const ViewAll = ({ router }) => {
   return (
@@ -11,14 +12,15 @@ const ViewAll = ({ router }) => {
           onClick={e => {
             e.preventDefault();
             e.stopPropagation();
+            Mixpanel.track('View All Questions Landing');
             router.push({
-              pathname: "/all"
+              pathname: '/all'
             });
           }}
         >
           <Typography className="heroSignupButtonText">
-            {" "}
-            {"VIEW ALL QUESTIONS"}
+            {' '}
+            {'VIEW ALL QUESTIONS'}
           </Typography>
         </button>
       </div>

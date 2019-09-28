@@ -11,6 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 
 import Error from './../ErrorMessage.js';
+import { Mixpanel } from '../../utils/Mixpanel';
 import './index.css';
 
 import { CURRENT_USER_QUERY } from '../auth/User';
@@ -51,6 +52,9 @@ const styles = theme => ({
 });
 
 class MainInfoDisplay extends Component {
+  handleEditTrack(e) {
+    Mixpanel.track('Edit Account');
+  }
   render() {
     return (
       <Query query={CURRENT_USER_QUERY}>
@@ -95,7 +99,11 @@ class MainInfoDisplay extends Component {
                 me.id === user.id ? (
                   <Typography style={{ padding: 20 }}>
                     <Link href="/account/editaccount">
-                      <Button variant="contained" type="button">
+                      <Button
+                        variant="contained"
+                        type="button"
+                        onClick={this.handleEditTrack}
+                      >
                         EDIT ACCOUNT INFO
                       </Button>
                     </Link>

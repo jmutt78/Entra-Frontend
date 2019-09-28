@@ -1,23 +1,25 @@
-import App, { Container } from "next/app";
-import { ApolloProvider } from "react-apollo";
+import App, { Container } from 'next/app';
+import { ApolloProvider } from 'react-apollo';
 
-import withApolloClient from "../lib/with-apollo-client";
-import Page from "../components/page/Page";
+import withApolloClient from '../lib/with-apollo-client';
+import Page from '../components/page/Page';
 
-import React from "react";
-import { MuiThemeProvider } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import JssProvider from "react-jss/lib/JssProvider";
-import getPageContext from "../src/getPageContext";
+import React from 'react';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import JssProvider from 'react-jss/lib/JssProvider';
+import getPageContext from '../src/getPageContext';
 import Router from 'next/router';
 
 Router.events.on('routeChangeComplete', () => {
   if (process.env.NODE_ENV !== 'production') {
-    const els = document.querySelectorAll('link[href*="/_next/static/css/styles.chunk.css"]');
+    const els = document.querySelectorAll(
+      'link[href*="/_next/static/css/styles.chunk.css"]'
+    );
     const timestamp = new Date().valueOf();
     els[0].href = '/_next/static/css/styles.chunk.css?v=' + timestamp;
   }
-})
+});
 
 class MyApp extends App {
   constructor() {
@@ -27,7 +29,7 @@ class MyApp extends App {
 
   componentDidMount() {
     // Remove the server-side injected CSS.
-    const jssStyles = document.querySelector("#jss-server-side");
+    const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles && jssStyles.parentNode) {
       jssStyles.parentNode.removeChild(jssStyles);
     }
@@ -51,10 +53,9 @@ class MyApp extends App {
             registry={this.pageContext.sheetsRegistry}
             generateClassName={this.pageContext.generateClassName}
           >
-            <MuiThemeProvider
-              theme={this.pageContext.theme}
-            >
+            <MuiThemeProvider theme={this.pageContext.theme}>
               <CssBaseline />
+
               <Page>
                 <Component pageContext={this.pageContext} {...pageProps} />
               </Page>

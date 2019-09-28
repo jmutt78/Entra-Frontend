@@ -1,26 +1,16 @@
-import React, { useState } from 'react';
-import classNames from 'classnames';
+import React from 'react';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
-import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
 import { format, parseISO } from 'date-fns';
 
-import UpIcon from '@material-ui/icons/KeyboardArrowUp';
-import DownIcon from '@material-ui/icons/KeyboardArrowDown';
-import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 // import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
+import { Mixpanel } from '../../utils/Mixpanel';
 import Avatar from '../Avatar';
+import Vote from '../Vote';
 import './index.css';
-
-export const CREATE_QUESTION_VOTE_MUTATION = gql`
-  mutation CREATE_QUESTION_VOTE_MUTATION($questionId: ID!, $vote: String) {
-    createQuestionVote(questionId: $questionId, vote: $vote)
-  }
-`;
 
 const styles = ({ layout, palette }) => ({
   container: {
@@ -105,6 +95,7 @@ const ListItem = ({
   showDetails,
   display
 }) => {
+
   const [userVote, setUserVote] = useState(0);
 
   const upVote = () => {
@@ -150,37 +141,15 @@ const ListItem = ({
     return `${string.slice(0, s)}...`;
   };
 
+
   return (
     <div className={classes.container}>
       <div className="avatarBox">
         <Avatar me={user} small linkToId={userId} />
       </div>
       {answers && (
-        <div className={classNames(classes.votesBox, 'votesBox')}>
-          <Tooltip title="vote up" placement="top" onClick={upVote}>
-            <UpIcon
-              style={userVote > 0 ? { color: '#e8a77f' } : {}}
-              fontSize="large"
-            />
-          </Tooltip>
-          <div
-            className={classes.votesCount}
-            style={
-              userVote > 0
-                ? { color: '#e8a77f' }
-                : userVote < 0
-                ? { color: '#85bdcb' }
-                : {}
-            }
-          >
-            {upVotes - downVotes + userVote}
-          </div>
-          <Tooltip title="vote down" placement="top" onClick={downVote}>
-            <DownIcon
-              style={userVote < 0 ? { color: '#85bdcb' } : {}}
-              fontSize="large"
-            />
-          </Tooltip>
+        <div className="votesBox">
+          <Vote id={id} />
         </div>
       )}
 
@@ -188,7 +157,7 @@ const ListItem = ({
         <Typography
           variant="h6"
           className={classes.title}
-          onClick={() => router.push(linkTo)}
+          onClick={handleTracking}
         >
           {title}
         </Typography>
@@ -215,7 +184,9 @@ const ListItem = ({
               query: { id: userId }
             }}
           >
-            <a className={classes.nameLink}>{display}</a>
+            <a className={classes.nameLink} onClick={handleUserTracking}>
+              {display}
+            </a>
           </Link>{' '}
           on <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
           <span> · </span>
@@ -284,4 +255,4 @@ const ListItem = ({
   );
 };
 
-export default withRouter(withStyles(styles)(withApollo(ListItem)));
+export default withRouter(withStyles(styles)(ListItem));

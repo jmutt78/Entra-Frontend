@@ -16,6 +16,7 @@ import { withRouter } from 'next/router';
 import { withStyles } from '@material-ui/core/styles';
 
 import ApproveQuestion from '../approval/AppoveQuestion.js';
+import { Mixpanel } from '../../utils/Mixpanel';
 
 import './index.css';
 
@@ -91,6 +92,14 @@ const styles = ({ layout, palette, spacing }) => ({
   }
 });
 
+function handleSignupLink(e) {
+  Mixpanel.track('Have an Answer?');
+}
+
+function handleUserLink(e) {
+  Mixpanel.track('User Profile');
+}
+
 const PromptBar = ({ classes, user }) => {
   return user ? null : (
     <div className={classes.top} position="static">
@@ -103,6 +112,7 @@ const PromptBar = ({ classes, user }) => {
           variant="contained"
           color="secondary"
           className={classes.signupButton}
+          onClick={handleSignupLink}
         >
           Sign up now
         </Button>
@@ -155,7 +165,7 @@ const QuestionDetail = ({
       ['ADMIN', 'MODERATOR'].includes(permission)
     );
   const isApproved = question.approval === true;
-  console.log(question);
+
   return (
     <div className={classes.detailContainer}>
       <PromptBar classes={classes} user={user} />
@@ -179,6 +189,7 @@ const QuestionDetail = ({
                           onClick={e => {
                             e.preventDefault();
                             e.stopPropagation();
+                            Mixpanel.track('Tags');
                             router.push({
                               pathname: '/tags',
                               query: { id: id }
@@ -222,10 +233,10 @@ const QuestionDetail = ({
                         alt="Remy Sharp"
                         src={question.askedBy[0].image}
                         className={classes.avatar}
+                        onClick={handleUserLink}
                       />
                     )}
                   </Link>
-
                   <div style={{ padding: '0 0 0 10px' }}>
                     Asked by{' '}
                     <Link
@@ -234,7 +245,7 @@ const QuestionDetail = ({
                         query: { id: question.askedBy[0].id }
                       }}
                     >
-                      <a className={classes.nameLink}>
+                      <a className={classes.nameLink} onClick={handleUserLink}>
                         {question.askedBy[0].display}
                       </a>
                     </Link>{' '}

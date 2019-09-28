@@ -1,26 +1,26 @@
-import React from "react";
-import { Mutation, Query } from "react-apollo";
-import Error from "./../ErrorMessage.js";
-import gql from "graphql-tag";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import { withStyles } from "@material-ui/core/styles";
-import Divider from "@material-ui/core/Divider";
-import Typography from "@material-ui/core/Typography";
+import React from 'react';
+import { Mutation, Query } from 'react-apollo';
+import Error from './../ErrorMessage.js';
+import gql from 'graphql-tag';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import questionQuery from "../question-display/questionQuery";
-import { CURRENT_USER_QUERY } from "../auth/User";
-import answersListQuery from "../answer-list/answerListQuery";
+import questionQuery from '../question-display/questionQuery';
+import { CURRENT_USER_QUERY } from '../auth/User';
+import answersListQuery from '../answer-list/answerListQuery';
+import { Mixpanel } from '../../utils/Mixpanel';
 
 const styles = ({ spacing, palette }) => ({
   container: {
-    display: "flex",
-    flexDirection: "column",
-    padding: "40px 0 30px 20px"
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '20px 0 30px 20px'
   },
   inputField: {
-    width: "100%",
+    width: '100%',
     maxWidth: 600,
     marginBottom: 30
   },
@@ -29,20 +29,20 @@ const styles = ({ spacing, palette }) => ({
     marginBotom: 10
   },
   postQuestionButton: {
-    alignItems: "flex-end"
+    alignItems: 'flex-end'
   },
   title: {
-    color: "#2d3436",
-    padding: "25px 0 15px 5px",
+    color: '#2d3436',
+    padding: '25px 0 15px 5px',
     margin: 0,
     maxWidth: 800,
-    fontSize: "40px",
-    textAlign: "left",
-    lineHeight: "2.5rem",
+    fontSize: '40px',
+    textAlign: 'left',
+    lineHeight: '2.5rem'
   },
   button: {
-    margin: "20px 0 5px 0",
-    background: "#d5d5d5"
+    margin: '5px 0 5px 0',
+    background: '#d5d5d5'
     // '&:hover': {
     //   background: '#2d3436',
     // },
@@ -60,7 +60,7 @@ export const CREATE_ANSWER = gql`
 
 class CreateAnswer extends React.Component {
   state = {
-    body: "",
+    body: '',
     approval: false
   };
 
@@ -79,9 +79,9 @@ class CreateAnswer extends React.Component {
         ...this.state
       }
     });
-
+    Mixpanel.track('Question Answered');
     this.setState({
-      body: ""
+      body: ''
     });
   };
 
@@ -95,25 +95,18 @@ class CreateAnswer extends React.Component {
 
     return num === true ? null : (
       <div className={classes.container}>
-        <div style={{ maxWidth: 600, marginLeft: "-10px" }}>
-          <Divider variant="middle" />
-        </div>
-        <Typography variant="h6" className={classes.title}>
-          Have an answer?
-        </Typography>
-
         <form method="post" onSubmit={e => this.submitForm(e, createQuestion)}>
           <fieldset
             disabled={loading}
             aria-busy={loading}
             style={{
-              borderWidth: "0px",
+              borderWidth: '0px',
               padding: 0
             }}
           >
             <label htmlFor="body">
               <TextField
-                label="Answer"
+                label="Write an Answer"
                 type="text"
                 name="body"
                 variant="filled"
@@ -140,7 +133,7 @@ class CreateAnswer extends React.Component {
     return (
       <Query query={CURRENT_USER_QUERY}>
         {({ data, loading, error }) => {
-          if (loading) return <CircularProgress style={{margin: 20}} />
+          if (loading) return <CircularProgress style={{ margin: 20 }} />;
           if (error) return <p>Error</p>;
           const user = data.me;
           if (!user) {
@@ -160,11 +153,11 @@ class CreateAnswer extends React.Component {
                 { query: CURRENT_USER_QUERY },
                 {
                   query: answersListQuery,
-                  variables: { filter: "my" }
+                  variables: { filter: 'my' }
                 },
                 {
                   query: answersListQuery,
-                  variables: { filter: "approval" }
+                  variables: { filter: 'approval' }
                 }
               ]}
             >

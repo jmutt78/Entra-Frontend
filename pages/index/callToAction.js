@@ -2,6 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { withRouter } from 'next/router';
 import User from '../../components/auth/User';
+import { Mixpanel } from '../../utils/Mixpanel';
 
 const Why = ({ router }) => {
   return (
@@ -19,6 +20,7 @@ const Why = ({ router }) => {
               onClick={e => {
                 e.preventDefault();
                 e.stopPropagation();
+                Mixpanel.track('CTA');
                 router.push({
                   pathname: me ? '/qa' : '/signup'
                 });

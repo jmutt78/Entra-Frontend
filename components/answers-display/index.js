@@ -1,33 +1,22 @@
-import React from "react";
-import { Query } from "react-apollo";
+import React from 'react';
+import { Query } from 'react-apollo';
 
-import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/core/styles";
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Error from "./../ErrorMessage.js";
-import { CURRENT_USER_QUERY } from "../auth/User";
-import Answer from "./Answer";
+import Error from './../ErrorMessage.js';
+import { CURRENT_USER_QUERY } from '../auth/User';
+import Answer from './Answer';
 
 const styles = ({ spacing, palette, layout }) => ({
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    padding: "0 0 30px 0",
-
-    // width: `calc(${layout.width} / 1.2)`,
-    maxWidth: 1000
-  },
   title: {
-    color: "#2d3436",
-    padding: "5px 0 0 20px",
-    margin: 0,
-    marginTop: 30,
-    marginBottom: 30,
+    color: '#2d3436',
+    padding: '15px 0 20px 20px',
     maxWidth: 800,
-    fontWeight: "bold",
-    textAlign: "left",
-    lineHeight: "2.5rem",
+    fontWeight: 500,
+    textAlign: 'left'
+    // lineHeight: "2rem",
   }
 });
 
@@ -37,24 +26,19 @@ const Answers = ({ classes, question, user }) => {
   return question.answers.length === 0 ? null : (
     <Query query={CURRENT_USER_QUERY}>
       {({ loading, error, data }) => {
-        if (loading) return <CircularProgress style={{margin: 20}} />
+        if (loading) return <CircularProgress style={{ margin: 20 }} />;
         if (error) return <Error error={error} />;
         const user = data.me;
 
         return (
-          <div className={classes.container}>
-            {answers === null || answers === "" ? null : (
-              <>
-                {/*
-                <div style={{ maxWidth: 600, marginLeft: '-10px' }}>
-                  <Divider variant="middle" />
-                </div>
-                */}
-
-                <Typography variant="h3" className={classes.title}>
-                  Answers
-                </Typography>
-              </>
+          <div className="answerDisplay-container">
+            {answers === null || answers === '' || !answers.length ? null : (
+              <Typography variant="h5" className={classes.title}>
+                {answers.filter(({ approval }) => approval).length} Answer
+                {answers.filter(({ approval }) => approval).length === 1
+                  ? ''
+                  : 's'}
+              </Typography>
             )}
 
             {answers.map(answer => (

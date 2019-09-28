@@ -5,6 +5,7 @@ import Footer from '../footer';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'next/router';
 import classNames from 'classnames';
+
 import Drift from 'react-driftjs';
 
 import './Page.css';
@@ -26,7 +27,12 @@ const styles = ({ layout }) => {
 };
 
 const Page = ({ children, classes, router }) => {
-  const isLanding = router.pathname === '/';
+  const isLanding =
+    router.pathname === '/' ||
+    router.pathname === '/landing1' ||
+    router.pathname === '/landing2' ||
+    router.pathname === '/landing3' ||
+    router.pathname === '/giveaway';
   return (
     <div className={classes.root}>
       <Meta />

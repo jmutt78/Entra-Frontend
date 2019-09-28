@@ -1,13 +1,13 @@
-import React from "react";
-import { Query } from "react-apollo";
-import QuestionList from "../../components/question-list";
-import Error from "../../components/ErrorMessage";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import React from 'react';
+import { Query } from 'react-apollo';
+import QuestionList from '../../components/question-list';
+import Error from '../../components/ErrorMessage';
+import CircularProgress from '@material-ui/core/CircularProgress';
 //import query from "./query";
 import gql from 'graphql-tag';
 var query = gql`
   query QUESTION_LIST_QUERY {
-    questions(filter: "all", first: 5) {
+    questions(filter: "all", last: 5) {
       id
       title
       description
@@ -39,14 +39,14 @@ var query = gql`
 
 const styles = {
   container: {
-    padding: "40px 20px 80px 20px",
+    padding: '40px 20px 80px 20px',
     maxWidth: 1000,
-    alignSelf: "center",
-    justifySelf: "center",
-    textAlign: "center",
-    margin: "0 auto",
+    alignSelf: 'center',
+    justifySelf: 'center',
+    textAlign: 'center',
+    margin: '0 auto',
     // TEMP
-    overflowX: "hidden"
+    overflowX: 'hidden'
   }
 };
 
@@ -60,9 +60,9 @@ export default () => (
           <QuestionList
             enablePagination={false}
             questions={data.questions}
-            filter={"all"}
+            filter={'all'}
             page="1"
-            name={"Latest Questions"}
+            name={'Check Out Our Latest Questions'}
           />
         </div>
       );
