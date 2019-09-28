@@ -95,6 +95,53 @@ const ListItem = ({
   showDetails,
   display
 }) => {
+
+  const [userVote, setUserVote] = useState(0);
+
+  const upVote = () => {
+    if (userVote > 0) {
+      setUserVote(0);
+    } else {
+      setUserVote(1);
+      client.mutate({
+        mutation: CREATE_QUESTION_VOTE_MUTATION,
+        variables: {
+          questionId: id,
+          vote: 'up'
+        }
+        // refetchQueries: [{ query: questionQuery, variables: { id } }],
+      });
+    }
+  };
+  const downVote = () => {
+    if (userVote < 0) {
+      setUserVote(0);
+    } else {
+      setUserVote(-1);
+      client.mutate({
+        mutation: CREATE_QUESTION_VOTE_MUTATION,
+        variables: {
+          questionId: id,
+          vote: 'down'
+        }
+        // refetchQueries: [{ query: questionQuery, variables: { id } }],
+      });
+    }
+  };
+
+  const formatBody = (string, length) => {
+    if (string.length <= length) return string;
+    const s = string.indexOf(' ', length);
+    if (s < 0) {
+      const S = string.slice(0, length).lastIndexOf(' ');
+      if (S < 0) return `${body.slice(0, length)}...`;
+      return `${string.slice(0, S)}...`;
+    }
+    if (s > 120) return `${body.slice(0, length)}...`;
+    return `${string.slice(0, s)}...`;
+  };
+
+
   return (
     <div className={classes.container}>
       <div className="avatarBox">
@@ -121,7 +168,7 @@ const ListItem = ({
             className={classes.body}
             onClick={() => router.push(linkTo)}
           >
-            {body}
+            {formatBody(body, 100)}
           </Typography>
         )}
 
