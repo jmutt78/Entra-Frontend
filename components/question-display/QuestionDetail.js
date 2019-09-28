@@ -15,12 +15,6 @@ const styles = ({ layout, palette, spacing }) => ({
   container: {
     padding: '10px 0'
   },
-  body: {
-    color: '#2d3436', //palette.accent.dark,
-    padding: '5px 25px 5px 25px',
-    margin: 0,
-    fontWeight: 300
-  },
   bodyText: {
     whiteSpace: 'pre-wrap',
     fontSize: '1rem'
@@ -124,7 +118,7 @@ const QuestionDetail = ({
     <div className={classes.container}>
       {/*<PromptBar classes={classes} user={user} />*/}
 
-      <div className={classes.body}>
+      <div className="QuestionDetail-body">
         <div className={classes.bodyText}>{description}</div>
       </div>
 

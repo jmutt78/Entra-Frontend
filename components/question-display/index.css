@@ -30,9 +30,51 @@
   padding: 0 20px 0 20px;
 }
 
+.voteContainer {
+  padding: 0 15px 0 0;
+  align-items: center;
+  float: left;
+}
+
+.subHeadingContainer {
+  padding: 15px 30px 0 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.questionDetail-divider {
+  max-width: 1000px;
+  padding: 15px 0 20px 0;
+}
+
+.QuestionDetail-body {
+  color: #2d3436;
+  padding: 5px 25px 5px 25px;
+  margin: 0;
+  font-weight: 300;
+}
+
 @media (max-width: 500px) {
   .itemFooter {
     flex-direction: column-reverse;
+  }
+
+  .titleContainer {
+    padding: 0 5px 0 5px;
+  }
+  .voteContainer {
+    padding: 0 10px 0 0;
+  }
+  .subHeadingContainer {
+    padding: 15px 10px 0 15px;
+  }
+  .questionDetail-divider {
+    padding: 5px 0 20px 0;
+  }
+  .QuestionDetail-body {
+    padding: 5px 10px 5px 10px;
   }
 }
 

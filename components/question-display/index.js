@@ -45,11 +45,6 @@ const styles = ({ palette, layout }) => ({
     lineHeight: '2.7rem',
     fontWeight: 600,
     letterSpacing: '-1px'
-  },
-  voteContainer: {
-    padding: '0 15px 0 0',
-    alignItems: 'center',
-    float: 'left'
   }
 });
 
@@ -241,22 +236,14 @@ class DisplayQuestion extends Component {
             <div className={classes.container} id="tableBorderRemoveTarget">
               <div className="titleContainer">
                 <Typography variant="h6" className={classes.title}>
-                  <div className={classes.voteContainer}>
+                  <div className="voteContainer">
                     <Vote id={question.id} />
                   </div>
                   <div className={classes.titleText}>{question.title}</div>
                 </Typography>
               </div>
 
-              <div
-                style={{
-                  padding: '10px 30px 0 23px',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  flexWrap: 'wrap'
-                }}
-              >
+              <div className="subHeadingContainer">
                 <Tags tags={question.tags} router={this.props.router} />
                 <div
                   style={{
@@ -273,7 +260,7 @@ class DisplayQuestion extends Component {
                 </div>
               </div>
 
-              <div style={{ maxWidth: 1000, padding: '15px 0 20px 0' }}>
+              <div className="questionDetail-divider">
                 <Divider variant="middle" />
               </div>
 
