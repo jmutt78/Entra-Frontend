@@ -4,6 +4,7 @@ import { format, parseISO } from 'date-fns';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import gql from 'graphql-tag';
@@ -94,17 +95,16 @@ const styles = ({ spacing, palette }) => ({
 });
 
 const EditAndDelete = ({ answer, classes, user, question }) => {
-  const selected = answer.selected;
-
-  const date1 = new Date(answer.createdAt);
-  const date2 = new Date();
-  const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
-
   return user &&
     answer.answeredBy.id === user.id &&
-    diffDays <= 2 &&
-    selected === null ? (
-    <Typography style={{ padding: '10px 0' }} component={'div'}>
+    parseInt(
+      (new Date() - new Date(answer.createdAt)) / (1000 * 60 * 60 * 24)
+    ) <= 2 &&
+    answer.selected === null ? (
+    <Typography
+      style={{ padding: '10px 5px', display: 'inline' }}
+      component={'div'}
+    >
       <Link
         href={{
           pathname: '/edit-answer',
@@ -119,16 +119,65 @@ const EditAndDelete = ({ answer, classes, user, question }) => {
           EDIT
         </Button>
       </Link>
-      <DeleteAnswer id={answer.id} questionId={question.id} />
+      <DeleteAnswer id={answer.id} questionId={answer.answeredTo[0].id} />
     </Typography>
   ) : null;
+};
+
+const Controls = ({ user, question, answer, hasPermissions, classes }) => {
+  if (
+    hasPermissions ||
+    (user && question.askedBy[0].id === user.id) ||
+    (user &&
+      answer.answeredBy.id === user.id &&
+      parseInt(
+        (new Date() - new Date(answer.createdAt)) / (1000 * 60 * 60 * 24)
+      ) <= 2 &&
+      answer.selected === null)
+  ) {
+    return (
+      <>
+        <div
+          className="questionDetail-divider"
+          style={{ maxWidth: '100%', paddingBottom: 15 }}
+        >
+          <Divider variant="middle" />
+        </div>
+
+        <div style={{ paddingLeft: 30 }}>
+          <SelectAnswer
+            canSelect={user && question.askedBy[0].id === user.id}
+            selected={answer.selected}
+            id={answer.id}
+            questionId={answer.answeredTo[0].id}
+          />
+
+          <div style={{ display: 'inline' }}>
+            <ApproveAnswer
+              hasPermissions={hasPermissions}
+              isApproved={answer.approval === true}
+              approval={answer.approval}
+              id={answer.id}
+              questionId={answer.answeredTo[0].id}
+            />
+          </div>
+
+          <EditAndDelete
+            answer={answer}
+            classes={classes}
+            user={user}
+            question={question}
+          />
+        </div>
+      </>
+    );
+  }
+  return null;
 };
 
 const Answer = ({ answer, classes, user, client, question }) => {
   const answeredBy = answer.answeredBy.id;
   const ownsAnswer = user && answeredBy === user.id;
-  const isApproved = answer.approval === true;
-  const questionId = answer.answeredTo[0].id;
   const hasPermissions =
     user &&
     user.permissions.some(permission =>
@@ -157,7 +206,7 @@ const Answer = ({ answer, classes, user, client, question }) => {
     });
   };
 
-  if (!ownsAnswer && !hasPermissions && !isApproved) {
+  if (!ownsAnswer && !hasPermissions && !answer.approval === true) {
     return null;
   }
 
@@ -168,30 +217,6 @@ const Answer = ({ answer, classes, user, client, question }) => {
           <Typography className={classes.body}>{answer.body}</Typography>
         )}
       </div>
-
-      <SelectAnswer
-        canSelect={user && question.askedBy[0].id === user.id}
-        selected={answer.selected}
-        id={answer.id}
-        questionId={questionId}
-      />
-
-      <div style={{ paddingBottom: 10, paddingTop: 10 }}>
-        <ApproveAnswer
-          hasPermissions={hasPermissions}
-          isApproved={isApproved}
-          approval={answer.approval}
-          id={answer.id}
-          questionId={questionId}
-        />
-      </div>
-
-      <EditAndDelete
-        answer={answer}
-        classes={classes}
-        user={user}
-        question={question}
-      />
 
       <div className="answerFooter">
         <div className={classes.credits}>
@@ -230,30 +255,44 @@ const Answer = ({ answer, classes, user, client, question }) => {
           </div>
         </div>
 
-        <div className="votesContainer">
-          <Tooltip
-            title="vote up"
-            placement="top"
-            className={classes.voteButton}
-            onClick={() => upVote(answer.id)}
-          >
-            <div className={classes.voteContainer}>
-              <span className={classes.upVote}>{answer.upVotes}</span>
-              <img src="/static/thumb_up.svg" />
-            </div>
-          </Tooltip>
-          <span>{'    '}</span>
-          <Tooltip
-            title="vote down"
-            placement="top"
-            className={classes.voteButton}
-            onClick={() => downVote(answer.id)}
-          >
-            <div className={classes.voteContainer}>
-              <img src="/static/thumb_down.svg" />
-              <span className={classes.downVote}>{answer.downVotes}</span>
-            </div>
-          </Tooltip>
+        <Controls
+          user={user}
+          question={question}
+          answer={answer}
+          hasPermissions={hasPermissions}
+          classes={classes}
+        />
+
+        {/*
+          <div className="votesContainer">
+            <Tooltip
+              title="vote up"
+              placement="top"
+              className={classes.voteButton}
+              onClick={() => upVote(answer.id)}
+            >
+          <div className={classes.voteContainer}>
+            <span className={classes.upVote}>{answer.upVotes}</span>
+            <img src="/static/thumb_up.svg" />
+          </div>
+        </Tooltip>
+        <span>{'    '}</span>
+        <Tooltip
+          title="vote down"
+          placement="top"
+          className={classes.voteButton}
+          onClick={() => downVote(answer.id)}
+        >
+          <div className={classes.voteContainer}>
+            <img src="/static/thumb_down.svg" />
+            <span className={classes.downVote}>{answer.downVotes}</span>
+          </div>
+        </Tooltip>
+      </div>
+      */}
+
+        <div className="questionDetail-divider" style={{ maxWidth: '100%' }}>
+          <Divider variant="middle" />
         </div>
       </div>
     </div>
