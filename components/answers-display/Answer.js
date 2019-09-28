@@ -15,6 +15,7 @@ import ApproveAnswer from '../approval/AppoveAnswer.js';
 import DeleteAnswer from '../delete-answer';
 import SelectAnswer from '../approval/SelectAnswer';
 import questionQuery from '../question-display/questionQuery';
+import Vote from '../Vote';
 
 import './Answers.css';
 
@@ -75,7 +76,12 @@ const styles = ({ spacing, palette }) => ({
     height: 70,
     cursor: 'pointer'
   },
-  credits: { paddingTop: 5, display: 'flex', alignItems: 'center' },
+  credits: {
+    paddingTop: 5,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
   voteContainer: {
     display: 'flex'
   },
@@ -220,38 +226,65 @@ const Answer = ({ answer, classes, user, client, question }) => {
 
       <div className="answerFooter">
         <div className={classes.credits}>
-          <Link
-            href={{
-              pathname: '/user',
-              query: { id: answeredBy }
-            }}
-          >
-            {answer.answeredBy.image === null ||
-            answer.answeredBy.image === '' ? (
-              <Avatar className={classes.avatar}>
-                {answer.answeredBy.display[0]}
-              </Avatar>
-            ) : (
-              <Avatar
-                alt="Remy Sharp"
-                src={answer.answeredBy.image}
-                className={classes.bigAvatar}
-              />
-            )}
-          </Link>
-
-          <div style={{ padding: '0 0 0 10px' }}>
-            Answered by{' '}
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <Link
               href={{
                 pathname: '/user',
                 query: { id: answeredBy }
               }}
             >
-              <a className={classes.nameLink}>{answer.answeredBy.display}</a>
-            </Link>{' '}
-            on{' '}
-            <span>{format(parseISO(answer.createdAt), 'MMMM dd, yyyy')}</span>
+              {answer.answeredBy.image === null ||
+              answer.answeredBy.image === '' ? (
+                <Avatar className={classes.avatar}>
+                  {answer.answeredBy.display[0]}
+                </Avatar>
+              ) : (
+                <Avatar
+                  alt="Remy Sharp"
+                  src={answer.answeredBy.image}
+                  className={classes.bigAvatar}
+                />
+              )}
+            </Link>
+            <div style={{ padding: '0 0 0 10px' }}>
+              Answered by{' '}
+              <Link
+                href={{
+                  pathname: '/user',
+                  query: { id: answeredBy }
+                }}
+              >
+                <a className={classes.nameLink}>{answer.answeredBy.display}</a>
+              </Link>{' '}
+              on{' '}
+              <span>{format(parseISO(answer.createdAt), 'MMMM dd, yyyy')}</span>
+            </div>
+          </div>
+
+          <div className="votesContainer">
+            <Tooltip
+              title="vote up"
+              placement="top"
+              className={classes.voteButton}
+              onClick={() => upVote(answer.id)}
+            >
+              <div className={classes.voteContainer}>
+                <span className={classes.upVote}>{answer.upVotes}</span>
+                <img src="/static/thumb_up.svg" />
+              </div>
+            </Tooltip>
+            <span>{'    '}</span>
+            <Tooltip
+              title="vote down"
+              placement="top"
+              className={classes.voteButton}
+              onClick={() => downVote(answer.id)}
+            >
+              <div className={classes.voteContainer}>
+                <img src="/static/thumb_down.svg" />
+                <span className={classes.downVote}>{answer.downVotes}</span>
+              </div>
+            </Tooltip>
           </div>
         </div>
 
@@ -262,34 +295,6 @@ const Answer = ({ answer, classes, user, client, question }) => {
           hasPermissions={hasPermissions}
           classes={classes}
         />
-
-        {/*
-          <div className="votesContainer">
-            <Tooltip
-              title="vote up"
-              placement="top"
-              className={classes.voteButton}
-              onClick={() => upVote(answer.id)}
-            >
-          <div className={classes.voteContainer}>
-            <span className={classes.upVote}>{answer.upVotes}</span>
-            <img src="/static/thumb_up.svg" />
-          </div>
-        </Tooltip>
-        <span>{'    '}</span>
-        <Tooltip
-          title="vote down"
-          placement="top"
-          className={classes.voteButton}
-          onClick={() => downVote(answer.id)}
-        >
-          <div className={classes.voteContainer}>
-            <img src="/static/thumb_down.svg" />
-            <span className={classes.downVote}>{answer.downVotes}</span>
-          </div>
-        </Tooltip>
-      </div>
-      */}
 
         <div className="questionDetail-divider" style={{ maxWidth: '100%' }}>
           <Divider variant="middle" />

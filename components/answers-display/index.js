@@ -34,7 +34,10 @@ const Answers = ({ classes, question, user }) => {
           <div className="answerDisplay-container">
             {answers === null || answers === '' || !answers.length ? null : (
               <Typography variant="h5" className={classes.title}>
-                {answers.length} Answer{answers.length > 1 ? 's' : ''}
+                {answers.filter(({ approval }) => approval).length} Answer
+                {answers.filter(({ approval }) => approval).length === 1
+                  ? ''
+                  : 's'}
               </Typography>
             )}
 
