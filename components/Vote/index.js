@@ -6,6 +6,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { withApollo } from 'react-apollo';
 import { withStyles } from '@material-ui/core/styles';
+import { Mixpanel } from '../../utils/Mixpanel';
 
 import questionQuery from '../question-display/questionQuery';
 
@@ -61,6 +62,7 @@ const Vote = ({ classes, client, id }) => {
       default:
         break;
     }
+    Mixpanel.track('downVote');
   };
 
   const upVote = async () => {
@@ -81,6 +83,7 @@ const Vote = ({ classes, client, id }) => {
       default:
         break;
     }
+    Mixpanel.track('upVote');
   };
 
   return (
