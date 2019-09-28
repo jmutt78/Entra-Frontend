@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { Mutation } from "react-apollo";
-import { withStyles } from "@material-ui/core/styles";
-import questionQuery from "../question-display/questionQuery.js";
-import gql from "graphql-tag";
-import Button from "@material-ui/core/Button";
-import Icon from "@material-ui/core/Icon";
-import CheckIcon from "@material-ui/icons/Check";
-import Error from "./../ErrorMessage.js";
+import React, { Component } from 'react';
+import { Mutation } from 'react-apollo';
+import { withStyles } from '@material-ui/core/styles';
+import questionQuery from '../question-display/questionQuery.js';
+import gql from 'graphql-tag';
+import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
+import CheckIcon from '@material-ui/icons/Check';
+import Error from './../ErrorMessage.js';
 
 export const SELECT_ANSWER_MUTATION = gql`
   mutation selectAnswer($id: ID!) {
@@ -18,19 +18,18 @@ export const SELECT_ANSWER_MUTATION = gql`
 
 const styles = {
   buttonAccept: {
-    backgroundColor: "#85BDCB",
-    marginTop: 10
+    backgroundColor: '#85BDCB',
+    margin: '0 5px'
   },
   acceptedText: {
-    marginTop: 10,
     marginRight: 10
   },
   selected: {
-    backgroundColor: "#badc58",
-    marginTop: 10,
-    cursor: "default",
-    "&:hover": {
-      backgroundColor: "#badc58"
+    margin: '0 5px',
+    backgroundColor: '#badc58',
+    cursor: 'default',
+    '&:hover': {
+      backgroundColor: '#badc58'
     }
   }
 };
@@ -47,7 +46,11 @@ class SelectAnswer extends Component {
 
   render() {
     const { classes, questionId, selected, canSelect } = this.props;
-    // TODO style this
+
+    if (!canSelect) {
+      return null;
+    }
+
     if (selected) {
       return (
         <Button className={classes.selected} variant="contained">
@@ -55,9 +58,6 @@ class SelectAnswer extends Component {
           Selected Answer
         </Button>
       );
-    }
-    if (!canSelect) {
-      return null;
     }
     return (
       <Mutation
@@ -71,7 +71,7 @@ class SelectAnswer extends Component {
       >
         {(selectAnswer, { error, loading }) => {
           return (
-            <div>
+            <>
               <Button
                 className={classes.buttonAccept}
                 variant="contained"
@@ -80,7 +80,7 @@ class SelectAnswer extends Component {
                 Select
               </Button>
               <Error error={error} />
-            </div>
+            </>
           );
         }}
       </Mutation>
