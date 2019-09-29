@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import classNames from 'classnames';
 
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
+import SortIcon from '@material-ui/icons/Sort';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
-import Search from './Search';
 import './index.css';
 
 const useStyles = makeStyles(({ layout }) => ({
@@ -25,19 +28,66 @@ const useStyles = makeStyles(({ layout }) => ({
   }
 }));
 
-export default ({ title }) => {
-  const classes = useStyles();
+const useSortStyles = makeStyles(({ layout }) => ({
+  text: {
+    textTransform: 'capitalize',
+    padding: '0 0.5rem'
+  }
+}));
+
+const Sort = () => {
+  const [anchor, setAnchor] = useState(null);
+  const [sortOrder, setSortOrder] = useState('default');
+  const classes = useSortStyles();
+
+  const handleClose = () => {
+    setAnchor(null);
+  };
+
+  const handleSelect = (order, { target }) => {
+    setSortOrder(order);
+    handleClose();
+  };
+
+  const handleClick = ({ currentTarget }) => {
+    setAnchor(currentTarget);
+  };
 
   return (
     <>
+      <div className="sortContainer" onClick={handleClick}>
+        <SortIcon />
+        <Typography variant="h6" className={classes.text}>
+          {sortOrder}
+        </Typography>
+      </div>
+      <Menu anchorEl={anchor} open={!!anchor} onClose={handleClose}>
+        <MenuItem onClick={handleSelect.bind(null, 'default')}>
+          Default
+        </MenuItem>
+        <MenuItem onClick={handleSelect.bind(null, 'top')}>Top</MenuItem>
+        <MenuItem onClick={handleSelect.bind(null, 'new')}>New</MenuItem>
+        <MenuItem onClick={handleSelect.bind(null, 'controversial')}>
+          Controversial
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};
+
+export default ({ title, sort }) => {
+  const classes = useStyles();
+
+  return (
+    <div className="titleBar-container">
       <div className="titlebar-flex">
         <Typography className={classes.title}>{title}</Typography>
-        <Search />
+        {sort && <Sort />}
       </div>
 
       <div className={classes.divider}>
         <Divider />
       </div>
-    </>
+    </div>
   );
 };
