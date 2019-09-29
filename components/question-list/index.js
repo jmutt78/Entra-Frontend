@@ -48,10 +48,12 @@ function QuestionList(props) {
 
   return (
     <div className={classes.container}>
-      <TitleBar title={upperFirst(props.name) || 'Questions'} />
+      <TitleBar title={upperFirst(props.name) || 'Questions'} sort={true} />
+
       <div className={classes.searchContainer}>
         <Search />
       </div>
+
       {questions &&
         questions.map(question => {
           return (
