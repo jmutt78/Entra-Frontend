@@ -2,7 +2,7 @@ import React from 'react';
 import { upperFirst } from 'lodash';
 
 import ListItem from '../ListItem';
-import PageHeader from '../PageHeader';
+import TitleBar from '../header/TitleBar';
 import Pagination from '../pagination';
 import { withStyles } from '@material-ui/core/styles';
 import Search from '../Search';
@@ -48,7 +48,7 @@ function QuestionList(props) {
 
   return (
     <div className={classes.container}>
-      <PageHeader title={upperFirst(props.name) || 'Questions'} />
+      <TitleBar title={upperFirst(props.name) || 'Questions'} />
       <div className={classes.searchContainer}>
         <Search />
       </div>

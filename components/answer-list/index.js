@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Pagination from '../pagination';
-import PageHeader from '../PageHeader';
+import TitleBar from '../header/TitleBar';
 import { upperFirst } from 'lodash';
 import ListItem from '../ListItem';
 
@@ -37,7 +37,7 @@ class AnswerList extends Component {
     } = this.props;
     return (
       <div className={classes.container}>
-        <PageHeader title={upperFirst(this.props.name) || 'Answers'} />
+        <TitleBar title={upperFirst(this.props.name) || 'Answers'} />
         {answers.map(answer => {
           return (
             <ListItem
