@@ -273,6 +273,11 @@ const Answer = ({ answer, classes, user, client, question }) => {
           </div>
 
           <div className="answer-votesContainer">
+            <Vote id={answer.id} />
+          </div>
+
+          {/*
+          <div className="answer-votesContainer">
             <Tooltip
               title="vote up"
               placement="top"
@@ -297,6 +302,7 @@ const Answer = ({ answer, classes, user, client, question }) => {
               </div>
             </Tooltip>
           </div>
+              */}
         </div>
 
         <Controls
