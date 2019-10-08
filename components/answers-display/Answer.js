@@ -16,7 +16,7 @@ import ApproveAnswer from '../approval/AppoveAnswer.js';
 import DeleteAnswer from '../delete-answer';
 import SelectAnswer from '../approval/SelectAnswer';
 import questionQuery from '../question-display/questionQuery';
-import Vote from '../Vote';
+import Vote from './Vote';
 import { Mixpanel } from '../../utils/Mixpanel';
 
 import './Answers.css';
@@ -273,7 +273,12 @@ const Answer = ({ answer, classes, user, client, question }) => {
           </div>
 
           <div className="answer-votesContainer">
-            <Vote id={answer.id} />
+            <Vote
+              upvoteCb={() => upVote(answer.id)}
+              downvoteCb={() => downVote(answer.id)}
+              upVotes={answer.upVotes}
+              downVotes={answer.downVotes}
+            />
           </div>
 
           {/*
@@ -302,7 +307,7 @@ const Answer = ({ answer, classes, user, client, question }) => {
               </div>
             </Tooltip>
           </div>
-              */}
+          */}
         </div>
 
         <Controls
