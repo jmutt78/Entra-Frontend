@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
@@ -229,98 +228,75 @@ const Answer = ({ answer, classes, user, client, question }) => {
 
   return (
     <div className={classes.detailContainer}>
-      <div>
-        {answer.body && (
-          <Typography className={classes.body}>{answer.body}</Typography>
-        )}
-      </div>
+      <div style={{ background: '#f2f4ef', padding: '10px 0 10px 15px' }}>
+        <div>
+          {answer.body && (
+            <Typography className={classes.body}>{answer.body}</Typography>
+          )}
+        </div>
 
-      <div className="answerFooter">
-        <div className={classNames(classes.credits, 'answerFooterCredits')}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Link
-              href={{
-                pathname: '/user',
-                query: { id: answeredBy }
-              }}
-            >
-              {answer.answeredBy.image === null ||
-              answer.answeredBy.image === '' ? (
-                <Avatar className={classes.avatar}>
-                  {answer.answeredBy.display[0]}
-                </Avatar>
-              ) : (
-                <Avatar
-                  alt="Remy Sharp"
-                  src={answer.answeredBy.image}
-                  className={classes.bigAvatar}
-                />
-              )}
-            </Link>
-            <div style={{ padding: '0 0 0 10px' }}>
-              Answered by{' '}
+        <div className="answerFooter" style={{ background: '#f2f4ef' }}>
+          <div className={classNames(classes.credits, 'answerFooterCredits')}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               <Link
                 href={{
                   pathname: '/user',
                   query: { id: answeredBy }
                 }}
               >
-                <a className={classes.nameLink}>{answer.answeredBy.display}</a>
-              </Link>{' '}
-              on{' '}
-              <span>{format(parseISO(answer.createdAt), 'MMMM dd, yyyy')}</span>
+                {answer.answeredBy.image === null ||
+                answer.answeredBy.image === '' ? (
+                  <Avatar className={classes.avatar}>
+                    {answer.answeredBy.display[0]}
+                  </Avatar>
+                ) : (
+                  <Avatar
+                    alt="Remy Sharp"
+                    src={answer.answeredBy.image}
+                    className={classes.bigAvatar}
+                  />
+                )}
+              </Link>
+              <div style={{ padding: '0 0 0 10px' }}>
+                Answered by{' '}
+                <Link
+                  href={{
+                    pathname: '/user',
+                    query: { id: answeredBy }
+                  }}
+                >
+                  <a className={classes.nameLink}>
+                    {answer.answeredBy.display}
+                  </a>
+                </Link>{' '}
+                on{' '}
+                <span>
+                  {format(parseISO(answer.createdAt), 'MMMM dd, yyyy')}
+                </span>
+              </div>
+            </div>
+
+            <div className="answer-votesContainer">
+              <Vote
+                upvoteCb={() => upVote(answer.id)}
+                downvoteCb={() => downVote(answer.id)}
+                upVotes={answer.upVotes}
+                downVotes={answer.downVotes}
+              />
             </div>
           </div>
-
-          <div className="answer-votesContainer">
-            <Vote
-              upvoteCb={() => upVote(answer.id)}
-              downvoteCb={() => downVote(answer.id)}
-              upVotes={answer.upVotes}
-              downVotes={answer.downVotes}
-            />
-          </div>
-
-          {/*
-          <div className="answer-votesContainer">
-            <Tooltip
-              title="vote up"
-              placement="top"
-              className={classes.voteButton}
-              onClick={() => upVote(answer.id)}
-            >
-              <div className={classes.voteContainer1}>
-                <span className={classes.upVote}>{answer.upVotes}</span>
-                <img src="/static/thumb_up.svg" />
-              </div>
-            </Tooltip>
-            <span>{'    '}</span>
-            <Tooltip
-              title="vote down"
-              placement="top"
-              className={classes.voteButton}
-              onClick={() => downVote(answer.id)}
-            >
-              <div className={classes.voteContainer2}>
-                <img src="/static/thumb_down.svg" />
-                <span className={classes.downVote}>{answer.downVotes}</span>
-              </div>
-            </Tooltip>
-          </div>
-          */}
         </div>
+      </div>
+      <Controls
+        user={user}
+        question={question}
+        answer={answer}
+        hasPermissions={hasPermissions}
+        classes={classes}
+      />
 
-        <Controls
-          user={user}
-          question={question}
-          answer={answer}
-          hasPermissions={hasPermissions}
-          classes={classes}
-        />
-
-        <div className="questionDetail-divider" style={{ maxWidth: '100%' }}>
-          <Divider variant="middle" />
-        </div>
+      <div className="questionDetail-divider" style={{ maxWidth: '100%' }}>
+        <Divider variant="middle" />
       </div>
     </div>
   );
