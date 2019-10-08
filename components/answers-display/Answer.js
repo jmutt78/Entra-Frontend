@@ -228,7 +228,14 @@ const Answer = ({ answer, classes, user, client, question }) => {
 
   return (
     <div className={classes.detailContainer}>
-      <div style={{ background: '#f2f4ef', padding: '10px 0 10px 15px' }}>
+      <div
+        style={{
+          background: '#f2f4ef',
+          padding: '10px 0 10px 15px',
+          marginLeft: 15,
+          marginRight: 15
+        }}
+      >
         <div>
           {answer.body && (
             <Typography className={classes.body}>{answer.body}</Typography>
