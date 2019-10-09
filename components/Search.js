@@ -35,10 +35,10 @@ const useStyles = makeStyles(theme => ({
 export default function CustomizedInputBase() {
   const classes = useStyles();
   const [fieldState, setFieldState] = useState('');
-  const { setQuestionSearch, setSearchScope, searchScope } = usePageContext();
+  const { setSearchTerm, setSearchScope, searchScope } = usePageContext();
   const [anchorEl, setAnchorEl] = useState(null);
   useEffect(() => {
-    setQuestionSearch('');
+    setSearchTerm('');
     // eslint-disable-next-line
   }, []);
 
@@ -74,7 +74,7 @@ export default function CustomizedInputBase() {
         <IconButton
           className={classes.iconButton}
           aria-label="search"
-          onClick={() => setQuestionSearch(fieldState)}
+          onClick={() => setSearchTerm(fieldState)}
         >
           <SearchIcon />
         </IconButton>
@@ -89,8 +89,9 @@ export default function CustomizedInputBase() {
           Search Titles
         </MenuItem>
         <MenuItem onClick={() => handMenuSelect('authors')}>
-          Search Author
+          Search Authors
         </MenuItem>
+        <MenuItem onClick={() => handMenuSelect('tags')}>Search Tags</MenuItem>
       </Menu>
     </>
   );

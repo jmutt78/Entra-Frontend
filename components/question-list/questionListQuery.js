@@ -1,9 +1,9 @@
-import gql from "graphql-tag";
-import { perPage } from "../../config.js";
+import gql from 'graphql-tag';
+import { perPage } from '../../config.js';
 
 const QUESTION_LIST_QUERY = gql`
-  query QUESTION_LIST_QUERY($filter: String!, $skip: Int = 0, $first: Int = ${perPage}) {
-    questions(filter: $filter, first: $first, skip: $skip, orderBy: createdAt_DESC) {
+  query QUESTION_LIST_QUERY($filter: String!, $skip: Int = 0, $first: Int = ${perPage}, $searchScope: String, $searchTerm: String) {
+    questions(filter: $filter, first: $first, skip: $skip, orderBy: createdAt_DESC, searchScope: $searchScope, searchTerm: $searchTerm) {
       id
       title
       description

@@ -9,7 +9,7 @@ export const usePageContext = () => {
 
 export default ({ children }) => {
   const [sortBy, setSortBy] = useState('default');
-  const [questionSearch, setQuestionSearch] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const [searchScope, setSearchScope] = useState('all');
   useEffect(() => {
     if (!window.GA_INITIALIZED) {
@@ -20,16 +20,16 @@ export default ({ children }) => {
   }, []);
 
   useEffect(() => {
-    console.log('searching', questionSearch, 'in scope', searchScope);
-  }, [questionSearch, searchScope]);
+    console.log('searching', searchTerm, 'in scope', searchScope);
+  }, [searchTerm, searchScope]);
 
   return (
     <PageContext.Provider
       value={{
         setSortBy,
         sortBy,
-        questionSearch,
-        setQuestionSearch,
+        searchTerm,
+        setSearchTerm,
         searchScope,
         setSearchScope
       }}
