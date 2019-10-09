@@ -10,6 +10,7 @@ export const usePageContext = () => {
 export default ({ children }) => {
   const [sortBy, setSortBy] = useState('default');
   const [questionSearch, setQuestionSearch] = useState('');
+  const [searchScope, setSearchScope] = useState('all');
   useEffect(() => {
     if (!window.GA_INITIALIZED) {
       initGA();
@@ -19,8 +20,8 @@ export default ({ children }) => {
   }, []);
 
   useEffect(() => {
-    console.log('searching', questionSearch);
-  }, [questionSearch]);
+    console.log('searching', questionSearch, 'in scope', searchScope);
+  }, [questionSearch, searchScope]);
 
   return (
     <PageContext.Provider
@@ -28,7 +29,9 @@ export default ({ children }) => {
         setSortBy,
         sortBy,
         questionSearch,
-        setQuestionSearch
+        setQuestionSearch,
+        searchScope,
+        setSearchScope
       }}
     >
       {children}

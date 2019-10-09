@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import InputBase from '@material-ui/core/InputBase';
+import capitalize from 'lodash/capitalize';
+
 import IconButton from '@material-ui/core/IconButton';
+import InputBase from '@material-ui/core/InputBase';
+import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Paper from '@material-ui/core/Paper';
 import SearchIcon from '@material-ui/icons/Search';
+import { makeStyles } from '@material-ui/core/styles';
+
 import { usePageContext } from './layout';
 
 const useStyles = makeStyles(theme => ({
@@ -30,30 +35,63 @@ const useStyles = makeStyles(theme => ({
 export default function CustomizedInputBase() {
   const classes = useStyles();
   const [fieldState, setFieldState] = useState('');
-  const { setQuestionSearch } = usePageContext();
+  const { setQuestionSearch, setSearchScope, searchScope } = usePageContext();
+  const [anchorEl, setAnchorEl] = useState(null);
   useEffect(() => {
     setQuestionSearch('');
     // eslint-disable-next-line
   }, []);
 
+  const handleMenuClick = ({ currentTarget }) => {
+    setAnchorEl(currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handMenuSelect = scope => {
+    setSearchScope(scope);
+    handleMenuClose();
+  };
+
   return (
-    <Paper className={classes.root}>
-      <IconButton className={classes.iconButton} aria-label="menu">
-        <MenuIcon />
-      </IconButton>
-      <InputBase
-        className={classes.input}
-        placeholder="Search questions"
-        inputProps={{ 'aria-label': 'search question' }}
-        onChange={({ target: { value } }) => setFieldState(value)}
-      />
-      <IconButton
-        className={classes.iconButton}
-        aria-label="search"
-        onClick={() => setQuestionSearch(fieldState)}
+    <>
+      <Paper className={classes.root}>
+        <IconButton
+          className={classes.iconButton}
+          aria-label="menu"
+          onClick={handleMenuClick}
+        >
+          <MenuIcon />
+        </IconButton>
+        <InputBase
+          className={classes.input}
+          placeholder={`Search ${capitalize(searchScope)}`}
+          inputProps={{ 'aria-label': 'search question' }}
+          onChange={({ target: { value } }) => setFieldState(value)}
+        />
+        <IconButton
+          className={classes.iconButton}
+          aria-label="search"
+          onClick={() => setQuestionSearch(fieldState)}
+        >
+          <SearchIcon />
+        </IconButton>
+      </Paper>
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
       >
-        <SearchIcon />
-      </IconButton>
-    </Paper>
+        <MenuItem onClick={() => handMenuSelect('all')}>Search All</MenuItem>
+        <MenuItem onClick={() => handMenuSelect('titles')}>
+          Search Titles
+        </MenuItem>
+        <MenuItem onClick={() => handMenuSelect('authors')}>
+          Search Author
+        </MenuItem>
+      </Menu>
+    </>
   );
 }
