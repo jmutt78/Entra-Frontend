@@ -18,6 +18,10 @@ export default ({ children }) => {
     logPageView();
   }, []);
 
+  useEffect(() => {
+    console.log('searching', questionSearch);
+  }, [questionSearch]);
+
   return (
     <PageContext.Provider
       value={{

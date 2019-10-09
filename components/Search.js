@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+import { usePageContext } from './layout';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,6 +29,12 @@ const useStyles = makeStyles(theme => ({
 
 export default function CustomizedInputBase() {
   const classes = useStyles();
+  const [fieldState, setFieldState] = useState('');
+  const { setQuestionSearch } = usePageContext();
+  useEffect(() => {
+    setQuestionSearch('');
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <Paper className={classes.root}>
@@ -38,8 +45,13 @@ export default function CustomizedInputBase() {
         className={classes.input}
         placeholder="Search questions"
         inputProps={{ 'aria-label': 'search question' }}
+        onChange={({ target: { value } }) => setFieldState(value)}
       />
-      <IconButton className={classes.iconButton} aria-label="search">
+      <IconButton
+        className={classes.iconButton}
+        aria-label="search"
+        onClick={() => setQuestionSearch(fieldState)}
+      >
         <SearchIcon />
       </IconButton>
     </Paper>
