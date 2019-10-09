@@ -332,17 +332,26 @@ class DisplayQuestion extends Component {
                 {user ? <Divider variant="middle" /> : <PromptBar />}
               </div>
 
-              {question.description && (
-                <div className="QuestionDetail-body">
-                  <div className={classes.bodyText}>{question.description}</div>
-                </div>
-              )}
-
-              <Credits
-                user={question.askedBy[0]}
-                createdAt={question.createdAt}
-              />
-
+              <div
+                style={{
+                  background: '#f2f4ef',
+                  padding: '3px 0 5px 0',
+                  marginLeft: 15,
+                  marginRight: 15
+                }}
+              >
+                {question.description && (
+                  <div className="QuestionDetail-body">
+                    <div className={classes.bodyText}>
+                      {question.description}
+                    </div>
+                  </div>
+                )}
+                <Credits
+                  user={question.askedBy[0]}
+                  createdAt={question.createdAt}
+                />
+              </div>
               <div style={{ maxWidth: 1000, padding: '15px 0 20px 0' }}>
                 <Divider variant="middle" />
               </div>
