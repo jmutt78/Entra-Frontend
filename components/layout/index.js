@@ -9,6 +9,7 @@ export const usePageContext = () => {
 
 export default ({ children }) => {
   const [sortBy, setSortBy] = useState('default');
+  const [questionSearch, setQuestionSearch] = useState('');
   useEffect(() => {
     if (!window.GA_INITIALIZED) {
       initGA();
@@ -21,7 +22,9 @@ export default ({ children }) => {
     <PageContext.Provider
       value={{
         setSortBy,
-        sortBy
+        sortBy,
+        questionSearch,
+        setQuestionSearch
       }}
     >
       {children}
