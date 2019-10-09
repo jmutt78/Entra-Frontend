@@ -14,6 +14,7 @@ class Hero extends React.Component {
 
   openCreateTagModal = () => {
     this.setState({ showCreateTagModal: true });
+    Mixpanel.track('See How');
   };
   closeCreateTagModal = () => {
     this.setState({ showCreateTagModal: false });

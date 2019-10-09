@@ -1,8 +1,7 @@
 import React from 'react';
-import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
+
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
@@ -10,13 +9,16 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import YouTube from 'react-youtube';
+
+import './index.css';
 
 const DialogTitle = withStyles(theme => ({
   root: {
     margin: 0,
-    padding: theme.spacing(4)
+    paddingTop: theme.spacing(2),
+    paddingLeft: theme.spacing(50),
+    paddingRight: theme.spacing(50),
+    paddingBottom: theme.spacing(4)
   },
   closeButton: {
     position: 'absolute',
@@ -43,25 +45,11 @@ const DialogTitle = withStyles(theme => ({
 });
 
 const DialogContent = withStyles(theme => ({
-  root: {
-    margin: 0,
-    padding: `0 ${theme.spacing(6)}px`,
-    minHeight: '50vh',
-    maxHeight: '50vh',
-    maxWidth: '100%'
-  },
-  container: {
-    position: 'relative',
-    overflow: 'hidden',
-    paddingTop: ' 56.25%'
-  }
+  root: {}
 }))(MuiDialogContent);
 
 const DialogActions = withStyles(theme => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(4)
-  }
+  root: {}
 }))(MuiDialogActions);
 
 class Video extends React.Component {
@@ -72,12 +60,6 @@ class Video extends React.Component {
   }
 
   render() {
-    const opts = {
-      playerVars: {
-        // https://developers.google.com/youtube/player_parameters
-        autoplay: 1
-      }
-    };
     const { open, onClose, classes } = this.props;
     return (
       <Dialog
@@ -90,12 +72,14 @@ class Video extends React.Component {
           onClose={onClose}
         ></DialogTitle>{' '}
         <DialogContent>
-          <div className="container">
-            <YouTube
-              videoId="wVHDvUqcarg"
-              opts={opts}
-              onReady={this.videoOnReady}
-            />
+          <div className="videoWrapper">
+            <iframe
+              title="video"
+              src="//www.youtube.com/embed/wVHDvUqcarg?autoplay=1"
+              allowFullScreen
+              frameBorder="0"
+              allow="autoplay; encrypted-media"
+            ></iframe>
           </div>
         </DialogContent>
       </Dialog>
