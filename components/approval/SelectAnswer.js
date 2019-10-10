@@ -19,15 +19,18 @@ export const SELECT_ANSWER_MUTATION = gql`
 const styles = {
   buttonAccept: {
     backgroundColor: '#85BDCB',
-    marginTop: 10
+
+    margin: '0 5px'
+
   },
   acceptedText: {
-    marginTop: 10,
     marginRight: 10
   },
   selected: {
+
+    margin: '0 5px',
     backgroundColor: '#badc58',
-    marginTop: 10,
+
     cursor: 'default',
     '&:hover': {
       backgroundColor: '#badc58'
@@ -47,8 +50,6 @@ class SelectAnswer extends Component {
 
   render() {
     const { classes, questionId, selected, canSelect } = this.props;
-    console.log(selected);
-    // TODO style this
     if (selected) {
       return (
         <Button className={classes.selected} variant="contained">
@@ -57,9 +58,11 @@ class SelectAnswer extends Component {
         </Button>
       );
     }
+
     if (!canSelect || selected === true || selected === null) {
       return null;
     }
+
     return (
       <Mutation
         mutation={SELECT_ANSWER_MUTATION}
@@ -72,7 +75,7 @@ class SelectAnswer extends Component {
       >
         {(selectAnswer, { error, loading }) => {
           return (
-            <div>
+            <>
               <Button
                 className={classes.buttonAccept}
                 variant="contained"
@@ -81,7 +84,7 @@ class SelectAnswer extends Component {
                 Select
               </Button>
               <Error error={error} />
-            </div>
+            </>
           );
         }}
       </Mutation>

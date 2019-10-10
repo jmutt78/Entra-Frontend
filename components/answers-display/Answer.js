@@ -1,14 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 import { format, parseISO } from 'date-fns';
+import classNames from 'classnames';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
-import Tooltip from '@material-ui/core/Tooltip';
+import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
@@ -18,6 +15,7 @@ import ApproveAnswer from '../approval/AppoveAnswer.js';
 import DeleteAnswer from '../delete-answer';
 import SelectAnswer from '../approval/SelectAnswer';
 import questionQuery from '../question-display/questionQuery';
+import Vote from './Vote';
 import { Mixpanel } from '../../utils/Mixpanel';
 
 import './Answers.css';
@@ -79,9 +77,21 @@ const styles = ({ spacing, palette }) => ({
     height: 70,
     cursor: 'pointer'
   },
-  credits: { paddingTop: 5, display: 'flex', alignItems: 'center' },
-  voteContainer: {
-    display: 'flex'
+  credits: {
+    paddingTop: 5,
+    paddingRight: 25,
+    display: 'flex',
+    alignItems: 'center',
+    // flexDirection: 'column-reverse',
+    justifyContent: 'space-between'
+  },
+  voteContainer1: {
+    display: 'flex',
+    marginTop: 3
+  },
+  voteContainer2: {
+    display: 'flex',
+    marginTop: 6
   },
   voteButton: {
     cursor: 'pointer'
@@ -89,27 +99,26 @@ const styles = ({ spacing, palette }) => ({
   upVote: {
     color: '#e8a77f',
     fontSize: '1.4rem',
-    padding: '8px 8px 5px 0'
+    padding: '12px 8px 8px 0'
   },
   downVote: {
     color: '#85bdcb',
     fontSize: '1.4rem',
-    padding: '8px 0 5px 8px'
+    padding: '8px 0 13px 8px'
   }
 });
 
 const EditAndDelete = ({ answer, classes, user, question }) => {
-  const selected = answer.selected;
-
-  const date1 = new Date(answer.createdAt);
-  const date2 = new Date();
-  const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
-
   return user &&
     answer.answeredBy.id === user.id &&
-    diffDays <= 2 &&
-    selected === null ? (
-    <Typography style={{ padding: '10px 0' }} component={'div'}>
+    parseInt(
+      (new Date() - new Date(answer.createdAt)) / (1000 * 60 * 60 * 24)
+    ) <= 2 &&
+    answer.selected === null ? (
+    <Typography
+      style={{ padding: '10px 5px', display: 'inline' }}
+      component={'div'}
+    >
       <Link
         href={{
           pathname: '/edit-answer',
@@ -124,16 +133,63 @@ const EditAndDelete = ({ answer, classes, user, question }) => {
           EDIT
         </Button>
       </Link>
-      <DeleteAnswer id={answer.id} questionId={question.id} />
+      <DeleteAnswer id={answer.id} questionId={answer.answeredTo[0].id} />
     </Typography>
   ) : null;
+};
+
+const Controls = ({ user, question, answer, hasPermissions, classes }) => {
+  if (
+    hasPermissions ||
+    (user && question.askedBy[0].id === user.id) ||
+    (user &&
+      answer.answeredBy.id === user.id &&
+      parseInt(
+        (new Date() - new Date(answer.createdAt)) / (1000 * 60 * 60 * 24)
+      ) <= 2 &&
+      answer.selected === null)
+  ) {
+    return (
+      <>
+        <div
+          className="questionDetail-divider"
+          style={{ maxWidth: '100%', paddingBottom: 15 }}
+        ></div>
+
+        <div style={{ paddingLeft: 30 }}>
+          <SelectAnswer
+            canSelect={user && question.askedBy[0].id === user.id}
+            selected={answer.selected}
+            id={answer.id}
+            questionId={answer.answeredTo[0].id}
+          />
+
+          <div style={{ display: 'inline' }}>
+            <ApproveAnswer
+              hasPermissions={hasPermissions}
+              isApproved={answer.approval === true}
+              approval={answer.approval}
+              id={answer.id}
+              questionId={answer.answeredTo[0].id}
+            />
+          </div>
+
+          <EditAndDelete
+            answer={answer}
+            classes={classes}
+            user={user}
+            question={question}
+          />
+        </div>
+      </>
+    );
+  }
+  return null;
 };
 
 const Answer = ({ answer, classes, user, client, question }) => {
   const answeredBy = answer.answeredBy.id;
   const ownsAnswer = user && answeredBy === user.id;
-  const isApproved = answer.approval === true;
-  const questionId = answer.answeredTo[0].id;
   const hasPermissions =
     user &&
     user.permissions.some(permission =>
@@ -164,125 +220,85 @@ const Answer = ({ answer, classes, user, client, question }) => {
     Mixpanel.track('Answer downVote');
   };
 
-  if (!ownsAnswer && !hasPermissions && !isApproved) {
+  if (!ownsAnswer && !hasPermissions && !answer.approval === true) {
     return null;
   }
 
   return (
     <div className={classes.detailContainer}>
-      <Table>
-        <TableBody>
-          <TableRow className={classes.tableRow}>
-            <TableCell
-              component="th"
-              scope="row"
-              style={{ padding: '25px 35px' }}
-            >
-              <div>
-                {answer.body && (
-                  <Typography className={classes.body}>
-                    {answer.body}
-                  </Typography>
+      <div
+        style={{
+          background: '#f2f4ef',
+          padding: '10px 0 10px 15px',
+          marginLeft: 15,
+          marginRight: 15
+        }}
+      >
+        <div>
+          {answer.body && (
+            <Typography className={classes.body}>{answer.body}</Typography>
+          )}
+        </div>
+
+        <div className="answerFooter" style={{ background: '#f2f4ef' }}>
+          <div className={classNames(classes.credits, 'answerFooterCredits')}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Link
+                href={{
+                  pathname: '/user',
+                  query: { id: answeredBy }
+                }}
+              >
+                {answer.answeredBy.image === null ||
+                answer.answeredBy.image === '' ? (
+                  <Avatar className={classes.avatar}>
+                    {answer.answeredBy.display[0]}
+                  </Avatar>
+                ) : (
+                  <Avatar
+                    alt="Remy Sharp"
+                    src={answer.answeredBy.image}
+                    className={classes.bigAvatar}
+                  />
                 )}
+              </Link>
+              <div style={{ padding: '0 0 0 10px' }}>
+                Answered by{' '}
+                <Link
+                  href={{
+                    pathname: '/user',
+                    query: { id: answeredBy }
+                  }}
+                >
+                  <a className={classes.nameLink}>
+                    {answer.answeredBy.display}
+                  </a>
+                </Link>{' '}
+                on{' '}
+                <span>
+                  {format(parseISO(answer.createdAt), 'MMMM dd, yyyy')}
+                </span>
               </div>
+            </div>
 
-              <SelectAnswer
-                canSelect={user && question.askedBy[0].id === user.id}
-                selected={answer.selected}
-                id={answer.id}
-                questionId={questionId}
+            <div className="answer-votesContainer">
+              <Vote
+                upvoteCb={() => upVote(answer.id)}
+                downvoteCb={() => downVote(answer.id)}
+                upVotes={answer.upVotes}
+                downVotes={answer.downVotes}
               />
-
-              <div style={{ paddingBottom: 10, paddingTop: 10 }}>
-                <ApproveAnswer
-                  hasPermissions={hasPermissions}
-                  isApproved={isApproved}
-                  approval={answer.approval}
-                  id={answer.id}
-                  questionId={questionId}
-                />
-              </div>
-
-              <EditAndDelete
-                answer={answer}
-                classes={classes}
-                user={user}
-                question={question}
-              />
-
-              <div className="answerFooter">
-                <div className={classes.credits}>
-                  <Link
-                    href={{
-                      pathname: '/user',
-                      query: { id: answeredBy }
-                    }}
-                  >
-                    {answer.answeredBy.image === null ||
-                    answer.answeredBy.image === '' ? (
-                      <Avatar className={classes.avatar}>
-                        {answer.answeredBy.display[0]}
-                      </Avatar>
-                    ) : (
-                      <Avatar
-                        alt="Remy Sharp"
-                        src={answer.answeredBy.image}
-                        className={classes.bigAvatar}
-                      />
-                    )}
-                  </Link>
-
-                  <div style={{ padding: '0 0 0 10px' }}>
-                    Answered by{' '}
-                    <Link
-                      href={{
-                        pathname: '/user',
-                        query: { id: answeredBy }
-                      }}
-                    >
-                      <a className={classes.nameLink}>
-                        {answer.answeredBy.display}
-                      </a>
-                    </Link>{' '}
-                    on{' '}
-                    <span>
-                      {format(parseISO(answer.createdAt), 'MMMM dd, yyyy')}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="votesContainer">
-                  <Tooltip
-                    title="vote up"
-                    placement="top"
-                    className={classes.voteButton}
-                    onClick={() => upVote(answer.id)}
-                  >
-                    <div className={classes.voteContainer}>
-                      <span className={classes.upVote}>{answer.upVotes}</span>
-                      <img src="/static/thumb_up.svg" />
-                    </div>
-                  </Tooltip>
-                  <span>{'    '}</span>
-                  <Tooltip
-                    title="vote down"
-                    placement="top"
-                    className={classes.voteButton}
-                    onClick={() => downVote(answer.id)}
-                  >
-                    <div className={classes.voteContainer}>
-                      <img src="/static/thumb_down.svg" />
-                      <span className={classes.downVote}>
-                        {answer.downVotes}
-                      </span>
-                    </div>
-                  </Tooltip>
-                </div>
-              </div>
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Controls
+        user={user}
+        question={question}
+        answer={answer}
+        hasPermissions={hasPermissions}
+        classes={classes}
+      />
     </div>
   );
 };
