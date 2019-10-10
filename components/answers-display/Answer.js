@@ -154,9 +154,7 @@ const Controls = ({ user, question, answer, hasPermissions, classes }) => {
         <div
           className="questionDetail-divider"
           style={{ maxWidth: '100%', paddingBottom: 15 }}
-        >
-          <Divider variant="middle" />
-        </div>
+        ></div>
 
         <div style={{ paddingLeft: 30 }}>
           <SelectAnswer
@@ -301,10 +299,6 @@ const Answer = ({ answer, classes, user, client, question }) => {
         hasPermissions={hasPermissions}
         classes={classes}
       />
-
-      <div className="questionDetail-divider" style={{ maxWidth: '100%' }}>
-        <Divider variant="middle" />
-      </div>
     </div>
   );
 };

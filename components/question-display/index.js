@@ -329,7 +329,7 @@ class DisplayQuestion extends Component {
               </div>
 
               <div className="questionDetail-divider">
-                {user ? <Divider variant="middle" /> : <PromptBar />}
+                {user ? <div /> : <PromptBar />}
               </div>
 
               <div
@@ -352,9 +352,7 @@ class DisplayQuestion extends Component {
                   createdAt={question.createdAt}
                 />
               </div>
-              <div style={{ maxWidth: 1000, padding: '15px 0 20px 0' }}>
-                <Divider variant="middle" />
-              </div>
+              <div style={{ maxWidth: 1000, padding: '0px 0 20px 0' }}></div>
 
               <EditSection
                 question={question}
