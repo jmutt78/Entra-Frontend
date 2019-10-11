@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
-import classNames from 'classnames';
+import React from 'react';
 
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
-import SortIcon from '@material-ui/icons/Sort';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import Sort from './Sort';
+import Search from './Search';
 
 import './index.css';
 
@@ -25,57 +23,15 @@ const useStyles = makeStyles(({ layout }) => ({
   },
   divider: {
     padding: '15px 0'
+  },
+  searchContainer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end'
   }
 }));
 
-const useSortStyles = makeStyles(({ layout }) => ({
-  text: {
-    textTransform: 'capitalize',
-    padding: '0 0.5rem'
-  }
-}));
-
-const Sort = () => {
-  const [anchor, setAnchor] = useState(null);
-  const [sortOrder, setSortOrder] = useState('default');
-  const classes = useSortStyles();
-
-  const handleClose = () => {
-    setAnchor(null);
-  };
-
-  const handleSelect = (order, { target }) => {
-    setSortOrder(order);
-    handleClose();
-  };
-
-  const handleClick = ({ currentTarget }) => {
-    setAnchor(currentTarget);
-  };
-
-  return (
-    <>
-      <div className="sortContainer" onClick={handleClick}>
-        <SortIcon />
-        <Typography variant="h6" className={classes.text}>
-          {sortOrder}
-        </Typography>
-      </div>
-      <Menu anchorEl={anchor} open={!!anchor} onClose={handleClose}>
-        <MenuItem onClick={handleSelect.bind(null, 'default')}>
-          Default
-        </MenuItem>
-        <MenuItem onClick={handleSelect.bind(null, 'top')}>Top</MenuItem>
-        <MenuItem onClick={handleSelect.bind(null, 'new')}>New</MenuItem>
-        <MenuItem onClick={handleSelect.bind(null, 'controversial')}>
-          Controversial
-        </MenuItem>
-      </Menu>
-    </>
-  );
-};
-
-export default ({ title, sort }) => {
+export default ({ title, sort, search }) => {
   const classes = useStyles();
 
   return (
@@ -84,6 +40,8 @@ export default ({ title, sort }) => {
         <Typography className={classes.title}>{title}</Typography>
         {sort && <Sort />}
       </div>
+
+      <div className={classes.searchContainer}>{search && <Search />}</div>
 
       <div className={classes.divider}>
         <Divider />

@@ -5,7 +5,6 @@ import ListItem from '../ListItem';
 import TitleBar from '../header/TitleBar';
 import Pagination from '../pagination';
 import { withStyles } from '@material-ui/core/styles';
-import Search from '../Search';
 
 const styles = ({ layout }) => ({
   container: {
@@ -29,11 +28,6 @@ const styles = ({ layout }) => ({
   },
   customColumnStyle: {
     maxWidth: '.3px'
-  },
-  searchContainer: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'flex-end'
   }
 });
 
@@ -48,11 +42,11 @@ function QuestionList(props) {
 
   return (
     <div className={classes.container}>
-      <TitleBar title={upperFirst(props.name) || 'Questions'} sort={true} />
-
-      <div className={classes.searchContainer}>
-        <Search />
-      </div>
+      <TitleBar
+        title={upperFirst(props.name) || 'Questions'}
+        sort={true}
+        search={true}
+      />
 
       {questions &&
         questions.map(question => {
