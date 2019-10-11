@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import NavLink from './NavLink';
@@ -67,8 +68,9 @@ const Navbar = ({ classes }) => {
   return (
     <div className="style-target" style={{ width: '100%' }}>
       <User>
-        {({ data: { me } }) => (
+        {({ data: { me }, loading }) => (
           <div className={classes.root}>
+            {loading && <CircularProgress style={{ margin: 20 }} />}
             <div className="visibleOnMobile" onClick={_ => setMenu(!menu)}>
               <img
                 src="static/menu.svg"
