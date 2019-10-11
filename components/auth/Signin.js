@@ -121,6 +121,19 @@ class Signin extends Component {
   saveToState = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
+
+  submitForm = async (e, signin) => {
+    e.preventDefault();
+
+    const res = await signin({
+      variables: {
+        ...this.state
+      }
+    });
+
+    this.setState({ name: '', email: '', password: '' });
+    Router.push('/all');
+  };
   render() {
     const { classes } = this.props;
     return (
@@ -129,7 +142,7 @@ class Signin extends Component {
         variables={this.state}
         refetchQueries={[{ query: CURRENT_USER_QUERY }]}
       >
-        {(signup, { error, loading }) => (
+        {(signin, { error, loading }) => (
           <div>
             {loading && <CircularProgress style={{ margin: 20 }} />}
             <div className={classes.container}>
@@ -148,13 +161,7 @@ class Signin extends Component {
                 <form
                   method="post"
                   className="signin-form"
-                  onSubmit={async e => {
-                    e.preventDefault();
-                    await signup();
-
-                    this.setState({ name: '', email: '', password: '' });
-                    Router.push('/all');
-                  }}
+                  onSubmit={e => this.submitForm(e, signin)}
                 >
                   <fieldset
                     disabled={loading}
