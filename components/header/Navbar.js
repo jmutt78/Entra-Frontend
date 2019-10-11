@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
+import { Query } from 'react-apollo';
 
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import NavLink from './NavLink';
 
 import Avatar from '../Avatar';
-import User from '../auth/User.js';
+import { CURRENT_USER_QUERY } from '../auth/User';
 
 import './Navbar.css';
 
@@ -67,7 +67,7 @@ const Navbar = ({ classes }) => {
 
   return (
     <div className="style-target" style={{ width: '100%' }}>
-      <User>
+      <Query query={CURRENT_USER_QUERY}>
         {({ data: { me }, loading }) => (
           <div className={classes.root}>
             <div className="visibleOnMobile" onClick={_ => setMenu(!menu)}>
@@ -120,7 +120,7 @@ const Navbar = ({ classes }) => {
             </div>
           </div>
         )}
-      </User>
+      </Query>
     </div>
   );
 };
