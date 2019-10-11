@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
+import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import { withStyles } from '@material-ui/core/styles';
-import DeleteBookMark from './UpdateBookMark';
-import questionListQuery from '../question-list/questionListQuery';
-import gql from 'graphql-tag';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import BookmarkBorder from '@material-ui/icons/BookmarkBorder';
+
+import questionListQuery from '../question-list/questionListQuery';
+
 import { CURRENT_USER_QUERY } from '../auth/User';
 import questionQuery from '../question-display/questionQuery';
+import DeleteBookMark from './UpdateBookMark';
 import { Mixpanel } from '../../utils/Mixpanel';
 import Error from './../ErrorMessage.js';
 
@@ -100,6 +103,7 @@ class CreateBookMark extends Component {
         ]}
       >
         {(createBookMark, { error, loading }) => {
+          if (loading) return <CircularProgress style={{ margin: 20 }} />;
           return (
             <div>
               {this.handleBookMark(user, question, classes, createBookMark)}

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import { withStyles } from '@material-ui/core/styles';
+import Bookmark from '@material-ui/icons/Bookmark';
+
+import CircularProgress from '@material-ui/core/CircularProgress';
 import questionListQuery from '../question-list/questionListQuery';
 import Error from './../ErrorMessage.js';
-import gql from 'graphql-tag';
-import Bookmark from '@material-ui/icons/Bookmark';
 import { CURRENT_USER_QUERY } from '../auth/User';
 import { Mixpanel } from '../../utils/Mixpanel';
 
@@ -45,8 +47,9 @@ class DeleteBookMark extends Component {
           { query: CURRENT_USER_QUERY }
         ]}
       >
-        {(deleteBookMark, { error }) => (
-          <>
+        {(deleteBookMark, { error, loading }) => {
+          if (loading) return <CircularProgress style={{ margin: 20 }} />;
+          return (
             <div
               onClick={() => {
                 deleteBookMark();
@@ -61,10 +64,10 @@ class DeleteBookMark extends Component {
               <Bookmark className={classes.icon} />
 
               <span className={classes.viewsCount}>Bookmark this</span>
+              <Error error={error} />
             </div>
-            <Error error={error} />
-          </>
-        )}
+          );
+        }}
       </Mutation>
     );
   }

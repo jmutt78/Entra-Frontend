@@ -253,10 +253,6 @@ const EditSection = withStyles(editStyles)(
             </div>
           )}
         </Typography>
-
-        <div className="questionDetail-divider">
-          <Divider variant="middle" />
-        </div>
       </>
     ) : null;
   }

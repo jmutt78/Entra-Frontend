@@ -139,6 +139,15 @@ const EditAndDelete = ({ answer, classes, user, question }) => {
 };
 
 const Controls = ({ user, question, answer, hasPermissions, classes }) => {
+  let arr = question.answers;
+  function selectedExists(selected) {
+    return arr.some(function(el) {
+      return el.selected === selected;
+    });
+  }
+
+  const selectedAnswer = selectedExists(true);
+
   if (
     hasPermissions ||
     (user && question.askedBy[0].id === user.id) ||
@@ -162,6 +171,7 @@ const Controls = ({ user, question, answer, hasPermissions, classes }) => {
             selected={answer.selected}
             id={answer.id}
             questionId={answer.answeredTo[0].id}
+            selectedAnswer={selectedAnswer}
           />
 
           <div style={{ display: 'inline' }}>
