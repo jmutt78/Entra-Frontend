@@ -66,8 +66,11 @@
     "react-google-login": "^5.0.5",
     "react-jss": "^8.1.0",
     "react-mixpanel": "^1.0.5",
+    "react-modal-video": "^1.2.3",
     "react-stripe-checkout": "^2.6.3",
     "react-transition-group": "^2.9.0",
+    "react-youtube": "^7.9.0",
+    "react-youtube-embed": "^1.0.3",
     "styled-components": "^3.4.9",
     "waait": "^1.0.5"
   },

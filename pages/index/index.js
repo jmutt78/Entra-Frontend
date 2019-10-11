@@ -9,12 +9,14 @@ import CallToAction from './callToAction';
 import ViewAll from './AllQuestionCTA.js';
 import Layout from '../../components/layout/index.js';
 
+import Pixel from '../../utils/Pixel.js';
 import './index.css';
 
 const Landingpage = () => {
   return (
     <Layout>
       <div className="landingContainer">
+        <Pixel name="FACEBOOK_PIXEL_1" />
         <Hero />
         <Why />
         <h2 className="landingHeader sans">
