@@ -15,6 +15,7 @@ import TextField from '@material-ui/core/TextField';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Error from './../ErrorMessage.js';
 import { CURRENT_USER_QUERY } from './User';
@@ -129,103 +130,106 @@ class Signin extends Component {
         refetchQueries={[{ query: CURRENT_USER_QUERY }]}
       >
         {(signup, { error, loading }) => (
-          <div className={classes.container}>
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <Typography variant="h3" className={classes.title}>
-                      Sign In
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-            </Table>
-            <div className={classes.formContainer}>
-              <form
-                method="post"
-                className="signin-form"
-                onSubmit={async e => {
-                  e.preventDefault();
-                  await signup();
+          <div>
+            {loading && <CircularProgress style={{ margin: 20 }} />}
+            <div className={classes.container}>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>
+                      <Typography variant="h3" className={classes.title}>
+                        Sign In
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+              </Table>
+              <div className={classes.formContainer}>
+                <form
+                  method="post"
+                  className="signin-form"
+                  onSubmit={async e => {
+                    e.preventDefault();
+                    await signup();
 
-                  this.setState({ name: '', email: '', password: '' });
-                  Router.push('/all');
-                }}
-              >
-                <fieldset
-                  disabled={loading}
-                  aria-busy={loading}
-                  style={{
-                    borderWidth: '0px',
-                    padding: '10px 0'
+                    this.setState({ name: '', email: '', password: '' });
+                    Router.push('/all');
                   }}
                 >
-                  <Error error={error} />
-
-                  <label htmlFor="email">
-                    <TextField
-                      type="email"
-                      name="email"
-                      placeholder="email"
-                      variant="filled"
-                      value={this.state.email}
-                      className={classes.inputField}
-                      onChange={this.saveToState}
-                    />
-                  </label>
-                  <label htmlFor="password">
-                    <TextField
-                      type="password"
-                      name="password"
-                      placeholder="password"
-                      variant="filled"
-                      value={this.state.password}
-                      onChange={this.saveToState}
-                      className={classes.inputField}
-                    />
-                  </label>
-
-                  <Typography
+                  <fieldset
+                    disabled={loading}
+                    aria-busy={loading}
                     style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center'
+                      borderWidth: '0px',
+                      padding: '10px 0'
                     }}
                   >
-                    <Link href="/resetpage">
-                      <a
-                        style={{
-                          textDecoration: 'none',
-                          color: 'grey',
-                          paddingBottom: 10
-                        }}
-                      >
-                        FORGOT PASSWORD?
-                      </a>
-                    </Link>
-                    <Button
-                      size="large"
-                      className={classes.button}
-                      type="submit"
+                    <Error error={error} />
+
+                    <label htmlFor="email">
+                      <TextField
+                        type="email"
+                        name="email"
+                        placeholder="email"
+                        variant="filled"
+                        value={this.state.email}
+                        className={classes.inputField}
+                        onChange={this.saveToState}
+                      />
+                    </label>
+                    <label htmlFor="password">
+                      <TextField
+                        type="password"
+                        name="password"
+                        placeholder="password"
+                        variant="filled"
+                        value={this.state.password}
+                        onChange={this.saveToState}
+                        className={classes.inputField}
+                      />
+                    </label>
+
+                    <Typography
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
+                      }}
                     >
-                      Log In!
-                    </Button>
-                  </Typography>
-                </fieldset>
-                <div
-                  style={{
-                    padding: '40px 0 0 0'
-                  }}
-                >
-                  {
-                    // <GoogleLoginButton />
-                    // <FacebookLoginButton />
-                    // <LinkedinLoginButton />
-                  }
-                  <SignupPrompt classes={classes} />
-                </div>
-              </form>
+                      <Link href="/resetpage">
+                        <a
+                          style={{
+                            textDecoration: 'none',
+                            color: 'grey',
+                            paddingBottom: 10
+                          }}
+                        >
+                          FORGOT PASSWORD?
+                        </a>
+                      </Link>
+                      <Button
+                        size="large"
+                        className={classes.button}
+                        type="submit"
+                      >
+                        Log In!
+                      </Button>
+                    </Typography>
+                  </fieldset>
+                  <div
+                    style={{
+                      padding: '40px 0 0 0'
+                    }}
+                  >
+                    {
+                      // <GoogleLoginButton />
+                      // <FacebookLoginButton />
+                      // <LinkedinLoginButton />
+                    }
+                    <SignupPrompt classes={classes} />
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         )}

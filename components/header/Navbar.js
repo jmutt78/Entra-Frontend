@@ -70,7 +70,6 @@ const Navbar = ({ classes }) => {
       <User>
         {({ data: { me }, loading }) => (
           <div className={classes.root}>
-            {loading && <CircularProgress style={{ margin: 20 }} />}
             <div className="visibleOnMobile" onClick={_ => setMenu(!menu)}>
               <img
                 src="static/menu.svg"
