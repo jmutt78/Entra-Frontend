@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import capitalize from 'lodash/capitalize';
+import { withRouter } from 'next/router';
 
 import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
@@ -32,15 +33,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function CustomizedInputBase() {
+const CustomizedInputBase = ({ router }) => {
   const classes = useStyles();
   const [fieldState, setFieldState] = useState('');
   const { setSearchTerm, setSearchScope, searchScope } = usePageContext();
   const [anchorEl, setAnchorEl] = useState(null);
-  useEffect(() => {
-    setSearchTerm('');
-    // eslint-disable-next-line
-  }, []);
 
   const handleMenuClick = ({ currentTarget }) => {
     setAnchorEl(currentTarget);
@@ -53,6 +50,12 @@ export default function CustomizedInputBase() {
   const handMenuSelect = scope => {
     setSearchScope(scope);
     handleMenuClose();
+  };
+
+  const handleKeyPress = event => {
+    if (event.key === 'Enter') {
+      setSearchTerm(fieldState);
+    }
   };
 
   return (
@@ -70,6 +73,7 @@ export default function CustomizedInputBase() {
           placeholder={`Search ${capitalize(searchScope)}`}
           inputProps={{ 'aria-label': 'search question' }}
           onChange={({ target: { value } }) => setFieldState(value)}
+          onKeyPress={handleKeyPress}
         />
         <IconButton
           className={classes.iconButton}
@@ -95,4 +99,6 @@ export default function CustomizedInputBase() {
       </Menu>
     </>
   );
-}
+};
+
+export default withRouter(CustomizedInputBase);
