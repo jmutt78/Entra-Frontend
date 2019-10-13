@@ -13,16 +13,6 @@ import questionListQuery from '../question-list/questionListQuery';
 import Error from './../ErrorMessage.js';
 import { usePageContext } from '../layout';
 
-export const ALL_QUESTIONS_PAGINATION_QUERY = gql`
-  query ALL_QUESTIONS_PAGINATION_QUERY($filter: String!) {
-    questionsConnection(filter: $filter) {
-      aggregate {
-        count
-      }
-    }
-  }
-`;
-
 const styles = ({ layout }) => ({
   container: {
     display: 'flex',
@@ -38,6 +28,24 @@ const styles = ({ layout }) => ({
 const Questions = ({ page, classes }) => {
   const { searchScope, searchTerm } = usePageContext();
   const filter = 'all';
+
+  const ALL_QUESTIONS_PAGINATION_QUERY = gql`
+    query ALL_QUESTIONS_PAGINATION_QUERY(
+      $filter: String!
+      $searchScope: String
+      $searchTerm: String
+    ) {
+      questionsConnection(
+        filter: $filter
+        searchScope: $searchScope
+        searchTerm: $searchTerm
+      ) {
+        aggregate {
+          count
+        }
+      }
+    }
+  `;
 
   return (
     <div className={classes.container}>
@@ -61,7 +69,7 @@ const Questions = ({ page, classes }) => {
               questions={questions}
               page={page}
               paginationQuery={ALL_QUESTIONS_PAGINATION_QUERY}
-              paginationVariables={{ filter }}
+              paginationVariables={{ filter, searchScope, searchTerm }}
               name={'all questions'}
             />
           );
