@@ -6,22 +6,40 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
+  margin-top: -10px;
+  margin-bottom: -10px;
 }
 
 .sortContainer {
   display: flex;
   align-items: center;
-  padding: 0 1rem;
+  padding-left: 1rem;
   cursor: pointer;
   margin-top: 3px;
+  flex: 2 2 400px;
 }
 
-@media (max-width: 800px) {
-  .titlebar-flex {
-    flex-direction: column;
-  }
+.searchContainer {
+  padding-right: 1rem;
+  padding-top: 5px;
+  flex: 1 1 400px;
+  margin-top: 15px;
+}
 
+.MuiInputBase-input {
+  padding-bottom: 15px !important;
+  margin-top: 20px !important;
+}
+
+.MuiIconButton-label {
+  margin-top: 10px !important;
+}
+
+@media (max-width: 500px) {
   .sortContainer {
-    padding-top: 5px;
+    /* padding-left: 0.5rem; */
+  }
+  .searchContainer {
+    padding-right: 0;
   }
 }

@@ -4,6 +4,7 @@ import { withRouter } from 'next/router';
 
 import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
+import TextField from '@material-ui/core/TextField';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -15,14 +16,16 @@ import { usePageContext } from '../../layout';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: '2px 4px',
     display: 'flex',
     alignItems: 'center',
-    width: 400
+    width: '100%',
+    marginTop: '-20px'
   },
   input: {
     marginLeft: theme.spacing(1),
-    flex: 1
+    flex: 1,
+    paddingBottom: 15,
+    marginTop: 5
   },
   iconButton: {
     padding: 10
@@ -59,30 +62,35 @@ const CustomizedInputBase = ({ router }) => {
   };
 
   return (
-    <>
-      <Paper className={classes.root}>
-        <IconButton
-          className={classes.iconButton}
-          aria-label="menu"
-          onClick={handleMenuClick}
-        >
-          <MenuIcon />
-        </IconButton>
-        <InputBase
+    <div className="searchContainer">
+      <div className={classes.root}>
+        <TextField
           className={classes.input}
           placeholder={`Search ${capitalize(searchScope)}`}
-          inputProps={{ 'aria-label': 'search question' }}
           onChange={({ target: { value } }) => setFieldState(value)}
           onKeyPress={handleKeyPress}
+          InputProps={{
+            startAdornment: (
+              <IconButton
+                className={classes.iconButton}
+                aria-label="menu"
+                onClick={handleMenuClick}
+              >
+                <MenuIcon />
+              </IconButton>
+            ),
+            endAdornment: (
+              <IconButton
+                className={classes.iconButton}
+                aria-label="search"
+                onClick={() => setSearchTerm(fieldState)}
+              >
+                <SearchIcon />
+              </IconButton>
+            )
+          }}
         />
-        <IconButton
-          className={classes.iconButton}
-          aria-label="search"
-          onClick={() => setSearchTerm(fieldState)}
-        >
-          <SearchIcon />
-        </IconButton>
-      </Paper>
+      </div>
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
@@ -97,7 +105,7 @@ const CustomizedInputBase = ({ router }) => {
         </MenuItem>
         <MenuItem onClick={() => handMenuSelect('tags')}>Search Tags</MenuItem>
       </Menu>
-    </>
+    </div>
   );
 };
 

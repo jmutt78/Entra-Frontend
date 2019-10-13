@@ -23,11 +23,6 @@ const useStyles = makeStyles(({ layout }) => ({
   },
   divider: {
     padding: '15px 0'
-  },
-  searchContainer: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'flex-end'
   }
 }));
 
@@ -36,12 +31,11 @@ export default ({ title, sort, search }) => {
 
   return (
     <div className="titleBar-container">
+      <Typography className={classes.title}>{title}</Typography>
       <div className="titlebar-flex">
-        <Typography className={classes.title}>{title}</Typography>
-        {sort && <Sort />}
+        {sort ? <Sort /> : <div />}
+        {search ? <Search /> : <div />}
       </div>
-
-      <div className={classes.searchContainer}>{search && <Search />}</div>
 
       <div className={classes.divider}>
         <Divider />
