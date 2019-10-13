@@ -64,6 +64,7 @@
     "react-facebook-login": "^4.1.1",
     "react-ga": "^2.6.0",
     "react-google-login": "^5.0.5",
+    "react-infinite-scroll-component": "^4.5.3",
     "react-jss": "^8.1.0",
     "react-mixpanel": "^1.0.5",
     "react-modal-video": "^1.2.3",
