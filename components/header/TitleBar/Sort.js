@@ -43,9 +43,11 @@ const Sort = () => {
         <MenuItem onClick={handleSelect.bind(null, 'default')}>
           Default
         </MenuItem>
-        <MenuItem onClick={handleSelect.bind(null, 'top')}>Top</MenuItem>
+        <MenuItem disabled onClick={handleSelect.bind(null, 'top')}>
+          Top
+        </MenuItem>
         <MenuItem onClick={handleSelect.bind(null, 'new')}>New</MenuItem>
-        <MenuItem onClick={handleSelect.bind(null, 'controversial')}>
+        <MenuItem disabled onClick={handleSelect.bind(null, 'controversial')}>
           Controversial
         </MenuItem>
       </Menu>

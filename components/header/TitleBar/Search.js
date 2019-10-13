@@ -100,10 +100,12 @@ const CustomizedInputBase = ({ router }) => {
         <MenuItem onClick={() => handMenuSelect('titles')}>
           Search Titles
         </MenuItem>
-        <MenuItem onClick={() => handMenuSelect('authors')}>
+        <MenuItem disabled onClick={() => handMenuSelect('authors')}>
           Search Authors
         </MenuItem>
-        <MenuItem onClick={() => handMenuSelect('tags')}>Search Tags</MenuItem>
+        <MenuItem disabled onClick={() => handMenuSelect('tags')}>
+          Search Tags
+        </MenuItem>
       </Menu>
     </div>
   );
