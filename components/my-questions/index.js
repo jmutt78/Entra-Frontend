@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
+
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { withStyles } from '@material-ui/core/styles';
+
 import { perPage } from '../../config.js';
+import TitleBar from '../header/TitleBar';
 import QuestionList from '../question-list';
 import questionListQuery from '../question-list/questionListQuery';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import gql from 'graphql-tag';
 
 export const MY_QUESTIONS_PAGINATION_QUERY = gql`
   query MY_QUESTIONS_PAGINATION_QUERY($filter: String!) {
@@ -16,11 +20,23 @@ export const MY_QUESTIONS_PAGINATION_QUERY = gql`
   }
 `;
 
-class MyQuestions extends Component {
-  render() {
-    const filter = 'my';
-    const { page } = this.props;
-    return (
+const styles = ({ layout }) => ({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    maxWidth: 1200,
+    minWidth: '90%',
+    height: '100%',
+    paddingRight: 10
+  }
+});
+
+const MyQuestions = ({ page, classes }) => {
+  const filter = 'my';
+  return (
+    <div className={classes.container}>
+      <TitleBar title={'My Questions'} sort={true} search={true} />
       <Query
         query={questionListQuery}
         variables={{
@@ -46,8 +62,8 @@ class MyQuestions extends Component {
           );
         }}
       </Query>
-    );
-  }
-}
+    </div>
+  );
+};
 
-export default MyQuestions;
+export default withStyles(styles)(MyQuestions);

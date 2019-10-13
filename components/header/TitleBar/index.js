@@ -22,7 +22,8 @@ const useStyles = makeStyles(({ layout }) => ({
     color: 'black'
   },
   questionsDivider: {
-    marginTop: '-16.5px'
+    marginTop: '-16.5px',
+    paddingBottom: 15
   },
   answersDivider: {
     marginTop: 30,
