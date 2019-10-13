@@ -22,7 +22,8 @@ const useStyles = makeStyles(({ layout }) => ({
     color: 'black'
   },
   divider: {
-    padding: '15px 0'
+    // padding: '15px 0',
+    marginTop: '-16px'
   }
 }));
 
