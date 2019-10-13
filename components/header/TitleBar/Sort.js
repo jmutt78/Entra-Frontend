@@ -6,6 +6,8 @@ import SortIcon from '@material-ui/icons/Sort';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
+import { usePageContext } from '../../layout';
+
 const useStyles = makeStyles(({ layout }) => ({
   text: {
     textTransform: 'capitalize',
@@ -15,7 +17,7 @@ const useStyles = makeStyles(({ layout }) => ({
 
 const Sort = () => {
   const [anchor, setAnchor] = useState(null);
-  const [sortOrder, setSortOrder] = useState('new');
+  const { sortBy, setSortBy } = usePageContext();
   const classes = useStyles();
 
   const handleClose = () => {
@@ -23,7 +25,7 @@ const Sort = () => {
   };
 
   const handleSelect = (order, { target }) => {
-    setSortOrder(order);
+    setSortBy(order);
     handleClose();
   };
 
@@ -36,11 +38,11 @@ const Sort = () => {
       <div className="sortContainer" onClick={handleClick}>
         <SortIcon />
         <Typography variant="h6" className={classes.text}>
-          {sortOrder}
+          {sortBy}
         </Typography>
       </div>
       <Menu anchorEl={anchor} open={!!anchor} onClose={handleClose}>
-        <MenuItem disabled onClick={handleSelect.bind(null, 'default')}>
+        <MenuItem onClick={handleSelect.bind(null, 'default')}>
           Default
         </MenuItem>
         <MenuItem disabled onClick={handleSelect.bind(null, 'top')}>

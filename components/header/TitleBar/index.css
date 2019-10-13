@@ -36,6 +36,10 @@
   margin-top: 10px !important;
 }
 
+.titleBar-container .MuiInput-underline:before {
+  border-bottom: 0 !important;
+}
+
 @media (max-width: 500px) {
   .sortContainer {
     /* padding-left: 0.5rem; */

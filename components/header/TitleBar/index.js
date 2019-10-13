@@ -23,7 +23,7 @@ const useStyles = makeStyles(({ layout }) => ({
   },
   divider: {
     // padding: '15px 0',
-    marginTop: '-16px'
+    marginTop: '-16.5px'
   }
 }));
 
