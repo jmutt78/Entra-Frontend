@@ -1,8 +1,11 @@
-import React from "react";
-import TagsList from "../components/tags-list";
+import React from 'react';
+import TagsList from '../components/tags-list';
+import Layout from '../components/layout/index.js';
 
 const MyQA = props => (
-  <TagsList page={parseFloat(props.query.page) || 1} id={props.query.id} />
+  <Layout>
+    <TagsList page={parseFloat(props.query.page) || 1} id={props.query.id} />
+  </Layout>
 );
 
 export default MyQA;

@@ -1,23 +1,30 @@
-import React, { Component } from 'react';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
-import { withApollo } from 'react-apollo';
-import { perPage } from '../../config.js';
-import QuestionList from '../question-list';
-import tagsListQuery from './tagsListQuery.js';
-import { useQuery } from '@apollo/react-hooks';
-import Error from './../ErrorMessage.js';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import React from 'react';
 
-export const TAGS_QUESTIONS_PAGINATION_QUERY = gql`
-  query TAGS_QUESTIONS_PAGINATION_QUERY($id: ID!, $filter: String!) {
-    questionsConnection(where: { tags_some: { id: $id } }, filter: $filter) {
-      aggregate {
-        count
-      }
-    }
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
+import { withApollo } from 'react-apollo';
+
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { withStyles } from '@material-ui/core/styles';
+
+import Error from './../ErrorMessage.js';
+import QuestionList from '../question-list';
+import TitleBar from '../header/TitleBar';
+import tagsListQuery from './tagsListQuery.js';
+import { perPage } from '../../config.js';
+import { usePageContext } from '../layout';
+
+const styles = ({ layout }) => ({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    maxWidth: 1200,
+    minWidth: '90%',
+    height: '100%',
+    paddingRight: 10
   }
-`;
+});
 
 export const TAG_QUERY = gql`
   query TAG_QUERY($id: ID!) {
@@ -28,12 +35,31 @@ export const TAG_QUERY = gql`
   }
 `;
 
-class TagsList extends Component {
-  render() {
-    const filter = 'tags';
-    const { page, id } = this.props;
+const TagsList = ({ page, id, classes }) => {
+  const { searchScope, searchTerm, sortBy } = usePageContext();
+  const filter = 'tags';
 
-    return (
+  const ALL_QUESTIONS_PAGINATION_QUERY = gql`
+    query ALL_QUESTIONS_PAGINATION_QUERY(
+      $filter: String!
+      $searchScope: String
+      $searchTerm: String
+    ) {
+      questionsConnection(
+        filter: $filter
+        searchScope: $searchScope
+        searchTerm: $searchTerm
+      ) {
+        aggregate {
+          count
+        }
+      }
+    }
+  `;
+
+  return (
+    <div className={classes.container}>
+      <TitleBar title={'Tags'} sort={true} search={true} />
       <Query
         query={TAG_QUERY}
         variables={{
@@ -48,10 +74,13 @@ class TagsList extends Component {
             <Query
               query={tagsListQuery}
               variables={{
-                id: this.props.id,
+                id,
                 filter,
                 skip: page * perPage - perPage,
-                first: perPage
+                first: perPage,
+                searchScope,
+                searchTerm,
+                sortBy
               }}
             >
               {({ data: { questions }, loading }) => {
@@ -61,7 +90,7 @@ class TagsList extends Component {
                   <QuestionList
                     enablePagination={true}
                     questions={questions}
-                    paginationQuery={TAGS_QUESTIONS_PAGINATION_QUERY}
+                    paginationQuery={ALL_QUESTIONS_PAGINATION_QUERY}
                     paginationVariables={{ filter, id }}
                     page={page}
                     name={name}
@@ -72,8 +101,8 @@ class TagsList extends Component {
           );
         }}
       </Query>
-    );
-  }
-}
+    </div>
+  );
+};
 
-export default withApollo(TagsList);
+export default withStyles(styles)(withApollo(TagsList));
