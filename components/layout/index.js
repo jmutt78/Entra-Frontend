@@ -8,7 +8,7 @@ export const usePageContext = () => {
 };
 
 export default ({ children }) => {
-  const [sortBy, setSortBy] = useState('default');
+  const [sortBy, setSortBy] = useState('new');
   const [searchTerm, setSearchTerm] = useState('');
   const [searchScope, setSearchScope] = useState('all');
   useEffect(() => {
@@ -19,9 +19,9 @@ export default ({ children }) => {
     logPageView();
   }, []);
 
-  useEffect(() => {
-    console.log('searching', searchTerm, 'in scope', searchScope);
-  }, [searchTerm, searchScope]);
+  // useEffect(() => {
+  //   console.log('searching', searchTerm, 'in scope', searchScope);
+  // }, [searchTerm, searchScope]);
 
   return (
     <PageContext.Provider

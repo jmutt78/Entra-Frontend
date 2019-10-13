@@ -15,7 +15,7 @@ const useStyles = makeStyles(({ layout }) => ({
 
 const Sort = () => {
   const [anchor, setAnchor] = useState(null);
-  const [sortOrder, setSortOrder] = useState('default');
+  const [sortOrder, setSortOrder] = useState('new');
   const classes = useStyles();
 
   const handleClose = () => {
@@ -40,7 +40,7 @@ const Sort = () => {
         </Typography>
       </div>
       <Menu anchorEl={anchor} open={!!anchor} onClose={handleClose}>
-        <MenuItem onClick={handleSelect.bind(null, 'default')}>
+        <MenuItem disabled onClick={handleSelect.bind(null, 'default')}>
           Default
         </MenuItem>
         <MenuItem disabled onClick={handleSelect.bind(null, 'top')}>
@@ -50,6 +50,7 @@ const Sort = () => {
         <MenuItem disabled onClick={handleSelect.bind(null, 'controversial')}>
           Controversial
         </MenuItem>
+        <MenuItem onClick={handleSelect.bind(null, 'old')}>Old</MenuItem>
       </Menu>
     </>
   );

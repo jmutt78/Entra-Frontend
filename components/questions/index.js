@@ -1,7 +1,6 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import { upperFirst } from 'lodash';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
@@ -26,7 +25,7 @@ const styles = ({ layout }) => ({
 });
 
 const Questions = ({ page, classes }) => {
-  const { searchScope, searchTerm } = usePageContext();
+  const { searchScope, searchTerm, sortBy } = usePageContext();
   const filter = 'all';
 
   const ALL_QUESTIONS_PAGINATION_QUERY = gql`
@@ -57,7 +56,8 @@ const Questions = ({ page, classes }) => {
           skip: page * perPage - perPage,
           first: perPage,
           searchScope,
-          searchTerm
+          searchTerm,
+          sortBy
         }}
       >
         {({ data, loading, error }) => {
