@@ -37,7 +37,10 @@ class AnswerList extends Component {
     } = this.props;
     return (
       <div className={classes.container}>
-        <TitleBar title={upperFirst(this.props.name) || 'Answers'} />
+        <TitleBar
+          title={upperFirst(this.props.name) || 'Answers'}
+          answers={true}
+        />
         {answers.map(answer => {
           return (
             <ListItem

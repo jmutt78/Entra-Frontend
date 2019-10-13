@@ -21,13 +21,16 @@ const useStyles = makeStyles(({ layout }) => ({
   icon: {
     color: 'black'
   },
-  divider: {
-    // padding: '15px 0',
+  questionsDivider: {
     marginTop: '-16.5px'
+  },
+  answersDivider: {
+    marginTop: 30,
+    padding: '15px 0'
   }
 }));
 
-export default ({ title, sort, search }) => {
+export default ({ title, sort, search, answers }) => {
   const classes = useStyles();
 
   return (
@@ -38,7 +41,9 @@ export default ({ title, sort, search }) => {
         {search ? <Search /> : <div />}
       </div>
 
-      <div className={classes.divider}>
+      <div
+        className={answers ? classes.answersDivider : classes.questionsDivider}
+      >
         <Divider />
       </div>
     </div>

@@ -19,10 +19,6 @@ export default ({ children }) => {
     logPageView();
   }, []);
 
-  // useEffect(() => {
-  //   console.log('searching', searchTerm, 'in scope', searchScope);
-  // }, [searchTerm, searchScope]);
-
   return (
     <PageContext.Provider
       value={{

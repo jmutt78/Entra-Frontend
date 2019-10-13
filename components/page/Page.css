@@ -4,6 +4,7 @@
 
 .contentContainer {
   overflow-x: hidden;
+  flex-direction: column;
 }
 
 .noPadding {
