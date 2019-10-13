@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
@@ -24,27 +23,10 @@ const styles = ({ layout }) => ({
   }
 });
 
-const Questions = ({ page, classes }) => {
+const Questions = ({ classes }) => {
   const { searchScope, searchTerm, sortBy } = usePageContext();
+  const [page, setPage] = useState(1);
   const filter = 'all';
-
-  const ALL_QUESTIONS_PAGINATION_QUERY = gql`
-    query ALL_QUESTIONS_PAGINATION_QUERY(
-      $filter: String!
-      $searchScope: String
-      $searchTerm: String
-    ) {
-      questionsConnection(
-        filter: $filter
-        searchScope: $searchScope
-        searchTerm: $searchTerm
-      ) {
-        aggregate {
-          count
-        }
-      }
-    }
-  `;
 
   return (
     <div className={classes.container}>
@@ -67,10 +49,10 @@ const Questions = ({ page, classes }) => {
           return (
             <QuestionList
               questions={questions}
-              page={page}
-              paginationQuery={ALL_QUESTIONS_PAGINATION_QUERY}
-              paginationVariables={{ filter, searchScope, searchTerm }}
               name={'all questions'}
+              page={page}
+              filter="all"
+              fetchMore={() => setPage(page + 1)}
             />
           );
         }}
