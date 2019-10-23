@@ -109,7 +109,11 @@ const Appbar = ({ isLoggedIn, classes, me }) => {
         <div className="subContainer">
           <Typography variant="h6" className={classes.logoContainer}>
             <Link href="/all">
-              <img src="/static/logo.png" className={classes.logo} />
+              <img
+                src="/static/logo.png"
+                className={classes.logo}
+                alt="entra logo"
+              />
             </Link>
           </Typography>
         </div>

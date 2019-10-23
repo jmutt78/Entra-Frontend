@@ -140,6 +140,7 @@ export const FooterBar = ({ classes }) => {
               <img
                 className={classes.img}
                 src="/static/icons8-facebook-circled-48.png"
+                alt="facebook icon"
               />
             </a>
             <a
@@ -150,6 +151,7 @@ export const FooterBar = ({ classes }) => {
               <img
                 className={classes.img}
                 src="/static/icons8-instagram-old-50.png"
+                alt="instagram icon"
               />
             </a>
             <a
@@ -160,6 +162,7 @@ export const FooterBar = ({ classes }) => {
               <img
                 className={classes.img}
                 src="/static/icons8-linkedin-48.png"
+                alt="linkedin icon"
               />
             </a>
             <a
@@ -170,6 +173,7 @@ export const FooterBar = ({ classes }) => {
               <img
                 className={classes.img}
                 src="/static/icons8-twitter-squared-48.png"
+                alt="twitter icon"
               />
             </a>
           </ListItem>

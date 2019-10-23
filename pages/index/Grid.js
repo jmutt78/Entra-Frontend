@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Grid = ({ image, head, sub, alignment, sections }) => {
+const Grid = ({ image, head, sub, alignment, sections, alt }) => {
   return (
     <div
       className={`gridContainer ${
@@ -11,9 +11,9 @@ const Grid = ({ image, head, sub, alignment, sections }) => {
         <h3 className="gridHeader sans">{head}</h3>
         <h4 className="gridSubHeader serif">{sub}</h4>
 
-        {sections.map(({ icon, head, body }, key) => (
+        {sections.map(({ icon, head, body, alt }, key) => (
           <div key={key} style={{ padding: '1rem 0' }}>
-            <img src={icon} alt={head} style={{ maxWidth: 60 }} />
+            <img src={icon} alt={alt} style={{ maxWidth: 60 }} />
             <p className="gridSectionHead sans">{head}</p>
             <div className="gridSectionBody serif">{body}</div>
           </div>
