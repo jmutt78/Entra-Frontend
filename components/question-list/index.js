@@ -5,6 +5,7 @@ import ListItem from '../ListItem';
 import PageHeader from '../PageHeader';
 import Pagination from '../pagination';
 import { withStyles } from '@material-ui/core/styles';
+import Search from '../search/QuestionSearch';
 
 const styles = ({ layout }) => ({
   container: {
@@ -28,6 +29,12 @@ const styles = ({ layout }) => ({
   },
   customColumnStyle: {
     maxWidth: '.3px'
+  },
+  questionListHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    maxWidth: '100%'
   }
 });
 
@@ -42,7 +49,10 @@ function QuestionList(props) {
 
   return (
     <div className={classes.container}>
-      <PageHeader title={upperFirst(props.name) || 'Questions'} />
+      <div className={classes.questionListHeader}>
+        <PageHeader title={upperFirst(props.name) || 'Questions'} />
+        {props.name === 'all questions' && <Search />}
+      </div>
       {questions &&
         questions.map(question => {
           return (
