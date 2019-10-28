@@ -1,32 +1,16 @@
 import React from 'react';
-import Router from 'next/router';
 import Typography from '@material-ui/core/Typography';
 import gql from 'graphql-tag';
-import Link from 'next/link';
 import { Mutation, Query } from 'react-apollo';
-import Error from './../ErrorMessage.js';
 
-import Table from '@material-ui/core/Table';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-
-import AddIcon from '@material-ui/icons/Add';
-import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
-import Fab from '@material-ui/core/Fab';
-import FilledInput from '@material-ui/core/FilledInput';
-import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
-import InputLabel from '@material-ui/core/InputLabel';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 
+import Error from './../ErrorMessage.js';
+import { CURRENT_USER_QUERY } from '../auth/User';
 import { Mixpanel } from '../../utils/Mixpanel';
-import Seasoned from './Seasoned';
+import TagSelect from './TagSelect';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = ({ layout, palette }) => ({
   container: {
@@ -50,12 +34,6 @@ const styles = ({ layout, palette }) => ({
 });
 
 class Onboarding extends React.Component {
-  state = {
-    firstSignin: true,
-    newEntra: false,
-    seasonedEntra: false
-  };
-
   handleNewClick = () => {
     this.setState({
       firstSignin: false,
@@ -73,51 +51,24 @@ class Onboarding extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const seasoned = this.state.seasonedEntra;
-    const newEntra = this.state.newEntra;
-    const firstSignin = this.state.firstSignin;
-
     return (
-      <Grid container className={classes.container}>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                <Typography variant="h6" className={classes.title}>
-                  Welcome To Entra
-                </Typography>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-        </Table>
-        <div>Hold for Video</div>
-        <div className={classes.formContainer}>
-          {firstSignin && (
-            <Button onClick={this.handleNewClick}>New Entrepreneur?</Button>
-          )}
-          {firstSignin && (
-            <Button onClick={this.handleSeasonedClick}>
-              Seasoned Entrepreneur/Advisor
-            </Button>
-          )}
+      <Query query={CURRENT_USER_QUERY}>
+        {({ data, loading, error }) => {
+          if (loading) return <CircularProgress style={{ margin: 20 }} />;
+          if (error) return <Error error={error} />;
+          const user = data.me;
+          return (
+            <Grid container className={classes.container}>
+              <Typography variant="h6" className={classes.title}>
+                Welcome To Entra!
+              </Typography>
 
-          {seasoned && <Seasoned />}
-          {newEntra && (
-            <div className={classes.formContainer}>
-              <Link href="/qa">
-                <Button>Ask a Question?</Button>
-              </Link>
-              <Button onClick={this.handleSeasonedClick}>View Questions</Button>
-            </div>
-          )}
-        </div>
-
-        <div>
-          {!firstSignin && (
-            <Button onClick={this.handleRestartClick}>Start Over</Button>
-          )}
-        </div>
-      </Grid>
+              <div>Hold for Video see how it works</div>
+              <TagSelect user={user} />
+            </Grid>
+          );
+        }}
+      </Query>
     );
   }
 }

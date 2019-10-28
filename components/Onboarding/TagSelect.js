@@ -52,11 +52,7 @@ class Seasoned extends React.Component {
     return (
       <Grid container className={classes.container}>
         <div className={classes.formContainer}>
-          <Tags />
-          <h2>Or</h2>
-          <Link href="/qa">
-            <Button>Ask a Question?</Button>
-          </Link>
+          <Tags user={this.props.user} />
         </div>
       </Grid>
     );
