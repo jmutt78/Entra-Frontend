@@ -1,42 +1,42 @@
-import React from "react";
-import { Mutation, Query } from "react-apollo";
-import gql from "graphql-tag";
-import Router from "next/router";
-import Error from "./../ErrorMessage.js";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import Checkbox from "@material-ui/core/Checkbox";
-import FilledInput from "@material-ui/core/FilledInput";
-import FormControl from "@material-ui/core/FormControl";
-import Grid from "@material-ui/core/Grid";
-import InputLabel from "@material-ui/core/InputLabel";
-import ListItemText from "@material-ui/core/ListItemText";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import Table from "@material-ui/core/Table";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TextField from "@material-ui/core/TextField";
-import { withStyles } from "@material-ui/core/styles";
+import React from 'react';
+import { Mutation, Query } from 'react-apollo';
+import gql from 'graphql-tag';
+import Router from 'next/router';
+import Error from './../ErrorMessage.js';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+import FilledInput from '@material-ui/core/FilledInput';
+import FormControl from '@material-ui/core/FormControl';
+import Grid from '@material-ui/core/Grid';
+import InputLabel from '@material-ui/core/InputLabel';
+import ListItemText from '@material-ui/core/ListItemText';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import Table from '@material-ui/core/Table';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import TextField from '@material-ui/core/TextField';
+import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import CreateTag from "../create-question/CreateTag.js";
-import questionListQuery from "../question-list/questionListQuery";
-import { TAGS_QUERY } from "../create-question/Tags";
+import CreateTag from '../create-question/CreateTag.js';
+import questionListQuery from '../question-list/questionListQuery';
+import { TAGS_QUERY } from '../create-question/Tags';
 
 const styles = ({ layout, palette }) => ({
   container: {
-    display: "flex",
-    flexDirection: "column"
+    display: 'flex',
+    flexDirection: 'column'
   },
   title: {
-    fontSize: "40px",
-    textAlign: "Left",
-    color: "rgba(0, 0, 0, 0.87)"
+    fontSize: '40px',
+    textAlign: 'Left',
+    color: 'rgba(0, 0, 0, 0.87)'
   },
   inputField: {
-    width: "100%",
+    width: '100%',
     marginBottom: 30
   },
   label: {
@@ -44,15 +44,15 @@ const styles = ({ layout, palette }) => ({
     marginTop: 8
   },
   formContainer: {
-    width: "100%",
+    width: '100%',
     maxWidth: 1000,
-    display: "flex",
-    justifyContent: "center"
+    display: 'flex',
+    justifyContent: 'center'
   },
   form: {
-    width: "100%",
+    width: '100%',
     maxWidth: 500,
-    padding: "50px 0 0 0"
+    padding: '50px 0 0 0'
   },
   fieldset: {
     border: 0,
@@ -60,19 +60,19 @@ const styles = ({ layout, palette }) => ({
     margin: 0
   },
   formControl: {
-    width: "100%"
+    width: '100%'
   },
   tagsContainer: {
-    display: "flex"
+    display: 'flex'
   },
   tagButton: {
     marginLeft: 10,
-    background: "#e3e3e3"
+    background: '#e3e3e3'
   },
   buttonContainer: {
-    display: "flex",
-    width: "100%",
-    justifyContent: "flex-end"
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'flex-end'
   }
 });
 
@@ -133,6 +133,10 @@ class QuestionForm extends React.Component {
   };
 
   updateForm = async (e, updateQuestion) => {
+    const tag = this.state.tags.map(tag => ({
+      name: tag
+    }));
+
     e.preventDefault();
     const res = await updateQuestion({
       variables: {
@@ -146,9 +150,9 @@ class QuestionForm extends React.Component {
       }
     });
 
-    console.log("Updated!!");
+    console.log('Updated!!');
     Router.push({
-      pathname: "/question",
+      pathname: '/question',
       query: { id: this.props.question.id }
     });
   };
@@ -159,7 +163,7 @@ class QuestionForm extends React.Component {
     return (
       <Query query={TAGS_QUERY}>
         {({ loading, data, error }) => {
-          if (loading) return <CircularProgress style={{margin: 20}} />
+          if (loading) return <CircularProgress style={{ margin: 20 }} />;
           if (error) return <Error error={error} />;
           return (
             <Mutation
@@ -167,7 +171,7 @@ class QuestionForm extends React.Component {
               refetchQueries={[
                 {
                   query: questionListQuery,
-                  variables: { filter: "my" }
+                  variables: { filter: 'my' }
                 }
               ]}
             >
@@ -229,7 +233,7 @@ class QuestionForm extends React.Component {
                                   id="filled-age-native-simple"
                                 />
                               }
-                              renderValue={selected => selected.join(", ")}
+                              renderValue={selected => selected.join(', ')}
                             >
                               {data.tags.map(tag => (
                                 <MenuItem key={tag.name} value={tag.name}>

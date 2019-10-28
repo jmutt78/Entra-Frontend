@@ -1,28 +1,15 @@
 import React from 'react';
-import Router from 'next/router';
-import Typography from '@material-ui/core/Typography';
 import gql from 'graphql-tag';
 import { Mutation, Query } from 'react-apollo';
 import Error from './../ErrorMessage.js';
 
-import Table from '@material-ui/core/Table';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-
-import AddIcon from '@material-ui/icons/Add';
-import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
-import Fab from '@material-ui/core/Fab';
-import FilledInput from '@material-ui/core/FilledInput';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
-import InputLabel from '@material-ui/core/InputLabel';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 
 import { perPage } from '../../config.js';
 import tagsListQuery from './tagsListQuery';
@@ -43,9 +30,77 @@ const styles = ({ layout, palette }) => ({
   }
 });
 
+export const UPDATE_USER_MUTATION = gql`
+  mutation updateUser(
+    $id: ID!
+    $tags: [TagInput!]!
+    $email: String!
+    $name: String!
+    $display: String!
+  ) {
+    updateUser(
+      id: $id
+      tags: $tags
+      email: $email
+      name: $name
+      display: $display
+    ) {
+      id
+      tags {
+        id
+        name
+      }
+    }
+  }
+`;
+
+// TODO:
+
+// 2. Create a page that displays my feed
+
+// 4. Create logic for controlling each page in the onboarding also a skip button
+// 5. Create the my feed link that has controls if someone skips this page
+// 3. Create a page that allows the user to edit tag options
+// 6. Create mixpannel
+// 7. Style
+
 class Tags extends React.Component {
+  state = {
+    tags: []
+  };
+
+  handleTagsChange = e => {
+    const options = this.state.tags;
+    let index;
+    if (e.target.checked) {
+      options.push(e.target.value);
+    } else {
+      index = options.indexOf(+e.target.value);
+      options.splice(index, 1);
+    }
+
+    this.setState({ tags: options });
+  };
+
+  updateUser = async (e, user, updateUserMutation) => {
+    e.preventDefault();
+    const res = await updateUserMutation({
+      variables: {
+        id: user.id,
+        name: user.name,
+        display: user.display,
+        email: user.email,
+        tags: this.state.tags.map(tag => ({
+          name: tag
+        }))
+      }
+    });
+    console.log('update');
+  };
+
   render() {
     const { classes } = this.props;
+    const user = this.props.user;
 
     return (
       <Query
@@ -56,40 +111,43 @@ class Tags extends React.Component {
         }}
       >
         {({ data, loading, error }) => {
-          console.log(data);
-          const tags = data.tags;
           return (
-            <div>
-              <Grid container className={classes.container}>
-                <h2>Choose a Category</h2>
-
-                <div>
-                  {tags && (
-                    <div className="tagButtons">
-                      {tags.map(({ id, name }) => (
-                        <div key={id} style={{ padding: '2px 0' }}>
-                          <Button
-                            size="small"
-                            variant="contained"
-                            onClick={e => {
-                              e.preventDefault();
-                              e.stopPropagation();
-
-                              Router.push({
-                                pathname: '/tags',
-                                query: { id: id }
-                              });
-                            }}
-                          >
-                            {name}
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </Grid>
-            </div>
+            <Mutation mutation={UPDATE_USER_MUTATION}>
+              {(updateUser, { error, loading }) => {
+                if (error) return <Error error={error} />;
+                return (
+                  <div>
+                    <Grid container className={classes.container}>
+                      <h2>Select Categories That Interest you</h2>
+                      <div>
+                        <form
+                          method="post"
+                          onSubmit={e => this.updateUser(e, user, updateUser)}
+                          className={classes.form}
+                        >
+                          <FormControl className={classes.formControl}>
+                            {data.tags.map(tag => (
+                              <MenuItem key={tag.id} value={tag.name}>
+                                <Checkbox
+                                  label={tag.name}
+                                  key={tag.id}
+                                  value={tag.name}
+                                  onChange={this.handleTagsChange}
+                                />
+                                <ListItemText primary={tag.name} />
+                              </MenuItem>
+                            ))}
+                            <Button variant="contained" type="submit">
+                              Save
+                            </Button>
+                          </FormControl>
+                        </form>
+                      </div>
+                    </Grid>
+                  </div>
+                );
+              }}
+            </Mutation>
           );
         }}
       </Query>
