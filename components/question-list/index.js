@@ -29,12 +29,6 @@ const styles = ({ layout }) => ({
   },
   customColumnStyle: {
     maxWidth: '.3px'
-  },
-  questionListHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    maxWidth: '100%'
   }
 });
 
@@ -49,10 +43,8 @@ function QuestionList(props) {
 
   return (
     <div className={classes.container}>
-      <div className={classes.questionListHeader}>
-        <PageHeader title={upperFirst(props.name) || 'Questions'} />
-        {props.name === 'all questions' && <Search />}
-      </div>
+      <PageHeader title={upperFirst(props.name) || 'Questions'} />
+      {props.name === 'all questions' && <Search />}
       {questions &&
         questions.map(question => {
           return (

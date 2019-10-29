@@ -3,16 +3,11 @@ import Downshift, { resetIdCounter } from 'downshift';
 import Router from 'next/router';
 import { ApolloConsumer } from 'react-apollo';
 import gql from 'graphql-tag';
-import styled from 'styled-components';
-import deburr from 'lodash/deburr';
+import styled, { keyframes } from 'styled-components';
 import debounce from 'lodash.debounce';
 import TextField from '@material-ui/core/TextField';
 
-import Popper from '@material-ui/core/Popper';
-import Paper from '@material-ui/core/Paper';
-import MenuItem from '@material-ui/core/MenuItem';
-import Chip from '@material-ui/core/Chip';
-
+// TODO: quesy only approved q and a
 export const SEARCH_QUESTIONS_QUERY = gql`
   query SEARCH_QUESTIONS_QUERY($searchTerm: String!) {
     title: questions(where: { title_contains: $searchTerm }) {
@@ -25,6 +20,46 @@ export const SEARCH_QUESTIONS_QUERY = gql`
       title
       description
     }
+    answer: questions {
+      id
+      title
+      description
+      answers(where: { body_contains: $searchTerm }) {
+        id
+      }
+    }
+    user: questions {
+      id
+      title
+      description
+      askedBy(where: { display_contains: $searchTerm }) {
+        id
+      }
+    }
+  }
+`;
+
+const glow = keyframes`
+  from {
+    box-shadow: 0 0 0px yellow;
+  }
+
+  to {
+    box-shadow: 0 0 10px 1px yellow;
+  }
+`;
+
+const SearchContainer = styled.div`
+  position: relative;
+  padding-bottom: 30px;
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 0;
+    font-size: 1.5rem;
+    &.loading {
+      animation: ${glow} 0.5s ease-in-out infinite alternate;
+    }
   }
 `;
 
@@ -32,19 +67,18 @@ const DropDown = styled.div`
   position: absolute;
   width: 100%;
   z-index: 2;
-  border: 1px solid ${props => props.theme.lightgrey};
+  border: 1px solid #ebebeb;
 `;
 
 const DropDownItem = styled.div`
-  border-bottom: 1px solid ${props => props.theme.lightgrey};
+  border-bottom: 1px solid #ebebeb;
   background: ${props => (props.highlighted ? '#f7f7f7' : 'white')};
   padding: 1rem;
   transition: all 0.2s;
   ${props => (props.highlighted ? 'padding-left: 2rem;' : null)};
   display: flex;
   align-items: center;
-  border-left: 10px solid
-    ${props => (props.highlighted ? props.theme.lightgrey : 'white')};
+  border-left: 10px solid ${props => (props.highlighted ? '#EBEBEB' : 'white')};
   img {
     margin-right: 10px;
   }
@@ -62,29 +96,27 @@ function routeToQuestion(question) {
 
 class QuestionSearch extends React.Component {
   state = {
-    questions: [],
-    answers: [],
-    users: [],
+    searchResult: [],
     loading: false
   };
+
   onChange = debounce(async (e, client) => {
-    console.log('Searching...');
-    // turn loading on
     this.setState({ loading: true });
     if (e.target.value.trim() === '') {
       this.setState({
-        questions: [],
+        searchResult: [],
         loading: false
       });
       return;
     }
 
-    // Manually query apollo client
     const {
-      data: { description, title }
+      data: { description, title, answer, user }
     } = await client.query({
       query: SEARCH_QUESTIONS_QUERY,
-      variables: { searchTerm: e.target.value }
+      variables: {
+        searchTerm: e.target.value
+      }
     });
 
     let questions = [];
@@ -99,16 +131,51 @@ class QuestionSearch extends React.Component {
         questions.push(d);
       }
     });
-    console.log(questions);
+
+    const filteredQuestions = title
+      .concat(questions)
+      .splice(2)
+      .map(t => {
+        return {
+          ...t,
+          title: `Question: ${t.title}`
+        };
+      })
+      .splice(2);
+
+    const filteredAnswers = answer
+      .filter(a => a.answers.length > 0)
+      .map(a => {
+        return {
+          ...a,
+          title: `Answer: ${a.title}`
+        };
+      })
+      .splice(2);
+
+    const filteredUsers = user
+      .filter(u => u.askedBy.length > 0)
+      .map(u => {
+        return {
+          ...u,
+          title: `User: ${u.title}`
+        };
+      })
+      .splice(2);
+
+    const searchResult = filteredQuestions
+      .concat(filteredAnswers)
+      .concat(filteredUsers);
+
     this.setState({
-      questions: title.concat(questions),
+      searchResult,
       loading: false
     });
   }, 350);
   render() {
     resetIdCounter();
     return (
-      <div>
+      <SearchContainer>
         <Downshift
           onChange={routeToQuestion}
           itemToString={question => (question === null ? '' : question.title)}
@@ -139,24 +206,27 @@ class QuestionSearch extends React.Component {
               </ApolloConsumer>
               {isOpen && (
                 <DropDown>
-                  {this.state.questions.map((question, index) => (
+                  {this.state.searchResult.map((question, index) => (
                     <DropDownItem
                       {...getItemProps({ item: question })}
-                      key={question.id}
+                      key={`${question.id}:${question.title.split(' ')[0]}`}
                       highlighted={index === highlightedIndex}
                     >
                       {question.title}
                     </DropDownItem>
                   ))}
-                  {!this.state.questions.length && !this.state.loading && (
-                    <DropDownItem> Nothing Found {inputValue}</DropDownItem>
+                  {!this.state.searchResult.length && !this.state.loading && (
+                    <DropDownItem>
+                      {' '}
+                      No Question Found for {inputValue}
+                    </DropDownItem>
                   )}
                 </DropDown>
               )}
             </div>
           )}
         </Downshift>
-      </div>
+      </SearchContainer>
     );
   }
 }
