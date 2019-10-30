@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { upperFirst } from 'lodash';
 
 import ListItem from '../ListItem';
@@ -33,18 +33,21 @@ const styles = ({ layout }) => ({
 });
 
 function QuestionList(props) {
-  const {
-    classes,
-    questions,
-    page,
-    paginationVariables,
-    paginationQuery
-  } = props;
+  const { classes, page, paginationVariables, paginationQuery } = props;
+  const [questions, setQuestions] = useState(props.questions);
+
+  const onNewSearch = newQuestions => {
+    console.log(newQuestions);
+    setQuestions(newQuestions);
+  };
 
   return (
     <div className={classes.container}>
       <PageHeader title={upperFirst(props.name) || 'Questions'} />
-      {props.name === 'all questions' && <Search />}
+      {props.name === 'all questions' && (
+        // TODO: remove Question, Answer, User from title
+        <Search onNewSearch={onNewSearch} />
+      )}
       {questions &&
         questions.map(question => {
           return (
