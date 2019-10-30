@@ -1,6 +1,6 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { Mutation, Query } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import Error from './../ErrorMessage.js';
 import Router from 'next/router';
 
@@ -11,10 +11,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { CURRENT_USER_QUERY } from '../auth/User';
-import { perPage } from '../../config.js';
-import tagsListQuery from './tagsListQuery';
 import { Mixpanel } from '../../utils/Mixpanel';
 
 const styles = ({ layout, palette }) => ({
@@ -57,9 +56,7 @@ export const UPDATE_USER_MUTATION = gql`
 `;
 
 // TODO:
-// 3. Create a page that allows the user to edit tag options
-// 5. Create the my feed link that has controls if someone skips this page
-// 4. Create logic for controlling each page in the onboarding also a skip button
+//-welcome message and video
 // 6. Create mixpannel
 // 7. Style
 
@@ -68,7 +65,13 @@ class Tags extends React.Component {
     tags: []
   };
 
-  handleUserTags() {}
+  componentDidMount(data) {
+    const tagId = this.props.user.tags.map(({ name }) => name);
+
+    this.setState({
+      tags: tagId
+    });
+  }
 
   handleTagsChange = e => {
     const options = this.state.tags;
@@ -103,55 +106,59 @@ class Tags extends React.Component {
     console.log('update');
   };
 
+  handleIntialCheck(tag) {
+    const arr = this.state.tags;
+    const inVal = tag.name;
+    for (var i = 0, len = arr.length; i < len; i++) {
+      if (arr[i] === inVal) return true;
+    }
+    return false;
+  }
+
   render() {
     const { classes } = this.props;
     const user = this.props.user;
-    const tagId = user.tags.map(({ id }) => id);
-    console.log(tagId);
 
     return (
-      <Query query={tagsListQuery} variables={{}}>
-        {({ data, loading, error }) => {
+      <Mutation mutation={UPDATE_USER_MUTATION}>
+        {(updateUser, { error, loading }) => {
+          if (loading) return <CircularProgress style={{ margin: 20 }} />;
+          if (error) return <Error error={error} />;
           return (
-            <Mutation mutation={UPDATE_USER_MUTATION}>
-              {(updateUser, { error, loading }) => {
-                if (error) return <Error error={error} />;
-                return (
-                  <div>
-                    <Grid container className={classes.container}>
-                      <h2>Select Categories That Interest you</h2>
-                      <div>
-                        <form
-                          method="post"
-                          onSubmit={e => this.updateUser(e, user, updateUser)}
-                          className={classes.form}
-                        >
-                          <FormControl className={classes.formControl}>
-                            {data.tags.map(tag => (
-                              <MenuItem key={tag.id} value={tag.name}>
-                                <Checkbox
-                                  label={tag.name}
-                                  key={tag.id}
-                                  value={tag.name}
-                                  onChange={this.handleTagsChange}
-                                />
-                                <ListItemText primary={tag.name} />
-                              </MenuItem>
-                            ))}
-                            <Button variant="contained" type="submit">
-                              Save
-                            </Button>
-                          </FormControl>
-                        </form>
-                      </div>
-                    </Grid>
-                  </div>
-                );
-              }}
-            </Mutation>
+            <div>
+              <Grid container className={classes.container}>
+                <h2>Select Categories That Interest you</h2>
+                <div>
+                  <form
+                    method="post"
+                    onSubmit={e => this.updateUser(e, user, updateUser)}
+                    className={classes.form}
+                  >
+                    <FormControl className={classes.formControl}>
+                      {this.props.tag.map(tag => (
+                        <MenuItem key={tag.id} value={tag.name}>
+                          <Checkbox
+                            label={tag.name}
+                            key={tag.id}
+                            value={tag.name}
+                            checked={this.handleIntialCheck(tag)}
+                            onChange={this.handleTagsChange}
+                          />
+                          <ListItemText primary={tag.name} />
+                        </MenuItem>
+                      ))}
+
+                      <Button variant="contained" type="submit">
+                        Save
+                      </Button>
+                    </FormControl>
+                  </form>
+                </div>
+              </Grid>
+            </div>
           );
         }}
-      </Query>
+      </Mutation>
     );
   }
 }
