@@ -4,36 +4,121 @@ import Router from 'next/router';
 import { ApolloConsumer } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled, { keyframes } from 'styled-components';
-import debounce from 'lodash.debounce';
+import { debounce, uniqBy } from 'lodash';
 import TextField from '@material-ui/core/TextField';
 
-// TODO: quesy only approved q and a
 export const SEARCH_QUESTIONS_QUERY = gql`
   query SEARCH_QUESTIONS_QUERY($searchTerm: String!) {
-    title: questions(where: { title_contains: $searchTerm }) {
+    title: searchQuestions(
+      where: { AND: [{ title_contains: $searchTerm }, { approval: true }] }
+    ) {
       id
       title
+      tags {
+        id
+        name
+      }
       description
-    }
-    description: questions(where: { description_contains: $searchTerm }) {
-      id
-      title
-      description
-    }
-    answer: questions {
-      id
-      title
-      description
-      answers(where: { body_contains: $searchTerm }) {
+      createdAt
+      askedBy {
+        id
+        display
+        name
+      }
+      approval
+      answers {
+        body
+        id
+      }
+      views
+      upVotes
+      downVotes
+      bookMark {
         id
       }
     }
-    user: questions {
+    description: searchQuestions(
+      where: {
+        AND: [{ description_contains: $searchTerm }, { approval: true }]
+      }
+    ) {
       id
       title
+      tags {
+        id
+        name
+      }
       description
+      createdAt
+      askedBy {
+        id
+        display
+        name
+      }
+      approval
+      answers {
+        body
+        id
+      }
+      views
+      upVotes
+      downVotes
+      bookMark {
+        id
+      }
+    }
+    answer: searchQuestions(where: { approval: true }) {
+      id
+      title
+      tags {
+        id
+        name
+      }
+      description
+      createdAt
+      askedBy {
+        id
+        display
+        name
+      }
+      approval
+      views
+      upVotes
+      downVotes
+      bookMark {
+        id
+      }
+      answers(
+        where: { AND: [{ body_contains: $searchTerm }, { approval: true }] }
+      ) {
+        id
+        body
+      }
+    }
+    user: searchQuestions(where: { approval: true }) {
+      id
+      title
+      tags {
+        id
+        name
+      }
+      description
+      createdAt
+      approval
+      answers {
+        body
+        id
+      }
+      views
+      upVotes
+      downVotes
+      bookMark {
+        id
+      }
       askedBy(where: { display_contains: $searchTerm }) {
         id
+        display
+        name
       }
     }
   }
@@ -84,16 +169,6 @@ const DropDownItem = styled.div`
   }
 `;
 
-function routeToQuestion(question) {
-  console.log(question);
-  Router.push({
-    pathname: '/question',
-    query: {
-      id: question.id
-    }
-  });
-}
-
 class QuestionSearch extends React.Component {
   state = {
     searchResult: [],
@@ -132,52 +207,54 @@ class QuestionSearch extends React.Component {
       }
     });
 
-    const filteredQuestions = title
-      .concat(questions)
-      .splice(2)
-      .map(t => {
-        return {
-          ...t,
-          title: `Question: ${t.title}`
-        };
-      })
-      .splice(2);
+    const filteredQuestions = title.concat(questions).map(t => {
+      return { ...t, title: `Question: ${t.title}` };
+    });
 
     const filteredAnswers = answer
       .filter(a => a.answers.length > 0)
       .map(a => {
-        return {
-          ...a,
-          title: `Answer: ${a.title}`
-        };
-      })
-      .splice(2);
+        return { ...a, title: `Answer: ${a.title}` };
+      });
 
     const filteredUsers = user
       .filter(u => u.askedBy.length > 0)
       .map(u => {
-        return {
-          ...u,
-          title: `User: ${u.title}`
-        };
-      })
-      .splice(2);
+        return { ...u, title: `User: ${u.title}` };
+      });
 
     const searchResult = filteredQuestions
       .concat(filteredAnswers)
       .concat(filteredUsers);
-
+    console.log(description, title, answer, user);
     this.setState({
       searchResult,
       loading: false
     });
   }, 350);
+
+  routeToQuestion = question => {
+    if (question.id === 0) {
+      // Remove duplicate questions
+      let noDuplicates = uniqBy(this.state.searchResult, 'id');
+      this.props.onNewSearch(noDuplicates);
+    } else {
+      Router.push({
+        pathname: '/question',
+        query: {
+          id: question.id
+        }
+      });
+    }
+  };
   render() {
+    const itemsInDropdown = 5;
+    const { searchResult, loading } = this.state;
     resetIdCounter();
     return (
       <SearchContainer>
         <Downshift
-          onChange={routeToQuestion}
+          onChange={this.routeToQuestion}
           itemToString={question => (question === null ? '' : question.title)}
         >
           {({
@@ -198,29 +275,44 @@ class QuestionSearch extends React.Component {
                         this.onChange(e, client);
                       },
                       id: 'search',
-                      className: this.state.loading ? 'loading' : '',
+                      className: loading ? 'loading' : '',
                       placeholder: 'Search for a question'
                     })}
-                  />
+                  ></TextField>
                 )}
               </ApolloConsumer>
               {isOpen && (
                 <DropDown>
-                  {this.state.searchResult.map((question, index) => (
-                    <DropDownItem
-                      {...getItemProps({ item: question })}
-                      key={`${question.id}:${question.title.split(' ')[0]}`}
-                      highlighted={index === highlightedIndex}
-                    >
-                      {question.title}
-                    </DropDownItem>
-                  ))}
-                  {!this.state.searchResult.length && !this.state.loading && (
-                    <DropDownItem>
-                      {' '}
-                      No Question Found for {inputValue}
-                    </DropDownItem>
-                  )}
+                  {searchResult
+                    .filter((question, index) => index < itemsInDropdown)
+                    .map((question, index) => (
+                      <DropDownItem
+                        {...getItemProps({ item: question })}
+                        key={`${question.id}:${question.title.split(' ')[0]}`}
+                        highlighted={index === highlightedIndex}
+                      >
+                        {question.title}
+                      </DropDownItem>
+                    ))}
+                  {searchResult.length >= itemsInDropdown &&
+                    !this.state.loading && (
+                      <DropDownItem
+                        {...getItemProps({
+                          item: { id: 0, title: inputValue }
+                        })}
+                        key={'more-item'}
+                        highlighted={itemsInDropdown === highlightedIndex}
+                      >
+                        More results for {inputValue}
+                      </DropDownItem>
+                    )}
+                  {!searchResult.length &&
+                    !this.state.loading &&
+                    inputValue.trim() !== '' && (
+                      <DropDownItem>
+                        No questions found for {inputValue}
+                      </DropDownItem>
+                    )}
                 </DropDown>
               )}
             </div>
