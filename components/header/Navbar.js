@@ -63,6 +63,12 @@ const Navbar = ({ classes }) => {
       target: '/approval/answer-list'
     }
   ];
+  const feedLink = [
+    {
+      name: 'My Feed',
+      target: '/myfeed'
+    }
+  ];
 
   return (
     <div className="style-target" style={{ width: '100%' }}>
@@ -95,7 +101,16 @@ const Navbar = ({ classes }) => {
                       <a className="navLink">{name}</a>
                     </NavLink>
                   ))}
-
+                {me.tags.some(tags => ![' '].includes(tags)) &&
+                  feedLink.map(({ name, target }) => (
+                    <NavLink
+                      activeClassName="navLinkActive"
+                      href={target}
+                      key={name}
+                    >
+                      <a className="navLink">{name}</a>
+                    </NavLink>
+                  ))}
                 {navLinks.map(({ name, target }) => (
                   <NavLink
                     activeClassName="navLinkActive"

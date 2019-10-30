@@ -34,21 +34,6 @@ const styles = ({ layout, palette }) => ({
 });
 
 class Onboarding extends React.Component {
-  handleNewClick = () => {
-    this.setState({
-      firstSignin: false,
-      newEntra: true
-    });
-  };
-
-  handleSeasonedClick = () => {
-    this.setState({ firstSignin: false, seasonedEntra: true, newEntra: false });
-  };
-
-  handleRestartClick = () => {
-    this.setState({ firstSignin: true, newEntra: false, seasonedEntra: false });
-  };
-
   render() {
     const { classes } = this.props;
     return (
@@ -62,8 +47,6 @@ class Onboarding extends React.Component {
               <Typography variant="h6" className={classes.title}>
                 Welcome To Entra!
               </Typography>
-
-              <div>Hold for Video see how it works</div>
               <TagSelect user={user} />
             </Grid>
           );
