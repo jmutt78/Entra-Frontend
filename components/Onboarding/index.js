@@ -1,14 +1,12 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import gql from 'graphql-tag';
-import { Mutation, Query } from 'react-apollo';
+import { Query } from 'react-apollo';
 
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 
 import Error from './../ErrorMessage.js';
 import { CURRENT_USER_QUERY } from '../auth/User';
-import { Mixpanel } from '../../utils/Mixpanel';
 import TagSelect from './TagSelect';
 import CircularProgress from '@material-ui/core/CircularProgress';
 

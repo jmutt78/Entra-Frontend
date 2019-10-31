@@ -4,7 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import questionQuery from '../question-display/questionQuery.js';
 import gql from 'graphql-tag';
 import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
 import CheckIcon from '@material-ui/icons/Check';
 import Error from './../ErrorMessage.js';
 

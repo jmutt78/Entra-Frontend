@@ -75,6 +75,8 @@ class Tags extends React.Component {
 
   handleTagsChange = e => {
     const options = this.state.tags;
+
+    Mixpanel.track(e.target.value);
     let index;
     if (e.target.checked) {
       options.push(e.target.value);
@@ -103,6 +105,7 @@ class Tags extends React.Component {
     Router.push({
       pathname: '/myfeed'
     });
+    Mixpanel.track('Tag Save');
     console.log('update');
   };
 
