@@ -44,10 +44,7 @@ function QuestionList(props) {
   return (
     <div className={classes.container}>
       <PageHeader title={upperFirst(props.name) || 'Questions'} />
-      {props.name === 'all questions' && (
-        // TODO: remove Question, Answer, User from title
-        <Search onNewSearch={onNewSearch} />
-      )}
+      {props.name === 'all questions' && <Search onNewSearch={onNewSearch} />}
       {questions &&
         questions.map(question => {
           return (
