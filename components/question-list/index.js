@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { upperFirst } from 'lodash';
 
 import ListItem from '../ListItem';
 import PageHeader from '../PageHeader';
 import Pagination from '../pagination';
 import { withStyles } from '@material-ui/core/styles';
+import Search from '../search/QuestionSearch';
 
 const styles = ({ layout }) => ({
   container: {
@@ -32,17 +33,18 @@ const styles = ({ layout }) => ({
 });
 
 function QuestionList(props) {
-  const {
-    classes,
-    questions,
-    page,
-    paginationVariables,
-    paginationQuery
-  } = props;
+  const { classes, page, paginationVariables, paginationQuery } = props;
+  const [questions, setQuestions] = useState(props.questions);
+
+  const onNewSearch = newQuestions => {
+    console.log(newQuestions);
+    setQuestions(newQuestions);
+  };
 
   return (
     <div className={classes.container}>
       <PageHeader title={upperFirst(props.name) || 'Questions'} />
+      {props.name === 'all questions' && <Search onNewSearch={onNewSearch} />}
       {questions &&
         questions.map(question => {
           return (
