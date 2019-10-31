@@ -207,26 +207,29 @@ class QuestionSearch extends React.Component {
       }
     });
 
+    // Mark these results as coming from description and title queries
     const filteredQuestions = title.concat(questions).map(t => {
-      return { ...t, title: `Question: ${t.title}` };
+      return { ...t, querySource: 'q' };
     });
 
+    // Mark these results as coming from answer query
     const filteredAnswers = answer
       .filter(a => a.answers.length > 0)
       .map(a => {
-        return { ...a, title: `Answer: ${a.title}` };
+        return { ...a, querySource: 'a' };
       });
 
+    // Mark these results as coming from user query
     const filteredUsers = user
       .filter(u => u.askedBy.length > 0)
       .map(u => {
-        return { ...u, title: `User: ${u.title}` };
+        return { ...u, querySource: 'u' };
       });
 
     const searchResult = filteredQuestions
       .concat(filteredAnswers)
       .concat(filteredUsers);
-    console.log(description, title, answer, user);
+    console.log(searchResult);
     this.setState({
       searchResult,
       loading: false
@@ -291,7 +294,11 @@ class QuestionSearch extends React.Component {
                         key={`${question.id}:${question.title.split(' ')[0]}`}
                         highlighted={index === highlightedIndex}
                       >
-                        {question.title}
+                        {question.querySource === 'q'
+                          ? `Question: ${question.title}`
+                          : question.querySource === 'a'
+                          ? `Answer: ${question.title}`
+                          : `User: ${question.title}`}
                       </DropDownItem>
                     ))}
                   {searchResult.length >= itemsInDropdown &&
