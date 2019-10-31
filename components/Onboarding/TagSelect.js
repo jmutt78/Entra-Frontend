@@ -5,7 +5,6 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Error from './../ErrorMessage.js';
 import tagsListQuery from './tagsListQuery';
-import { Mixpanel } from '../../utils/Mixpanel';
 import Tags from './Tags';
 import CircularProgress from '@material-ui/core/CircularProgress';
 

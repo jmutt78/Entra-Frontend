@@ -1,5 +1,4 @@
 import gql from 'graphql-tag';
-import { perPage } from '../../config.js';
 
 const TAGS_QUERY = gql`
   query TAGS_QUERY {
