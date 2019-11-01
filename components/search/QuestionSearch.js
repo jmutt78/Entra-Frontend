@@ -95,7 +95,33 @@ export const SEARCH_QUESTIONS_QUERY = gql`
         body
       }
     }
-    user: searchQuestions(where: { approval: true }) {
+    tag: searchQuestions(where: { approval: true }) {
+      id
+      title
+      tags(where: { name_contains: $searchTerm }) {
+        id
+        name
+      }
+      description
+      createdAt
+      askedBy {
+        id
+        display
+        name
+      }
+      approval
+      views
+      upVotes
+      downVotes
+      bookMark {
+        id
+      }
+      answers {
+        id
+        body
+      }
+    }
+    userAsk: searchQuestions(where: { approval: true }) {
       id
       title
       tags {
@@ -116,6 +142,41 @@ export const SEARCH_QUESTIONS_QUERY = gql`
         id
       }
       askedBy(where: { display_contains: $searchTerm }) {
+        id
+        display
+        name
+      }
+    }
+    userAnswer: searchQuestions(where: { approval: true }) {
+      id
+      title
+      tags {
+        id
+        name
+      }
+      description
+      createdAt
+      approval
+      answers(
+        where: {
+          AND: [
+            { answeredBy: { display_contains: $searchTerm } }
+            { approval: true }
+          ]
+        }
+      ) {
+        body
+        answeredBy {
+          display
+        }
+      }
+      views
+      upVotes
+      downVotes
+      bookMark {
+        id
+      }
+      askedBy {
         id
         display
         name
@@ -186,14 +247,13 @@ class QuestionSearch extends React.Component {
     }
 
     const {
-      data: { description, title, answer, user }
+      data: { description, title, answer, userAsk, userAnswer, tag }
     } = await client.query({
       query: SEARCH_QUESTIONS_QUERY,
       variables: {
         searchTerm: e.target.value
       }
     });
-
     let questions = [];
     description.forEach(d => {
       let includes = false;
@@ -219,17 +279,37 @@ class QuestionSearch extends React.Component {
         return { ...a, querySource: 'a' };
       });
 
-    // Mark these results as coming from user query
-    const filteredUsers = user
+    // Mark these results as coming from user query that asked the question
+    const filteredUsersAsk = userAsk
       .filter(u => u.askedBy.length > 0)
       .map(u => {
-        return { ...u, querySource: 'u' };
+        return { ...u, querySource: 'uAsk', display: u.askedBy[0].display };
+      });
+
+    // Mark these results as coming from user query that answered the question
+    const filteredUsersAnswer = userAnswer
+      .filter(u => u.answers.length > 0)
+      .map(u => {
+        return {
+          ...u,
+          querySource: 'uAnswer',
+          display: u.answers[0].answeredBy.display
+        };
+      });
+
+    // Mark these results as coming from tags
+    const filteredTags = tag
+      .filter(a => a.tags.length > 0)
+      .map(a => {
+        return { ...a, querySource: 't' };
       });
 
     const searchResult = filteredQuestions
       .concat(filteredAnswers)
-      .concat(filteredUsers);
-    console.log(searchResult);
+      .concat(filteredUsersAsk)
+      .concat(filteredUsersAnswer)
+      .concat(filteredTags);
+
     this.setState({
       searchResult,
       loading: false
@@ -298,7 +378,11 @@ class QuestionSearch extends React.Component {
                           ? `Question: ${question.title}`
                           : question.querySource === 'a'
                           ? `Answer: ${question.title}`
-                          : `User: ${question.title}`}
+                          : question.querySource === 'uAsk'
+                          ? `${question.display} asked: ${question.title}`
+                          : question.querySource === 'uAnswer'
+                          ? `${question.display} answered to: ${question.title}`
+                          : `Tag: ${question.title}`}
                       </DropDownItem>
                     ))}
                   {searchResult.length >= itemsInDropdown &&
