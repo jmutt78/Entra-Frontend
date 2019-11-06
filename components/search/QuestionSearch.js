@@ -189,7 +189,9 @@ export const SEARCH_QUESTIONS_QUERY = gql`
       approval
       answers {
         body
+        id
         answeredBy {
+          id
           display
         }
       }
