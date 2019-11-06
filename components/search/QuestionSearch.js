@@ -67,38 +67,17 @@ export const SEARCH_QUESTIONS_QUERY = gql`
         id
       }
     }
-    answer: searchQuestions(where: { approval: true }) {
+    answer: searchQuestions(
+      where: {
+        AND: [
+          { answers_some: { body_contains: $searchTerm } }
+          { approval: true }
+        ]
+      }
+    ) {
       id
       title
       tags {
-        id
-        name
-      }
-      description
-      createdAt
-      askedBy {
-        id
-        display
-        name
-      }
-      approval
-      views
-      upVotes
-      downVotes
-      bookMark {
-        id
-      }
-      answers(
-        where: { AND: [{ body_contains: $searchTerm }, { approval: true }] }
-      ) {
-        id
-        body
-      }
-    }
-    tag: searchQuestions(where: { approval: true }) {
-      id
-      title
-      tags(where: { name_contains: $searchTerm }) {
         id
         name
       }
@@ -121,7 +100,44 @@ export const SEARCH_QUESTIONS_QUERY = gql`
         body
       }
     }
-    userAsk: searchQuestions(where: { approval: true }) {
+    tag: searchQuestions(
+      where: {
+        AND: [{ tags_some: { name_contains: $searchTerm } }, { approval: true }]
+      }
+    ) {
+      id
+      title
+      tags {
+        id
+        name
+      }
+      description
+      createdAt
+      askedBy {
+        id
+        display
+        name
+      }
+      approval
+      views
+      upVotes
+      downVotes
+      bookMark {
+        id
+      }
+      answers {
+        id
+        body
+      }
+    }
+    userAsk: searchQuestions(
+      where: {
+        AND: [
+          { askedBy_some: { display_contains: $searchTerm } }
+          { approval: true }
+        ]
+      }
+    ) {
       id
       title
       tags {
@@ -141,13 +157,27 @@ export const SEARCH_QUESTIONS_QUERY = gql`
       bookMark {
         id
       }
-      askedBy(where: { display_contains: $searchTerm }) {
+      askedBy {
         id
         display
         name
       }
     }
-    userAnswer: searchQuestions(where: { approval: true }) {
+    userAnswer: searchQuestions(
+      where: {
+        AND: [
+          {
+            answers_some: {
+              AND: [
+                { answeredBy: { display_contains: $searchTerm } }
+                { approval: true }
+              ]
+            }
+          }
+          { approval: true }
+        ]
+      }
+    ) {
       id
       title
       tags {
@@ -157,14 +187,7 @@ export const SEARCH_QUESTIONS_QUERY = gql`
       description
       createdAt
       approval
-      answers(
-        where: {
-          AND: [
-            { answeredBy: { display_contains: $searchTerm } }
-            { approval: true }
-          ]
-        }
-      ) {
+      answers {
         body
         answeredBy {
           display
