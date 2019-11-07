@@ -1,14 +1,15 @@
 import React from 'react';
 import { Query } from 'react-apollo';
+
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 import Error from './../ErrorMessage.js';
-import tagsListQuery from './tagsListQuery';
 import Tags from './Tags';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import tagsListQuery from './tagsListQuery';
 
-const styles = ({ layout, palette }) => ({
+const useStyles = makeStyles(({ layout, palette }) => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
@@ -21,27 +22,23 @@ const styles = ({ layout, palette }) => ({
     display: 'flex',
     justifyContent: 'center'
   }
-});
+}));
 
-class Seasoned extends React.Component {
-  render() {
-    const { classes } = this.props;
-    return (
-      <Query query={tagsListQuery} variables={{}}>
-        {({ data, loading, error }) => {
-          if (loading) return <CircularProgress style={{ margin: 20 }} />;
-          if (error) return <Error error={error} />;
-          return (
-            <Grid container className={classes.container}>
-              <div className={classes.formContainer}>
-                <Tags user={this.props.user} tag={data.tags} />
-              </div>
-            </Grid>
-          );
-        }}
-      </Query>
-    );
-  }
-}
-
-export default withStyles(styles)(Seasoned);
+export default ({ user }) => {
+  const { container, formContainer } = useStyles();
+  return (
+    <Query query={tagsListQuery} variables={{}}>
+      {({ data, loading, error }) => {
+        if (loading) return <CircularProgress style={{ margin: 20 }} />;
+        if (error) return <Error error={error} />;
+        return (
+          <Grid container className={container}>
+            <div className={formContainer}>
+              <Tags user={user} _tags={data.tags} />
+            </div>
+          </Grid>
+        );
+      }}
+    </Query>
+  );
+};

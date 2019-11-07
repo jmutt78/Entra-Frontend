@@ -21,13 +21,6 @@ const useStyles = makeStyles(({ layout, palette }) => ({
     textAlign: 'Left',
     color: 'rgba(0, 0, 0, 0.87)',
     lineHeight: '3rem'
-  },
-
-  formContainer: {
-    width: '100%',
-    maxWidth: 1000,
-    display: 'flex',
-    justifyContent: 'center'
   }
 }));
 
@@ -38,6 +31,7 @@ export default () => {
       {({ data, loading, error }) => {
         if (loading) return <CircularProgress style={{ margin: 20 }} />;
         if (error) return <Error error={error} />;
+
         return (
           <Grid container className={container}>
             <Typography variant="h6" className={title}>

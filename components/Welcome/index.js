@@ -9,10 +9,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Mixpanel } from '../../utils/Mixpanel';
 
 const useStyles = makeStyles(({ layout, palette }) => ({
-  // root: props => ({
-  //   backgroundColor: props.backgroundColor,
-  //   color: theme.color,
-  // }),
   container: {
     display: 'flex',
     flexDirection: 'column',
@@ -24,13 +20,6 @@ const useStyles = makeStyles(({ layout, palette }) => ({
     color: 'rgba(0, 0, 0, 0.87)',
     lineHeight: '3rem'
   }
-
-  // formContainer: {
-  //   width: '100%',
-  //   maxWidth: 1000,
-  //   display: 'flex',
-  //   justifyContent: 'center'
-  // }
 }));
 
 export default () => {

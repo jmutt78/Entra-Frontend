@@ -1,35 +1,30 @@
-import React from 'react';
+import Error from './../ErrorMessage.js';
+import React, { useState, useEffect } from 'react';
+import Router from 'next/router';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-import Error from './../ErrorMessage.js';
-import Router from 'next/router';
 
+import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { makeStyles } from '@material-ui/core/styles';
 
 import { CURRENT_USER_QUERY } from '../auth/User';
 import { Mixpanel } from '../../utils/Mixpanel';
 
-const styles = ({ layout, palette }) => ({
+const useStyles = makeStyles(({ layout, palette }) => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
     padding: '0 5px'
   },
-
-  formContainer: {
-    width: '100%',
-    maxWidth: 1000,
-    display: 'flex',
-    justifyContent: 'center'
-  }
-});
+  form: {},
+  formControl: {}
+}));
 
 export const UPDATE_USER_MUTATION = gql`
   mutation updateUser(
@@ -60,110 +55,95 @@ export const UPDATE_USER_MUTATION = gql`
 // 6. Create mixpannel
 // 7. Style
 
-class Tags extends React.Component {
-  state = {
-    tags: []
-  };
+const updateUser = async (e, user, updateUserMutation, tags) => {
+  e.preventDefault();
+  await updateUserMutation({
+    variables: {
+      id: user.id,
+      name: user.name,
+      display: user.display,
+      email: user.email,
+      tags: tags.map(tag => ({
+        name: tag
+      }))
+    },
+    refetchQueries: [{ query: CURRENT_USER_QUERY }]
+  });
+  Router.push({
+    pathname: '/myfeed'
+  });
+  Mixpanel.track('Tag Save');
+};
 
-  componentDidMount(data) {
-    const tagId = this.props.user.tags.map(({ name }) => name);
+const handleIntialCheck = (tag, tags) => {
+  const inVal = tag.name;
+  for (var i = 0, len = tags.length; i < len; i++) {
+    if (tags[i] === inVal) return true;
+  }
+  return false;
+};
 
-    this.setState({
-      tags: tagId
-    });
+const handleTagsChange = (e, tags, setTags) => {
+  const options = [...tags];
+
+  Mixpanel.track(e.target.value);
+  let index;
+  if (e.target.checked) {
+    options.push(e.target.value);
+  } else {
+    index = options.indexOf(+e.target.value);
+    options.splice(index, 1);
   }
 
-  handleTagsChange = e => {
-    const options = this.state.tags;
+  setTags(options);
+};
 
-    Mixpanel.track(e.target.value);
-    let index;
-    if (e.target.checked) {
-      options.push(e.target.value);
-    } else {
-      index = options.indexOf(+e.target.value);
-      options.splice(index, 1);
-    }
+export default ({ user, _tags }) => {
+  const { container, form, formControl } = useStyles();
+  const [tags, setTags] = useState([]);
+  useEffect(() => {
+    setTags(user.tags.map(({ name }) => name));
+  }, [user.tags]);
 
-    this.setState({ tags: options });
-  };
+  return (
+    <Mutation mutation={UPDATE_USER_MUTATION}>
+      {(update, { error, loading }) => {
+        if (loading) return <CircularProgress style={{ margin: 20 }} />;
+        if (error) return <Error error={error} />;
+        return (
+          <div>
+            <Grid container className={container}>
+              <h2>Select Categories That Interest you</h2>
+              <div>
+                <form
+                  method="post"
+                  onSubmit={e => updateUser(e, user, update, tags)}
+                  className={form}
+                >
+                  <FormControl className={formControl}>
+                    {_tags.map(tag => (
+                      <MenuItem key={tag.id} value={tag.name}>
+                        <Checkbox
+                          label={tag.name}
+                          key={tag.id}
+                          value={tag.name}
+                          checked={handleIntialCheck(tag, tags)}
+                          onChange={e => handleTagsChange(e, tags, setTags)}
+                        />
+                        <ListItemText primary={tag.name} />
+                      </MenuItem>
+                    ))}
 
-  updateUser = async (e, user, updateUserMutation) => {
-    e.preventDefault();
-    const res = await updateUserMutation({
-      variables: {
-        id: user.id,
-        name: user.name,
-        display: user.display,
-        email: user.email,
-        tags: this.state.tags.map(tag => ({
-          name: tag
-        }))
-      },
-      refetchQueries: [{ query: CURRENT_USER_QUERY }]
-    });
-    Router.push({
-      pathname: '/myfeed'
-    });
-    Mixpanel.track('Tag Save');
-    console.log('update');
-  };
-
-  handleIntialCheck(tag) {
-    const arr = this.state.tags;
-    const inVal = tag.name;
-    for (var i = 0, len = arr.length; i < len; i++) {
-      if (arr[i] === inVal) return true;
-    }
-    return false;
-  }
-
-  render() {
-    const { classes } = this.props;
-    const user = this.props.user;
-
-    return (
-      <Mutation mutation={UPDATE_USER_MUTATION}>
-        {(updateUser, { error, loading }) => {
-          if (loading) return <CircularProgress style={{ margin: 20 }} />;
-          if (error) return <Error error={error} />;
-          return (
-            <div>
-              <Grid container className={classes.container}>
-                <h2>Select Categories That Interest you</h2>
-                <div>
-                  <form
-                    method="post"
-                    onSubmit={e => this.updateUser(e, user, updateUser)}
-                    className={classes.form}
-                  >
-                    <FormControl className={classes.formControl}>
-                      {this.props.tag.map(tag => (
-                        <MenuItem key={tag.id} value={tag.name}>
-                          <Checkbox
-                            label={tag.name}
-                            key={tag.id}
-                            value={tag.name}
-                            checked={this.handleIntialCheck(tag)}
-                            onChange={this.handleTagsChange}
-                          />
-                          <ListItemText primary={tag.name} />
-                        </MenuItem>
-                      ))}
-
-                      <Button variant="contained" type="submit">
-                        Save
-                      </Button>
-                    </FormControl>
-                  </form>
-                </div>
-              </Grid>
-            </div>
-          );
-        }}
-      </Mutation>
-    );
-  }
-}
-
-export default withStyles(styles)(Tags);
+                    <Button variant="contained" type="submit">
+                      Save
+                    </Button>
+                  </FormControl>
+                </form>
+              </div>
+            </Grid>
+          </div>
+        );
+      }}
+    </Mutation>
+  );
+};
