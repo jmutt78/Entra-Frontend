@@ -1,16 +1,16 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
 import { Query } from 'react-apollo';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 
 import Error from './../ErrorMessage.js';
-import { CURRENT_USER_QUERY } from '../auth/User';
 import TagSelect from './TagSelect';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { CURRENT_USER_QUERY } from '../auth/User';
 
-const styles = ({ layout, palette }) => ({
+const useStyles = makeStyles(({ layout, palette }) => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
@@ -29,29 +29,24 @@ const styles = ({ layout, palette }) => ({
     display: 'flex',
     justifyContent: 'center'
   }
-});
+}));
 
-class Onboarding extends React.Component {
-  render() {
-    const { classes } = this.props;
-    return (
-      <Query query={CURRENT_USER_QUERY}>
-        {({ data, loading, error }) => {
-          if (loading) return <CircularProgress style={{ margin: 20 }} />;
-          if (error) return <Error error={error} />;
-          const user = data.me;
-          return (
-            <Grid container className={classes.container}>
-              <Typography variant="h6" className={classes.title}>
-                Welcome To Entra!
-              </Typography>
-              <TagSelect user={user} />
-            </Grid>
-          );
-        }}
-      </Query>
-    );
-  }
-}
-
-export default withStyles(styles)(Onboarding);
+export default () => {
+  const { container, title } = useStyles();
+  return (
+    <Query query={CURRENT_USER_QUERY}>
+      {({ data, loading, error }) => {
+        if (loading) return <CircularProgress style={{ margin: 20 }} />;
+        if (error) return <Error error={error} />;
+        return (
+          <Grid container className={container}>
+            <Typography variant="h6" className={title}>
+              Welcome To Entra!
+            </Typography>
+            <TagSelect user={data.me} />
+          </Grid>
+        );
+      }}
+    </Query>
+  );
+};
