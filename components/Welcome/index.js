@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import PageHeader from '../PageHeader';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -14,7 +15,7 @@ const useStyles = makeStyles(({ layout, palette }) => ({
     flexDirection: 'column',
     padding: '0 5px'
   },
-  title: {
+  subtitle: {
     fontSize: '40px',
     textAlign: 'Left',
     color: 'rgba(0, 0, 0, 0.87)',
@@ -23,13 +24,11 @@ const useStyles = makeStyles(({ layout, palette }) => ({
 }));
 
 export default () => {
-  const { container, title } = useStyles();
+  const { container, subtitle } = useStyles();
   return (
     <div>
       <Grid container className={container}>
-        <Typography variant="h6" className={title}>
-          Welcome To Entra!
-        </Typography>
+        <PageHeader title={'Welcome To Entra!'} />
 
         <div>A Note from our founder-</div>
         <div>
@@ -49,7 +48,7 @@ export default () => {
           I’d had when starting out and why I’m excited to share it with you.
         </div>
         <div>-Justin McIntosh, CEO</div>
-        <Typography variant="h6" className={title}>
+        <Typography variant="h6" className={subtitle}>
           Watch the video below to learn how to use Entra!
         </Typography>
         <div className="videoWrapper">
