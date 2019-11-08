@@ -37,7 +37,6 @@ function QuestionList(props) {
   const [questions, setQuestions] = useState(props.questions);
 
   const onNewSearch = newQuestions => {
-    console.log(newQuestions);
     setQuestions(newQuestions);
   };
 

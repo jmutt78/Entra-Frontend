@@ -107,7 +107,6 @@ class Tags extends React.Component {
     const { classes } = this.props;
     const user = this.props.user;
     const tagId = user.tags.map(({ id }) => id);
-    console.log(tagId);
 
     return (
       <Query query={tagsListQuery} variables={{}}>
