@@ -1,6 +1,7 @@
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
+import { Mixpanel } from '../../utils/Mixpanel';
 
 const CURRENT_USER_QUERY = gql`
   query {
@@ -16,10 +17,6 @@ const CURRENT_USER_QUERY = gql`
       about
       industry
       image
-      tags {
-        id
-        name
-      }
       myBookMarks {
         id
         questions {
@@ -33,7 +30,10 @@ const CURRENT_USER_QUERY = gql`
           vote
         }
       }
-
+      tags {
+        id
+        name
+      }
       myAnswers {
         id
         selected
