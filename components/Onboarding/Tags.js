@@ -8,7 +8,6 @@ import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControl from '@material-ui/core/FormControl';
-import Grid from '@material-ui/core/Grid';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,13 +16,18 @@ import { CURRENT_USER_QUERY } from '../auth/User';
 import { Mixpanel } from '../../utils/Mixpanel';
 
 const useStyles = makeStyles(({ layout, palette }) => ({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '0 5px'
+  formContainer: {
+    marginTop: '2rem',
+    marginBottom: '2rem',
+    background: palette.secondary.main,
+    padding: '1rem 0.5rem',
+    borderRadius: 2
   },
-  form: {},
-  formControl: {}
+  buttonContainer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end'
+  }
 }));
 
 export const UPDATE_USER_MUTATION = gql`
@@ -99,7 +103,7 @@ const handleTagsChange = (e, tags, setTags) => {
 };
 
 export default ({ user, _tags }) => {
-  const { container, form, formControl } = useStyles();
+  const { formContainer, buttonContainer } = useStyles();
   const [tags, setTags] = useState([]);
   useEffect(() => {
     setTags(user.tags.map(({ name }) => name));
@@ -111,37 +115,30 @@ export default ({ user, _tags }) => {
         if (loading) return <CircularProgress style={{ margin: 20 }} />;
         if (error) return <Error error={error} />;
         return (
-          <div>
-            <Grid container className={container}>
-              <h2>Select Categories That Interest you</h2>
-              <div>
-                <form
-                  method="post"
-                  onSubmit={e => updateUser(e, user, update, tags)}
-                  className={form}
-                >
-                  <FormControl className={formControl}>
-                    {_tags.map(tag => (
-                      <MenuItem key={tag.id} value={tag.name}>
-                        <Checkbox
-                          label={tag.name}
-                          key={tag.id}
-                          value={tag.name}
-                          checked={handleIntialCheck(tag, tags)}
-                          onChange={e => handleTagsChange(e, tags, setTags)}
-                        />
-                        <ListItemText primary={tag.name} />
-                      </MenuItem>
-                    ))}
-
-                    <Button variant="contained" type="submit">
-                      Save
-                    </Button>
-                  </FormControl>
-                </form>
+          <form method="post" onSubmit={e => updateUser(e, user, update, tags)}>
+            <FormControl style={{ width: '100%' }}>
+              <div className={formContainer}>
+                {_tags.map(tag => (
+                  <MenuItem key={tag.id} value={tag.name}>
+                    <Checkbox
+                      label={tag.name}
+                      key={tag.id}
+                      value={tag.name}
+                      checked={handleIntialCheck(tag, tags)}
+                      onChange={e => handleTagsChange(e, tags, setTags)}
+                    />
+                    <ListItemText primary={tag.name} />
+                  </MenuItem>
+                ))}
               </div>
-            </Grid>
-          </div>
+
+              <div className={buttonContainer}>
+                <Button variant="contained" type="submit">
+                  Save
+                </Button>
+              </div>
+            </FormControl>
+          </form>
         );
       }}
     </Mutation>
