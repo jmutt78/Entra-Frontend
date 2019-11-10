@@ -8,20 +8,21 @@ import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControl from '@material-ui/core/FormControl';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuItem from '@material-ui/core/MenuItem';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { CURRENT_USER_QUERY } from '../auth/User';
 import { Mixpanel } from '../../utils/Mixpanel';
+import './index.css';
 
 const useStyles = makeStyles(({ layout, palette }) => ({
   formContainer: {
-    marginTop: '2rem',
-    marginBottom: '2rem',
+    margin: '2rem 1rem 2rem 1rem',
     background: palette.secondary.main,
-    padding: '1rem 0.5rem',
-    borderRadius: 2
+    padding: '1rem',
+    borderRadius: 2,
+    display: 'flex',
+    flexWrap: 'wrap'
   },
   buttonContainer: {
     width: '100%',
@@ -105,6 +106,7 @@ const handleTagsChange = (e, tags, setTags) => {
 export default ({ user, _tags }) => {
   const { formContainer, buttonContainer } = useStyles();
   const [tags, setTags] = useState([]);
+  const [hoverState, setHoverState] = useState(null);
   useEffect(() => {
     setTags(user.tags.map(({ name }) => name));
   }, [user.tags]);
@@ -119,21 +121,46 @@ export default ({ user, _tags }) => {
             <FormControl style={{ width: '100%' }}>
               <div className={formContainer}>
                 {_tags.map(tag => (
-                  <MenuItem key={tag.id} value={tag.name}>
-                    <Checkbox
-                      label={tag.name}
-                      key={tag.id}
-                      value={tag.name}
-                      checked={handleIntialCheck(tag, tags)}
-                      onChange={e => handleTagsChange(e, tags, setTags)}
+                  <div
+                    className="tag-select-target"
+                    onMouseEnter={() => setHoverState(tag.id)}
+                    onMouseLeave={() => setHoverState(null)}
+                    style={{ height: '3.5rem' }}
+                  >
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={handleIntialCheck(tag, tags)}
+                          key={tag.id}
+                          onChange={e => handleTagsChange(e, tags, setTags)}
+                          value={tag.name}
+                          color="primary"
+                        />
+                      }
+                      label={
+                        <span
+                          style={{
+                            fontWeight: handleIntialCheck(tag, tags)
+                              ? 700
+                              : hoverState === tag.id
+                              ? 700
+                              : 500
+                          }}
+                        >
+                          {tag.name}
+                        </span>
+                      }
                     />
-                    <ListItemText primary={tag.name} />
-                  </MenuItem>
+                  </div>
                 ))}
               </div>
 
               <div className={buttonContainer}>
-                <Button variant="contained" type="submit">
+                <Button
+                  variant="contained"
+                  type="submit"
+                  style={{ margin: '0.5rem 1rem' }}
+                >
                   Save
                 </Button>
               </div>
