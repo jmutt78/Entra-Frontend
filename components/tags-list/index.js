@@ -5,7 +5,6 @@ import { withApollo } from 'react-apollo';
 import { perPage } from '../../config.js';
 import QuestionList from '../question-list';
 import tagsListQuery from './tagsListQuery.js';
-import { useQuery } from '@apollo/react-hooks';
 import Error from './../ErrorMessage.js';
 import CircularProgress from '@material-ui/core/CircularProgress';
 

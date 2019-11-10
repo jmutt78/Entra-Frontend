@@ -1,35 +1,35 @@
-import React from 'react';
+import Error from './../ErrorMessage.js';
+import React, { useState, useEffect } from 'react';
+import Router from 'next/router';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-import Error from './../ErrorMessage.js';
-import Router from 'next/router';
 
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControl from '@material-ui/core/FormControl';
-import Grid from '@material-ui/core/Grid';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuItem from '@material-ui/core/MenuItem';
-import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { makeStyles } from '@material-ui/core/styles';
 
 import { CURRENT_USER_QUERY } from '../auth/User';
 import { Mixpanel } from '../../utils/Mixpanel';
+import './index.css';
 
-const styles = ({ layout, palette }) => ({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '0 5px'
-  },
-
+const useStyles = makeStyles(({ layout, palette }) => ({
   formContainer: {
-    width: '100%',
-    maxWidth: 1000,
+    margin: '2rem 1rem 2rem 1rem',
+    background: palette.secondary.main,
+    padding: '1rem',
+    borderRadius: 2,
     display: 'flex',
-    justifyContent: 'center'
+    flexWrap: 'wrap'
+  },
+  buttonContainer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end'
   }
-});
+}));
 
 export const UPDATE_USER_MUTATION = gql`
   mutation updateUser(
@@ -60,110 +60,114 @@ export const UPDATE_USER_MUTATION = gql`
 // 6. Create mixpannel
 // 7. Style
 
-class Tags extends React.Component {
-  state = {
-    tags: []
-  };
+const updateUser = async (e, user, updateUserMutation, tags) => {
+  e.preventDefault();
+  await updateUserMutation({
+    variables: {
+      id: user.id,
+      name: user.name,
+      display: user.display,
+      email: user.email,
+      tags: tags.map(tag => ({
+        name: tag
+      }))
+    },
+    refetchQueries: [{ query: CURRENT_USER_QUERY }]
+  });
+  Router.push({
+    pathname: '/myfeed'
+  });
+  Mixpanel.track('Tag Save');
+};
 
-  componentDidMount(data) {
-    const tagId = this.props.user.tags.map(({ name }) => name);
-
-    this.setState({
-      tags: tagId
-    });
+const handleIntialCheck = ({ name }, tags) => {
+  for (let tag of tags) {
+    if (tag === name) return true;
   }
+  return false;
+};
 
-  handleTagsChange = e => {
-    const options = this.state.tags;
+const handleTagsChange = (
+  { target: { value, checked: isChecked } },
+  tags,
+  setTags
+) => {
+  Mixpanel.track(value);
 
-    Mixpanel.track(e.target.value);
-    let index;
-    if (e.target.checked) {
-      options.push(e.target.value);
-    } else {
-      index = options.indexOf(+e.target.value);
-      options.splice(index, 1);
-    }
-
-    this.setState({ tags: options });
-  };
-
-  updateUser = async (e, user, updateUserMutation) => {
-    e.preventDefault();
-    const res = await updateUserMutation({
-      variables: {
-        id: user.id,
-        name: user.name,
-        display: user.display,
-        email: user.email,
-        tags: this.state.tags.map(tag => ({
-          name: tag
-        }))
-      },
-      refetchQueries: [{ query: CURRENT_USER_QUERY }]
-    });
-    Router.push({
-      pathname: '/myfeed'
-    });
-    Mixpanel.track('Tag Save');
-    console.log('update');
-  };
-
-  handleIntialCheck(tag) {
-    const arr = this.state.tags;
-    const inVal = tag.name;
-    for (var i = 0, len = arr.length; i < len; i++) {
-      if (arr[i] === inVal) return true;
-    }
-    return false;
+  if (isChecked) {
+    setTags([...tags, value]);
+  } else {
+    setTags(tags.filter(t => t !== value));
   }
+};
 
-  render() {
-    const { classes } = this.props;
-    const user = this.props.user;
+export default ({ user, _tags }) => {
+  const { formContainer, buttonContainer } = useStyles();
+  const [tags, setTags] = useState([]);
+  const [hoverState, setHoverState] = useState(null);
 
-    return (
-      <Mutation mutation={UPDATE_USER_MUTATION}>
-        {(updateUser, { error, loading }) => {
-          if (loading) return <CircularProgress style={{ margin: 20 }} />;
-          if (error) return <Error error={error} />;
-          return (
-            <div>
-              <Grid container className={classes.container}>
-                <h2>Select Categories That Interest you</h2>
-                <div>
-                  <form
-                    method="post"
-                    onSubmit={e => this.updateUser(e, user, updateUser)}
-                    className={classes.form}
+  useEffect(() => {
+    setTags(user.tags.map(({ name }) => name));
+    // eslint-disable-next-line
+  }, []);
+
+  return (
+    <Mutation mutation={UPDATE_USER_MUTATION}>
+      {(update, { error, loading }) => {
+        if (loading) return <CircularProgress style={{ margin: 20 }} />;
+        if (error) return <Error error={error} />;
+        return (
+          <form method="post" onSubmit={e => updateUser(e, user, update, tags)}>
+            <FormControl style={{ width: '100%' }}>
+              <div className={formContainer}>
+                {_tags.map(tag => (
+                  <div
+                    className="tag-select-target"
+                    onMouseEnter={() => setHoverState(tag.id)}
+                    onMouseLeave={() => setHoverState(null)}
+                    style={{ height: '3.5rem' }}
                   >
-                    <FormControl className={classes.formControl}>
-                      {this.props.tag.map(tag => (
-                        <MenuItem key={tag.id} value={tag.name}>
-                          <Checkbox
-                            label={tag.name}
-                            key={tag.id}
-                            value={tag.name}
-                            checked={this.handleIntialCheck(tag)}
-                            onChange={this.handleTagsChange}
-                          />
-                          <ListItemText primary={tag.name} />
-                        </MenuItem>
-                      ))}
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={handleIntialCheck(tag, tags)}
+                          key={tag.id}
+                          onChange={e => handleTagsChange(e, tags, setTags)}
+                          value={tag.name}
+                          color="primary"
+                        />
+                      }
+                      label={
+                        <span
+                          style={{
+                            fontWeight: handleIntialCheck(tag, tags)
+                              ? 700
+                              : hoverState === tag.id
+                              ? 700
+                              : 500
+                          }}
+                        >
+                          {tag.name}
+                        </span>
+                      }
+                    />
+                  </div>
+                ))}
+              </div>
 
-                      <Button variant="contained" type="submit">
-                        Save
-                      </Button>
-                    </FormControl>
-                  </form>
-                </div>
-              </Grid>
-            </div>
-          );
-        }}
-      </Mutation>
-    );
-  }
-}
-
-export default withStyles(styles)(Tags);
+              <div className={buttonContainer}>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  style={{ margin: '0.5rem 1rem' }}
+                >
+                  Save
+                </Button>
+              </div>
+            </FormControl>
+          </form>
+        );
+      }}
+    </Mutation>
+  );
+};
