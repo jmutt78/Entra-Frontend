@@ -80,36 +80,36 @@ const updateUser = async (e, user, updateUserMutation, tags) => {
   Mixpanel.track('Tag Save');
 };
 
-const handleIntialCheck = (tag, tags) => {
-  const inVal = tag.name;
-  for (var i = 0, len = tags.length; i < len; i++) {
-    if (tags[i] === inVal) return true;
+const handleIntialCheck = ({ name }, tags) => {
+  for (let tag of tags) {
+    if (tag === name) return true;
   }
   return false;
 };
 
-const handleTagsChange = (e, tags, setTags) => {
-  const options = [...tags];
+const handleTagsChange = (
+  { target: { value, checked: isChecked } },
+  tags,
+  setTags
+) => {
+  Mixpanel.track(value);
 
-  Mixpanel.track(e.target.value);
-  let index;
-  if (e.target.checked) {
-    options.push(e.target.value);
+  if (isChecked) {
+    setTags([...tags, value]);
   } else {
-    index = options.indexOf(+e.target.value);
-    options.splice(index, 1);
+    setTags(tags.filter(t => t !== value));
   }
-
-  setTags(options);
 };
 
 export default ({ user, _tags }) => {
   const { formContainer, buttonContainer } = useStyles();
   const [tags, setTags] = useState([]);
   const [hoverState, setHoverState] = useState(null);
+
   useEffect(() => {
     setTags(user.tags.map(({ name }) => name));
-  }, [user.tags]);
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <Mutation mutation={UPDATE_USER_MUTATION}>
