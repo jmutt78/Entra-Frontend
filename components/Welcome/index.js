@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Mixpanel } from '../../utils/Mixpanel';
+import './index.css';
 
 const useStyles = makeStyles(({ layout, palette }) => ({
   container: {
@@ -44,6 +45,12 @@ const useStyles = makeStyles(({ layout, palette }) => ({
     background: palette.secondary.main,
     padding: '1rem 0.5rem',
     borderRadius: 2
+  },
+  buttonContainer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    paddingBottom: '1rem'
   }
 }));
 
@@ -54,7 +61,8 @@ export default () => {
     noteContainer,
     paragraph,
     sectionTitle,
-    subtitle
+    subtitle,
+    buttonContainer
   } = useStyles();
   return (
     <div>
@@ -88,27 +96,31 @@ export default () => {
           Watch the video below to learn how to use Entra!
         </Typography>
 
-        <div className="videoWrapper">
+        <div className="youtube-box">
           <iframe
             title="video"
             src="//www.youtube.com/embed/3mxnannKu3E"
             allowFullScreen
             frameBorder="0"
             allow="autoplay; encrypted-media"
+            className="youtube-iframe"
           ></iframe>
         </div>
       </Grid>
-      <Link href="/tag-select">
-        <Button
-          variant="contained"
-          type="button"
-          onClick={e => {
-            Mixpanel.track('Welcome Next');
-          }}
-        >
-          NEXT
-        </Button>
-      </Link>
+      <div className={buttonContainer}>
+        <Link href="/tag-select">
+          <Button
+            variant="contained"
+            type="button"
+            onClick={e => {
+              Mixpanel.track('Welcome Next');
+            }}
+            style={{ margin: '0.5rem' }}
+          >
+            NEXT
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 };

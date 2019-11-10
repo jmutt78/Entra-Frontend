@@ -1,0 +1,21 @@
+.youtube-iframe {
+  bottom: 0;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+}
+
+.youtube-box {
+  position: relative;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.youtube-box:before {
+  content: '';
+  display: block;
+  padding-top: 56.25%;
+}
