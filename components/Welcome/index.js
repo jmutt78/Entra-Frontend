@@ -27,7 +27,7 @@ const useStyles = makeStyles(({ layout, palette }) => ({
     fontWeight: 700,
     color: 'rgba(0, 0, 0, 0.87)',
     lineHeight: '3rem',
-    padding: '0.5rem 0 2rem 1.2rem'
+    padding: '1.5rem 0 3rem 1.2rem'
   },
   paragraph: {
     fontSize: '16px',
@@ -40,7 +40,7 @@ const useStyles = makeStyles(({ layout, palette }) => ({
     fontWeight: 500
   },
   noteContainer: {
-    marginTop: '1rem',
+    marginTop: '2rem',
     marginBottom: '2rem',
     background: palette.secondary.main,
     padding: '1rem 0.5rem',
@@ -65,7 +65,7 @@ export default () => {
     buttonContainer
   } = useStyles();
   return (
-    <div>
+    <div className="main-welcome-container">
       <Grid container className={container}>
         <PageHeader title={'Welcome To Entra!'} />
         <div className={noteContainer}>
