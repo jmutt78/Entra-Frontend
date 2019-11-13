@@ -119,7 +119,7 @@ class Signup extends Component {
                     email: '',
                     display: ''
                   });
-                  Router.push('/onboarding');
+                  Router.push('/welcome');
                 }}
               >
                 <fieldset

@@ -42,6 +42,9 @@ class MyFeed extends Component {
               }}
             >
               {({ data: { questions }, loading, error }) => {
+                if (loading) return <CircularProgress style={{ margin: 20 }} />;
+                if (error) return <Error error={error} />;
+
                 return (
                   <QuestionList
                     enablePagination={true}
