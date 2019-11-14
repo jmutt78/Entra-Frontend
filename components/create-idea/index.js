@@ -13,6 +13,9 @@ import TableRow from '@material-ui/core/TableRow';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import AppBar from '@material-ui/core/AppBar';
 import { withStyles } from '@material-ui/core/styles';
 
 import { Mixpanel } from '../../utils/Mixpanel';
@@ -61,8 +64,7 @@ const styles = ({ layout, palette }) => ({
     display: 'flex'
   },
   tagButton: {
-    marginLeft: 10,
-    background: '#e3e3e3'
+    marginLeft: 20
   },
   buttonContainer: {
     display: 'flex',
@@ -97,7 +99,7 @@ export const CREATE_IDEA_MUTATION = gql`
 `;
 
 // TODO:
-//-Either a dropdown with each textbox or a next and back button to make it less overwelming
+
 //-A description for each textbox
 //-Router to the entry when its saved
 //
@@ -108,7 +110,8 @@ class IdeaCreate extends React.Component {
     problem: '',
     solution: '',
     customer: '',
-    value: ''
+    value: '',
+    position: 0
   };
 
   handleIdeaChange = e => {
@@ -137,9 +140,28 @@ class IdeaCreate extends React.Component {
     });
   };
 
+  handleChange = (e, position) => {
+    this.setState({
+      position: position
+    });
+    console.log(position);
+  };
+
+  handleNext = (e, position) => {
+    this.setState({
+      position: this.state.position + 1
+    });
+  };
+
+  handleBack = (e, position) => {
+    this.setState({
+      position: this.state.position - 1
+    });
+  };
+
   render() {
     const { classes } = this.props;
-    const { idea, problem, solution, customer, value } = this.state;
+    const { idea, problem, solution, customer, value, position } = this.state;
     return (
       <Mutation
         mutation={CREATE_IDEA_MUTATION}
@@ -166,7 +188,21 @@ class IdeaCreate extends React.Component {
                   </TableRow>
                 </TableHead>
               </Table>
-
+              <AppBar position="static" color="default">
+                <Tabs
+                  value={position}
+                  onChange={this.handleChange}
+                  indicatorColor="primary"
+                  textColor="primary"
+                  centered
+                >
+                  <Tab label="Idea" />
+                  <Tab label="Problem" />
+                  <Tab label="Solution" />
+                  <Tab label="Customer" />
+                  <Tab label="Value" />
+                </Tabs>
+              </AppBar>
               <div className={classes.formContainer}>
                 <form
                   method="post"
@@ -194,89 +230,125 @@ class IdeaCreate extends React.Component {
                     aria-busy={loading}
                     className={classes.fieldset}
                   >
-                    <FormControl className={classes.formControl}>
-                      <label htmlFor="idea">
-                        <TextField
-                          label="Idea"
-                          type="text"
-                          name="idea"
-                          variant="filled"
-                          value={idea}
-                          onChange={this.handleIdeaChange}
-                          className={classes.inputField}
-                        />
-                      </label>
-                    </FormControl>
+                    {position === 0 && (
+                      <FormControl className={classes.formControl}>
+                        <label htmlFor="idea">
+                          <TextField
+                            required
+                            label="Idea"
+                            type="text"
+                            name="idea"
+                            variant="filled"
+                            value={idea}
+                            onChange={this.handleIdeaChange}
+                            className={classes.inputField}
+                          />
+                        </label>
+                      </FormControl>
+                    )}
+                    {position === 1 && (
+                      <FormControl className={classes.formControl}>
+                        <label htmlFor="problem">
+                          <TextField
+                            label="Problem"
+                            type="text"
+                            name="problem"
+                            variant="filled"
+                            multiline
+                            rows={4}
+                            value={problem}
+                            onChange={this.handleProblemChange}
+                            className={classes.inputField}
+                          />
+                        </label>
+                      </FormControl>
+                    )}
+                    {position === 2 && (
+                      <FormControl className={classes.formControl}>
+                        <label htmlFor="solution">
+                          <TextField
+                            label="Solution"
+                            type="text"
+                            name="solution"
+                            variant="filled"
+                            multiline
+                            rows={4}
+                            value={solution}
+                            onChange={this.handleSolutionChange}
+                            className={classes.inputField}
+                          />
+                        </label>
+                      </FormControl>
+                    )}
+                    {position === 3 && (
+                      <FormControl className={classes.formControl}>
+                        <label htmlFor="customer">
+                          <TextField
+                            label="Customer"
+                            type="text"
+                            name="customer"
+                            variant="filled"
+                            multiline
+                            rows={4}
+                            value={customer}
+                            onChange={this.handleCustomerChange}
+                            className={classes.inputField}
+                          />
+                        </label>
+                      </FormControl>
+                    )}
+                    {position === 4 && (
+                      <FormControl className={classes.formControl}>
+                        <label htmlFor="value">
+                          <TextField
+                            label="Value"
+                            type="text"
+                            name="value"
+                            variant="filled"
+                            multiline
+                            rows={4}
+                            value={value}
+                            onChange={this.handleValueChange}
+                            className={classes.inputField}
+                          />
+                        </label>
+                      </FormControl>
+                    )}
+                    {position !== 0 ? (
+                      <Button
+                        variant="contained"
+                        type="button"
+                        onClick={this.handleBack}
+                      >
+                        Back
+                      </Button>
+                    ) : (
+                      <div />
+                    )}
 
-                    <FormControl className={classes.formControl}>
-                      <label htmlFor="problem">
-                        <TextField
-                          label="Problem"
-                          type="text"
-                          name="problem"
-                          variant="filled"
-                          multiline
-                          rows={4}
-                          value={problem}
-                          onChange={this.handleProblemChange}
-                          className={classes.inputField}
-                        />
-                      </label>
-                    </FormControl>
-
-                    <FormControl className={classes.formControl}>
-                      <label htmlFor="solution">
-                        <TextField
-                          label="Solution"
-                          type="text"
-                          name="solution"
-                          variant="filled"
-                          multiline
-                          rows={4}
-                          value={solution}
-                          onChange={this.handleSolutionChange}
-                          className={classes.inputField}
-                        />
-                      </label>
-                    </FormControl>
-
-                    <FormControl className={classes.formControl}>
-                      <label htmlFor="customer">
-                        <TextField
-                          label="Customer"
-                          type="text"
-                          name="customer"
-                          variant="filled"
-                          multiline
-                          rows={4}
-                          value={customer}
-                          onChange={this.handleCustomerChange}
-                          className={classes.inputField}
-                        />
-                      </label>
-                    </FormControl>
-
-                    <FormControl className={classes.formControl}>
-                      <label htmlFor="value">
-                        <TextField
-                          label="Value"
-                          type="text"
-                          name="value"
-                          variant="filled"
-                          multiline
-                          rows={4}
-                          value={value}
-                          onChange={this.handleValueChange}
-                          className={classes.inputField}
-                        />
-                      </label>
-                    </FormControl>
-
-                    <div className={classes.buttonContainer}>
-                      <Button variant="contained" type="submit">
+                    {position === 4 && (
+                      <Button
+                        variant="contained"
+                        type="submit"
+                        color="primary"
+                        className={classes.tagButton}
+                      >
                         Save Idea
                       </Button>
-                    </div>
+                    )}
+
+                    {position !== 4 ? (
+                      <Button
+                        type="button"
+                        variant="contained"
+                        onClick={this.handleNext}
+                        className={position !== 0 ? classes.tagButton : null}
+                      >
+                        Next
+                      </Button>
+                    ) : (
+                      <div />
+                    )}
                   </fieldset>
                 </form>
               </div>

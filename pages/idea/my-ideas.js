@@ -1,6 +1,6 @@
 import React from 'react';
-import MyIdeas from '../components/my-ideas';
-import Layout from '../components/layout/index.js';
+import MyIdeas from '../../components/my-ideas';
+import Layout from '../../components/layout/index.js';
 
 const Ideas = props => (
   <Layout>
