@@ -4,168 +4,30 @@ import Router from 'next/router';
 import { ApolloConsumer } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled, { keyframes } from 'styled-components';
-import { debounce, uniqBy } from 'lodash';
+import { debounce } from 'lodash';
 import TextField from '@material-ui/core/TextField';
 
 export const SEARCH_QUESTIONS_QUERY = gql`
-  query SEARCH_QUESTIONS_QUERY($searchTerm: String!) {
-    title: searchQuestions(
-      where: { AND: [{ title_contains: $searchTerm }, { approval: true }] }
-    ) {
-      id
-      title
-      tags {
-        id
-        name
-      }
-      description
-      createdAt
-      askedBy {
-        id
-        display
-        name
-      }
-      approval
-      answers {
-        body
-        id
-      }
-      views
-      upVotes
-      downVotes
-      bookMark {
-        id
-      }
-    }
-    description: searchQuestions(
-      where: {
-        AND: [{ description_contains: $searchTerm }, { approval: true }]
-      }
-    ) {
-      id
-      title
-      tags {
-        id
-        name
-      }
-      description
-      createdAt
-      askedBy {
-        id
-        display
-        name
-      }
-      approval
-      answers {
-        body
-        id
-      }
-      views
-      upVotes
-      downVotes
-      bookMark {
-        id
-      }
-    }
-    answer: searchQuestions(
+  query SEARCH_QUESTIONS_QUERY(
+    $searchTerm: String!
+    $offset: Int
+    $noDuplicates: Boolean
+  ) {
+    searchQuestions(
+      limit: 15
+      offset: $offset
+      noDuplicates: $noDuplicates
       where: {
         AND: [
-          { answers_some: { body_contains: $searchTerm } }
-          { approval: true }
-        ]
-      }
-    ) {
-      id
-      title
-      tags {
-        id
-        name
-      }
-      description
-      createdAt
-      askedBy {
-        id
-        display
-        name
-      }
-      approval
-      views
-      upVotes
-      downVotes
-      bookMark {
-        id
-      }
-      answers {
-        id
-        body
-      }
-    }
-    tag: searchQuestions(
-      where: {
-        AND: [{ tags_some: { name_contains: $searchTerm } }, { approval: true }]
-      }
-    ) {
-      id
-      title
-      tags {
-        id
-        name
-      }
-      description
-      createdAt
-      askedBy {
-        id
-        display
-        name
-      }
-      approval
-      views
-      upVotes
-      downVotes
-      bookMark {
-        id
-      }
-      answers {
-        id
-        body
-      }
-    }
-    userAsk: searchQuestions(
-      where: {
-        AND: [
+          { title_contains: $searchTerm }
+          { description_contains: $searchTerm }
+          {
+            answers_some: {
+              AND: [{ body_contains: $searchTerm }, { approval: true }]
+            }
+          }
+          { tags_some: { name_contains: $searchTerm } }
           { askedBy_some: { display_contains: $searchTerm } }
-          { approval: true }
-        ]
-      }
-    ) {
-      id
-      title
-      tags {
-        id
-        name
-      }
-      description
-      createdAt
-      approval
-      answers {
-        body
-        id
-      }
-      views
-      upVotes
-      downVotes
-      bookMark {
-        id
-      }
-      askedBy {
-        id
-        display
-        name
-      }
-    }
-    userAnswer: searchQuestions(
-      where: {
-        AND: [
           {
             answers_some: {
               AND: [
@@ -187,9 +49,10 @@ export const SEARCH_QUESTIONS_QUERY = gql`
       description
       createdAt
       approval
-      answers {
+      answers(where: { approval: true }) {
         body
         id
+        approval
         answeredBy {
           id
           display
@@ -206,6 +69,7 @@ export const SEARCH_QUESTIONS_QUERY = gql`
         display
         name
       }
+      searchTermFoundIn
     }
   }
 `;
@@ -255,10 +119,72 @@ const DropDownItem = styled.div`
   }
 `;
 
+export const normalizeSearchResults = data => {
+  const { description, title, answer, userAsk, userAnswer, tag } = data;
+  let questions = [];
+  description.forEach(d => {
+    let includes = false;
+    title.forEach(t => {
+      if (d.id === t.id) {
+        includes = true;
+      }
+    });
+    if (!includes) {
+      questions.push(d);
+    }
+  });
+
+  // Mark these results as coming from description and title queries
+  const filteredQuestions = title.concat(questions).map(t => {
+    return { ...t, querySource: 'q' };
+  });
+
+  // Mark these results as coming from answer query
+  const filteredAnswers = answer
+    .filter(a => a.answers.length > 0)
+    .map(a => {
+      return { ...a, querySource: 'a' };
+    });
+
+  // Mark these results as coming from user query that asked the question
+  const filteredUsersAsk = userAsk
+    .filter(u => u.askedBy.length > 0)
+    .map(u => {
+      return { ...u, querySource: 'uAsk', display: u.askedBy[0].display };
+    });
+
+  // Mark these results as coming from user query that answered the question
+  const filteredUsersAnswer = userAnswer
+    .filter(u => u.answers.length > 0)
+    .map(u => {
+      return {
+        ...u,
+        querySource: 'uAnswer',
+        display: u.answers[0].answeredBy.display
+      };
+    });
+
+  // Mark these results as coming from tags
+  const filteredTags = tag
+    .filter(a => a.tags.length > 0)
+    .map(a => {
+      return { ...a, querySource: 't' };
+    });
+
+  const searchResult = filteredQuestions
+    .concat(filteredAnswers)
+    .concat(filteredUsersAsk)
+    .concat(filteredUsersAnswer)
+    .concat(filteredTags);
+
+  return searchResult;
+};
+
 class QuestionSearch extends React.Component {
   state = {
     searchResult: [],
-    loading: false
+    loading: false,
+    searchTerm: ''
   };
 
   onChange = debounce(async (e, client) => {
@@ -271,81 +197,29 @@ class QuestionSearch extends React.Component {
       return;
     }
 
-    const {
-      data: { description, title, answer, userAsk, userAnswer, tag }
+    let {
+      data: { searchQuestions }
     } = await client.query({
       query: SEARCH_QUESTIONS_QUERY,
       variables: {
         searchTerm: e.target.value
       }
     });
-    let questions = [];
-    description.forEach(d => {
-      let includes = false;
-      title.forEach(t => {
-        if (d.id === t.id) {
-          includes = true;
-        }
-      });
-      if (!includes) {
-        questions.push(d);
-      }
-    });
-
-    // Mark these results as coming from description and title queries
-    const filteredQuestions = title.concat(questions).map(t => {
-      return { ...t, querySource: 'q' };
-    });
-
-    // Mark these results as coming from answer query
-    const filteredAnswers = answer
-      .filter(a => a.answers.length > 0)
-      .map(a => {
-        return { ...a, querySource: 'a' };
-      });
-
-    // Mark these results as coming from user query that asked the question
-    const filteredUsersAsk = userAsk
-      .filter(u => u.askedBy.length > 0)
-      .map(u => {
-        return { ...u, querySource: 'uAsk', display: u.askedBy[0].display };
-      });
-
-    // Mark these results as coming from user query that answered the question
-    const filteredUsersAnswer = userAnswer
-      .filter(u => u.answers.length > 0)
-      .map(u => {
-        return {
-          ...u,
-          querySource: 'uAnswer',
-          display: u.answers[0].answeredBy.display
-        };
-      });
-
-    // Mark these results as coming from tags
-    const filteredTags = tag
-      .filter(a => a.tags.length > 0)
-      .map(a => {
-        return { ...a, querySource: 't' };
-      });
-
-    const searchResult = filteredQuestions
-      .concat(filteredAnswers)
-      .concat(filteredUsersAsk)
-      .concat(filteredUsersAnswer)
-      .concat(filteredTags);
-
     this.setState({
-      searchResult,
-      loading: false
+      searchResult: searchQuestions,
+      loading: false,
+      searchTerm: e.target.value
     });
   }, 350);
 
   routeToQuestion = question => {
     if (question.id === 0) {
-      // Remove duplicate questions
-      let noDuplicates = uniqBy(this.state.searchResult, 'id');
-      this.props.onNewSearch(noDuplicates);
+      Router.push({
+        pathname: '/searchResults',
+        query: {
+          searchTerm: this.state.searchTerm
+        }
+      });
     } else {
       Router.push({
         pathname: '/question',
@@ -355,6 +229,11 @@ class QuestionSearch extends React.Component {
       });
     }
   };
+
+  getQuestionLabel = question => {
+    return `${question.searchTermFoundIn}: ${question.title}`;
+  };
+
   render() {
     const itemsInDropdown = 5;
     const { searchResult, loading } = this.state;
@@ -399,15 +278,7 @@ class QuestionSearch extends React.Component {
                         key={`${question.id}:${question.title.split(' ')[0]}`}
                         highlighted={index === highlightedIndex}
                       >
-                        {question.querySource === 'q'
-                          ? `Question: ${question.title}`
-                          : question.querySource === 'a'
-                          ? `Answer: ${question.title}`
-                          : question.querySource === 'uAsk'
-                          ? `${question.display} asked: ${question.title}`
-                          : question.querySource === 'uAnswer'
-                          ? `${question.display} answered to: ${question.title}`
-                          : `Tag: ${question.title}`}
+                        {this.getQuestionLabel(question)}
                       </DropDownItem>
                     ))}
                   {searchResult.length >= itemsInDropdown &&
