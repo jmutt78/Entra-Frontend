@@ -30,6 +30,52 @@ const CURRENT_USER_QUERY = gql`
           vote
         }
       }
+      tags {
+        id
+        name
+      }
+      myAnswers {
+        id
+        selected
+        answerVote {
+          id
+          vote
+        }
+        answeredTo {
+          id
+        }
+      }
+    }
+  }
+`;
+
+const CURRENT_USER_QUERY_PROFILE = gql`
+  query {
+    me {
+      id
+      email
+      display
+      name
+      permissions
+      createdAt
+      updatedAt
+      location
+      about
+      industry
+      image
+      myBookMarks {
+        id
+        questions {
+          id
+        }
+      }
+      myQuestions {
+        id
+        questionVote {
+          id
+          vote
+        }
+      }
       badges {
         autobiographer
         critic
@@ -71,4 +117,4 @@ User.propTypes = {
 };
 
 export default User;
-export { CURRENT_USER_QUERY };
+export { CURRENT_USER_QUERY, CURRENT_USER_QUERY_PROFILE };
