@@ -73,15 +73,17 @@ const styles = ({ layout, palette }) => ({
   }
 });
 
-export const CREATE_IDEA_MUTATION = gql`
-  mutation createBusinessIdea(
+export const UPDATE_IDEA_MUTATION = gql`
+  mutation UPDATE_IDEA_MUTATION(
+    $id: ID!
     $idea: String!
     $problem: String
     $solution: String
     $customer: String
     $value: String
   ) {
-    createBusinessIdea(
+    updateBusinessIdea(
+      id: $id
       idea: $idea
       problem: $problem
       solution: $solution
@@ -98,16 +100,13 @@ export const CREATE_IDEA_MUTATION = gql`
   }
 `;
 
-// TODO:
-//-A description for each textbox
-
-class IdeaCreate extends React.Component {
+class IdeaForm extends React.Component {
   state = {
-    idea: '',
-    problem: '',
-    solution: '',
-    customer: '',
-    value: '',
+    idea: this.props.businessIdea.idea,
+    problem: this.props.businessIdea.problem,
+    solution: this.props.businessIdea.solution,
+    customer: this.props.businessIdea.solution,
+    value: this.props.businessIdea.value,
     position: 0
   };
 
@@ -155,12 +154,30 @@ class IdeaCreate extends React.Component {
     });
   };
 
+  updateForm = async (e, updateBusinessIdea) => {
+    e.preventDefault();
+    console.log(this.props.businessIdea.id);
+    const res = await updateBusinessIdea({
+      variables: {
+        id: this.props.businessIdea.id,
+        ...this.state
+      }
+    });
+
+    console.log('Updated!!');
+    Router.push({
+      pathname: '/idea/idea',
+      query: { id: this.props.businessIdea.id }
+    });
+  };
+
   render() {
     const { classes } = this.props;
     const { idea, problem, solution, customer, value, position } = this.state;
+
     return (
       <Mutation
-        mutation={CREATE_IDEA_MUTATION}
+        mutation={UPDATE_IDEA_MUTATION}
         variables={{
           idea,
           problem,
@@ -169,7 +186,7 @@ class IdeaCreate extends React.Component {
           value
         }}
       >
-        {(createIdea, { error, loading }) => {
+        {(updateBusinessIdea, { error, loading }) => {
           return (
             <Grid container className={classes.container}>
               <Error error={error} />
@@ -202,22 +219,7 @@ class IdeaCreate extends React.Component {
               <div className={classes.formContainer}>
                 <form
                   method="post"
-                  onSubmit={async e => {
-                    e.preventDefault();
-                    const res = await createIdea();
-
-                    Router.push({
-                      pathname: '/idea/my-ideas'
-                    });
-
-                    this.setState({
-                      idea: '',
-                      problem: '',
-                      solution: '',
-                      customer: '',
-                      value: ''
-                    });
-                  }}
+                  onSubmit={e => this.updateForm(e, updateBusinessIdea)}
                   className={classes.form}
                 >
                   <fieldset
@@ -355,4 +357,4 @@ class IdeaCreate extends React.Component {
   }
 }
 
-export default withStyles(styles)(IdeaCreate);
+export default withStyles(styles)(IdeaForm);

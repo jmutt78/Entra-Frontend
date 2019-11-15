@@ -1,6 +1,6 @@
 import React from 'react';
-import UpdateIdea from '../components/edit-idea';
-import Layout from '../components/layout/index.js';
+import UpdateIdea from '../../components/edit-idea';
+import Layout from '../../components/layout/index.js';
 
 const EditIdea = props => (
   <Layout>

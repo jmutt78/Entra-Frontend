@@ -42,14 +42,14 @@ function IdeaList(props) {
 
   return (
     <div className={classes.container}>
-      <PageHeader title={upperFirst(props.name) || 'Questions'} />
+      <PageHeader title={upperFirst(props.name) || 'Idea'} />
       {businessIdeas &&
         businessIdeas.map(businessIdea => {
           return (
             <IdeaItem
               item={businessIdea}
               linkTo={{
-                pathname: '/idea/business-idea',
+                pathname: '/idea/idea',
                 query: { id: businessIdea.id }
               }}
               showDetails={true}
