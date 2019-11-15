@@ -31,7 +31,7 @@ const styles = ({ layout }) => ({
     maxWidth: '.3px'
   },
   searchQuestions: {
-    height: 1440,
+    height: '47vh',
     width: '100%',
     overflow: 'auto'
   }

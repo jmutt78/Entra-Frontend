@@ -22,11 +22,17 @@ const styles = ({ layout }) => {
       display: 'flex',
       flex: 1,
       minHeight: layout.contentMinHeight
+    },
+    searchResultContainer: {
+      display: 'flex',
+      flex: 1,
+      minHeight: layout.searchContentMinHeight
     }
   };
 };
 
 const Page = ({ children, classes, router }) => {
+  const isSearchResultPage = router.pathname === '/searchResults';
   const isLanding =
     router.pathname === '/' ||
     router.pathname === '/landing1' ||
@@ -39,7 +45,12 @@ const Page = ({ children, classes, router }) => {
       <Header />
       <div className={isLanding ? 'noPadding' : 'contentContainerPadding'}>
         <div
-          className={classNames(classes.contentContainer, 'contentContainer')}
+          className={classNames(
+            isSearchResultPage
+              ? classes.searchResultContainer
+              : classes.contentContainer,
+            'contentContainer'
+          )}
         >
           {children}
         </div>
