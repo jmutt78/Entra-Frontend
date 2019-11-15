@@ -4,13 +4,14 @@ import { Query } from 'react-apollo';
 import { withApollo } from 'react-apollo';
 import { perPage } from '../../config.js';
 import QuestionList from '../question-list';
-import tagsListQuery from './tagsListQuery.js';
+import myFeedListQuery from './myFeedListQuery';
+import { CURRENT_USER_QUERY } from '../auth/User';
 import Error from './../ErrorMessage.js';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-export const TAGS_QUESTIONS_PAGINATION_QUERY = gql`
-  query TAGS_QUESTIONS_PAGINATION_QUERY($id: ID!, $filter: String!) {
-    questionsConnection(where: { tags_some: { id: $id } }, filter: $filter) {
+export const TAGSFEED_QUESTIONS_PAGINATION_QUERY = gql`
+  query TAGSFEED_QUESTIONS_PAGINATION_QUERY($id: [ID!], $filter: String!) {
+    questionsConnection(where: { tags_some: { id_in: $id } }, filter: $filter) {
       aggregate {
         count
       }
@@ -18,52 +19,40 @@ export const TAGS_QUESTIONS_PAGINATION_QUERY = gql`
   }
 `;
 
-export const TAG_QUERY = gql`
-  query TAG_QUERY($id: ID!) {
-    tag(id: $id) {
-      name
-      id
-    }
-  }
-`;
-
-class TagsList extends Component {
+class MyFeed extends Component {
   render() {
-    const filter = 'tags';
-    const { page, id } = this.props;
+    const filter = 'tagslist';
+    const { page } = this.props;
 
     return (
-      <Query
-        query={TAG_QUERY}
-        variables={{
-          id
-        }}
-      >
+      <Query query={CURRENT_USER_QUERY}>
         {({ data, loading, error }) => {
           if (loading) return <CircularProgress style={{ margin: 20 }} />;
           if (error) return <Error error={error} />;
-          const name = data.tag.name;
+          const id = data.me.tags.map(({ id }) => id);
+
           return (
             <Query
-              query={tagsListQuery}
+              query={myFeedListQuery}
               variables={{
-                id: this.props.id,
+                id,
                 filter,
                 skip: page * perPage - perPage,
                 first: perPage
               }}
             >
-              {({ data: { questions }, loading }) => {
+              {({ data: { questions }, loading, error }) => {
                 if (loading) return <CircularProgress style={{ margin: 20 }} />;
+                if (error) return <Error error={error} />;
 
                 return (
                   <QuestionList
                     enablePagination={true}
                     questions={questions}
-                    paginationQuery={TAGS_QUESTIONS_PAGINATION_QUERY}
                     paginationVariables={{ filter, id }}
                     page={page}
-                    name={name}
+                    name={'My Feed'}
+                    paginationQuery={TAGSFEED_QUESTIONS_PAGINATION_QUERY}
                   />
                 );
               }}
@@ -75,4 +64,4 @@ class TagsList extends Component {
   }
 }
 
-export default withApollo(TagsList);
+export default withApollo(MyFeed);
