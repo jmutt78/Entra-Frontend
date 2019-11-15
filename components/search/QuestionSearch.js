@@ -119,67 +119,6 @@ const DropDownItem = styled.div`
   }
 `;
 
-export const normalizeSearchResults = data => {
-  const { description, title, answer, userAsk, userAnswer, tag } = data;
-  let questions = [];
-  description.forEach(d => {
-    let includes = false;
-    title.forEach(t => {
-      if (d.id === t.id) {
-        includes = true;
-      }
-    });
-    if (!includes) {
-      questions.push(d);
-    }
-  });
-
-  // Mark these results as coming from description and title queries
-  const filteredQuestions = title.concat(questions).map(t => {
-    return { ...t, querySource: 'q' };
-  });
-
-  // Mark these results as coming from answer query
-  const filteredAnswers = answer
-    .filter(a => a.answers.length > 0)
-    .map(a => {
-      return { ...a, querySource: 'a' };
-    });
-
-  // Mark these results as coming from user query that asked the question
-  const filteredUsersAsk = userAsk
-    .filter(u => u.askedBy.length > 0)
-    .map(u => {
-      return { ...u, querySource: 'uAsk', display: u.askedBy[0].display };
-    });
-
-  // Mark these results as coming from user query that answered the question
-  const filteredUsersAnswer = userAnswer
-    .filter(u => u.answers.length > 0)
-    .map(u => {
-      return {
-        ...u,
-        querySource: 'uAnswer',
-        display: u.answers[0].answeredBy.display
-      };
-    });
-
-  // Mark these results as coming from tags
-  const filteredTags = tag
-    .filter(a => a.tags.length > 0)
-    .map(a => {
-      return { ...a, querySource: 't' };
-    });
-
-  const searchResult = filteredQuestions
-    .concat(filteredAnswers)
-    .concat(filteredUsersAsk)
-    .concat(filteredUsersAnswer)
-    .concat(filteredTags);
-
-  return searchResult;
-};
-
 class QuestionSearch extends React.Component {
   state = {
     searchResult: [],
