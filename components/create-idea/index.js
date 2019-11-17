@@ -1,45 +1,87 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
+import capitalize from 'lodash/capitalize';
+import classNames from 'classnames';
+
+import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import Button from '@material-ui/core/Button';
+import Stepper from '@material-ui/core/Stepper';
+import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(theme => ({
+const usePageStyles = makeStyles(({ palette, spacing }) => ({
   root: {
     width: '90%'
   },
   button: {
-    marginRight: theme.spacing(1)
+    marginRight: spacing(1)
   },
   instructions: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1)
+    marginTop: spacing(1),
+    marginBottom: spacing(1)
   }
 }));
 
-const getStepContent = step => {
-  switch (step) {
+const useStepStyles = makeStyles(({ palette }) => ({
+  inputField: {}
+}));
+
+const useInput = (
+  name = '',
+  className = '',
+  required = true,
+  variant = 'filled'
+) => {
+  const [value, setValue] = useState('');
+  const onChange = ({ target: { value: _value } }) => setValue(_value);
+
+  return {
+    className,
+    label: capitalize(name),
+    name,
+    onChange,
+    required,
+    type: 'text',
+    value,
+    variant: 'filled'
+  };
+};
+
+const StepContent = ({ name }) => {
+  const { inputField } = useStepStyles();
+
+  return (
+    <FormControl>
+      <label>
+        <TextField {...useInput(name, classNames(inputField))} />
+      </label>
+    </FormControl>
+  );
+};
+
+const StepsContent = ({ activeStep }) => {
+  switch (activeStep) {
     case 0:
-      return 'Select campaign settings...';
+      return <StepContent name="idea" />;
     case 1:
-      return 'What is an ad group anyways?';
+      return <StepContent name="problem" />;
     case 2:
-      return 'This is the bit I really care about!';
+      return <StepContent name="solution" />;
+    case 3:
+      return <StepContent name="customer" />;
+    case 4:
+      return <StepContent name="value" />;
     default:
       return 'Unknown step';
   }
 };
 
 export default () => {
-  const { root, instructions, button } = useStyles();
+  const { root, instructions, button } = usePageStyles();
   const [activeStep, setActiveStep] = useState(1);
-  const steps = [
-    'Select campaign settings',
-    'Create an ad group',
-    'Create an ad'
-  ];
+  const steps = ['idea', 'problem', 'solution', 'customer', 'value'];
 
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -76,7 +118,7 @@ export default () => {
         ) : (
           <div>
             <Typography className={instructions}>
-              {getStepContent(activeStep)}
+              <StepsContent activeStep={activeStep} />
             </Typography>
             <div>
               <Button
