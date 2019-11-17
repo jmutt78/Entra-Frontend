@@ -53,7 +53,7 @@ const useInput = (
 export default () => {
   const { root, instructions, button } = usePageStyles();
   const { inputField } = useStepStyles();
-  const [activeStep, setActiveStep] = useState(1);
+  const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -90,10 +90,12 @@ export default () => {
         ) : (
           <div>
             <Typography className={instructions}>
-              <TextField
-                {...useInput(steps[activeStep], classNames(inputField))}
-              />
-              ;
+              {steps.map((s, i) => (
+                <TextField
+                  {...useInput(s, classNames(inputField))}
+                  style={{ display: activeStep === i ? 'block' : 'none' }}
+                />
+              ))}
             </Typography>
             <div>
               <Button
