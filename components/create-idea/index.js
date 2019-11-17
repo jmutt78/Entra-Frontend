@@ -55,18 +55,6 @@ export default () => {
   const { inputField } = useStepStyles();
   const [activeStep, setActiveStep] = useState(0);
 
-  const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
   return (
     <div className={root}>
       <Stepper alternativeLabel activeStep={activeStep}>
@@ -83,9 +71,6 @@ export default () => {
             <Typography className={instructions}>
               All steps completed - you&apos;re finished
             </Typography>
-            <Button onClick={handleReset} className={button}>
-              Reset
-            </Button>
           </div>
         ) : (
           <div>
@@ -100,7 +85,7 @@ export default () => {
             <div>
               <Button
                 disabled={activeStep === 0}
-                onClick={handleBack}
+                onClick={() => setActiveStep(a => a - 1)}
                 className={button}
               >
                 Back
@@ -108,7 +93,7 @@ export default () => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={handleNext}
+                onClick={() => setActiveStep(a => a + 1)}
                 className={button}
               >
                 {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
