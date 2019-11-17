@@ -3,13 +3,14 @@ import capitalize from 'lodash/capitalize';
 import classNames from 'classnames';
 
 import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Stepper from '@material-ui/core/Stepper';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+
+const steps = ['idea', 'problem', 'solution', 'customer', 'value'];
 
 const usePageStyles = makeStyles(({ palette, spacing }) => ({
   root: {
@@ -49,39 +50,10 @@ const useInput = (
   };
 };
 
-const StepContent = ({ name }) => {
-  const { inputField } = useStepStyles();
-
-  return (
-    <FormControl>
-      <label>
-        <TextField {...useInput(name, classNames(inputField))} />
-      </label>
-    </FormControl>
-  );
-};
-
-const StepsContent = ({ activeStep }) => {
-  switch (activeStep) {
-    case 0:
-      return <StepContent name="idea" />;
-    case 1:
-      return <StepContent name="problem" />;
-    case 2:
-      return <StepContent name="solution" />;
-    case 3:
-      return <StepContent name="customer" />;
-    case 4:
-      return <StepContent name="value" />;
-    default:
-      return 'Unknown step';
-  }
-};
-
 export default () => {
   const { root, instructions, button } = usePageStyles();
+  const { inputField } = useStepStyles();
   const [activeStep, setActiveStep] = useState(1);
-  const steps = ['idea', 'problem', 'solution', 'customer', 'value'];
 
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -118,7 +90,10 @@ export default () => {
         ) : (
           <div>
             <Typography className={instructions}>
-              <StepsContent activeStep={activeStep} />
+              <TextField
+                {...useInput(steps[activeStep], classNames(inputField))}
+              />
+              ;
             </Typography>
             <div>
               <Button
