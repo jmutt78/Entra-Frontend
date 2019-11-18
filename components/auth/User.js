@@ -30,7 +30,10 @@ const CURRENT_USER_QUERY = gql`
           vote
         }
       }
-
+      tags {
+        id
+        name
+      }
       myAnswers {
         id
         selected

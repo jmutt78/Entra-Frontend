@@ -5,6 +5,7 @@ import ListItem from '../ListItem';
 import PageHeader from '../PageHeader';
 import Pagination from '../pagination';
 import { withStyles } from '@material-ui/core/styles';
+import Search from '../search/QuestionSearch';
 
 const styles = ({ layout }) => ({
   container: {
@@ -34,8 +35,8 @@ const styles = ({ layout }) => ({
 function QuestionList(props) {
   const {
     classes,
-    questions,
     page,
+    questions,
     paginationVariables,
     paginationQuery
   } = props;
@@ -43,6 +44,7 @@ function QuestionList(props) {
   return (
     <div className={classes.container}>
       <PageHeader title={upperFirst(props.name) || 'Questions'} />
+      {props.name === 'all questions' && <Search />}
       {questions &&
         questions.map(question => {
           return (

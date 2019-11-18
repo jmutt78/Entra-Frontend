@@ -107,6 +107,16 @@ class MainInfoDisplay extends Component {
                         EDIT ACCOUNT INFO
                       </Button>
                     </Link>
+                    <Link href="/tag-select">
+                      <Button
+                        style={{ marginLeft: 20 }}
+                        variant="contained"
+                        type="button"
+                        onClick={this.handleEditTrack}
+                      >
+                        EDIT FEED
+                      </Button>
+                    </Link>
                   </Typography>
                 ) : null
               ) : null}
