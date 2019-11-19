@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { capitalize } from 'lodash';
 import classNames from 'classnames';
+import gql from 'graphql-tag';
+import { Mutation } from 'react-apollo';
+import { push } from 'next/router';
 
 import Button from '@material-ui/core/Button';
 import Step from '@material-ui/core/Step';
@@ -10,6 +13,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
+import Error from './../ErrorMessage.js';
 import PageHeader from '../PageHeader';
 import './index.css';
 
@@ -28,6 +32,37 @@ const initialState = steps.reduce(
   }),
   {}
 );
+
+export const CREATE_IDEA_MUTATION = gql`
+  mutation createBusinessIdea(
+    $idea: String!
+    $problem: String
+    $solution: String
+    $customer: String
+    $value: String
+  ) {
+    createBusinessIdea(
+      idea: $idea
+      problem: $problem
+      solution: $solution
+      customer: $customer
+      value: $value
+    ) {
+      id
+      idea
+      problem
+      solution
+      customer
+      value
+    }
+  }
+`;
+
+// TODO:
+
+//-A description for each textbox
+//-Router to the entry when its saved
+//
 
 const usePageStyles = makeStyles(({ palette, spacing }) => ({
   root: {
@@ -87,52 +122,63 @@ export default () => {
     setInputs(inputs => ({ ...inputs, [field]: val }));
 
   return (
-    <div className={classNames(root, 'create-idea-container')}>
-      <PageHeader title="Create a business idea" />
-      <Stepper alternativeLabel activeStep={activeStep}>
-        {steps.map(label => (
-          <Step key={label}>
-            <StepLabel>{capitalize(label)}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
+    <Mutation mutation={CREATE_IDEA_MUTATION} variables={{ ...inputs }}>
+      {(createIdea, { error, loading }) => {
+        const submit = async () => {
+          const {
+            data: {
+              createQuestion: { id }
+            }
+          } = await createIdea();
+          push({
+            pathname: '/question',
+            query: { id }
+          });
+        };
+        return (
+          <div className={classNames(root, 'create-idea-container')}>
+            <PageHeader title="Create a business idea" />
+            <Stepper alternativeLabel activeStep={activeStep}>
+              {steps.map(label => (
+                <Step key={label}>
+                  <StepLabel>{capitalize(label)}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
 
-      <div>
-        {activeStep === steps.length ? (
-          <div>
-            <Typography className={instructions}>
-              All steps completed - you&apos;re finished
-            </Typography>
-          </div>
-        ) : (
-          <div>
-            <Typography className={instructions}>
-              <StepContent
-                step={activeStep}
-                value={inputs[steps[activeStep]]}
-                setField={setField.bind(null, steps[activeStep])}
-              />
-            </Typography>
-            <div className={classNames('create-idea-buttons')}>
-              <Button
-                disabled={activeStep === 0}
-                onClick={() => setActiveStep(a => a - 1)}
-                className={button}
-              >
-                Back
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => setActiveStep(a => a + 1)}
-                className={button}
-              >
-                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-              </Button>
+            <div>
+              <Typography className={instructions}>
+                <StepContent
+                  step={activeStep}
+                  value={inputs[steps[activeStep]]}
+                  setField={setField.bind(null, steps[activeStep])}
+                />
+              </Typography>
+              <div className={classNames('create-idea-buttons')}>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={() => setActiveStep(a => a - 1)}
+                  className={button}
+                >
+                  Back
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={
+                    activeStep === steps.length - 1
+                      ? submit
+                      : () => setActiveStep(a => a + 1)
+                  }
+                  className={button}
+                >
+                  {activeStep === steps.length - 1 ? 'Save Idea' : 'Next'}
+                </Button>
+              </div>
             </div>
           </div>
-        )}
-      </div>
-    </div>
+        );
+      }}
+    </Mutation>
   );
 };
