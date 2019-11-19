@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import capitalize from 'lodash/capitalize';
+import { capitalize } from 'lodash';
 import classNames from 'classnames';
 
 import Button from '@material-ui/core/Button';
@@ -10,6 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
+import PageHeader from '../PageHeader';
 import './index.css';
 
 const steps = ['idea', 'problem', 'solution', 'customer', 'value'];
@@ -25,6 +26,12 @@ const usePageStyles = makeStyles(({ palette, spacing }) => ({
   root: {
     width: '100%'
   },
+  buttons: {
+    padding: '2rem 4rem',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end'
+  },
   button: {
     marginRight: spacing(1)
   },
@@ -39,17 +46,29 @@ const useStepStyles = makeStyles(({ palette }) => ({
     width: '100%'
   },
   textFieldContainer: {
-    width: '100%'
+    width: '100%',
+    padding: '2rem 4rem'
   }
 }));
 
 const StepContent = ({ step, value, setField }) => {
   const { inputField, textFieldContainer } = useStepStyles();
+  const rows = (step => {
+    switch (step) {
+      case 0:
+        return 1;
+      default:
+        return 5;
+    }
+  })(step);
+
   const fieldprops = {
     className: classNames(inputField),
     label: capitalize(steps[step]),
+    multiline: true,
     name: steps[step],
     onChange: ({ target: { value } }) => setField(value),
+    rows,
     type: 'text',
     value,
     variant: 'filled'
@@ -63,7 +82,7 @@ const StepContent = ({ step, value, setField }) => {
 };
 
 export default () => {
-  const { root, instructions, button } = usePageStyles();
+  const { root, instructions, buttons, button } = usePageStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [inputs, setInputs] = useState(initialState);
   const setField = (field, val) =>
@@ -71,6 +90,7 @@ export default () => {
 
   return (
     <div className={classNames(root, 'create-idea-container')}>
+      <PageHeader title="Create a business idea" />
       <Stepper alternativeLabel activeStep={activeStep}>
         {steps.map(label => (
           <Step key={label}>
@@ -95,7 +115,7 @@ export default () => {
                 setField={setField.bind(null, steps[activeStep])}
               />
             </Typography>
-            <div>
+            <div className={classNames(buttons)}>
               <Button
                 disabled={activeStep === 0}
                 onClick={() => setActiveStep(a => a - 1)}
