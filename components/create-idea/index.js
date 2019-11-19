@@ -59,10 +59,7 @@ export const CREATE_IDEA_MUTATION = gql`
 `;
 
 // TODO:
-
 //-A description for each textbox
-//-Router to the entry when its saved
-//
 
 const usePageStyles = makeStyles(({ palette, spacing }) => ({
   root: {
@@ -160,6 +157,9 @@ export default () => {
                   disabled={activeStep === 0}
                   onClick={() => setActiveStep(a => a - 1)}
                   className={button}
+
+                  xs
+
                 >
                   Back
                 </Button>
