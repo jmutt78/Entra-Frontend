@@ -31,13 +31,8 @@ const initialState = steps.reduce(
 
 const usePageStyles = makeStyles(({ palette, spacing }) => ({
   root: {
-    width: '100%'
-  },
-  buttons: {
-    padding: '2rem 4rem',
     width: '100%',
-    display: 'flex',
-    justifyContent: 'flex-end'
+    maxWidth: 800
   },
   button: {
     marginRight: spacing(1)
@@ -51,15 +46,11 @@ const usePageStyles = makeStyles(({ palette, spacing }) => ({
 const useStepStyles = makeStyles(({ palette }) => ({
   inputField: {
     width: '100%'
-  },
-  textFieldContainer: {
-    width: '100%',
-    padding: '2rem 4rem'
   }
 }));
 
 const StepContent = ({ step, value, setField }) => {
-  const { inputField, textFieldContainer } = useStepStyles();
+  const { inputField } = useStepStyles();
   const rows = (step => {
     switch (step) {
       case 0:
@@ -82,14 +73,14 @@ const StepContent = ({ step, value, setField }) => {
   };
 
   return (
-    <div className={classNames(textFieldContainer)}>
+    <div className={classNames('ideaCreate-textFieldContainer')}>
       <TextField {...fieldprops} />
     </div>
   );
 };
 
 export default () => {
-  const { root, instructions, buttons, button } = usePageStyles();
+  const { root, instructions, button } = usePageStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [inputs, setInputs] = useState(initialState);
   const setField = (field, val) =>
@@ -122,7 +113,7 @@ export default () => {
                 setField={setField.bind(null, steps[activeStep])}
               />
             </Typography>
-            <div className={classNames(buttons)}>
+            <div className={classNames('create-idea-buttons')}>
               <Button
                 disabled={activeStep === 0}
                 onClick={() => setActiveStep(a => a - 1)}
