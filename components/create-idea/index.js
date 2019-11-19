@@ -1,77 +1,37 @@
-import React from 'react';
-import Router from 'next/router';
-import Typography from '@material-ui/core/Typography';
+import React, { useState } from 'react';
+import { capitalize } from 'lodash';
+import classNames from 'classnames';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-import Error from './../ErrorMessage.js';
+import { push } from 'next/router';
 
 import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import FormControl from '@material-ui/core/FormControl';
-import Grid from '@material-ui/core/Grid';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
+import Stepper from '@material-ui/core/Stepper';
 import TextField from '@material-ui/core/TextField';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import AppBar from '@material-ui/core/AppBar';
-import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 
-import { Mixpanel } from '../../utils/Mixpanel';
+import Error from './../ErrorMessage.js';
+import PageHeader from '../PageHeader';
+import './index.css';
 
-const styles = ({ layout, palette }) => ({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '0 5px'
-  },
-  table: {},
-  title: {
-    fontSize: '40px',
-    textAlign: 'Left',
-    color: 'rgba(0, 0, 0, 0.87)',
-    lineHeight: '3rem'
-  },
-  inputField: {
-    width: '100%',
-    marginBottom: 30
-  },
-  label: {
-    marginLeft: 10,
-    marginBotom: 10
-  },
-  formContainer: {
-    width: '100%',
-    maxWidth: 1000,
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  form: {
-    width: '100%',
-    maxWidth: 500,
-    padding: '50px 0 0 0'
-  },
-  fieldset: {
-    border: 0,
-    padding: 0,
-    margin: 0
-  },
-  formControl: {
-    width: '100%'
-  },
-  tagsContainer: {
-    display: 'flex'
-  },
-  tagButton: {
-    marginLeft: 20
-  },
-  buttonContainer: {
-    display: 'flex',
-    width: '100%',
-    justifyContent: 'flex-end'
-  }
-});
+const steps = ['idea', 'problem', 'solution', 'customer', 'value'];
+const stepNames = [
+  `Give your idea a descriptive name`,
+  `What problem are you solving?`,
+  `How does your idea solve the problem?`,
+  `Who are your customers?`,
+  `What's the value you're creating?`
+];
+const initialState = steps.reduce(
+  (a, b) => ({
+    ...a,
+    [b]: ''
+  }),
+  {}
+);
 
 export const CREATE_IDEA_MUTATION = gql`
   mutation createBusinessIdea(
@@ -101,258 +61,123 @@ export const CREATE_IDEA_MUTATION = gql`
 // TODO:
 //-A description for each textbox
 
-class IdeaCreate extends React.Component {
-  state = {
-    idea: '',
-    problem: '',
-    solution: '',
-    customer: '',
-    value: '',
-    position: 0
-  };
-
-  handleIdeaChange = e => {
-    this.setState({
-      idea: e.target.value
-    });
-  };
-  handleProblemChange = e => {
-    this.setState({
-      problem: e.target.value
-    });
-  };
-  handleSolutionChange = e => {
-    this.setState({
-      solution: e.target.value
-    });
-  };
-  handleCustomerChange = e => {
-    this.setState({
-      customer: e.target.value
-    });
-  };
-  handleValueChange = e => {
-    this.setState({
-      value: e.target.value
-    });
-  };
-
-  handleChange = (e, position) => {
-    this.setState({
-      position: position
-    });
-  };
-
-  handleNext = (e, position) => {
-    this.setState({
-      position: this.state.position + 1
-    });
-  };
-
-  handleBack = (e, position) => {
-    this.setState({
-      position: this.state.position - 1
-    });
-  };
-
-  render() {
-    const { classes } = this.props;
-    const { idea, problem, solution, customer, value, position } = this.state;
-    return (
-      <Mutation
-        mutation={CREATE_IDEA_MUTATION}
-        variables={{
-          idea,
-          problem,
-          solution,
-          customer,
-          value
-        }}
-      >
-        {(createIdea, { error, loading }) => {
-          return (
-            <Grid container className={classes.container}>
-              <Error error={error} />
-              <Table className={classes.table}>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>
-                      <Typography variant="h6" className={classes.title}>
-                        Create a Business Idea
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-              </Table>
-              <AppBar position="static" color="default">
-                <Tabs
-                  value={position}
-                  onChange={this.handleChange}
-                  indicatorColor="primary"
-                  textColor="primary"
-                  centered
-                >
-                  <Tab label="Idea" />
-                  <Tab label="Problem" />
-                  <Tab label="Solution" />
-                  <Tab label="Customer" />
-                  <Tab label="Value" />
-                </Tabs>
-              </AppBar>
-              <div className={classes.formContainer}>
-                <form
-                  method="post"
-                  onSubmit={async e => {
-                    e.preventDefault();
-                    const res = await createIdea();
-
-                    Router.push({
-                      pathname: '/idea/my-ideas'
-                    });
-
-                    this.setState({
-                      idea: '',
-                      problem: '',
-                      solution: '',
-                      customer: '',
-                      value: ''
-                    });
-                  }}
-                  className={classes.form}
-                >
-                  <fieldset
-                    disabled={loading}
-                    aria-busy={loading}
-                    className={classes.fieldset}
-                  >
-                    {position === 0 && (
-                      <FormControl className={classes.formControl}>
-                        <label htmlFor="idea">
-                          <TextField
-                            required
-                            label="Idea"
-                            type="text"
-                            name="idea"
-                            variant="filled"
-                            value={idea}
-                            onChange={this.handleIdeaChange}
-                            className={classes.inputField}
-                          />
-                        </label>
-                      </FormControl>
-                    )}
-                    {position === 1 && (
-                      <FormControl className={classes.formControl}>
-                        <label htmlFor="problem">
-                          <TextField
-                            label="Problem"
-                            type="text"
-                            name="problem"
-                            variant="filled"
-                            multiline
-                            rows={4}
-                            value={problem}
-                            onChange={this.handleProblemChange}
-                            className={classes.inputField}
-                          />
-                        </label>
-                      </FormControl>
-                    )}
-                    {position === 2 && (
-                      <FormControl className={classes.formControl}>
-                        <label htmlFor="solution">
-                          <TextField
-                            label="Solution"
-                            type="text"
-                            name="solution"
-                            variant="filled"
-                            multiline
-                            rows={4}
-                            value={solution}
-                            onChange={this.handleSolutionChange}
-                            className={classes.inputField}
-                          />
-                        </label>
-                      </FormControl>
-                    )}
-                    {position === 3 && (
-                      <FormControl className={classes.formControl}>
-                        <label htmlFor="customer">
-                          <TextField
-                            label="Customer"
-                            type="text"
-                            name="customer"
-                            variant="filled"
-                            multiline
-                            rows={4}
-                            value={customer}
-                            onChange={this.handleCustomerChange}
-                            className={classes.inputField}
-                          />
-                        </label>
-                      </FormControl>
-                    )}
-                    {position === 4 && (
-                      <FormControl className={classes.formControl}>
-                        <label htmlFor="value">
-                          <TextField
-                            label="Value"
-                            type="text"
-                            name="value"
-                            variant="filled"
-                            multiline
-                            rows={4}
-                            value={value}
-                            onChange={this.handleValueChange}
-                            className={classes.inputField}
-                          />
-                        </label>
-                      </FormControl>
-                    )}
-                    {position !== 0 ? (
-                      <Button
-                        variant="contained"
-                        type="button"
-                        onClick={this.handleBack}
-                      >
-                        Back
-                      </Button>
-                    ) : (
-                      <div />
-                    )}
-
-                    {position === 4 && (
-                      <Button
-                        variant="contained"
-                        type="submit"
-                        color="primary"
-                        className={classes.tagButton}
-                      >
-                        Save Idea
-                      </Button>
-                    )}
-
-                    {position !== 4 ? (
-                      <Button
-                        type="button"
-                        variant="contained"
-                        onClick={this.handleNext}
-                        className={position !== 0 ? classes.tagButton : null}
-                      >
-                        Next
-                      </Button>
-                    ) : (
-                      <div />
-                    )}
-                  </fieldset>
-                </form>
-              </div>
-            </Grid>
-          );
-        }}
-      </Mutation>
-    );
+const usePageStyles = makeStyles(({ palette, spacing }) => ({
+  root: {
+    width: '100%',
+    maxWidth: 800
+  },
+  button: {
+    marginRight: spacing(1)
+  },
+  instructions: {
+    marginTop: spacing(1),
+    marginBottom: spacing(1)
   }
-}
+}));
 
-export default withStyles(styles)(IdeaCreate);
+const useStepStyles = makeStyles(({ palette }) => ({
+  inputField: {
+    width: '100%'
+  }
+}));
+
+const StepContent = ({ step, value, setField }) => {
+  const { inputField } = useStepStyles();
+  const rows = (step => {
+    switch (step) {
+      case 0:
+        return 1;
+      default:
+        return 5;
+    }
+  })(step);
+
+  const fieldprops = {
+    className: classNames(inputField),
+    label: stepNames[step],
+    multiline: true,
+    name: steps[step],
+    onChange: ({ target: { value } }) => setField(value),
+    rows,
+    type: 'text',
+    value,
+    variant: 'filled'
+  };
+
+  return (
+    <div className={classNames('ideaCreate-textFieldContainer')}>
+      <TextField {...fieldprops} />
+    </div>
+  );
+};
+
+export default () => {
+  const { root, instructions, button } = usePageStyles();
+  const [activeStep, setActiveStep] = useState(0);
+  const [inputs, setInputs] = useState(initialState);
+  const setField = (field, val) =>
+    setInputs(inputs => ({ ...inputs, [field]: val }));
+
+  return (
+    <Mutation mutation={CREATE_IDEA_MUTATION} variables={{ ...inputs }}>
+      {(createIdea, { error, loading }) => {
+        const submit = async () => {
+          const {
+            data: {
+              createQuestion: { id }
+            }
+          } = await createIdea();
+          push({
+            pathname: '/question',
+            query: { id }
+          });
+        };
+        return (
+          <div className={classNames(root, 'create-idea-container')}>
+            <PageHeader title="Create a business idea" />
+            <Error error={error} />
+            <Stepper alternativeLabel activeStep={activeStep}>
+              {steps.map(label => (
+                <Step key={label}>
+                  <StepLabel>{capitalize(label)}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+
+            <div>
+              <Typography className={instructions}>
+                <StepContent
+                  step={activeStep}
+                  value={inputs[steps[activeStep]]}
+                  setField={setField.bind(null, steps[activeStep])}
+                />
+              </Typography>
+              <div className={classNames('create-idea-buttons')}>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={() => setActiveStep(a => a - 1)}
+                  className={button}
+                  xs
+                >
+                  Back
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={
+                    activeStep === steps.length - 1
+                      ? submit
+                      : () => setActiveStep(a => a + 1)
+                  }
+                  className={button}
+                >
+                  {activeStep === steps.length - 1 ? 'Save Idea' : 'Next'}
+                </Button>
+              </div>
+            </div>
+          </div>
+        );
+      }}
+    </Mutation>
+  );
+};
