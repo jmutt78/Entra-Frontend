@@ -138,6 +138,7 @@ export default () => {
         return (
           <div className={classNames(root, 'create-idea-container')}>
             <PageHeader title="Create a business idea" />
+            <Error error={error} />
             <Stepper alternativeLabel activeStep={activeStep}>
               {steps.map(label => (
                 <Step key={label}>
