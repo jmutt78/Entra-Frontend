@@ -10,11 +10,10 @@ import ListItem from '../ListItem';
 const styles = ({ layout }) => ({
   container: {
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
+    flexFlow: 'column',
     maxWidth: 1200,
     minWidth: '90%',
-    height: '100%',
+    height: '60vh',
     paddingRight: 10
   },
   title: {
@@ -30,10 +29,11 @@ const styles = ({ layout }) => ({
   customColumnStyle: {
     maxWidth: '.3px'
   },
-  searchQuestions: {
-    height: '47vh',
-    width: '100%',
+  scrollableContainer: {
     overflow: 'auto'
+  },
+  noMargin: {
+    margin: 0
   }
 });
 
@@ -50,9 +50,13 @@ const SearchResultQuestions = ({ searchTerm, name, classes }) => {
 
     return (
       <div className={classes.container}>
-        <PageHeader title={title} noCapitalize={true} />
+        <PageHeader
+          styles={classes.noMargin}
+          title={title}
+          noCapitalize={true}
+        />
         <ul
-          className={classes.searchQuestions}
+          className={classes.scrollableContainer}
           onScroll={e => handleScroll(e, onLoadMore)}
         >
           {questions &&
@@ -96,7 +100,7 @@ const SearchResultQuestions = ({ searchTerm, name, classes }) => {
             onLoadMore={() =>
               fetchMore({
                 variables: {
-                  offset: searchQuestions.length || 10,
+                  offset: searchQuestions.length,
                   noDuplicates: true
                 },
                 updateQuery: (prev, { fetchMoreResult }) => {

@@ -10,8 +10,7 @@ import Search from '../search/QuestionSearch';
 const styles = ({ layout }) => ({
   container: {
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
+    flexFlow: 'column',
     maxWidth: 1200,
     minWidth: '90%',
     height: '100%',
@@ -29,49 +28,52 @@ const styles = ({ layout }) => ({
   },
   customColumnStyle: {
     maxWidth: '.3px'
+  },
+  scrollableContainer: {
+    height: '47vh',
+    overflow: 'auto'
   }
 });
 
 function QuestionList(props) {
-  const {
-    classes,
-    page,
-    questions,
-    paginationVariables,
-    paginationQuery
-  } = props;
+  const { classes, questions, onLoadMore } = props;
+
+  const handleScroll = ({ currentTarget }, onLoadMore) => {
+    if (
+      currentTarget.scrollTop + currentTarget.clientHeight >=
+      currentTarget.scrollHeight
+    ) {
+      onLoadMore();
+    }
+  };
 
   return (
     <div className={classes.container}>
       <PageHeader title={upperFirst(props.name) || 'Questions'} />
       {props.name === 'all questions' && <Search />}
-      {questions &&
-        questions.map(question => {
-          return (
-            <ListItem
-              item={question}
-              user={question.askedBy[0]}
-              userId={question.askedBy[0].id}
-              linkTo={{
-                pathname: '/question',
-                query: { id: question.id }
-              }}
-              showDetails={true}
-              name={props.name}
-              key={question.id}
-              display={question.askedBy[0].display}
-            />
-          );
-        })}
-
-      {paginationQuery && (
-        <Pagination
-          page={page}
-          query={paginationQuery}
-          variables={paginationVariables}
-          connectionKey="questionsConnection"
-        />
-      )}
+      <ul
+        className={classes.scrollableContainer}
+        onScroll={e => handleScroll(e, onLoadMore)}
+      >
+        {questions &&
+          questions.map(question => {
+            return (
+              <ListItem
+                item={question}
+                user={question.askedBy[0]}
+                userId={question.askedBy[0].id}
+                linkTo={{
+                  pathname: '/question',
+                  query: { id: question.id }
+                }}
+                showDetails={true}
+                name={props.name}
+                key={question.id}
+                display={question.askedBy[0].display}
+              />
+            );
+          })}
+      </ul>
     </div>
   );
 }

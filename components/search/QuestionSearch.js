@@ -86,7 +86,6 @@ const glow = keyframes`
 
 const SearchContainer = styled.div`
   position: relative;
-  padding-bottom: 30px;
   input {
     width: 100%;
     padding: 10px;
