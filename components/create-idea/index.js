@@ -157,7 +157,9 @@ export default () => {
                   disabled={activeStep === 0}
                   onClick={() => setActiveStep(a => a - 1)}
                   className={button}
+
                   xs
+
                 >
                   Back
                 </Button>
