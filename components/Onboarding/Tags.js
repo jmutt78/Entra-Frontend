@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Router from 'next/router';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
+import { startCase } from 'lodash';
 
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -54,11 +55,6 @@ export const UPDATE_USER_MUTATION = gql`
     }
   }
 `;
-
-// TODO:
-//-welcome message and video
-// 6. Create mixpannel
-// 7. Style
 
 const updateUser = async (e, user, updateUserMutation, tags) => {
   e.preventDefault();
@@ -147,7 +143,7 @@ export default ({ user, _tags }) => {
                               : 500
                           }}
                         >
-                          {tag.name}
+                          {_.startCase(tag.name)}
                         </span>
                       }
                     />
