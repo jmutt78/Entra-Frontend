@@ -30,9 +30,9 @@ const styles = ({ layout }) => ({
 //   }
 // }))(TableCell);
 
-const PageHeader = ({ classes, title }) => {
+const PageHeader = ({ classes, title, styles }) => {
   return (
-    <Table className={classes.table}>
+    <Table className={[classes.table, styles]}>
       <TableHead>
         <TableRow style={{ marginRight: 10 }}>
           <TableCell>

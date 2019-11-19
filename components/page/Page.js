@@ -13,8 +13,8 @@ import './Page.css';
 const styles = ({ layout }) => {
   return {
     root: {
-      width: '100%', //layout.width,
-      height: '100%', //layout.height,
+      width: layout.width,
+      height: layout.height,
       display: 'flex',
       flexDirection: 'column'
     },
@@ -23,16 +23,17 @@ const styles = ({ layout }) => {
       flex: 1,
       minHeight: layout.contentMinHeight
     },
-    searchResultContainer: {
+    scrollContainer: {
       display: 'flex',
       flex: 1,
-      minHeight: layout.searchContentMinHeight
+      minHeight: layout.scrollContentMinHeight
     }
   };
 };
 
 const Page = ({ children, classes, router }) => {
   const isSearchResultPage = router.pathname === '/searchResults';
+  const isAllPage = router.pathname === '/all';
   const isLanding =
     router.pathname === '/' ||
     router.pathname === '/landing1' ||
@@ -43,11 +44,16 @@ const Page = ({ children, classes, router }) => {
     <div className={classes.root}>
       <Meta />
       <Header />
-      <div className={isLanding ? 'noPadding' : 'contentContainerPadding'}>
+      <div
+        className={classNames(
+          isLanding ? 'noPadding' : 'contentContainerPadding',
+          isSearchResultPage || isAllPage ? 'hideScroll' : ''
+        )}
+      >
         <div
           className={classNames(
-            isSearchResultPage
-              ? classes.searchResultContainer
+            isSearchResultPage || isAllPage
+              ? classes.scrollContainer
               : classes.contentContainer,
             'contentContainer'
           )}
@@ -56,7 +62,6 @@ const Page = ({ children, classes, router }) => {
         </div>
         <Drift appId="rz4xagciytry" />
       </div>
-
       <Footer />
     </div>
   );
