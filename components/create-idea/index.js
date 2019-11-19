@@ -14,6 +14,13 @@ import PageHeader from '../PageHeader';
 import './index.css';
 
 const steps = ['idea', 'problem', 'solution', 'customer', 'value'];
+const stepNames = [
+  `Give your idea a descriptive name`,
+  `What problem are you solving?`,
+  `How does your idea solve the problem?`,
+  `Who are your customers?`,
+  `What's the value you're creating?`
+];
 const initialState = steps.reduce(
   (a, b) => ({
     ...a,
@@ -64,7 +71,7 @@ const StepContent = ({ step, value, setField }) => {
 
   const fieldprops = {
     className: classNames(inputField),
-    label: capitalize(steps[step]),
+    label: stepNames[step],
     multiline: true,
     name: steps[step],
     onChange: ({ target: { value } }) => setField(value),
