@@ -4,7 +4,6 @@ import Table from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-// import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -19,18 +18,20 @@ const styles = ({ layout }) => ({
     textTransform: 'capitalize',
     fontWeight: 'bold'
   },
+  subTitle: {
+    fontSize: '30px',
+    textAlign: 'Left',
+    paddingTop: 5,
+    color: 'rgba(0, 0, 0, 0.67)',
+    lineHeight: '2.6rem',
+    fontWeight: 500
+  },
   icon: {
     color: 'black'
   }
 });
 
-// const CustomTableCell = withStyles(theme => ({
-//   head: {
-//     width: 5
-//   }
-// }))(TableCell);
-
-const PageHeader = ({ classes, title }) => {
+const PageHeader = ({ classes, title, subTitle }) => {
   return (
     <Table className={classes.table}>
       <TableHead>
@@ -38,29 +39,13 @@ const PageHeader = ({ classes, title }) => {
           <TableCell>
             <Typography className={classes.title}>{title}</Typography>
           </TableCell>
-
-          {/*
-              <Tooltip title="Answers" placement="top">
-                <CustomTableCell className={classes.customColumnStyle}>
-                  <QuestionAnswer className={classes.icon} />
-              </CustomTableCell>
-            </Tooltip>
-              <Tooltip title="Views" placement="top">
-                <CustomTableCell className={classes.customColumnStyle}>
-                  <img src="/static/visibility.svg" />
-              </CustomTableCell>
-            </Tooltip>
-              <Tooltip title="Up Votes" placement="top">
-                <CustomTableCell className={classes.customColumnStyle}>
-                  <img src="/static/thumb_up.svg" />
-              </CustomTableCell>
-            </Tooltip>
-              <Tooltip title="Down Votes" placement="top">
-                <CustomTableCell className={classes.customColumnStyle}>
-                  <img src="/static/thumb_down.svg" />
-              </CustomTableCell>
-            </Tooltip>
-            */}
+        </TableRow>
+        <TableRow style={{ marginRight: 10, borderBottom: 0 }}>
+          <TableCell style={{ borderBottom: 0 }}>
+            {subTitle && (
+              <Typography className={classes.subTitle}>{subTitle}</Typography>
+            )}
+          </TableCell>
         </TableRow>
       </TableHead>
     </Table>
