@@ -1,4 +1,3 @@
-import { capitalize } from 'lodash';
 import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
@@ -57,9 +56,10 @@ export default ({ idea, id }) => {
             <div className={cardsContainer}>
               {steps.slice(1).map((s, i) => (
                 <Section
-                  sectionTitle={capitalize(s)}
+                  step={s}
                   sectionContent={businessIdea[s]}
                   index={i + 1}
+                  id={id}
                 />
               ))}
             </div>
