@@ -132,6 +132,17 @@ export default ({ step, sectionContent, index, id }) => {
                 </CardContent>
                 <CardActions>
                   <div className={buttonContainer}>
+                    {editing && (
+                      <Button
+                        style={{ color: 'rgba(0, 0, 0, 0.54)' }}
+                        size="small"
+                        onClick={() => {
+                          setEditing(e => !e);
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    )}
                     <Button
                       size="small"
                       disabled={loading}
@@ -144,7 +155,7 @@ export default ({ step, sectionContent, index, id }) => {
                         }
                         setEditing(e => !e);
                       }}
-                      color={editing ? 'primary' : undefined}
+                      color={'primary'}
                     >
                       {editing ? 'Save' : 'Edit'}
                     </Button>
