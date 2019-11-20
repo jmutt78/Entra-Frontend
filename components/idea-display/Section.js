@@ -134,9 +134,13 @@ export default ({ step, sectionContent, index, id }) => {
                   <div className={buttonContainer}>
                     <Button
                       size="small"
-                      onClick={
-                        editing ? updateField : () => setEditing(e => !e)
-                      }
+                      disabled={loading}
+                      onClick={async () => {
+                        if (editing) {
+                          await updateField();
+                        }
+                        setEditing(e => !e);
+                      }}
                       color={editing ? 'primary' : undefined}
                     >
                       {editing ? 'Save' : 'Edit'}
