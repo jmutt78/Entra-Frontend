@@ -26,7 +26,7 @@ const styles = ({ layout }) => {
     scrollContainer: {
       display: 'flex',
       flex: 1,
-      minHeight: layout.scrollContentMinHeight
+      maxHeight: '100%'
     }
   };
 };
@@ -46,7 +46,9 @@ const Page = ({ children, classes, router }) => {
       <Header />
       <div
         className={classNames(
-          isLanding ? 'noPadding' : 'contentContainerPadding',
+          isLanding || isSearchResultPage || isAllPage
+            ? 'noPadding'
+            : 'contentContainerPadding',
           isSearchResultPage || isAllPage ? 'hideScroll' : ''
         )}
       >
