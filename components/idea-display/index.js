@@ -12,7 +12,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { steps, stepNames } from '../create-idea';
+import { steps, StepContent } from '../create-idea';
 import PageHeader from '../PageHeader';
 import Error from './../ErrorMessage.js';
 import './index.css';
@@ -55,7 +55,7 @@ const useSectionStyles = makeStyles(({ palette }) => ({
     fontWeight: 500
   },
   content: {
-    fontSize: 16
+    fontSize: 17
   },
   buttonContainer: {
     width: '100%',
@@ -65,7 +65,7 @@ const useSectionStyles = makeStyles(({ palette }) => ({
   }
 }));
 
-const Section = ({ sectionTitle, sectionContent }) => {
+const Section = ({ sectionTitle, sectionContent, index }) => {
   const {
     cardContainer,
     card,
@@ -74,6 +74,7 @@ const Section = ({ sectionTitle, sectionContent }) => {
     buttonContainer
   } = useSectionStyles();
   const [editing, setEditing] = useState(false);
+  const [value, setValue] = useState(sectionContent);
 
   return (
     <div className={cardContainer}>
@@ -87,18 +88,29 @@ const Section = ({ sectionTitle, sectionContent }) => {
           >
             {sectionTitle}
           </Typography>
-          <Typography
-            variant="body2"
-            color="textSecondary"
-            component="p"
-            className={content}
-          >
-            {sectionContent}
-          </Typography>
+
+          {editing ? (
+            <StepContent step={index} value={value} setField={setValue} />
+          ) : (
+            <Typography
+              variant="body2"
+              color="textSecondary"
+              component="p"
+              className={content}
+            >
+              {sectionContent}
+            </Typography>
+          )}
         </CardContent>
         <CardActions>
           <div className={buttonContainer}>
-            <Button size="small">Edit</Button>
+            <Button
+              size="small"
+              onClick={() => setEditing(e => !e)}
+              color={editing ? 'primary' : undefined}
+            >
+              {editing ? 'Save' : 'Edit'}
+            </Button>
           </div>
         </CardActions>
       </Card>
@@ -127,7 +139,7 @@ export default ({ idea, id }) => {
                 <Section
                   sectionTitle={capitalize(s)}
                   sectionContent={businessIdea[s]}
-                  stepName={stepNames[i]}
+                  index={i + 1}
                 />
               ))}
             </div>

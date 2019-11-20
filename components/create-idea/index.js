@@ -18,7 +18,7 @@ import PageHeader from '../PageHeader';
 import './index.css';
 
 export const steps = ['idea', 'problem', 'solution', 'customer', 'value'];
-export const stepNames = [
+const stepNames = [
   `Give your idea a descriptive name`,
   `What problem are you solving?`,
   `How does your idea solve the problem?`,
@@ -78,7 +78,7 @@ const useStepStyles = makeStyles(({ palette }) => ({
   }
 }));
 
-const StepContent = ({ step, value, setField }) => {
+export const StepContent = ({ step, value, setField }) => {
   const { inputField } = useStepStyles();
   const rows = (step => {
     switch (step) {
