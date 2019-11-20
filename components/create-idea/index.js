@@ -3,7 +3,7 @@ import { capitalize } from 'lodash';
 import classNames from 'classnames';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-import { push } from 'next/router';
+import Router from 'next/router';
 
 import Button from '@material-ui/core/Button';
 import Step from '@material-ui/core/Step';
@@ -124,11 +124,11 @@ export default () => {
         const submit = async () => {
           const {
             data: {
-              createQuestion: { id }
+              createBusinessIdea: { id }
             }
           } = await createIdea();
-          push({
-            pathname: '/question',
+          Router.push({
+            pathname: '/idea/idea',
             query: { id }
           });
         };
@@ -157,21 +157,20 @@ export default () => {
                   disabled={activeStep === 0}
                   onClick={() => setActiveStep(a => a - 1)}
                   className={button}
-
                   xs
-
                 >
                   Back
                 </Button>
                 <Button
-                  variant="contained"
+                  className={button}
                   color="primary"
+                  disabled={loading}
                   onClick={
                     activeStep === steps.length - 1
                       ? submit
                       : () => setActiveStep(a => a + 1)
                   }
-                  className={button}
+                  variant="contained"
                 >
                   {activeStep === steps.length - 1 ? 'Save Idea' : 'Next'}
                 </Button>
