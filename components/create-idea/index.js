@@ -9,22 +9,15 @@ import Button from '@material-ui/core/Button';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Stepper from '@material-ui/core/Stepper';
-import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
+import StepContent from './StepContent';
 import Error from './../ErrorMessage.js';
 import PageHeader from '../PageHeader';
 import './index.css';
 
 export const steps = ['idea', 'problem', 'solution', 'customer', 'value'];
-const stepNames = [
-  `Give your idea a descriptive name`,
-  `What problem are you solving?`,
-  `How does your idea solve the problem?`,
-  `Who are your customers?`,
-  `What's the value you're creating?`
-];
 const initialState = steps.reduce(
   (a, b) => ({
     ...a,
@@ -71,38 +64,6 @@ const usePageStyles = makeStyles(({ palette, spacing }) => ({
     marginBottom: spacing(1)
   }
 }));
-
-const useStepStyles = makeStyles(({ palette }) => ({
-  inputField: {
-    width: '100%'
-  }
-}));
-
-export const StepContent = ({ step, value, setField }) => {
-  const { inputField } = useStepStyles();
-  const rows = (step => {
-    switch (step) {
-      case 0:
-        return 1;
-      default:
-        return 5;
-    }
-  })(step);
-
-  const fieldprops = {
-    className: classNames(inputField),
-    label: stepNames[step],
-    multiline: true,
-    name: steps[step],
-    onChange: ({ target: { value } }) => setField(value),
-    rows,
-    type: 'text',
-    value,
-    variant: 'filled'
-  };
-
-  return <TextField {...fieldprops} />;
-};
 
 export default () => {
   const { root, instructions, button } = usePageStyles();
