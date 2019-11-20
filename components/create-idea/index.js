@@ -17,8 +17,8 @@ import Error from './../ErrorMessage.js';
 import PageHeader from '../PageHeader';
 import './index.css';
 
-const steps = ['idea', 'problem', 'solution', 'customer', 'value'];
-const stepNames = [
+export const steps = ['idea', 'problem', 'solution', 'customer', 'value'];
+export const stepNames = [
   `Give your idea a descriptive name`,
   `What problem are you solving?`,
   `How does your idea solve the problem?`,
@@ -57,9 +57,6 @@ export const CREATE_IDEA_MUTATION = gql`
     }
   }
 `;
-
-// TODO:
-//-A description for each textbox
 
 const usePageStyles = makeStyles(({ palette, spacing }) => ({
   root: {

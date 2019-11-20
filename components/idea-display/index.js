@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import React from 'react';
+import { capitalize } from 'lodash';
+import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
@@ -11,6 +12,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
+import { steps, stepNames } from '../create-idea';
 import PageHeader from '../PageHeader';
 import Error from './../ErrorMessage.js';
 import './index.css';
@@ -35,47 +37,25 @@ export const IDEAS_QUERY = gql`
 `;
 
 const usePageStyles = makeStyles(({ palette, spacing }) => ({
-  // container: {
-  //   width: '100%',
-  //   maxWidth: 1000,
-  //   paddingTop: 5,
-  //   height: '100%',
-  //   minHeight: 'calc(100%)-80px-80px' //layout.contentMinHeight,
-  // },
-  // title: {
-  //   color: 'rgba(0, 0, 0, 0.87)',
-  //   display: 'flex',
-  //   alignItems: 'center'
-  // },
-  // titleText: {
-  //   fontSize: '33px',
-  //   lineHeight: '2.7rem',
-  //   fontWeight: 600,
-  //   letterSpacing: '-1px'
-  // },
-  // bodyText: {
-  //   whiteSpace: 'pre-wrap',
-  //   fontSize: '1rem'
-  // },
-  // detailContainer: {
-  //   background: '#f2f4ef',
-  //   padding: '3px 0 5px 0',
-  //   marginLeft: 15,
-  //   marginRight: 15
-  // },
+  container: {},
+  cardsContainer: {
+    padding: '0 0 3rem 0.5rem'
+  }
 }));
 
 const useSectionStyles = makeStyles(({ palette }) => ({
+  cardContainer: {
+    padding: '1rem 0'
+  },
   card: {
     minWidth: 275,
     maxWidth: 800
   },
   title: {
-    fontSize: 15
+    fontWeight: 500
   },
   content: {
-    fontSize: 20,
-    fontWeight: 400
+    fontSize: 16
   },
   buttonContainer: {
     width: '100%',
@@ -86,27 +66,48 @@ const useSectionStyles = makeStyles(({ palette }) => ({
 }));
 
 const Section = ({ sectionTitle, sectionContent }) => {
-  const { card, title, content, buttonContainer } = useSectionStyles();
+  const {
+    cardContainer,
+    card,
+    title,
+    content,
+    buttonContainer
+  } = useSectionStyles();
+  const [editing, setEditing] = useState(false);
 
   return (
-    <Card className={card}>
-      <CardContent>
-        <Typography className={title} color="textSecondary" gutterBottom>
-          {sectionTitle}
-        </Typography>
-        <Typography className={content}>{sectionContent}</Typography>
-      </CardContent>
-      <CardActions>
-        <div className={buttonContainer}>
-          <Button size="small">Edit</Button>
-        </div>
-      </CardActions>
-    </Card>
+    <div className={cardContainer}>
+      <Card className={card}>
+        <CardContent>
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="h2"
+            className={title}
+          >
+            {sectionTitle}
+          </Typography>
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            component="p"
+            className={content}
+          >
+            {sectionContent}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <div className={buttonContainer}>
+            <Button size="small">Edit</Button>
+          </div>
+        </CardActions>
+      </Card>
+    </div>
   );
 };
 
 export default ({ idea, id }) => {
-  const { container, bodyText, detailContainer, editButton } = usePageStyles();
+  const { container, cardsContainer } = usePageStyles();
 
   return (
     <Query
@@ -121,37 +122,15 @@ export default ({ idea, id }) => {
         return (
           <div className={container}>
             <PageHeader title={`Business Idea`} subTitle={businessIdea.idea} />
-
-            <Section sectionTitle="Idea" sectionContent="Word of the Day" />
-
-            <div className={detailContainer}>
-              <div className="QuestionDetail-body">
-                <div className={bodyText}>{businessIdea.problem}</div>
-              </div>
-              <div className="QuestionDetail-body">
-                <div className={bodyText}>{businessIdea.solution}</div>
-              </div>
-              <div className="QuestionDetail-body">
-                <div className={bodyText}>{businessIdea.customer}</div>
-              </div>
-              <div className="QuestionDetail-body">
-                <div className={bodyText}>{businessIdea.value}</div>
-              </div>
+            <div className={cardsContainer}>
+              {steps.slice(1).map((s, i) => (
+                <Section
+                  sectionTitle={capitalize(s)}
+                  sectionContent={businessIdea[s]}
+                  stepName={stepNames[i]}
+                />
+              ))}
             </div>
-            <Link
-              href={{
-                pathname: '/idea/edit-idea',
-                query: { id: businessIdea.id }
-              }}
-            >
-              <Button
-                variant="contained"
-                color="secondary"
-                className={editButton}
-              >
-                EDIT
-              </Button>
-            </Link>
           </div>
         );
       }}

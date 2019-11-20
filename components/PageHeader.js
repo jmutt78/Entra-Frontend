@@ -21,8 +21,10 @@ const styles = ({ layout }) => ({
   subTitle: {
     fontSize: '30px',
     textAlign: 'Left',
+    paddingTop: 5,
     color: 'rgba(0, 0, 0, 0.67)',
-    lineHeight: '2.6rem'
+    lineHeight: '2.6rem',
+    fontWeight: 500
   },
   icon: {
     color: 'black'
@@ -36,6 +38,10 @@ const PageHeader = ({ classes, title, subTitle }) => {
         <TableRow style={{ marginRight: 10 }}>
           <TableCell>
             <Typography className={classes.title}>{title}</Typography>
+          </TableCell>
+        </TableRow>
+        <TableRow style={{ marginRight: 10, borderBottom: 0 }}>
+          <TableCell style={{ borderBottom: 0 }}>
             {subTitle && (
               <Typography className={classes.subTitle}>{subTitle}</Typography>
             )}
