@@ -62,6 +62,9 @@ const useSectionStyles = makeStyles(({ palette }) => ({
     display: 'flex',
     justifyContent: 'flex-end',
     paddingRight: '1rem'
+  },
+  stepContentContainer: {
+    padding: '1.5rem 0 0 0'
   }
 }));
 
@@ -71,7 +74,8 @@ const Section = ({ sectionTitle, sectionContent, index }) => {
     card,
     title,
     content,
-    buttonContainer
+    buttonContainer,
+    stepContentContainer
   } = useSectionStyles();
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(sectionContent);
@@ -90,7 +94,9 @@ const Section = ({ sectionTitle, sectionContent, index }) => {
           </Typography>
 
           {editing ? (
-            <StepContent step={index} value={value} setField={setValue} />
+            <div className={stepContentContainer}>
+              <StepContent step={index} value={value} setField={setValue} />
+            </div>
           ) : (
             <Typography
               variant="body2"

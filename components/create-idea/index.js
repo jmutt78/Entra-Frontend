@@ -101,11 +101,7 @@ export const StepContent = ({ step, value, setField }) => {
     variant: 'filled'
   };
 
-  return (
-    <div className={classNames('ideaCreate-textFieldContainer')}>
-      <TextField {...fieldprops} />
-    </div>
-  );
+  return <TextField {...fieldprops} />;
 };
 
 export default () => {
@@ -143,11 +139,13 @@ export default () => {
 
             <div>
               <Typography className={instructions}>
-                <StepContent
-                  step={activeStep}
-                  value={inputs[steps[activeStep]]}
-                  setField={setField.bind(null, steps[activeStep])}
-                />
+                <div className={classNames('ideaCreate-textFieldContainer')}>
+                  <StepContent
+                    step={activeStep}
+                    value={inputs[steps[activeStep]]}
+                    setField={setField.bind(null, steps[activeStep])}
+                  />
+                </div>
               </Typography>
               <div className={classNames('create-idea-buttons')}>
                 <Button

@@ -8,6 +8,10 @@
   padding: 2rem 4rem;
 }
 
+.MuiFilledInput-inputMultiline {
+  line-height: 1.4rem !important;
+}
+
 .create-idea-buttons {
   padding: 2rem 4rem;
   width: 100%;
