@@ -1,23 +1,21 @@
-import React, { Component } from 'react';
-import { Query } from 'react-apollo';
-import { withApollo } from 'react-apollo';
+import Link from 'next/link';
+import React from 'react';
 import gql from 'graphql-tag';
-import { withRouter } from 'next/router';
+import { Query } from 'react-apollo';
 import { format, parseISO } from 'date-fns';
+// import { withRouter } from 'next/router';
 
 import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
-import Link from 'next/link';
-import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
-
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+// import { withStyles } from '@material-ui/core/styles';
+
+import PageHeader from '../PageHeader';
 import Error from './../ErrorMessage.js';
-import Vote from '../Vote';
-import { Mixpanel } from '../../utils/Mixpanel';
 import './index.css';
 
-const IDEAS_QUERY = gql`
+export const IDEAS_QUERY = gql`
   query IDEAS_QUERY($id: ID!) {
     businessIdea(id: $id) {
       id
@@ -36,7 +34,7 @@ const IDEAS_QUERY = gql`
   }
 `;
 
-const styles = ({ palette, layout }) => ({
+const usePageStyles = makeStyles(({ palette, spacing }) => ({
   container: {
     width: '100%',
     maxWidth: 1000,
@@ -58,84 +56,86 @@ const styles = ({ palette, layout }) => ({
   bodyText: {
     whiteSpace: 'pre-wrap',
     fontSize: '1rem'
-  }
-});
+  },
+  detailContainer: {
+    background: '#f2f4ef',
+    padding: '3px 0 5px 0',
+    marginLeft: 15,
+    marginRight: 15
+  },
+  editButton: {}
+}));
 
-class DisplayIdea extends Component {
-  render() {
-    const { classes, idea, id } = this.props;
+export default ({ idea, id }) => {
+  const {
+    container,
+    title,
+    titleText,
+    bodyText,
+    detailContainer,
+    editButton
+  } = usePageStyles();
 
-    return (
-      <Query
-        query={IDEAS_QUERY}
-        variables={{
-          id
-        }}
-      >
-        {({ data: { businessIdea }, loading, error }) => {
-          if (loading) return <CircularProgress style={{ margin: 20 }} />;
-          if (error) return <Error error={error} />;
-          console.log(businessIdea);
-          return (
-            <div className={classes.container} id="tableBorderRemoveTarget">
-              <div className="titleContainer">
-                <Typography variant="h6" className={classes.title}>
-                  <div className={classes.titleText}>{businessIdea.idea}</div>
-                </Typography>
-              </div>
-              <div style={{ padding: '0 0 0 10px' }}>
-                Created{' '}
-                <span>
-                  {format(parseISO(businessIdea.createdAt), 'MMMM dd, yyyy')}
-                </span>
-              </div>
+  return (
+    <Query
+      query={IDEAS_QUERY}
+      variables={{
+        id
+      }}
+    >
+      {({ data: { businessIdea }, loading, error }) => {
+        if (loading) return <CircularProgress style={{ margin: 20 }} />;
+        if (error) return <Error error={error} />;
+        return (
+          <div className={container}>
+            <PageHeader title={`Business Idea`} subTitle={businessIdea.idea} />
 
-              <div
-                style={{
-                  background: '#f2f4ef',
-                  padding: '3px 0 5px 0',
-                  marginLeft: 15,
-                  marginRight: 15
-                }}
-              >
-                <div className="QuestionDetail-body">
-                  <div className={classes.bodyText}>{businessIdea.problem}</div>
-                </div>
-                <div className="QuestionDetail-body">
-                  <div className={classes.bodyText}>
-                    {businessIdea.solution}
-                  </div>
-                </div>
-                <div className="QuestionDetail-body">
-                  <div className={classes.bodyText}>
-                    {businessIdea.customer}
-                  </div>
-                </div>
-                <div className="QuestionDetail-body">
-                  <div className={classes.bodyText}>{businessIdea.value}</div>
-                </div>
-              </div>
-              <Link
-                href={{
-                  pathname: '/idea/edit-idea',
-                  query: { id: businessIdea.id }
-                }}
-              >
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  className={classes.editButton}
-                >
-                  EDIT
-                </Button>
-              </Link>
+            <div className="titleContainer">
+              <Typography variant="h6" className={title}>
+                <div className={titleText}>{}</div>
+              </Typography>
             </div>
-          );
-        }}
-      </Query>
-    );
-  }
-}
 
-export default withRouter(withStyles(styles)(withApollo(DisplayIdea)));
-export { IDEAS_QUERY };
+            <div style={{ padding: '0 0 0 10px' }}>
+              Created{' '}
+              <span>
+                {format(parseISO(businessIdea.createdAt), 'MMMM dd, yyyy')}
+              </span>
+            </div>
+
+            <div className={detailContainer}>
+              <div className="QuestionDetail-body">
+                <div className={bodyText}>{businessIdea.problem}</div>
+              </div>
+              <div className="QuestionDetail-body">
+                <div className={bodyText}>{businessIdea.solution}</div>
+              </div>
+              <div className="QuestionDetail-body">
+                <div className={bodyText}>{businessIdea.customer}</div>
+              </div>
+              <div className="QuestionDetail-body">
+                <div className={bodyText}>{businessIdea.value}</div>
+              </div>
+            </div>
+            <Link
+              href={{
+                pathname: '/idea/edit-idea',
+                query: { id: businessIdea.id }
+              }}
+            >
+              <Button
+                variant="contained"
+                color="secondary"
+                className={editButton}
+              >
+                EDIT
+              </Button>
+            </Link>
+          </div>
+        );
+      }}
+    </Query>
+  );
+};
+
+// export default withRouter(withStyles(styles)(withApollo(DisplayIdea)));
