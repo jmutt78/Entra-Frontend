@@ -13,7 +13,6 @@ const styles = ({ layout }) => ({
     flexFlow: 'column',
     maxWidth: 1200,
     minWidth: '90%',
-    height: '60vh',
     paddingRight: 10
   },
   title: {
@@ -30,7 +29,8 @@ const styles = ({ layout }) => ({
     maxWidth: '.3px'
   },
   scrollableContainer: {
-    overflow: 'auto'
+    overflow: 'auto',
+    margin: 0
   },
   noMargin: {
     margin: 0
