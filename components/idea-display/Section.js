@@ -137,7 +137,10 @@ export default ({ step, sectionContent, index, id }) => {
                       disabled={loading}
                       onClick={async () => {
                         if (editing) {
-                          await updateField();
+                          // mutate only if changes were made
+                          if (sectionContent !== value) {
+                            await updateField();
+                          }
                         }
                         setEditing(e => !e);
                       }}
