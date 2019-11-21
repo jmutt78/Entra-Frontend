@@ -62,11 +62,28 @@ const usePageStyles = makeStyles(({ palette, spacing }) => ({
   instructions: {
     marginTop: spacing(1),
     marginBottom: spacing(1)
+  },
+  paragraph: {
+    fontSize: '16px',
+    padding: '0 1rem',
+    maxWidth: 800
+  },
+  noteContainer: {
+    marginBottom: '2rem',
+    background: palette.secondary.main,
+    padding: '1rem 0.5rem',
+    borderRadius: 2
   }
 }));
 
 export default () => {
-  const { root, instructions, button } = usePageStyles();
+  const {
+    root,
+    instructions,
+    button,
+    noteContainer,
+    paragraph
+  } = usePageStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [inputs, setInputs] = useState(initialState);
   const setField = (field, val) =>
@@ -90,6 +107,17 @@ export default () => {
           <div className={classNames(root, 'create-idea-container')}>
             <PageHeader title="Create a business idea" />
             <Error error={error} />
+            <div className={noteContainer}>
+              <p className={paragraph}>
+                Great business ideas are all around you. Just open yourself to
+                the possibilities, and you're bound to find a winner.
+              </p>
+              <p className={paragraph}>
+                Document all of your business ideas in one place. Each step
+                helps you break your ideas into the essential charactersitics
+                for success.
+              </p>
+            </div>
             <Stepper alternativeLabel activeStep={activeStep}>
               {steps.map(label => (
                 <Step key={label}>

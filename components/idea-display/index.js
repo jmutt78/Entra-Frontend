@@ -1,11 +1,11 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
-
 import Section from './Section';
+import Public from './Public';
 import { steps } from '../create-idea';
 import PageHeader from '../PageHeader';
 import Error from './../ErrorMessage.js';
@@ -20,12 +20,43 @@ export const IDEAS_QUERY = gql`
       solution
       customer
       value
+      status
       createdBy {
         id
         name
         display
       }
       createdAt
+    }
+  }
+`;
+
+export const UPDATE_IDEA_MUTATION = gql`
+  mutation UPDATE_IDEA_MUTATION(
+    $id: ID!
+    $idea: String
+    $problem: String
+    $solution: String
+    $customer: String
+    $value: String
+    $status: Boolean
+  ) {
+    updateBusinessIdea(
+      id: $id
+      idea: $idea
+      problem: $problem
+      solution: $solution
+      customer: $customer
+      value: $value
+      status: $status
+    ) {
+      id
+      idea
+      problem
+      solution
+      customer
+      value
+      status
     }
   }
 `;
@@ -50,9 +81,15 @@ export default ({ idea, id }) => {
       {({ data: { businessIdea }, loading, error }) => {
         if (loading) return <CircularProgress style={{ margin: 20 }} />;
         if (error) return <Error error={error} />;
+
         return (
           <div className={container}>
             <PageHeader title={`Business Idea`} subTitle={businessIdea.idea} />
+            <Public
+              id={id}
+              mutation={UPDATE_IDEA_MUTATION}
+              status={businessIdea.status}
+            />
             <div className={cardsContainer}>
               {steps.slice(1).map((s, i) => (
                 <Section
@@ -60,6 +97,7 @@ export default ({ idea, id }) => {
                   sectionContent={businessIdea[s]}
                   index={i + 1}
                   id={id}
+                  mutation={UPDATE_IDEA_MUTATION}
                 />
               ))}
             </div>
@@ -69,5 +107,3 @@ export default ({ idea, id }) => {
     </Query>
   );
 };
-
-// export default withRouter(withStyles(styles)(withApollo(DisplayIdea)));

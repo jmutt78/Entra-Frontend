@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { capitalize } from 'lodash';
-import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 import Button from '@material-ui/core/Button';
@@ -13,33 +12,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import './index.css';
 import Error from './../ErrorMessage.js';
 import StepContent from '../create-idea/StepContent';
-
-export const UPDATE_IDEA_MUTATION = gql`
-  mutation UPDATE_IDEA_MUTATION(
-    $id: ID!
-    $idea: String
-    $problem: String
-    $solution: String
-    $customer: String
-    $value: String
-  ) {
-    updateBusinessIdea(
-      id: $id
-      idea: $idea
-      problem: $problem
-      solution: $solution
-      customer: $customer
-      value: $value
-    ) {
-      id
-      idea
-      problem
-      solution
-      customer
-      value
-    }
-  }
-`;
 
 const useSectionStyles = makeStyles(({ palette }) => ({
   cardContainer: {
@@ -75,7 +47,7 @@ const updateField = async (mutate, id, newState) => {
   });
 };
 
-export default ({ step, sectionContent, index, id }) => {
+export default ({ step, sectionContent, index, id, mutation }) => {
   const {
     cardContainer,
     card,
@@ -91,7 +63,7 @@ export default ({ step, sectionContent, index, id }) => {
     <div className={cardContainer}>
       <Card className={card}>
         <Mutation
-          mutation={UPDATE_IDEA_MUTATION}
+          mutation={mutation}
           variables={{
             id,
             [step]: value
