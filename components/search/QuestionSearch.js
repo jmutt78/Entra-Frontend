@@ -86,13 +86,20 @@ const glow = keyframes`
 
 const SearchContainer = styled.div`
   position: relative;
+  margin-left: 40px;
   input {
     width: 100%;
-    padding: 10px;
+    margin-right: 253px;
     border: 0;
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     &.loading {
       animation: ${glow} 0.5s ease-in-out infinite alternate;
+    }
+  }
+  @media (max-width: 767px) {
+    margin-left: 20px;
+    input {
+      margin-right: 85px;
     }
   }
 `;

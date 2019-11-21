@@ -3,37 +3,8 @@ import { upperFirst } from 'lodash';
 
 import ListItem from '../ListItem';
 import PageHeader from '../PageHeader';
-import Pagination from '../pagination';
-import { withStyles } from '@material-ui/core/styles';
 import Search from '../search/QuestionSearch';
-
-const styles = ({ layout }) => ({
-  container: {
-    display: 'flex',
-    flexFlow: 'column',
-    maxWidth: 1200,
-    minWidth: '90%',
-    paddingRight: 10,
-    marginLeft: 20
-  },
-  title: {
-    fontSize: '40px',
-    textAlign: 'Left',
-    color: 'rgba(0, 0, 0, 0.87)',
-    textTransform: 'capitalize',
-    fontWeight: 'bold'
-  },
-  icon: {
-    color: 'black'
-  },
-  customColumnStyle: {
-    maxWidth: '.3px'
-  },
-  scrollableContainer: {
-    overflow: 'auto',
-    margin: 0
-  }
-});
+import { QuestionListContainer } from '../../src/styledComponents';
 
 function QuestionList(props) {
   const { classes, questions, onLoadMore } = props;
@@ -48,13 +19,10 @@ function QuestionList(props) {
   };
 
   return (
-    <div className={classes.container}>
+    <QuestionListContainer>
       <PageHeader title={upperFirst(props.name) || 'Questions'} />
       {props.name === 'all questions' && <Search />}
-      <ul
-        className={classes.scrollableContainer}
-        onScroll={e => handleScroll(e, onLoadMore)}
-      >
+      <ul onScroll={e => handleScroll(e, onLoadMore)}>
         {questions &&
           questions.map(question => {
             return (
@@ -74,8 +42,8 @@ function QuestionList(props) {
             );
           })}
       </ul>
-    </div>
+    </QuestionListContainer>
   );
 }
 
-export default withStyles(styles)(QuestionList);
+export default QuestionList;

@@ -6,32 +6,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 import PageHeader from '../PageHeader';
 import ListItem from '../ListItem';
+import { QuestionListContainer } from '../../src/styledComponents';
 
 const styles = ({ layout }) => ({
-  container: {
-    display: 'flex',
-    flexFlow: 'column',
-    maxWidth: 1200,
-    minWidth: '90%',
-    paddingRight: 10
-  },
-  title: {
-    fontSize: '40px',
-    textAlign: 'Left',
-    color: 'rgba(0, 0, 0, 0.87)',
-    textTransform: 'capitalize',
-    fontWeight: 'bold'
-  },
-  icon: {
-    color: 'black'
-  },
-  customColumnStyle: {
-    maxWidth: '.3px'
-  },
-  scrollableContainer: {
-    overflow: 'auto',
-    margin: 0
-  },
   noMargin: {
     margin: 0
   }
@@ -49,16 +26,13 @@ const SearchResultQuestions = ({ searchTerm, name, classes }) => {
     };
 
     return (
-      <div className={classes.container}>
+      <QuestionListContainer>
         <PageHeader
           styles={classes.noMargin}
           title={title}
           noCapitalize={true}
         />
-        <ul
-          className={classes.scrollableContainer}
-          onScroll={e => handleScroll(e, onLoadMore)}
-        >
+        <ul onScroll={e => handleScroll(e, onLoadMore)}>
           {questions &&
             questions.map(question => {
               return (
@@ -78,7 +52,7 @@ const SearchResultQuestions = ({ searchTerm, name, classes }) => {
               );
             })}
         </ul>
-      </div>
+      </QuestionListContainer>
     );
   };
 
@@ -95,7 +69,7 @@ const SearchResultQuestions = ({ searchTerm, name, classes }) => {
         if (error) return <Error error={error} />;
         return (
           <SearchQuestionListItem
-            title={`All search results for: ${searchTerm}`}
+            title={`Search Results: ${searchTerm}`}
             questions={searchQuestions}
             onLoadMore={() =>
               fetchMore({

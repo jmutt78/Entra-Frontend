@@ -64,7 +64,7 @@ const Page = ({ children, classes, router }) => {
         </div>
         <Drift appId="rz4xagciytry" />
       </div>
-      <Footer />
+      {isLanding && <Footer />}
     </div>
   );
 };
