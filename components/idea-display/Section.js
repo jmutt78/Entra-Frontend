@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { capitalize } from 'lodash';
 import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -47,7 +48,17 @@ const updateField = async (mutate, id, newState) => {
   });
 };
 
-export default ({ step, sectionContent, index, id, mutation, edit }) => {
+export default ({
+  step,
+  sectionContent,
+  index,
+  id,
+  mutation,
+  edit,
+  upVotes,
+  downVotes,
+  client
+}) => {
   const {
     cardContainer,
     card,
@@ -82,7 +93,7 @@ export default ({ step, sectionContent, index, id, mutation, edit }) => {
                   >
                     {capitalize(step)}
                   </Typography>
-
+                  {}
                   {editing ? (
                     <div className={stepContentContainer}>
                       <StepContent

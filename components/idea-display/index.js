@@ -1,6 +1,6 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { Query, Mutation } from 'react-apollo';
+import { Query } from 'react-apollo';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,6 +10,8 @@ import { steps } from '../create-idea';
 import PageHeader from '../PageHeader';
 import Error from './../ErrorMessage.js';
 import './index.css';
+import { Mixpanel } from '../../utils/Mixpanel';
+import Vote from './Vote';
 import { CURRENT_USER_QUERY } from '../auth/User';
 
 export const IDEAS_QUERY = gql`
@@ -22,6 +24,8 @@ export const IDEAS_QUERY = gql`
       customer
       value
       status
+      upVotes
+      downVotes
       createdBy {
         id
         name
@@ -62,6 +66,14 @@ export const UPDATE_IDEA_MUTATION = gql`
   }
 `;
 
+export const CREATE_BUSINESSIDEA_VOTE_MUTATION = gql`
+  mutation CREATE_BUSINESSIDEA_VOTE_MUTATION($ideaId: ID!, $vote: String) {
+    createBusinessIdeaVote(ideaId: $ideaId, vote: $vote) {
+      id
+    }
+  }
+`;
+
 const usePageStyles = makeStyles(({ palette, spacing }) => ({
   container: {},
   cardsContainer: {
@@ -69,8 +81,30 @@ const usePageStyles = makeStyles(({ palette, spacing }) => ({
   }
 }));
 
-export default ({ idea, id }) => {
+export default ({ idea, id, client }) => {
   const { container, cardsContainer } = usePageStyles();
+
+  const upVote = ideaId => {
+    client.mutate({
+      mutation: CREATE_BUSINESSIDEA_VOTE_MUTATION,
+      variables: {
+        ideaId,
+        vote: 'up'
+      }
+    });
+    Mixpanel.track('Idea upVote');
+  };
+
+  const downVote = ideaId => {
+    client.mutate({
+      mutation: CREATE_BUSINESSIDEA_VOTE_MUTATION,
+      variables: {
+        ideaId,
+        vote: 'down'
+      }
+    });
+    Mixpanel.track('Idea downVote');
+  };
 
   return (
     <Query
@@ -80,6 +114,7 @@ export default ({ idea, id }) => {
       }}
     >
       {({ data: { businessIdea }, loading, error }) => {
+        console.log(businessIdea.upVotes);
         if (loading) return <CircularProgress style={{ margin: 20 }} />;
         if (error) return <Error error={error} />;
 
@@ -102,6 +137,12 @@ export default ({ idea, id }) => {
                     title={`Business Idea`}
                     subTitle={businessIdea.idea}
                   />
+                  <Vote
+                    upvoteCb={() => upVote(businessIdea.id)}
+                    downvoteCb={() => downVote(businessIdea.id)}
+                    upVotes={businessIdea.upVotes}
+                    downVotes={businessIdea.downVotes}
+                  />
                   {hasPermissions && (
                     <Public
                       id={id}
@@ -116,6 +157,8 @@ export default ({ idea, id }) => {
                         edit={hasPermissions}
                         step={s}
                         sectionContent={businessIdea[s]}
+                        upVotes={businessIdea.upVotes}
+                        downVotes={businessIdea.downVotes}
                         index={i + 1}
                         id={id}
                         mutation={UPDATE_IDEA_MUTATION}
