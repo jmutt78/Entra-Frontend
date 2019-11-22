@@ -47,6 +47,8 @@ export default ({ idea, id, mutation, status }) => {
       }}
     >
       {(updateBusinessIdea, { error, loading }) => {
+        if (loading) return <CircularProgress style={{ margin: 20 }} />;
+        if (error) return <Error error={error} />;
         return (
           <div>
             <FormGroup row>

@@ -47,7 +47,7 @@ const updateField = async (mutate, id, newState) => {
   });
 };
 
-export default ({ step, sectionContent, index, id, mutation }) => {
+export default ({ step, sectionContent, index, id, mutation, edit }) => {
   const {
     cardContainer,
     card,
@@ -103,35 +103,37 @@ export default ({ step, sectionContent, index, id, mutation }) => {
                   )}
                 </CardContent>
                 <CardActions>
-                  <div className={buttonContainer}>
-                    {editing && (
+                  {edit && (
+                    <div className={buttonContainer}>
+                      {editing && (
+                        <Button
+                          style={{ color: 'rgba(0, 0, 0, 0.54)' }}
+                          size="small"
+                          onClick={() => {
+                            setEditing(e => !e);
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                      )}
                       <Button
-                        style={{ color: 'rgba(0, 0, 0, 0.54)' }}
                         size="small"
-                        onClick={() => {
+                        disabled={loading}
+                        onClick={async () => {
+                          if (editing) {
+                            // mutate only if changes were made
+                            if (sectionContent !== value) {
+                              await updateField();
+                            }
+                          }
                           setEditing(e => !e);
                         }}
+                        color={'primary'}
                       >
-                        Cancel
+                        {editing ? 'Save' : 'Edit'}
                       </Button>
-                    )}
-                    <Button
-                      size="small"
-                      disabled={loading}
-                      onClick={async () => {
-                        if (editing) {
-                          // mutate only if changes were made
-                          if (sectionContent !== value) {
-                            await updateField();
-                          }
-                        }
-                        setEditing(e => !e);
-                      }}
-                      color={'primary'}
-                    >
-                      {editing ? 'Save' : 'Edit'}
-                    </Button>
-                  </div>
+                    </div>
+                  )}
                 </CardActions>
               </>
             );

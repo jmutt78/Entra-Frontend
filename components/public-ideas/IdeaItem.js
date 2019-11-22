@@ -81,8 +81,12 @@ const IdeaItem = ({
   display
 }) => {
   function handleTracking(e) {
-    Mixpanel.track('My Idea Link');
+    Mixpanel.track('Question Link');
     router.push(linkTo);
+  }
+
+  function handleUserTracking(e) {
+    Mixpanel.track('User Profile');
   }
 
   return (
@@ -93,11 +97,23 @@ const IdeaItem = ({
           className={classes.title}
           onClick={handleTracking}
         >
-          {idea}
+          IDEA: {idea}
         </Typography>
 
         <div style={{ padding: '5px 0 10px 0' }}>
-          Created On <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
+          Created by {}
+          <Link
+            href={{
+              pathname: '/user',
+              query: { id: userId }
+            }}
+          >
+            <a className={classes.nameLink} onClick={handleUserTracking}>
+              {display}
+            </a>
+          </Link>{' '}
+          on <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
+          <span> · </span>
         </div>
       </div>
     </div>
