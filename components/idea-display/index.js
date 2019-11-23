@@ -4,6 +4,8 @@ import { Query } from 'react-apollo';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
+import { withApollo } from 'react-apollo';
+
 import Section from './Section';
 import Public from './Public';
 import { steps } from '../create-idea';
@@ -14,8 +16,8 @@ import { Mixpanel } from '../../utils/Mixpanel';
 import Vote from './Vote';
 import { CURRENT_USER_QUERY } from '../auth/User';
 
-export const IDEAS_QUERY = gql`
-  query IDEAS_QUERY($id: ID!) {
+export const IDEA_QUERY = gql`
+  query IDEA_QUERY($id: ID!) {
     businessIdea(id: $id) {
       id
       idea
@@ -81,42 +83,45 @@ const usePageStyles = makeStyles(({ palette, spacing }) => ({
   }
 }));
 
-export default ({ idea, id, client }) => {
+const DisplayIdea = ({ idea, id, client }) => {
   const { container, cardsContainer } = usePageStyles();
 
-  const upVote = ideaId => {
+  const upVote = id => {
     client.mutate({
       mutation: CREATE_BUSINESSIDEA_VOTE_MUTATION,
       variables: {
-        ideaId,
+        ideaId: id,
         vote: 'up'
-      }
+      },
+      refetchQueries: [{ query: IDEA_QUERY, variables: { id } }]
     });
     Mixpanel.track('Idea upVote');
   };
 
-  const downVote = ideaId => {
+  const downVote = id => {
     client.mutate({
       mutation: CREATE_BUSINESSIDEA_VOTE_MUTATION,
       variables: {
-        ideaId,
+        ideaId: id,
         vote: 'down'
-      }
+      },
+      refetchQueries: [{ query: IDEA_QUERY, variables: { id } }]
     });
     Mixpanel.track('Idea downVote');
   };
 
   return (
     <Query
-      query={IDEAS_QUERY}
+      query={IDEA_QUERY}
       variables={{
         id
       }}
     >
       {({ data: { businessIdea }, loading, error }) => {
-        console.log(businessIdea.upVotes);
         if (loading) return <CircularProgress style={{ margin: 20 }} />;
         if (error) return <Error error={error} />;
+        console.log(businessIdea.status);
+        const publicIdea = businessIdea.status;
 
         return (
           <Query query={CURRENT_USER_QUERY}>
@@ -137,12 +142,14 @@ export default ({ idea, id, client }) => {
                     title={`Business Idea`}
                     subTitle={businessIdea.idea}
                   />
-                  <Vote
-                    upvoteCb={() => upVote(businessIdea.id)}
-                    downvoteCb={() => downVote(businessIdea.id)}
-                    upVotes={businessIdea.upVotes}
-                    downVotes={businessIdea.downVotes}
-                  />
+                  {publicIdea && (
+                    <Vote
+                      upvoteCb={() => upVote(businessIdea.id)}
+                      downvoteCb={() => downVote(businessIdea.id)}
+                      upVotes={businessIdea.upVotes}
+                      downVotes={businessIdea.downVotes}
+                    />
+                  )}
                   {hasPermissions && (
                     <Public
                       id={id}
@@ -174,3 +181,5 @@ export default ({ idea, id, client }) => {
     </Query>
   );
 };
+
+export default withApollo(DisplayIdea);
