@@ -16,6 +16,10 @@ import { Mixpanel } from '../../utils/Mixpanel';
 import Vote from './Vote';
 import { CURRENT_USER_QUERY } from '../auth/User';
 
+// TODO:
+// -Add a gate to nonpublic ideas
+// -style the voting
+
 export const IDEA_QUERY = gql`
   query IDEA_QUERY($id: ID!) {
     businessIdea(id: $id) {
@@ -135,6 +139,8 @@ const DisplayIdea = ({ idea, id, client }) => {
               me.permissions.some(permission =>
                 ['ADMIN', 'MODERATOR'].includes(permission)
               );
+              const voting = hasPermissions || publicIdea;
+              console.log(voting);
 
               return (
                 <div className={container}>
@@ -142,7 +148,7 @@ const DisplayIdea = ({ idea, id, client }) => {
                     title={`Business Idea`}
                     subTitle={businessIdea.idea}
                   />
-                  {publicIdea && (
+                  {voting && (
                     <Vote
                       upvoteCb={() => upVote(businessIdea.id)}
                       downvoteCb={() => downVote(businessIdea.id)}
@@ -150,7 +156,8 @@ const DisplayIdea = ({ idea, id, client }) => {
                       downVotes={businessIdea.downVotes}
                     />
                   )}
-                  {hasPermissions && (
+
+                  {voting && (
                     <Public
                       id={id}
                       mutation={UPDATE_IDEA_MUTATION}
