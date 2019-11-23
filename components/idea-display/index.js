@@ -5,6 +5,7 @@ import { Query } from 'react-apollo';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import { withApollo } from 'react-apollo';
+import Typography from '@material-ui/core/Typography';
 
 import Section from './Section';
 import Public from './Public';
@@ -84,11 +85,22 @@ const usePageStyles = makeStyles(({ palette, spacing }) => ({
   container: {},
   cardsContainer: {
     padding: '0 0 3rem 0.5rem'
+  },
+  title: {
+    color: 'rgba(0, 0, 0, 0.87)',
+    display: 'flex',
+    alignItems: 'center'
+  },
+  titleText: {
+    fontSize: '33px',
+    lineHeight: '2.7rem',
+    fontWeight: 600,
+    letterSpacing: '-1px'
   }
 }));
 
 const DisplayIdea = ({ idea, id, client }) => {
-  const { container, cardsContainer } = usePageStyles();
+  const { container, cardsContainer, title, titleText } = usePageStyles();
 
   const upVote = id => {
     client.mutate({
@@ -144,20 +156,22 @@ const DisplayIdea = ({ idea, id, client }) => {
 
               return (
                 <div className={container}>
-                  <PageHeader
-                    title={`Business Idea`}
-                    subTitle={businessIdea.idea}
-                  />
-                  {voting && (
-                    <Vote
-                      upvoteCb={() => upVote(businessIdea.id)}
-                      downvoteCb={() => downVote(businessIdea.id)}
-                      upVotes={businessIdea.upVotes}
-                      downVotes={businessIdea.downVotes}
-                    />
-                  )}
-
-                  {voting && (
+                  <div className="titleContainer">
+                    <Typography variant="h6" className={title}>
+                      <div className="voteContainer">
+                        {publicIdea && (
+                          <Vote
+                            upvoteCb={() => upVote(businessIdea.id)}
+                            downvoteCb={() => downVote(businessIdea.id)}
+                            upVotes={businessIdea.upVotes}
+                            downVotes={businessIdea.downVotes}
+                          />
+                        )}
+                      </div>
+                      <div className={titleText}>{businessIdea.idea}</div>
+                    </Typography>
+                  </div>
+                  {hasPermissions && (
                     <Public
                       id={id}
                       mutation={UPDATE_IDEA_MUTATION}
