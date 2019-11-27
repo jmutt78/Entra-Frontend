@@ -6,6 +6,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import { withApollo } from 'react-apollo';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
 import Section from './Section';
 import Public from './Public';
@@ -16,10 +18,6 @@ import './index.css';
 import { Mixpanel } from '../../utils/Mixpanel';
 import Vote from './Vote';
 import { CURRENT_USER_QUERY } from '../auth/User';
-
-// TODO:
-// -Add a gate to nonpublic ideas
-// -style the voting
 
 export const IDEA_QUERY = gql`
   query IDEA_QUERY($id: ID!) {
@@ -86,6 +84,13 @@ const usePageStyles = makeStyles(({ palette, spacing }) => ({
   cardsContainer: {
     padding: '0 0 3rem 0.5rem'
   },
+  grid: {
+    margin: spacing(1)
+  },
+  paper: {
+    backgroundColor: '#F2F4EF',
+    padding: 30
+  },
   title: {
     color: 'rgba(0, 0, 0, 0.87)',
     display: 'flex',
@@ -96,11 +101,23 @@ const usePageStyles = makeStyles(({ palette, spacing }) => ({
     lineHeight: '2.7rem',
     fontWeight: 600,
     letterSpacing: '-1px'
+  },
+  root: {
+    margin: spacing(1),
+    marginTop: 40
   }
 }));
 
 const DisplayIdea = ({ idea, id, client }) => {
-  const { container, cardsContainer, title, titleText } = usePageStyles();
+  const {
+    container,
+    cardsContainer,
+    title,
+    titleText,
+    paper,
+    grid,
+    root
+  } = usePageStyles();
 
   const upVote = id => {
     client.mutate({
@@ -136,7 +153,7 @@ const DisplayIdea = ({ idea, id, client }) => {
       {({ data: { businessIdea }, loading, error }) => {
         if (loading) return <CircularProgress style={{ margin: 20 }} />;
         if (error) return <Error error={error} />;
-        console.log(businessIdea.status);
+
         const publicIdea = businessIdea.status;
 
         return (
@@ -147,52 +164,78 @@ const DisplayIdea = ({ idea, id, client }) => {
 
               const ownsIdea = businessIdea.createdBy.id === me.id;
 
-              const hasPermissions = ownsIdea;
-              me.permissions.some(permission =>
-                ['ADMIN', 'MODERATOR'].includes(permission)
-              );
-              const voting = hasPermissions || publicIdea;
-              console.log(voting);
+              const hasPermissions =
+                ownsIdea ||
+                me.permissions.some(permission =>
+                  ['ADMIN', 'MODERATOR'].includes(permission)
+                );
 
+              console.log(publicIdea);
+              console.log(ownsIdea);
+              console.log(hasPermissions);
+
+              const approved = hasPermissions || publicIdea;
+              console.log(approved);
               return (
                 <div className={container}>
-                  <div className="titleContainer">
-                    <Typography variant="h6" className={title}>
-                      <div className="voteContainer">
-                        {publicIdea && (
-                          <Vote
-                            upvoteCb={() => upVote(businessIdea.id)}
-                            downvoteCb={() => downVote(businessIdea.id)}
+                  {approved && (
+                    <diV>
+                      <div className="titleContainer">
+                        <Typography variant="h6" className={title}>
+                          <div className="voteContainer">
+                            <Vote
+                              upvoteCb={() => upVote(businessIdea.id)}
+                              downvoteCb={() => downVote(businessIdea.id)}
+                              upVotes={businessIdea.upVotes}
+                              downVotes={businessIdea.downVotes}
+                            />
+                          </div>
+                          <div className={titleText}>{businessIdea.idea}</div>
+                        </Typography>
+                      </div>
+                      {hasPermissions && (
+                        <Public
+                          id={id}
+                          mutation={UPDATE_IDEA_MUTATION}
+                          status={businessIdea.status}
+                        />
+                      )}
+
+                      <div className={cardsContainer}>
+                        {steps.slice(1).map((s, i) => (
+                          <Section
+                            edit={hasPermissions}
+                            step={s}
+                            sectionContent={businessIdea[s]}
                             upVotes={businessIdea.upVotes}
                             downVotes={businessIdea.downVotes}
+                            index={i + 1}
+                            id={id}
+                            mutation={UPDATE_IDEA_MUTATION}
                           />
-                        )}
+                        ))}
                       </div>
-                      <div className={titleText}>{businessIdea.idea}</div>
-                    </Typography>
-                  </div>
-                  {hasPermissions && (
-                    <Public
-                      id={id}
-                      mutation={UPDATE_IDEA_MUTATION}
-                      status={businessIdea.status}
-                    />
+                    </diV>
                   )}
 
-                  <div className={cardsContainer}>
-                    {steps.slice(1).map((s, i) => (
-                      <Section
-                        edit={hasPermissions}
-                        step={s}
-                        sectionContent={businessIdea[s]}
-                        upVotes={businessIdea.upVotes}
-                        downVotes={businessIdea.downVotes}
-                        index={i + 1}
-                        id={id}
-                        mutation={UPDATE_IDEA_MUTATION}
-                      />
-                    ))}
-                  </div>
+                  {!approved && (
+                    <div>
+                      {' '}
+                      <Grid container className={root} spacing={3}>
+                        <Grid item xs />
+                        <Grid item xs={7} className={grid}>
+                          <Paper className={paper}>
+                            <div>
+                              <Typography>
+                                Sorry, this idea is no longer public
+                              </Typography>
+                            </div>
+                          </Paper>
+                        </Grid>
+                        <Grid item xs />
+                      </Grid>
+                    </div>
+                  )}
                 </div>
               );
             }}
