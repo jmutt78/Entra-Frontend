@@ -7,7 +7,7 @@ import Search from '../search/QuestionSearch';
 import { QuestionListContainer } from '../../src/styledComponents';
 
 function QuestionList(props) {
-  const { classes, questions, onLoadMore } = props;
+  const { questions, onLoadMore, headerStyle, name } = props;
 
   const handleScroll = ({ currentTarget }, onLoadMore) => {
     if (
@@ -20,8 +20,11 @@ function QuestionList(props) {
 
   return (
     <QuestionListContainer>
-      <PageHeader title={upperFirst(props.name) || 'Questions'} />
-      {props.name === 'all questions' && <Search />}
+      <PageHeader
+        title={upperFirst(name) || 'Questions'}
+        styles={headerStyle}
+      />
+      {name === 'all questions' && <Search />}
       <ul onScroll={e => handleScroll(e, onLoadMore)}>
         {questions &&
           questions.map(question => {
@@ -35,7 +38,7 @@ function QuestionList(props) {
                   query: { id: question.id }
                 }}
                 showDetails={true}
-                name={props.name}
+                name={name}
                 key={question.id}
                 display={question.askedBy[0].display}
               />

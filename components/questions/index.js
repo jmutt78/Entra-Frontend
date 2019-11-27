@@ -23,9 +23,8 @@ class Questions extends Component {
           const { questions } = data;
           return (
             <QuestionList
-              questions={questions}
-              paginationVariables={{ filter }}
               name={'all questions'}
+              questions={questions}
               onLoadMore={() =>
                 fetchMore({
                   variables: {
