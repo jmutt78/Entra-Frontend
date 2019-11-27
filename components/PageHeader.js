@@ -5,10 +5,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 // import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import styled from 'styled-components';
-import { typography } from '@material-ui/system';
+import classNames from 'classnames';
 
 const styles = ({ layout }) => ({
   table: {
@@ -40,7 +39,7 @@ const TypographyResponsive = styled.p`
 
 const PageHeader = ({ classes, title, styles }) => {
   return (
-    <Table className={[classes.table, styles]}>
+    <Table className={classNames(classes.table, styles)}>
       <TableHead>
         <TableRow style={{ marginRight: 10 }}>
           <TableCell>

@@ -1,60 +1,138 @@
-import React from 'react'
-import { shallow, mount, render } from 'enzyme'
-import toJson from 'enzyme-to-json'
-import { Typography, TextField, Select, Fab, Button } from '@material-ui/core';
-import { MockedProvider } from 'react-apollo/test-utils';
-import 'jest-matcher-one-of';
+import React from 'react';
+import { shallow, mount } from 'enzyme';
+import toJSON from 'enzyme-to-json';
+import Search, { SEARCH_QUESTIONS_QUERY } from '../QuestionSearch';
 import wait from 'waait';
-import { GraphQLError } from 'graphql';
-import ErrorComp from "../../ErrorMessage.js";
-import QuestionSearch, { SEARCH_QUESTIONS_QUERY } from "../QuestionSearch";
+import { MockedProvider } from 'react-apollo/test-utils';
+import { fakeQuestion, fakeAskedby } from '../../../utils/testing';
 
-async function setup(shouldWait, shouldError=false, graphqlError=true) {
+describe('<Search />', () => {
+  it('renders', () => {
+    shallow(<Search />);
+  });
 
-    let mocks;
-    
-    mocks = [
-        {
-            request: {
-                query: SEARCH_QUESTIONS_QUERY,
-                variables: {
-                    searchTerm: ''
-                }
-            },
-            result: {
-                data: {
-                },
-            },
+  it('matches the snapshot', () => {
+    const wrapper = shallow(<Search />);
+    expect(toJSON(wrapper)).toMatchSnapshot();
+  });
+
+  it('renders with dropdown', async () => {
+    const mocks = [
+      {
+        request: {
+          query: SEARCH_QUESTIONS_QUERY,
+          variables: {
+            searchTerm: 'test'
+          }
         },
+        result: {
+          data: {
+            searchQuestions: [
+              {
+                ...fakeQuestion
+              }
+            ]
+          }
+        }
+      }
     ];
+    const wrapper = mount(
+      <MockedProvider mocks={mocks}>
+        <Search />
+      </MockedProvider>
+    );
+    wrapper.find('input').simulate('change', { target: { value: 'test' } });
+    await wait(400);
+    wrapper.update();
+    expect(toJSON(wrapper.find('QuestionSearch__DropDown'))).toMatchSnapshot();
+  });
 
-    const component = mount(
-        <MockedProvider mocks={mocks} addTypename={false}>
-            <QuestionSearch />
-        </MockedProvider>
-    )
+  it('renders with proper title in dropdown item', async () => {
+    const mocks = [
+      {
+        request: {
+          query: SEARCH_QUESTIONS_QUERY,
+          variables: {
+            searchTerm: 'test'
+          }
+        },
+        result: {
+          data: {
+            searchQuestions: [
+              {
+                ...fakeQuestion,
+                title: `${fakeAskedby.display} asked`,
+                askedBy: [{ ...fakeAskedby }]
+              }
+            ]
+          }
+        }
+      }
+    ];
+    const wrapper = mount(
+      <MockedProvider mocks={mocks}>
+        <Search />
+      </MockedProvider>
+    );
+    wrapper.find('input').simulate('change', { target: { value: 'test' } });
+    await wait(400);
+    wrapper.update();
+    expect(wrapper.find('QuestionSearch__DropDown').text()).toContain(
+      `${fakeAskedby.display} asked`
+    );
+  });
 
-    if(shouldWait) {
-        
-        await wait(0);
-
-        component.update();
-    }
-
-    return {
-        component: component,
-        error: component.find(ErrorComp),
-        textField: component.find(TextField),
-    }
-}
-
-describe('QuestionSearch component', () => {
-
-    it('should render TextField', async () => {
-
-        const { textField } = await setup(true)
-        
-        expect(textField).toHaveLength(1)
-    })
-
-})
+  it('renders with More results dropdown item', async () => {
+    const mocks = [
+      {
+        request: {
+          query: SEARCH_QUESTIONS_QUERY,
+          variables: {
+            searchTerm: 'test'
+          }
+        },
+        result: {
+          data: {
+            searchQuestions: [
+              {
+                ...fakeQuestion,
+                id: '1'
+              },
+              {
+                ...fakeQuestion,
+                id: '2'
+              },
+              {
+                ...fakeQuestion,
+                id: '3'
+              },
+              {
+                ...fakeQuestion,
+                id: '4'
+              },
+              {
+                ...fakeQuestion,
+                id: '5'
+              },
+              {
+                ...fakeQuestion,
+                id: '6'
+              }
+            ]
+          }
+        }
+      }
+    ];
+    const wrapper = mount(
+      <MockedProvider mocks={mocks}>
+        <Search />
+      </MockedProvider>
+    );
+    wrapper.find('input').simulate('change', { target: { value: 'test' } });
+    await wait(400);
+    wrapper.update();
+    expect(wrapper.find('QuestionSearch__DropDown').text()).toContain(
+      'More results for test'
+    );
+  });
+});
