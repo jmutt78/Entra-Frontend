@@ -8,8 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
 import { Mixpanel } from '../../utils/Mixpanel';
-import Avatar from '../Avatar';
-import Vote from '../Vote';
+
 import './index.css';
 
 const styles = ({ layout, palette }) => ({
@@ -70,23 +69,9 @@ const styles = ({ layout, palette }) => ({
   }
 });
 
-const ListItem = ({
-  question,
+const IdeaItem = ({
   client,
-  item: {
-    answers,
-    askedBy,
-    body,
-    createdAt,
-    description,
-    downVotes,
-    id,
-    link,
-    tags,
-    title,
-    upVotes,
-    views
-  },
+  item: { idea, createdAt },
   classes,
   router,
   linkTo,
@@ -96,76 +81,27 @@ const ListItem = ({
   display
 }) => {
   function handleTracking(e) {
-    Mixpanel.track('Question Link');
+    Mixpanel.track('My Idea Link');
     router.push(linkTo);
   }
 
-  function handleUserTracking(e) {
-    Mixpanel.track('User Profile');
-  }
   return (
     <div className={classes.container}>
-      <div className="avatarBox">
-        <Avatar me={user} small linkToId={userId} />
-      </div>
-      {answers && (
-        <div className="votesBox">
-          <Vote id={id} />
-        </div>
-      )}
-
       <div className={classes.textBox}>
         <Typography
           variant="h6"
           className={classes.title}
           onClick={handleTracking}
         >
-          {title}
+          {idea}
         </Typography>
 
-        {body && (
-          <Typography
-            variant="p"
-            className={classes.body}
-            onClick={() => router.push(linkTo)}
-          >
-            {body}
-          </Typography>
-        )}
-
-        <div
-          style={
-            answers ? { padding: '5px 0 0 0' } : { padding: '5px 0 10px 0' }
-          }
-        >
-          {answers ? 'Asked by' : 'Answered by'}{' '}
-          <Link
-            href={{
-              pathname: '/user',
-              query: { id: userId }
-            }}
-          >
-            <a className={classes.nameLink} onClick={handleUserTracking}>
-              {display}
-            </a>
-          </Link>{' '}
-          on <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
-          <span> · </span>
-          {answers ? (
-            <span>
-              {answers.length} Answer{answers.length === 1 ? '' : 's'}
-            </span>
-          ) : (
-            <span>
-              {Math.abs(upVotes - downVotes)}{' '}
-              {upVotes - downVotes < 0 ? 'Down' : 'Up'}vote
-              {Math.abs(upVotes - downVotes) === 1 ? '' : 's'}
-            </span>
-          )}
+        <div style={{ padding: '5px 0 10px 0' }}>
+          Created On <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
         </div>
       </div>
     </div>
   );
 };
 
-export default withRouter(withStyles(styles)(ListItem));
+export default withRouter(withStyles(styles)(IdeaItem));

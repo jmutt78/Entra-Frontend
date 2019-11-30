@@ -4,7 +4,9 @@ import Table from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+
 // import Tooltip from '@material-ui/core/Tooltip';
+
 import { withStyles } from '@material-ui/core/styles';
 import styled from 'styled-components';
 import classNames from 'classnames';
@@ -13,10 +15,13 @@ const styles = ({ layout }) => ({
   table: {
     margin: '0 0 25px 0'
   },
+
+
   icon: {
     color: 'black'
   }
 });
+
 
 const TypographyResponsive = styled.p`
   font-size: 25px;
@@ -38,6 +43,7 @@ const TypographyResponsive = styled.p`
 // }))(TableCell);
 
 const PageHeader = ({ classes, title, styles }) => {
+
   return (
     <Table className={classNames(classes.table, styles)}>
       <TableHead>
@@ -45,29 +51,13 @@ const PageHeader = ({ classes, title, styles }) => {
           <TableCell>
             <TypographyResponsive>{title}</TypographyResponsive>
           </TableCell>
-
-          {/*
-              <Tooltip title="Answers" placement="top">
-                <CustomTableCell className={classes.customColumnStyle}>
-                  <QuestionAnswer className={classes.icon} />
-              </CustomTableCell>
-            </Tooltip>
-              <Tooltip title="Views" placement="top">
-                <CustomTableCell className={classes.customColumnStyle}>
-                  <img src="/static/visibility.svg" />
-              </CustomTableCell>
-            </Tooltip>
-              <Tooltip title="Up Votes" placement="top">
-                <CustomTableCell className={classes.customColumnStyle}>
-                  <img src="/static/thumb_up.svg" />
-              </CustomTableCell>
-            </Tooltip>
-              <Tooltip title="Down Votes" placement="top">
-                <CustomTableCell className={classes.customColumnStyle}>
-                  <img src="/static/thumb_down.svg" />
-              </CustomTableCell>
-            </Tooltip>
-            */}
+        </TableRow>
+        <TableRow style={{ marginRight: 10, borderBottom: 0 }}>
+          <TableCell style={{ borderBottom: 0 }}>
+            {subTitle && (
+              <Typography className={classes.subTitle}>{subTitle}</Typography>
+            )}
+          </TableCell>
         </TableRow>
       </TableHead>
     </Table>

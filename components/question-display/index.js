@@ -292,10 +292,6 @@ class DisplayQuestion extends Component {
             );
           const ownsQuestion = !!askedby && !!user && askedby.id === user.id;
 
-          // if (!ownsQuestion && !hasPermissions && question.approval === true) {
-          //   return <NoQuestion />;
-          // }
-
           return (
             <div className={classes.container} id="tableBorderRemoveTarget">
               <div className="titleContainer">
