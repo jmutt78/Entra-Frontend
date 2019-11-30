@@ -1,14 +1,9 @@
 import gql from 'graphql-tag';
 import { perPage } from '../../config.js';
 
-const QUESTION_LIST_QUERY = gql`
-  query QUESTION_LIST_QUERY($filter: String!, $offset: Int, $limit: Int) {
-    questions(
-      filter: $filter
-      orderBy: createdAt_DESC
-      limit: $limit
-      offset: $offset
-    ) {
+const TAG_FEED_QUERY = gql`
+  query TAG_FEED_QUERY($id: ID!, $filter: String!, $skip: Int = 0, $first: Int = ${perPage}) {
+    questions(where: {tags_some: {id_in: $id}}, filter: $filter, first: $first, skip: $skip, orderBy: createdAt_DESC) {
       id
       title
       description
@@ -27,14 +22,11 @@ const QUESTION_LIST_QUERY = gql`
       downVotes
       askedBy {
         id
-        name
         display
-      }
-      bookMark {
-        id
+        name
       }
     }
   }
 `;
 
-export default QUESTION_LIST_QUERY;
+export default TAG_FEED_QUERY;

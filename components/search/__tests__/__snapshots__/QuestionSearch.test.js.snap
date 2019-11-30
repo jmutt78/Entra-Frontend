@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Search /> matches the snapshot 1`] = `
+<QuestionSearch__SearchContainer>
+  <Downshift
+    defaultHighlightedIndex={null}
+    defaultInputValue=""
+    defaultIsOpen={false}
+    defaultSelectedItem={null}
+    environment={[Window]}
+    getA11yStatusMessage={[Function]}
+    itemToString={[Function]}
+    onChange={[Function]}
+    onInputValueChange={[Function]}
+    onOuterClick={[Function]}
+    onSelect={[Function]}
+    onStateChange={[Function]}
+    onUserAction={[Function]}
+    scrollIntoView={[Function]}
+    selectedItemChanged={[Function]}
+    stateReducer={[Function]}
+    suppressRefError={false}
+  >
+    <Component />
+  </Downshift>
+</QuestionSearch__SearchContainer>
+`;
+
+exports[`<Search /> renders with dropdown 1`] = `
+<QuestionSearch__DropDown>
+  <div
+    className="QuestionSearch__DropDown-sc-1kwr300-1 kgdCcu"
+  >
+    <QuestionSearch__DropDownItem
+      aria-selected={false}
+      highlighted={false}
+      id="downshift-0-item-0"
+      key="5dc525660274390007608a12:test1"
+      onClick={[Function]}
+      onMouseDown={[Function]}
+      onMouseMove={[Function]}
+      role="option"
+    >
+      <div
+        aria-selected={false}
+        className="QuestionSearch__DropDownItem-sc-1kwr300-2 jTRfYK"
+        id="downshift-0-item-0"
+        onClick={[Function]}
+        onMouseDown={[Function]}
+        onMouseMove={[Function]}
+        role="option"
+      >
+        Question: test1
+      </div>
+    </QuestionSearch__DropDownItem>
+  </div>
+</QuestionSearch__DropDown>
+`;

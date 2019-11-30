@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Questions component should render loading state initially 1`] = `null`;
+
+exports[`Questions component should show error when graphql errors occured fetching data from server 1`] = `
+<p
+  data-test="graphql-error"
+>
+  <strong>
+    Shoot!
+  </strong>
+  GraphQL Error!
+</p>
+`;

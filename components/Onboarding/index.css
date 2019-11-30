@@ -1,0 +1,7 @@
+.tag-select-target {
+  width: 50%;
+}
+
+.tag-select-target:hover {
+  font-weight: 700 !important;
+}
