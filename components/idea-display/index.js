@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
+import StepContent from '../create-idea/StepContent';
 import Section from './Section';
 import Public from './Public';
 import { steps } from '../create-idea';
@@ -185,9 +186,16 @@ const DisplayIdea = ({ idea, id, client }) => {
               return (
                 <div className={container}>
                   {approved && (
-                    <diV>
-                      <div className="idea-titleContainer">
-                        <Typography variant="h6" className={title}>
+                    <diV style={{ width: '100%' }}>
+                      <div
+                        className="idea-titleContainer"
+                        style={{ width: '100%' }}
+                      >
+                        <Typography
+                          variant="h6"
+                          className={title}
+                          style={{ width: '100%' }}
+                        >
                           <div className="voteContainer">
                             <Vote
                               upvoteCb={() => upVote(businessIdea.id)}
@@ -196,7 +204,18 @@ const DisplayIdea = ({ idea, id, client }) => {
                               downVotes={businessIdea.downVotes}
                             />
                           </div>
-                          <div className={titleText}>{_idea}</div>
+
+                          {editing ? (
+                            <div style={{ width: '100%' }}>
+                              <StepContent
+                                step={0}
+                                value={_idea}
+                                setField={setIdea}
+                              />
+                            </div>
+                          ) : (
+                            <div className={titleText}>{_idea}</div>
+                          )}
                         </Typography>
 
                         <Mutation
