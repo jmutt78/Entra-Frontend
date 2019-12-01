@@ -161,7 +161,9 @@ const DisplayIdea = ({ idea, id, client }) => {
 
         const publicIdea = businessIdea.status;
 
-        setIdea(businessIdea.idea);
+        if (!_idea) {
+          setIdea(businessIdea.idea);
+        }
 
         return (
           <Query query={CURRENT_USER_QUERY}>
