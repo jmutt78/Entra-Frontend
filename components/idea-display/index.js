@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -110,6 +110,9 @@ const usePageStyles = makeStyles(({ palette, spacing }) => ({
 }));
 
 const DisplayIdea = ({ idea, id, client }) => {
+  const [editing, setEditing] = useState(false);
+  const [_idea, setIdea] = useState('');
+
   const {
     container,
     cardsContainer,
@@ -157,6 +160,8 @@ const DisplayIdea = ({ idea, id, client }) => {
 
         const publicIdea = businessIdea.status;
 
+        setIdea(businessIdea.idea);
+
         return (
           <Query query={CURRENT_USER_QUERY}>
             {({ data: { me }, loading, error }) => {
@@ -191,18 +196,39 @@ const DisplayIdea = ({ idea, id, client }) => {
                               downVotes={businessIdea.downVotes}
                             />
                           </div>
-                          <div className={titleText}>{businessIdea.idea}</div>
+                          <div className={titleText}>{_idea}</div>
                         </Typography>
 
-                        <div className={'hoverButtonContainer'}>
-                          <Button
-                            size="small"
-                            color={'primary'}
-                            className={'hoverButton'}
-                          >
-                            Edit
-                          </Button>
-                        </div>
+                        <Mutation
+                          mutation={UPDATE_IDEA_MUTATION}
+                          variables={{
+                            id,
+                            idea: _idea
+                          }}
+                        >
+                          {(updateTitle, { error, loading }) => {
+                            return (
+                              <div className={'hoverButtonContainer'}>
+                                <Button
+                                  size="small"
+                                  disabled={loading}
+                                  onClick={async () => {
+                                    if (editing) {
+                                      // mutate only if changes were made
+                                      if (businessIdea.idea !== _idea) {
+                                        await updateTitle();
+                                      }
+                                    }
+                                    setEditing(e => !e);
+                                  }}
+                                  color={'primary'}
+                                >
+                                  {editing ? 'Save' : 'Edit'}
+                                </Button>
+                              </div>
+                            );
+                          }}
+                        </Mutation>
                       </div>
                       {hasPermissions && (
                         <Public
