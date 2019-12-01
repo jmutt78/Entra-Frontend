@@ -2,6 +2,7 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
+import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import { withApollo } from 'react-apollo';
@@ -180,7 +181,7 @@ const DisplayIdea = ({ idea, id, client }) => {
                 <div className={container}>
                   {approved && (
                     <diV>
-                      <div className="titleContainer">
+                      <div className="idea-titleContainer">
                         <Typography variant="h6" className={title}>
                           <div className="voteContainer">
                             <Vote
@@ -192,6 +193,16 @@ const DisplayIdea = ({ idea, id, client }) => {
                           </div>
                           <div className={titleText}>{businessIdea.idea}</div>
                         </Typography>
+
+                        <div className={'hoverButtonContainer'}>
+                          <Button
+                            size="small"
+                            color={'primary'}
+                            className={'hoverButton'}
+                          >
+                            Edit
+                          </Button>
+                        </div>
                       </div>
                       {hasPermissions && (
                         <Public
