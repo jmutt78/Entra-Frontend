@@ -7,8 +7,8 @@ import Search from '../search/QuestionSearch';
 import { QuestionListContainer } from '../../src/styledComponents';
 
 function QuestionList(props) {
-  const { questions, onLoadMore, headerStyle, name } = props;
-
+  const { questions, onLoadMore, name, type } = props;
+  console.log(questions);
   const handleScroll = ({ currentTarget }, onLoadMore) => {
     if (
       currentTarget.scrollTop + currentTarget.clientHeight >=
@@ -20,11 +20,9 @@ function QuestionList(props) {
 
   return (
     <QuestionListContainer>
-      <PageHeader
-        title={upperFirst(name) || 'Questions'}
-        styles={headerStyle}
-      />
-      {name === 'all questions' && <Search />}
+      <PageHeader title={upperFirst(name)} />
+      {type && <Search />}
+      <br />
       <ul onScroll={e => handleScroll(e, onLoadMore)}>
         {questions &&
           questions.map(question => {

@@ -208,7 +208,7 @@ class QuestionSearch extends React.Component {
                       },
                       id: 'search',
                       className: loading ? 'loading' : '',
-                      placeholder: 'Search for a question'
+                      placeholder: 'Search'
                     })}
                   ></TextField>
                 )}

@@ -33,7 +33,11 @@ const styles = ({ layout }) => {
 
 const Page = ({ children, classes, router }) => {
   const isSearchResultPage = router.pathname === '/searchResults';
-  const isAllPage = router.pathname === '/all';
+  const isScrollablePage =
+    router.pathname === '/all' ||
+    router.pathname === '/myfeed' ||
+    router.pathname === '/tags' ||
+    router.pathname === '/users';
   const isLanding =
     router.pathname === '/' ||
     router.pathname === '/landing1' ||
@@ -46,15 +50,15 @@ const Page = ({ children, classes, router }) => {
       <Header />
       <div
         className={classNames(
-          isLanding || isSearchResultPage || isAllPage
+          isLanding || isSearchResultPage || isScrollablePage
             ? 'noPadding'
             : 'contentContainerPadding',
-          isSearchResultPage || isAllPage ? 'hideScroll' : ''
+          isSearchResultPage || isScrollablePage ? 'hideScroll' : ''
         )}
       >
         <div
           className={classNames(
-            isSearchResultPage || isAllPage
+            isSearchResultPage || isScrollablePage
               ? classes.scrollContainer
               : classes.contentContainer,
             'contentContainer'

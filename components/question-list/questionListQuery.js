@@ -1,5 +1,4 @@
 import gql from 'graphql-tag';
-import { perPage } from '../../config.js';
 
 const QUESTION_LIST_QUERY = gql`
   query QUESTION_LIST_QUERY($filter: String!, $offset: Int, $limit: Int) {

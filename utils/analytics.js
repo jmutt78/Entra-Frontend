@@ -1,8 +1,6 @@
 import ReactGA from 'react-ga';
 export const initGA = () => {
-
-  ReactGA.initialize('UA-145851763-1');
-
+  ReactGA.initialize('/////');
 };
 export const logPageView = () => {
   ReactGA.set({ page: window.location.pathname });

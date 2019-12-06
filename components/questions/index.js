@@ -8,6 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 class Questions extends Component {
   render() {
     const filter = 'all';
+    const type = 'search';
     return (
       <Query
         query={questionListQuery}
@@ -21,10 +22,12 @@ class Questions extends Component {
           if (loading) return <CircularProgress style={{ margin: 20 }} />;
           if (error) return <Error error={error} />;
           const { questions } = data;
+
           return (
             <QuestionList
               name={'all questions'}
               questions={questions}
+              type={type}
               onLoadMore={() =>
                 fetchMore({
                   variables: {

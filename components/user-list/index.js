@@ -1,28 +1,17 @@
 import React, { Component } from 'react';
-import gql from 'graphql-tag';
+
 import { Query } from 'react-apollo';
-import { withApollo } from 'react-apollo';
-import { perPage } from '../../config.js';
+
 import QuestionList from '../question-list';
 import userListQuery from './userListQuery.js';
 import { USER_QUERY } from '../user-display';
 import Error from './../ErrorMessage.js';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-export const USER_QUESTIONS_PAGINATION_QUERY = gql`
-  query USER_QUESTIONS_PAGINATION_QUERY($id: ID!, $filter: String!) {
-    questionsConnection(where: { askedBy_some: { id: $id } }, filter: $filter) {
-      aggregate {
-        count
-      }
-    }
-  }
-`;
-
 class UserList extends Component {
   render() {
     const filter = 'user';
-    const { page, id } = this.props;
+    const { id } = this.props;
 
     return (
       <Query
@@ -42,23 +31,35 @@ class UserList extends Component {
               variables={{
                 id: this.props.id,
                 filter,
-                skip: page * perPage - perPage,
-                first: perPage
+                offset: 0,
+                limit: 10
               }}
             >
-              {({ data, loading, error }) => {
+              {({ data, loading, error, fetchMore }) => {
                 if (loading) return <CircularProgress style={{ margin: 20 }} />;
                 if (error) return <Error error={error} />;
                 const { questions } = data;
 
                 return (
                   <QuestionList
-                    enablePagination={true}
-                    questions={questions}
-                    paginationQuery={USER_QUESTIONS_PAGINATION_QUERY}
-                    paginationVariables={{ filter, id }}
-                    page={page}
                     name={name}
+                    questions={questions}
+                    onLoadMore={() =>
+                      fetchMore({
+                        variables: {
+                          offset: questions.length
+                        },
+                        updateQuery: (prev, { fetchMoreResult }) => {
+                          if (!fetchMoreResult) return prev;
+                          return Object.assign({}, prev, {
+                            questions: [
+                              ...prev.questions,
+                              ...fetchMoreResult.questions
+                            ]
+                          });
+                        }
+                      })
+                    }
                   />
                 );
               }}
@@ -70,4 +71,4 @@ class UserList extends Component {
   }
 }
 
-export default withApollo(UserList);
+export default UserList;
