@@ -59,13 +59,21 @@
   visibility: hidden;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 900px) {
   .navbarFlex {
     justify-content: space-between;
     align-items: center;
     flex-direction: column-reverse;
     padding: 0;
     height: 100%;
+  }
+
+  .buttonLink {
+    padding: 15px 0px 10px 25px;
+  }
+
+  .noActive {
+    padding: 15px 0px 10px 15px;
   }
 
   .navigationContainer {
@@ -77,11 +85,10 @@
   }
   .navLinkActive {
     width: 100vw;
-    margin-left: -80px;
   }
+
   .navLink {
     width: 100vw;
-    margin-left: -80px;
   }
   .visibleOnMobile {
     visibility: visible;

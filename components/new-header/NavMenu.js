@@ -5,7 +5,14 @@ import Typography from '@material-ui/core/Typography';
 import NavLink from './NavLink';
 import Icon from '@material-ui/core/Icon';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import { makeStyles } from '@material-ui/core/styles';
 import './Navbar.css';
+
+const useStyles = makeStyles({
+  paper: {
+    background: '#f2f4ef'
+  }
+});
 
 export default function NavMenu({
   me,
@@ -15,6 +22,7 @@ export default function NavMenu({
   name,
   icon
 }) {
+  const styles = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = event => {
@@ -60,7 +68,7 @@ export default function NavMenu({
             <Typography
               onClick={handleClick}
               style={{ cursor: 'pointer' }}
-              className={selectedData ? 'buttonLink' : null}
+              className={selectedData ? 'buttonLink' : 'noActive'}
               aria-controls="simple-menu"
               aria-haspopup="true"
             >
@@ -69,18 +77,14 @@ export default function NavMenu({
               <ArrowDropDownIcon />
             </Typography>
             <Menu
-              id="simple-menu"
               anchorEl={anchorEl}
               keepMounted
               open={Boolean(anchorEl)}
               onClose={handleClose}
+              classes={{ paper: styles.paper }}
             >
               {navLinks.map(({ name, target }) => (
-                <MenuItem
-                  className="dropDown"
-                  value={name}
-                  onClick={handleClose}
-                >
+                <MenuItem value={name} onClick={handleClose}>
                   <NavLink
                     activeClassName="navLinkActive"
                     href={target}

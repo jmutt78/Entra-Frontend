@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
 import Button from '@material-ui/core/Button';
 import Link from 'next/link';
-
+import MenuIcon from '@material-ui/icons/Menu';
 import Avatar from '../Avatar';
 import NavMenu from './NavMenu';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
@@ -52,8 +52,12 @@ const styles = ({ layout, palette }) => ({
   },
   logo: {
     maxHeight: 45,
-    cursor: 'pointer'
+    cursor: 'pointer',
+    '@media (max-width: 780px)': {
+      maxHeight: 35
+    }
   },
+
   logoContainer: {
     padding: '12px 0 0 0'
   },
@@ -92,6 +96,7 @@ function handlenavLinks(e) {
 }
 
 const Appbar = ({ isLoggedIn, classes, me, router }) => {
+  const [menu, setMenu] = useState(null);
   const navLinks = [
     {
       name: 'Blog',
@@ -141,19 +146,19 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
 
   const blogLinks = [
     {
-      name: 'Our Blog',
+      name: 'Entra Tips',
       target: '/blog'
     },
 
     {
-      name: 'Stories',
+      name: 'Entra Interviews',
       target: '/stories'
     }
   ];
 
   const createLinks = [
     {
-      name: 'Create Question',
+      name: 'Ask a Question',
       target: isLoggedIn ? '/qa' : '/signup'
     },
 
@@ -202,6 +207,9 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
   }
   return (
     <div className={classes.root}>
+      <div className="visibleOnMobile" onClick={_ => setMenu(!menu)}>
+        <MenuIcon alt="menu" fontSize="large" style={{ color: '#85bdcb' }} />
+      </div>
       <div className="appbarFlex">
         <div className="subContainer">
           <Typography variant="h6" className={classes.logoContainer}>
@@ -214,50 +222,54 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
             </Link>
           </Typography>
         </div>
-        <NavMenu
-          me={me}
-          navLinks={feedLink()}
-          curretPage={curretPage}
-          name={`Q&A`}
-          icon={<QuestionAnswerIcon fontSize="small" />}
-        />
-        <NavMenu
-          me={me}
-          navLinks={ideaLinkCondition()}
-          curretPage={curretPage}
-          name={`Ideas`}
-          icon={<EmojiObjectsIcon fontSize="small" />}
-        />
-        <Search />
-        <NavMenu
-          me={me}
-          navLinks={blogLinks}
-          curretPage={curretPage}
-          name={`Learn`}
-          icon={<MenuBookIcon fontSize="small" />}
-        />
-        <NavMenu
-          me={me}
-          navLinks={createLinks}
-          curretPage={curretPage}
-          name={`Create`}
-          icon={<CreateIcon fontSize="small" />}
-        />
-        {me &&
-          me.permissions.some(permission =>
-            ['ADMIN', 'MODERATOR'].includes(permission)
-          ) && (
+        <div className="navbarFlex">
+          <div
+            className={`navigationContainer ${menu === true && 'menuShown'}`}
+            component={'div'}
+          >
             <NavMenu
               me={me}
-              navLinks={adminLinks}
+              navLinks={feedLink()}
               curretPage={curretPage}
-              name={`Admin`}
+              name={`Q&A`}
+              icon={<QuestionAnswerIcon fontSize="small" />}
             />
-          )}
-        <Typography
-          className={classes.subContainer}
-          component={'div'}
-        ></Typography>
+            <NavMenu
+              me={me}
+              navLinks={ideaLinkCondition()}
+              curretPage={curretPage}
+              name={`Ideas`}
+              icon={<EmojiObjectsIcon fontSize="small" />}
+            />
+
+            <NavMenu
+              me={me}
+              navLinks={blogLinks}
+              curretPage={curretPage}
+              name={`Learn`}
+              icon={<MenuBookIcon fontSize="small" />}
+            />
+            <NavMenu
+              me={me}
+              navLinks={createLinks}
+              curretPage={curretPage}
+              name={`Create`}
+              icon={<CreateIcon fontSize="small" />}
+            />
+            {me &&
+              me.permissions.some(permission =>
+                ['ADMIN', 'MODERATOR'].includes(permission)
+              ) && (
+                <NavMenu
+                  me={me}
+                  navLinks={adminLinks}
+                  curretPage={curretPage}
+                  name={`Admin`}
+                />
+              )}
+            <Search />
+          </div>
+        </div>
         {!me && (
           <Typography className={classes.subContainer}>
             <Link href="/signin">

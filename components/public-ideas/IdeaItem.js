@@ -97,7 +97,7 @@ const IdeaItem = ({
           className={classes.title}
           onClick={handleTracking}
         >
-          IDEA: {idea}
+          {idea}
         </Typography>
 
         <div style={{ padding: '5px 0 10px 0' }}>

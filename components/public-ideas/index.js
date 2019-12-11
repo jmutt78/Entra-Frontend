@@ -47,7 +47,7 @@ class AllIdeas extends Component {
             <IdeaList
               businessIdeas={businessIdeas}
               page={page}
-              name={'ideas'}
+              name={'Community Business Ideas'}
             />
           );
         }}
