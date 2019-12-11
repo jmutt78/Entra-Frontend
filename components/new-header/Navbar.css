@@ -1,7 +1,6 @@
 .navigationContainer {
   display: flex;
   flex: 1;
-  align-self: flex-end;
   align-items: center;
   padding: 0 0 0 20px;
 }
@@ -18,12 +17,12 @@
 }
 
 .navLink {
-  height: 80px;
+  height: 20px;
   display: flex;
   align-items: center;
   font-size: 1.2rem;
-  color: #fff;
-  padding: 12px 10px 8px 10px;
+  color: rgba(0, 0, 0, 0.87);
+  padding: 12px 10px 20px 15px;
   text-decoration: none;
 }
 
@@ -32,12 +31,20 @@
 }
 
 .navLinkActive {
-  height: 80px;
+  height: 20px;
   display: flex;
   align-items: center;
-  color: #e8a77f;
-  background: #f2f4ef;
+  color: #85bdcb;
   font-weight: 500;
+}
+
+.buttonLink {
+  height: 20px;
+  display: flex;
+  align-items: center;
+  color: #85bdcb;
+  background: #f2f4ef;
+  font-weight: 800;
 }
 
 .style-target svg {

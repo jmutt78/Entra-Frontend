@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from '../header';
+import Header from '../new-header';
 import Meta from '../meta/Meta.js';
 import Footer from '../footer';
 import { withStyles } from '@material-ui/core/styles';
@@ -47,7 +47,7 @@ const Page = ({ children, classes, router }) => {
   return (
     <div className={classes.root}>
       <Meta />
-      <Header />
+      <Header router={router} />
       <div
         className={classNames(
           isLanding || isSearchResultPage || isScrollablePage

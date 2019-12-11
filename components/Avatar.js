@@ -3,9 +3,11 @@ import Link from 'next/link';
 import classNames from 'classnames';
 import { withRouter } from 'next/router';
 
+import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+
 import { withStyles } from '@material-ui/core/styles';
 import { Mixpanel } from '../utils/Mixpanel';
 
@@ -14,15 +16,32 @@ import Signout from './auth/Signout';
 const styles = {
   bigAvatar: {
     margin: 15,
-    width: 50,
-    height: 50,
+    width: 35,
+    height: 35,
+    backgroundColor: '#85bdcb',
     cursor: 'pointer'
   },
   smallAvatar: {
     margin: 5,
     width: 25,
-    height: 25,
+    height: 25
+  },
+  avatarContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '5px 35px 0 0',
+    fontSize: '1rem',
+    alignSelf: 'flex-end',
     cursor: 'pointer'
+  },
+  arrow: {
+    border: 'solid #85bdcb',
+    borderWidth: '0 3px 3px 0',
+    display: 'inline-block',
+    padding: '4px',
+    marginLeft: '10px',
+    transform: 'rotate(45deg)',
+    webkitTransform: 'rotate(45deg)'
   }
 };
 
@@ -75,7 +94,18 @@ class MyProfile extends React.Component {
           className={classNames(classes.grow, 'nav-avatar')}
           onClick={this.props.small ? null : this.handleClick}
         >
-          {this.handleImage(me, classes)}
+          <Typography
+            className={this.props.small ? null : classes.avatarContainer}
+            component={'div'}
+          >
+            {this.handleImage(me, classes)}
+            {this.props.small ? null : (
+              <div>
+                {me.name}
+                <i className={classes.arrow} />
+              </div>
+            )}
+          </Typography>
         </div>
 
         <Menu

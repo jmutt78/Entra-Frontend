@@ -21,8 +21,6 @@ function QuestionList(props) {
   return (
     <QuestionListContainer>
       <PageHeader title={upperFirst(name)} />
-      {type && <Search />}
-      <br />
       <ul onScroll={e => handleScroll(e, onLoadMore)}>
         {questions &&
           questions.map(question => {

@@ -49,6 +49,7 @@ class UserList extends Component {
                         variables: {
                           offset: questions.length
                         },
+
                         updateQuery: (prev, { fetchMoreResult }) => {
                           if (!fetchMoreResult) return prev;
                           return Object.assign({}, prev, {
