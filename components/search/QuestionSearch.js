@@ -86,7 +86,7 @@ const glow = keyframes`
 
 const SearchContainer = styled.div`
   position: relative;
-  margin-left: 40px;
+  cursor: pointer;
   input {
     width: 100%;
     margin-right: 253px;
@@ -119,6 +119,7 @@ const DropDownItem = styled.div`
   ${props => (props.highlighted ? 'padding-left: 2rem;' : null)};
   display: flex;
   align-items: center;
+
   border-left: 10px solid ${props => (props.highlighted ? '#EBEBEB' : 'white')};
   img {
     margin-right: 10px;
@@ -208,7 +209,7 @@ class QuestionSearch extends React.Component {
                       },
                       id: 'search',
                       className: loading ? 'loading' : '',
-                      placeholder: 'Search'
+                      placeholder: 'Search Questions'
                     })}
                   ></TextField>
                 )}
