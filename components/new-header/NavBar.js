@@ -163,6 +163,17 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
     }
   ];
 
+  const adminLinks = [
+    {
+      name: 'Approve Questions',
+      target: '/approval/question-list'
+    },
+    {
+      name: 'Approve Answers',
+      target: '/approval/answer-list'
+    }
+  ];
+
   const ideaLinkCondition = () => {
     if (!me) {
       return ideaLinks.filter(link => link.name !== 'My Ideas');
@@ -232,6 +243,17 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
           name={`Create`}
           icon={<CreateIcon fontSize="small" />}
         />
+        {me &&
+          me.permissions.some(permission =>
+            ['ADMIN', 'MODERATOR'].includes(permission)
+          ) && (
+            <NavMenu
+              me={me}
+              navLinks={adminLinks}
+              curretPage={curretPage}
+              name={`Admin`}
+            />
+          )}
         <Typography
           className={classes.subContainer}
           component={'div'}
