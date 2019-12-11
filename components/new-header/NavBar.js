@@ -5,12 +5,13 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Button from '@material-ui/core/Button';
 import Link from 'next/link';
-// import NavLink from './NavLink';
+
 import Avatar from '../Avatar';
-import QuestionMenu from './QuestionMenu';
-import IdeaMenu from './IdeaMenu';
-import LearnMenu from './LearnMenu';
-import CreateMenu from './CreateMenu';
+import NavMenu from './NavMenu';
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
+import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
+import CreateIcon from '@material-ui/icons/Create';
 import classNames from 'classnames';
 import { Mixpanel } from '../../utils/Mixpanel';
 import './Appbar.css';
@@ -133,7 +134,7 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
     },
 
     {
-      name: 'Public Ideas',
+      name: 'Community Ideas',
       target: '/idea/public'
     }
   ];
@@ -153,14 +154,31 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
   const createLinks = [
     {
       name: 'Create Question',
-      target: '/qa'
+      target: isLoggedIn ? '/qa' : '/signup'
     },
 
     {
       name: 'Create Idea',
-      target: '/idea/create'
+      target: isLoggedIn ? '/idea/create' : '/signup'
     }
   ];
+
+  const ideaLinkCondition = () => {
+    if (!me) {
+      return ideaLinks.filter(link => link.name !== 'My Ideas');
+    }
+    return ideaLinks;
+  };
+
+  const tagExist = me ? me.tags.some(tags => ![' '].includes(tags)) : '';
+  const feedLink = () => {
+    if (!me) {
+      return questionLinks.filter(link => link.name === 'Latest Questions');
+    } else if (!tagExist) {
+      return questionLinks.filter(link => link.name !== 'My Feed');
+    }
+    return questionLinks;
+  };
 
   const curretPage = router.pathname;
 
@@ -185,44 +203,66 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
             </Link>
           </Typography>
         </div>
-        <QuestionMenu
+        <NavMenu
           me={me}
-          questionLinks={questionLinks}
+          navLinks={feedLink()}
           curretPage={curretPage}
+          name={`Q&A`}
+          icon={<QuestionAnswerIcon fontSize="small" />}
         />
-        <IdeaMenu me={me} ideaLinks={ideaLinks} curretPage={curretPage} />
+        <NavMenu
+          me={me}
+          navLinks={ideaLinkCondition()}
+          curretPage={curretPage}
+          name={`Ideas`}
+          icon={<EmojiObjectsIcon fontSize="small" />}
+        />
         <Search />
-        <LearnMenu me={me} blogLinks={blogLinks} curretPage={curretPage} />
-        <CreateMenu me={me} createLinks={createLinks} curretPage={curretPage} />
+        <NavMenu
+          me={me}
+          navLinks={blogLinks}
+          curretPage={curretPage}
+          name={`Learn`}
+          icon={<MenuBookIcon fontSize="small" />}
+        />
+        <NavMenu
+          me={me}
+          navLinks={createLinks}
+          curretPage={curretPage}
+          name={`Create`}
+          icon={<CreateIcon fontSize="small" />}
+        />
         <Typography
           className={classes.subContainer}
           component={'div'}
         ></Typography>
-        <Typography className={me ? classes.hidden : classes.subContainer}>
-          <Link href="/signin">
-            <Button
-              variant="contained"
-              color="secondary"
-              className={classNames(classes.loginButton, 'login-btn')}
-              onClick={handleLogin}
-            >
-              Login
-            </Button>
-          </Link>
+        {!me && (
+          <Typography className={classes.subContainer}>
+            <Link href="/signin">
+              <Button
+                variant="contained"
+                color="secondary"
+                className={classNames(classes.loginButton, 'login-btn')}
+                onClick={handleLogin}
+              >
+                Login
+              </Button>
+            </Link>
 
-          <Link href="/signup">
-            <Button
-              variant="contained"
-              color="secondary"
-              className={classes.signupButton}
-              onClick={handleSignin}
-            >
-              Sign up
-            </Button>
-          </Link>
-        </Typography>
+            <Link href="/signup">
+              <Button
+                variant="contained"
+                color="secondary"
+                className={classes.signupButton}
+                onClick={handleSignin}
+              >
+                Sign up
+              </Button>
+            </Link>
+          </Typography>
+        )}
         {me && (
-          <div className={classes.avatarContainer} component={'div'}>
+          <div component={'div'}>
             <Avatar me={me} />
           </div>
         )}

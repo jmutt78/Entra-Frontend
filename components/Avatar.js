@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
 import { withRouter } from 'next/router';
-
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
@@ -33,15 +33,6 @@ const styles = {
     fontSize: '1rem',
     alignSelf: 'flex-end',
     cursor: 'pointer'
-  },
-  arrow: {
-    border: 'solid #85bdcb',
-    borderWidth: '0 3px 3px 0',
-    display: 'inline-block',
-    padding: '4px',
-    marginLeft: '10px',
-    transform: 'rotate(45deg)',
-    webkitTransform: 'rotate(45deg)'
   }
 };
 
@@ -102,7 +93,7 @@ class MyProfile extends React.Component {
             {this.props.small ? null : (
               <div>
                 {me.name}
-                <i className={classes.arrow} />
+                <ArrowDropDownIcon />
               </div>
             )}
           </Typography>
