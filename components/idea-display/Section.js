@@ -26,7 +26,8 @@ const useSectionStyles = makeStyles(({ palette }) => ({
     fontWeight: 500
   },
   content: {
-    fontSize: 17
+    fontSize: 17,
+    whiteSpace: 'pre-wrap'
   },
   buttonContainer: {
     width: '100%',
