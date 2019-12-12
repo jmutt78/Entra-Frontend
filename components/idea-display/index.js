@@ -179,12 +179,8 @@ const DisplayIdea = ({ idea, id, client }) => {
                   ['ADMIN', 'MODERATOR'].includes(permission)
                 );
 
-              console.log(publicIdea);
-              console.log(ownsIdea);
-              console.log(hasPermissions);
-
               const approved = hasPermissions || publicIdea;
-              console.log(approved);
+
               return (
                 <div className={container}>
                   {approved && (
@@ -230,22 +226,24 @@ const DisplayIdea = ({ idea, id, client }) => {
                           {(updateTitle, { error, loading }) => {
                             return (
                               <div className={'hoverButtonContainer'}>
-                                <Button
-                                  size="small"
-                                  disabled={loading}
-                                  onClick={async () => {
-                                    if (editing) {
-                                      // mutate only if changes were made
-                                      if (businessIdea.idea !== _idea) {
-                                        await updateTitle();
+                                {hasPermissions && (
+                                  <Button
+                                    size="small"
+                                    disabled={loading}
+                                    onClick={async () => {
+                                      if (editing) {
+                                        // mutate only if changes were made
+                                        if (businessIdea.idea !== _idea) {
+                                          await updateTitle();
+                                        }
                                       }
-                                    }
-                                    setEditing(e => !e);
-                                  }}
-                                  color={'primary'}
-                                >
-                                  {editing ? 'Save' : 'Edit'}
-                                </Button>
+                                      setEditing(e => !e);
+                                    }}
+                                    color={'primary'}
+                                  >
+                                    {editing ? 'Save' : 'Edit'}
+                                  </Button>
+                                )}
                               </div>
                             );
                           }}

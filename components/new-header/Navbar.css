@@ -9,9 +9,8 @@
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  width: 100%;
   height: 80px;
-  padding: 0 5px;
+  padding: 0 10px;
   max-width: 1920px;
 }
 
@@ -64,8 +63,9 @@
     justify-content: space-between;
     align-items: center;
     flex-direction: column-reverse;
-    padding: 0;
+    padding-left: 10px;
     height: 100%;
+    width: 100%;
   }
 
   .buttonLink {
@@ -95,10 +95,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-width: 80px;
-    min-height: 80px;
     width: 80px;
-    height: 80px;
+    height: 50px;
     cursor: pointer;
   }
   .menuShown {

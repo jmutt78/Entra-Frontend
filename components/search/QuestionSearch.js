@@ -6,6 +6,7 @@ import gql from 'graphql-tag';
 import styled, { keyframes } from 'styled-components';
 import { debounce } from 'lodash';
 import TextField from '@material-ui/core/TextField';
+import SearchIcon from '@material-ui/icons/Search';
 
 export const SEARCH_QUESTIONS_QUERY = gql`
   query SEARCH_QUESTIONS_QUERY(
@@ -87,19 +88,22 @@ const glow = keyframes`
 const SearchContainer = styled.div`
   position: relative;
   cursor: pointer;
+  margin-left: 20px;
   input {
     width: 100%;
-    margin-right: 253px;
+    margin-right: 200px;
     border: 0;
     font-size: 1.1rem;
+
     &.loading {
       animation: ${glow} 0.5s ease-in-out infinite alternate;
     }
   }
-  @media (max-width: 767px) {
+  @media (max-width: 900px) {
     margin-left: 20px;
+    padding-top: 20px;
     input {
-      margin-right: 85px;
+      margin-right: 100px;
     }
   }
 `;
@@ -198,6 +202,7 @@ class QuestionSearch extends React.Component {
             highlightedIndex
           }) => (
             <div>
+              <SearchIcon />
               <ApolloConsumer>
                 {client => (
                   <TextField

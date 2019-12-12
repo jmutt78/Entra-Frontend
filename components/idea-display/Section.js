@@ -69,6 +69,7 @@ export default ({
   } = useSectionStyles();
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(sectionContent);
+  console.log(edit);
 
   return (
     <div className={cardContainer}>
@@ -93,7 +94,7 @@ export default ({
                   >
                     {capitalize(step)}
                   </Typography>
-                  {}
+
                   {editing ? (
                     <div className={stepContentContainer}>
                       <StepContent

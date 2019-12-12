@@ -54,13 +54,11 @@ const styles = ({ layout, palette }) => ({
     maxHeight: 45,
     cursor: 'pointer',
     '@media (max-width: 780px)': {
-      maxHeight: 35
+      maxHeight: 35,
+      marginTop: -150
     }
   },
 
-  logoContainer: {
-    padding: '12px 0 0 0'
-  },
   navLink: {
     display: 'flex',
     alignItems: 'center',

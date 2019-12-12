@@ -55,7 +55,7 @@ export default function NavMenu({
       <div className="navbarFlex">
         {!createdNav() && (
           <Typography>
-            {navLinks.map(({ name, target }) => (
+            {navLinks.map(({ name, target, icon }) => (
               <NavLink activeClassName="navLinkActive" href={target} key={name}>
                 <a className="navLink">{name}</a>
               </NavLink>
