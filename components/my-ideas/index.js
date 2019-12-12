@@ -39,7 +39,6 @@ class MyIdeas extends Component {
         }}
       >
         {({ loading, error, data: { businessIdeas } }) => {
-          console.log(businessIdeas);
           if (loading) return <CircularProgress style={{ margin: 20 }} />;
           if (error) return <p>Error</p>;
 

@@ -89,10 +89,6 @@ function handleLogin(e) {
   Mixpanel.track('Login');
 }
 
-function handlenavLinks(e) {
-  Mixpanel.track('ask a question');
-}
-
 const Appbar = ({ isLoggedIn, classes, me, router }) => {
   const [menu, setMenu] = useState(null);
   const navLinks = [

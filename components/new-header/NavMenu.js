@@ -3,9 +3,10 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import NavLink from './NavLink';
-import Icon from '@material-ui/core/Icon';
+
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { makeStyles } from '@material-ui/core/styles';
+import { Mixpanel } from '../../utils/Mixpanel';
 import './Navbar.css';
 
 const useStyles = makeStyles({
@@ -50,6 +51,10 @@ export default function NavMenu({
     }
   };
 
+  function handleMix(name) {
+    Mixpanel.track(name);
+    console.log(name);
+  }
   return (
     <div>
       <div className="navbarFlex">
@@ -57,7 +62,14 @@ export default function NavMenu({
           <Typography>
             {navLinks.map(({ name, target, icon }) => (
               <NavLink activeClassName="navLinkActive" href={target} key={name}>
-                <a className="navLink">{name}</a>
+                <a
+                  className="navLink"
+                  nClick={() => {
+                    Mixpanel.track(name);
+                  }}
+                >
+                  {name}
+                </a>
               </NavLink>
             ))}
           </Typography>
@@ -72,8 +84,7 @@ export default function NavMenu({
               aria-controls="simple-menu"
               aria-haspopup="true"
             >
-              {icon}
-              {selectedData ? selectedData.name : name}
+              {icon} {selectedData ? selectedData.name : name}
               <ArrowDropDownIcon />
             </Typography>
             <Menu
@@ -90,7 +101,14 @@ export default function NavMenu({
                     href={target}
                     key={name}
                   >
-                    <a className="navLink">{name}</a>
+                    <a
+                      className="navLink"
+                      onClick={() => {
+                        Mixpanel.track(name);
+                      }}
+                    >
+                      {name}
+                    </a>
                   </NavLink>
                 </MenuItem>
               ))}

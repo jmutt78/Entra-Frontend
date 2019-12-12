@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import { withRouter } from 'next/router';
 import { format, parseISO } from 'date-fns';
 

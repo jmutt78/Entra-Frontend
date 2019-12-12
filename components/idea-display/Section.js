@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { capitalize } from 'lodash';
 import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -13,6 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import './index.css';
 import Error from './../ErrorMessage.js';
 import StepContent from '../create-idea/StepContent';
+import { Mixpanel } from '../../utils/Mixpanel';
 
 const useSectionStyles = makeStyles(({ palette }) => ({
   cardContainer: {
@@ -70,7 +70,6 @@ export default ({
   } = useSectionStyles();
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(sectionContent);
-  console.log(edit);
 
   return (
     <div className={cardContainer}>
@@ -124,6 +123,7 @@ export default ({
                           size="small"
                           onClick={() => {
                             setEditing(e => !e);
+                            Mixpanel.track('Edit Idea');
                           }}
                         >
                           Cancel

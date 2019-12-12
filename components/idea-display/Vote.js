@@ -20,14 +20,16 @@ const styles = ({ layout, palette }) => ({
 
 const Vote = ({ classes, upvoteCb, downvoteCb, upVotes, downVotes }) => {
   const [hasVoted, setHasVoted] = useState(0);
-  console.log(upVotes);
+
   const vote = async dir => {
     if (dir === 'down') {
       setHasVoted(-1);
+
       return downvoteCb();
     }
     if (dir === 'up') {
       setHasVoted(1);
+
       return upvoteCb();
     }
   };

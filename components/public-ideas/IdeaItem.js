@@ -81,7 +81,7 @@ const IdeaItem = ({
   display
 }) => {
   function handleTracking(e) {
-    Mixpanel.track('Question Link');
+    Mixpanel.track('Idea Link');
     router.push(linkTo);
   }
 

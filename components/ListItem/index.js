@@ -4,7 +4,6 @@ import { withRouter } from 'next/router';
 import { format, parseISO } from 'date-fns';
 
 import Typography from '@material-ui/core/Typography';
-// import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
 import { Mixpanel } from '../../utils/Mixpanel';

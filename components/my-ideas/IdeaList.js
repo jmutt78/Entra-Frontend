@@ -3,7 +3,6 @@ import { upperFirst } from 'lodash';
 
 import IdeaItem from './IdeaItem';
 import PageHeader from '../PageHeader';
-import Pagination from '../pagination';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = ({ layout }) => ({

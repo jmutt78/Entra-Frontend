@@ -8,7 +8,7 @@ import { QuestionListContainer } from '../../src/styledComponents';
 
 function QuestionList(props) {
   const { questions, onLoadMore, name, type } = props;
-  console.log(questions);
+
   const handleScroll = ({ currentTarget }, onLoadMore) => {
     if (
       currentTarget.scrollTop + currentTarget.clientHeight >=

@@ -14,7 +14,6 @@ import StepContent from '../create-idea/StepContent';
 import Section from './Section';
 import Public from './Public';
 import { steps } from '../create-idea';
-import PageHeader from '../PageHeader';
 import Error from './../ErrorMessage.js';
 import './index.css';
 import { Mixpanel } from '../../utils/Mixpanel';
