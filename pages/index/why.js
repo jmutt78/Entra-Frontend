@@ -4,10 +4,10 @@ const Why = () => {
   return (
     <div className="whyContainer">
       <div className="whyContent">
-        <h2 className="whyHeader sans">Welcome to Entra</h2>
+        <br></br>
         <p className="whyText serif">
-          It’s Not Just You And The “Big Bad World” Anymore. You’ve Found Your
-          New Home.
+          We build products that support entrepreneurs and connect them to a
+          community so they can inspire, learn, and grow from one another.
         </p>
         <hr className="sectionbreak" />
       </div>

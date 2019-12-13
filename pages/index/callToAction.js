@@ -13,7 +13,7 @@ const Why = ({ router }) => {
             <h2 className="whyHeader sans">
               {me
                 ? 'Get involved'
-                : 'Sign Up For Entra: Submit Your Burning Questions & Expert Answers Right Away'}
+                : 'Are You Ready To Bring Your Vision To Life?'}
             </h2>
             <button
               className="heroSignupButton"
@@ -28,7 +28,7 @@ const Why = ({ router }) => {
             >
               <Typography className="heroSignupButtonText">
                 {' '}
-                {me ? 'ASK A QUESTION' : 'SIGNUP NOW'}
+                {me ? 'ASK A QUESTION' : 'CREATE AN ACCOUNT'}
               </Typography>
             </button>
           </div>

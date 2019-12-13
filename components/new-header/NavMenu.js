@@ -53,7 +53,6 @@ export default function NavMenu({
 
   function handleMix(name) {
     Mixpanel.track(name);
-    console.log(name);
   }
   return (
     <div>
@@ -63,7 +62,7 @@ export default function NavMenu({
             {navLinks.map(({ name, target, icon }) => (
               <NavLink activeClassName="navLinkActive" href={target} key={name}>
                 <a
-                  className="navLink"
+                  className="navLinkNon"
                   nClick={() => {
                     Mixpanel.track(name);
                   }}

@@ -42,7 +42,7 @@
 .heroContainer {
   background: content-box
       radial-gradient(rgb(37, 37, 37, 0.5), rgb(37, 37, 37, 0.5)),
-    url(/static/hero.jpg) center top no-repeat fixed;
+    url(/static/paula-may-AJqeO_-ifx0-unsplash.jpg) center center no-repeat;
   background-size: cover;
   overflow: hidden;
 }
@@ -55,18 +55,27 @@
   align-items: center;
   color: white;
   text-align: center;
-  padding: 4rem 15px;
+  padding: 5rem 15px 10rem 15px;
+}
+
+.youTubeVideoButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  text-align: center;
+  padding: 0 15px 4rem 15px;
 }
 
 .heroHeader {
   font-size: 6rem;
   text-transform: uppercase;
-  padding-top: 0;
   margin-top: 0;
+  margin-bottom: -25px;
 }
 
 .heroText {
-  font-size: 1.6rem;
+  font-size: 2rem;
   font-weight: bold;
   padding: 0 70px 0px 70px;
 }
@@ -79,6 +88,18 @@
   border: none;
   border-radius: 100px;
   background: #e27d60;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.veiwButton {
+  cursor: pointer;
+  width: 300px;
+  height: 3.5rem;
+  max-width: 90%;
+  border: none;
+  border-radius: 100px;
+  background: #85bdcb;
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
@@ -113,7 +134,7 @@
 }
 
 .landingHeader {
-  font-size: 2.8em;
+  font-size: 2em;
   font-weight: 700;
   color: #343434;
   font-variant-ligatures: common-ligatures;
@@ -121,7 +142,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 30px 0;
+  padding: 25px 50px 30px 50px;
 }
 
 .callToActionContent {
@@ -179,7 +200,7 @@
 
 .areyouHeader {
   padding-top: 2rem;
-  font-size: 4rem;
+  font-size: 3rem;
   margin-bottom: 1.1rem;
 }
 
@@ -191,7 +212,6 @@
 .sectionbreak {
   width: 90%;
   margin-top: 2.2rem;
-  margin-bottom: 100px;
 }
 
 .gridContainer {
@@ -209,7 +229,7 @@
 .gridContent {
   width: 50%;
   background: #f2f4ef;
-  padding: 1rem 10% 4rem 10%;
+  padding: 0 10% 4rem 10%;
 }
 
 .gridImageContainer {
@@ -227,6 +247,19 @@
 
 .gridHeader {
   font-size: 1.8rem;
+  display: inline-block;
+  position: relative;
+}
+
+.gridHeader:before {
+  content: '';
+  height: 3px;
+  width: 100%;
+  background-color: #85bdcb;
+  position: absolute;
+  bottom: -0.5em;
+  left: 50%;
+  transform: translate(-50%);
 }
 
 .light {
@@ -314,11 +347,6 @@
     background: content-box
         radial-gradient(rgb(37, 37, 37, 0.5), rgb(37, 37, 37, 0.5)),
       url(/static/areyou.jpg) center center no-repeat scroll;
-  }
-  .heroContainer {
-    background: content-box
-        radial-gradient(rgb(37, 37, 37, 0.5), rgb(37, 37, 37, 0.5)),
-      url(/static/hero.jpg) center center no-repeat scroll;
   }
 
   .heroText {

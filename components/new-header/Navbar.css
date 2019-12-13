@@ -24,6 +24,15 @@
   text-decoration: none;
 }
 
+.navLinkNon {
+  height: 20px;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.87);
+  text-decoration: none;
+}
+
 .navLink:hover {
   color: #e27d60;
 }
@@ -84,11 +93,12 @@
     display: none;
   }
   .navLinkActive {
-    width: 100vw;
+  }
+  .navLinkNon {
+    padding: 15px 0px 20px 15px;
   }
 
   .navLink {
-    width: 100vw;
   }
   .visibleOnMobile {
     visibility: visible;

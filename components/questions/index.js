@@ -25,7 +25,7 @@ class Questions extends Component {
 
           return (
             <QuestionList
-              name={'all questions'}
+              name={'Latest questions'}
               questions={questions}
               type={type}
               onLoadMore={() =>

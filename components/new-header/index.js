@@ -1,12 +1,10 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Query } from 'react-apollo';
-
+import { withRouter } from 'next/router';
 import NProgress from 'nprogress';
 
 import NavBar from './NavBar';
 import Router from 'next/router';
-import { CURRENT_USER_QUERY } from '../auth/User';
 
 Router.onRouteChangeStart = () => {
   NProgress.start();
@@ -29,16 +27,12 @@ const styles = ({ layout }) => {
   };
 };
 
-const Header = ({ classes, router }) => {
+const Header = ({ classes, router, me }) => {
   return (
-    <Query query={CURRENT_USER_QUERY}>
-      {({ data: { me } }) => (
-        <div className={classes.root}>
-          <NavBar isLoggedIn={!!me} me={me} router={router} />
-        </div>
-      )}
-    </Query>
+    <div className={classes.root}>
+      <NavBar isLoggedIn={!!me} me={me} router={router} />
+    </div>
   );
 };
 
-export default withStyles(styles)(Header);
+export default withRouter(withStyles(styles)(Header));
