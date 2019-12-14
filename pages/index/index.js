@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Grid from './Grid';
-import Areyou from './Areyou';
+import Demo from './Demo';
 import Hero from './Hero';
 import VideoCTA from './VideoCTA';
 import CallToAction from './callToAction';
@@ -79,6 +79,7 @@ const Landingpage = () => {
             }
           ]}
         />
+        <Demo />
 
         <CallToAction />
         <hr className="sectionbreak" />

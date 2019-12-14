@@ -102,6 +102,7 @@
   background: #85bdcb;
   margin-top: 2rem;
   margin-bottom: 2rem;
+  padding: 5px;
 }
 
 .viewAllButton {
@@ -167,6 +168,13 @@
   color: #343434;
   font-variant-ligatures: common-ligatures;
   padding: 0 70px 50px 70px;
+}
+
+.howHeader {
+  font-size: 2.8em;
+  font-weight: 700;
+  color: #343434;
+  font-variant-ligatures: common-ligatures;
 }
 
 .whyText {
@@ -290,7 +298,7 @@
   font-size: 1.2rem;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
   .whyHeader {
     font-size: 1.8em;
     font-weight: 700;
@@ -321,7 +329,7 @@
 
   .whyText {
     color: #767676;
-    font-size: 1.4em;
+    font-size: 1rem;
     padding: 0 20px 5px 20px;
     text-align: left;
     margin: 0;
@@ -355,7 +363,7 @@
     padding: 0;
   }
   .landingHeader {
-    font-size: 1.8em;
+    font-size: 1.5em;
     padding: 5;
   }
 }
