@@ -79,7 +79,9 @@ const Landingpage = () => {
             }
           ]}
         />
-        <Demo />
+        {
+          // <Demo />
+        }
 
         <CallToAction />
         <hr className="sectionbreak" />
