@@ -1,9 +1,14 @@
 import gql from 'graphql-tag';
-import { perPage } from '../../config.js';
 
 const USER_LIST_QUERY = gql`
-  query USER_LIST_QUERY($id: ID!, $filter: String!, $skip: Int = 0, $first: Int = ${perPage}) {
-    questions(where: {askedBy_some: {id: $id}}, filter: $filter, first: $first, skip: $skip, orderBy: createdAt_DESC) {
+  query USER_LIST_QUERY($id: ID!, $filter: String!, $offset: Int, $limit: Int) {
+    questions(
+      where: { askedBy_some: { id: $id } }
+      filter: $filter
+      orderBy: createdAt_DESC
+      limit: $limit
+      offset: $offset
+    ) {
       id
       title
       description

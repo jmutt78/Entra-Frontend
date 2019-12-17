@@ -4,7 +4,6 @@ import { withRouter } from 'next/router';
 import { format, parseISO } from 'date-fns';
 
 import Typography from '@material-ui/core/Typography';
-// import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
 import { Mixpanel } from '../../utils/Mixpanel';
@@ -163,55 +162,7 @@ const ListItem = ({
             </span>
           )}
         </div>
-
-        {/*tags && (
-          <div className="tags">
-            {tags.map(({ id, name }) => (
-              <div key={id} style={{ padding: '2px 0' }}>
-                <Button
-                  key={id}
-                  size="small"
-                  variant="contained"
-                  className={classes.button}
-                  onClick={e => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    router.push({
-                      pathname: '/tags',
-                      query: { id: id },
-                    })
-                  }}
-                >
-                  {name}
-                </Button>
-              </div>
-            ))}
-          </div>
-        )*/}
       </div>
-
-      {/*
-          <Typography style={{ paddingTop: 5 }}>
-            <span>Posted by </span>
-            <Link
-              href={{
-                pathname: '/user',
-                  query: { id: userId }
-              }}
-            >
-              <a className={classes.nameLink}>{display}</a>
-          </Link>
-          <span> on </span>
-          <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
-          </Typography>
-      */}
-
-      {/*showDetails && (
-        <>
-          <TableCell>{answers.length}</TableCell>
-          <CustomTableCell>{views}</CustomTableCell>
-        </>
-      )*/}
     </div>
   );
 };

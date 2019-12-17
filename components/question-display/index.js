@@ -7,7 +7,7 @@ import { format, parseISO } from 'date-fns';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
+
 import Link from 'next/link';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
@@ -21,12 +21,11 @@ import CreateBookMark from '../bookmark/CreateBookMark.js';
 import DeleteQuestion from '../delete-question';
 import Error from './../ErrorMessage.js';
 import Icon from '../ui/Icon';
-import NoQuestion from './NoQuestion';
+
 import PromptBar from './PromptBar';
 import Vote from '../Vote';
 import questionQuery from './questionQuery';
 import { CURRENT_USER_QUERY } from '../auth/User';
-import { Mixpanel } from '../../utils/Mixpanel';
 
 import './index.css';
 
@@ -291,10 +290,6 @@ class DisplayQuestion extends Component {
               ['ADMIN', 'MODERATOR'].includes(permission)
             );
           const ownsQuestion = !!askedby && !!user && askedby.id === user.id;
-
-          // if (!ownsQuestion && !hasPermissions && question.approval === true) {
-          //   return <NoQuestion />;
-          // }
 
           return (
             <div className={classes.container} id="tableBorderRemoveTarget">

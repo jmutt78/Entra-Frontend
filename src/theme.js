@@ -48,7 +48,6 @@ export default {
 
   layout: {
     ...layout,
-    contentMinHeight: `calc(${layout.height} - ${layout.headerHeight}px - ${layout.navHeight}px)`,
-    searchContentMinHeight: `calc(70vh - ${layout.headerHeight}px - ${layout.navHeight}px)`
+    contentMinHeight: `calc(${layout.height} - ${layout.headerHeight}px - ${layout.navHeight}px)`
   }
 };

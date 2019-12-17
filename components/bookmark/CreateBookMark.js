@@ -41,8 +41,8 @@ class CreateBookMark extends Component {
         questionId: this.props.question.id
       }
     });
-    console.log('creates');
-    // Mixpanel.track('Create Bookmark');
+
+    Mixpanel.track('Create Bookmark');
   };
 
   handleBookMark(user, question, classes, createBookMark) {

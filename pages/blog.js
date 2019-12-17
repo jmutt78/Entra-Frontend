@@ -4,7 +4,7 @@ import Layout from '../components/layout/index.js';
 
 const BlogFeed = props => (
   <Layout>
-    <Blog categoryId={16} name={'Blog'} />
+    <Blog categoryId={16} name={'Entra Tips'} />
   </Layout>
 );
 

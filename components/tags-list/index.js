@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import { withApollo } from 'react-apollo';
-import { perPage } from '../../config.js';
 import QuestionList from '../question-list';
 import tagsListQuery from './tagsListQuery.js';
 import Error from './../ErrorMessage.js';
@@ -30,7 +28,7 @@ export const TAG_QUERY = gql`
 class TagsList extends Component {
   render() {
     const filter = 'tags';
-    const { page, id } = this.props;
+    const { id } = this.props;
 
     return (
       <Query
@@ -49,21 +47,33 @@ class TagsList extends Component {
               variables={{
                 id: this.props.id,
                 filter,
-                skip: page * perPage - perPage,
-                first: perPage
+                offset: 0,
+                limit: 10
               }}
             >
-              {({ data: { questions }, loading }) => {
+              {({ data: { questions }, loading, fetchMore }) => {
                 if (loading) return <CircularProgress style={{ margin: 20 }} />;
 
                 return (
                   <QuestionList
-                    enablePagination={true}
-                    questions={questions}
-                    paginationQuery={TAGS_QUESTIONS_PAGINATION_QUERY}
-                    paginationVariables={{ filter, id }}
-                    page={page}
                     name={name}
+                    questions={questions}
+                    onLoadMore={() =>
+                      fetchMore({
+                        variables: {
+                          offset: questions.length
+                        },
+                        updateQuery: (prev, { fetchMoreResult }) => {
+                          if (!fetchMoreResult) return prev;
+                          return Object.assign({}, prev, {
+                            questions: [
+                              ...prev.questions,
+                              ...fetchMoreResult.questions
+                            ]
+                          });
+                        }
+                      })
+                    }
                   />
                 );
               }}
@@ -75,4 +85,4 @@ class TagsList extends Component {
   }
 }
 
-export default withApollo(TagsList);
+export default TagsList;

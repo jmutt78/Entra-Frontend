@@ -1,16 +1,15 @@
-import React, { Component } from "react";
-import { Query } from "react-apollo";
+import React, { Component } from 'react';
+import { Query } from 'react-apollo';
 
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
-import CircularProgress from "@material-ui/core/CircularProgress";
-import { withStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import CardMedia from "@material-ui/core/CardMedia";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import CardMedia from '@material-ui/core/CardMedia';
 
-import Error from "../ErrorMessage";
-import "./index.css";
+import Error from '../ErrorMessage';
+import './index.css';
 
 export const BLOG_QUERY = gql`
   query BLOG_QUERY($id: ID!) {
@@ -34,33 +33,33 @@ export const BLOG_QUERY = gql`
 
 const styles = theme => ({
   root: {
-    width: "100%",
+    width: '100%',
     maxWidth: 1500,
-    justifyContent: "center"
+    justifyContent: 'center'
   },
   container: {
     maxWidth: 700,
-    margin: "0 auto",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    padding: "0 20px"
+    margin: '0 auto',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    padding: '0 20px'
   },
   title: {
     marginTop: theme.spacing(5),
     marginBottom: theme.spacing(5),
-    color: "#343434",
+    color: '#343434',
     flexGrow: 1,
-    textAlign: "center"
+    textAlign: 'center'
   },
   content: {
-    maxWidth: "100%",
-    alignItems: "left",
+    maxWidth: '100%',
+    alignItems: 'left',
     color: theme.palette.accent.dark
   },
   featured: {
-    width: "800px",
-    maxWidth: "100%",
+    width: '800px',
+    maxWidth: '100%',
     flexGrow: 1
   }
 });
@@ -72,7 +71,7 @@ class DisplayBlog extends Component {
     return (
       <Query
         query={BLOG_QUERY}
-        context={{ clientName: "second" }}
+        context={{ clientName: 'second' }}
         variables={{
           id: this.props.id
         }}
