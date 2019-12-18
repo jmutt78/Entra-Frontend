@@ -9,6 +9,7 @@ import Switch from '@material-ui/core/Switch';
 import Error from './../ErrorMessage.js';
 import './index.css';
 import { Mixpanel } from '../../utils/Mixpanel';
+import { BUSINESSIDEAS_LIST_QUERY } from '../my-ideas/index.js';
 
 export default ({ idea, id, mutation, status }) => {
   const [state, setState] = React.useState({
@@ -19,19 +20,27 @@ export default ({ idea, id, mutation, status }) => {
     setState({ ...state, [name]: event.target.checked });
 
     if (event.target.checked === true) {
+      confirm('Are you sure you want to make this idea public?');
       const res = await updateBusinessIdea({
         variables: {
           id,
           status: true
-        }
+        },
+        refetchQueries: [
+          { query: BUSINESSIDEAS_LIST_QUERY, variables: { filter: 'public' } }
+        ]
       });
       Mixpanel.track('Make Idea Public');
     } else {
+      confirm('Are you sure you want to make this idea private?');
       const res = await updateBusinessIdea({
         variables: {
           id,
           status: false
-        }
+        },
+        refetchQueries: [
+          { query: BUSINESSIDEAS_LIST_QUERY, variables: { filter: 'public' } }
+        ]
       });
       Mixpanel.track('Make Idea Private');
     }

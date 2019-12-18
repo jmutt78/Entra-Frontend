@@ -56,3 +56,4 @@ class MyIdeas extends Component {
 }
 
 export default MyIdeas;
+export { BUSINESSIDEAS_LIST_QUERY };
