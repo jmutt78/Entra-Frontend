@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 const SINGLE_QUESTION_QUERY = gql`
   query SINGLE_QUESTION_QUERY($id: ID!) {
@@ -12,6 +12,7 @@ const SINGLE_QUESTION_QUERY = gql`
         display
         image
         name
+        email
       }
       createdAt
       bookMark {

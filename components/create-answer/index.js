@@ -49,8 +49,22 @@ const styles = ({ spacing, palette }) => ({
 });
 
 export const CREATE_ANSWER = gql`
-  mutation creatAnswer($questionId: ID!, $body: String!, $approval: Boolean) {
-    createAnswer(questionId: $questionId, body: $body, approval: $approval) {
+  mutation creatAnswer(
+    $questionId: ID!
+    $body: String!
+    $approval: Boolean
+    $currentUserName: String
+    $authorEmail: String
+    $authorId: ID!
+  ) {
+    createAnswer(
+      questionId: $questionId
+      body: $body
+      approval: $approval
+      currentUserName: $currentUserName
+      authorEmail: $authorEmail
+      authorId: $authorId
+    ) {
       id
       body
     }
@@ -143,7 +157,12 @@ class CreateAnswer extends React.Component {
           return (
             <Mutation
               mutation={CREATE_ANSWER}
-              variables={this.state}
+              variables={{
+                ...this.state,
+                currentUserName: user.name,
+                authorEmail: this.props.question.askedBy[0].email,
+                authorId: this.props.question.askedBy[0].id
+              }}
               refetchQueries={[
                 {
                   query: questionQuery,

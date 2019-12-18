@@ -46,6 +46,18 @@ const CURRENT_USER_QUERY = gql`
           id
         }
       }
+      myNotifications {
+        id
+        wasSeen
+        wasClicked
+        question {
+          id
+          title
+          askedBy {
+            display
+          }
+        }
+      }
     }
   }
 `;
