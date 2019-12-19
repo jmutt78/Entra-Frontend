@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { upperFirst } from 'lodash';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import ListItem from '../ListItem';
 import PageHeader from '../PageHeader';
@@ -7,13 +8,20 @@ import Search from '../search/QuestionSearch';
 import { QuestionListContainer } from '../../src/styledComponents';
 
 function QuestionList(props) {
-  const { questions, onLoadMore, name, type } = props;
+  const { questions, onLoadMore, name, hasMoreQuestions } = props;
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleScroll = ({ currentTarget }, onLoadMore) => {
+  useEffect(() => {
+    setIsLoading(false);
+  }, [questions]);
+
+  const handleScroll = (e, onLoadMore) => {
+    e.preventDefault();
     if (
-      currentTarget.scrollTop + currentTarget.clientHeight >=
-      currentTarget.scrollHeight
+      e.currentTarget.scrollTop + e.currentTarget.clientHeight >=
+      e.currentTarget.scrollHeight
     ) {
+      setIsLoading(true);
       onLoadMore();
     }
   };
@@ -41,6 +49,13 @@ function QuestionList(props) {
             );
           })}
       </ul>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        {isLoading && hasMoreQuestions && (
+          <CircularProgress
+            style={{ marginBottom: 20, position: 'absolute', bottom: 0 }}
+          />
+        )}
+      </div>
     </QuestionListContainer>
   );
 }

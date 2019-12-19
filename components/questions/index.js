@@ -4,8 +4,17 @@ import QuestionList from '../question-list';
 import questionListQuery from '../question-list/questionListQuery';
 import Error from './../ErrorMessage.js';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { questoinsPerScroll } from '../../config';
 
 class Questions extends Component {
+  state = {
+    hasMoreQuestions: true
+  };
+
+  stopLoading = () => {
+    this.setState({ hasMoreQuestions: false });
+  };
+
   render() {
     const filter = 'all';
     const type = 'search';
@@ -15,7 +24,7 @@ class Questions extends Component {
         variables={{
           filter: filter,
           offset: 0,
-          limit: 10
+          limit: questoinsPerScroll
         }}
       >
         {({ data, loading, error, fetchMore }) => {
@@ -28,6 +37,7 @@ class Questions extends Component {
               name={'Latest questions'}
               questions={questions}
               type={type}
+              hasMoreQuestions={this.state.hasMoreQuestions}
               onLoadMore={() =>
                 fetchMore({
                   variables: {
@@ -35,6 +45,9 @@ class Questions extends Component {
                   },
                   updateQuery: (prev, { fetchMoreResult }) => {
                     if (!fetchMoreResult) return prev;
+                    if (fetchMoreResult.questions.length === 0) {
+                      this.stopLoading();
+                    }
                     return Object.assign({}, prev, {
                       questions: [
                         ...prev.questions,
