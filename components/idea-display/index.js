@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
+import { withRouter } from 'next/router';
 
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -38,6 +39,14 @@ export const IDEA_QUERY = gql`
         display
       }
       createdAt
+    }
+  }
+`;
+
+export const DELETE_IDEA_MUTATION = gql`
+  mutation DELETE_IDEA_MUTATION($id: ID!) {
+    deleteBusinessIdea(id: $id) {
+      id
     }
   }
 `;
@@ -105,7 +114,7 @@ const usePageStyles = makeStyles(({ palette, spacing }) => ({
   }
 }));
 
-const DisplayIdea = ({ idea, id, client }) => {
+const DisplayIdea = ({ idea, id, client, router: { push } }) => {
   const [editing, setEditing] = useState(false);
   const [_idea, setIdea] = useState(null);
 
@@ -256,25 +265,29 @@ const DisplayIdea = ({ idea, id, client }) => {
                         ) : (
                           <div />
                         )}
-                        <div>
-                          <Button
-                            size="small"
-                            disabled={loading}
-                            onClick={async () => {
-                              if (editing) {
-                                // mutate only if changes were made
-                                if (businessIdea.idea !== _idea) {
-                                  await updateTitle();
-                                }
-                              }
-                              setEditing(e => !e);
-                            }}
-                            style={{ color: '#ff6b6b' }}
-                            color={'primary'}
-                          >
-                            Delete
-                          </Button>
-                        </div>
+                        <Mutation
+                          mutation={DELETE_IDEA_MUTATION}
+                          variables={{
+                            id
+                          }}
+                        >
+                          {(deleteIdea, { error, loading }) => {
+                            return (
+                              <Button
+                                size="small"
+                                disabled={loading}
+                                onClick={async () => {
+                                  await deleteIdea();
+                                  push('/idea/my-ideas');
+                                }}
+                                style={{ color: '#ff6b6b' }}
+                                color={'primary'}
+                              >
+                                Delete
+                              </Button>
+                            );
+                          }}
+                        </Mutation>
                       </div>
 
                       <div className={cardsContainer}>
@@ -322,4 +335,4 @@ const DisplayIdea = ({ idea, id, client }) => {
   );
 };
 
-export default withApollo(DisplayIdea);
+export default withApollo(withRouter(DisplayIdea));
