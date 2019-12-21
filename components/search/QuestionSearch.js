@@ -91,7 +91,6 @@ const SearchContainer = styled.div`
   margin-left: 20px;
   input {
     width: 100%;
-    margin-right: 200px;
     border: 0;
     font-size: 1.1rem;
 
