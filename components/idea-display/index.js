@@ -111,7 +111,7 @@ const usePageStyles = makeStyles(({ palette, spacing }) => ({
 
 const DisplayIdea = ({ idea, id, client }) => {
   const [editing, setEditing] = useState(false);
-  const [_idea, setIdea] = useState('');
+  const [_idea, setIdea] = useState(null);
 
   const {
     container,
@@ -160,7 +160,7 @@ const DisplayIdea = ({ idea, id, client }) => {
 
         const publicIdea = businessIdea.status;
 
-        if (!_idea) {
+        if (typeof _idea !== 'string') {
           setIdea(businessIdea.idea);
         }
 
