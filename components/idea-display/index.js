@@ -20,6 +20,7 @@ import './index.css';
 import { Mixpanel } from '../../utils/Mixpanel';
 import Vote from './Vote';
 import { CURRENT_USER_QUERY } from '../auth/User';
+import { BUSINESSIDEAS_LIST_QUERY } from '../my-ideas';
 
 export const IDEA_QUERY = gql`
   query IDEA_QUERY($id: ID!) {
@@ -267,6 +268,9 @@ const DisplayIdea = ({ idea, id, client, router: { push } }) => {
                         )}
                         <Mutation
                           mutation={DELETE_IDEA_MUTATION}
+                          refetchQueries={BUSINESSIDEAS_LIST_QUERY}
+                          awaitRefetchQueries={true}
+                          onCompleted={() => push('/idea/my-ideas')}
                           variables={{
                             id
                           }}
@@ -274,14 +278,11 @@ const DisplayIdea = ({ idea, id, client, router: { push } }) => {
                           {(deleteIdea, { error, loading }) => {
                             return (
                               <Button
-                                size="small"
-                                disabled={loading}
-                                onClick={async () => {
-                                  await deleteIdea();
-                                  push('/idea/my-ideas');
-                                }}
-                                style={{ color: '#ff6b6b' }}
                                 color={'primary'}
+                                disabled={loading}
+                                onClick={deleteIdea}
+                                size="small"
+                                style={{ color: '#ff6b6b' }}
                               >
                                 Delete
                               </Button>

@@ -6,7 +6,7 @@ import IdeaList from './IdeaList';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import gql from 'graphql-tag';
 
-const BUSINESSIDEAS_LIST_QUERY = gql`
+export const BUSINESSIDEAS_LIST_QUERY = gql`
   query BUSINESSIDEAS_LIST_QUERY($filter: String!, $skip: Int = 0, $first: Int = ${perPage}) {
     businessIdeas(filter: $filter, first: $first, skip: $skip, orderBy: createdAt_DESC) {
     id
