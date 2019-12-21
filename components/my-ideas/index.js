@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import { perPage } from '../../config.js';
 import IdeaList from './IdeaList';
+import { withRouter } from 'next/router';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import gql from 'graphql-tag';
@@ -29,6 +30,7 @@ class MyIdeas extends Component {
   render() {
     const filter = 'my';
     const { page } = this.props;
+
     return (
       <Query
         query={BUSINESSIDEAS_LIST_QUERY}
@@ -42,9 +44,15 @@ class MyIdeas extends Component {
           if (loading) return <CircularProgress style={{ margin: 20 }} />;
           if (error) return <p>Error</p>;
 
+          const visibleIdeas = this.props.router.query.filter
+            ? businessIdeas.filter(
+                ({ id }) => id !== this.props.router.query.filter
+              )
+            : businessIdeas;
+
           return (
             <IdeaList
-              businessIdeas={businessIdeas}
+              businessIdeas={visibleIdeas}
               page={page}
               name={'my ideas'}
             />
@@ -55,4 +63,4 @@ class MyIdeas extends Component {
   }
 }
 
-export default MyIdeas;
+export default withRouter(MyIdeas);

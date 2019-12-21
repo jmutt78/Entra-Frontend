@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
-import { withRouter } from 'next/router';
+import Router from 'next/router';
 
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -115,7 +115,7 @@ const usePageStyles = makeStyles(({ palette, spacing }) => ({
   }
 }));
 
-const DisplayIdea = ({ idea, id, client, router: { push } }) => {
+const DisplayIdea = ({ idea, id, client }) => {
   const [editing, setEditing] = useState(false);
   const [_idea, setIdea] = useState(null);
 
@@ -270,7 +270,14 @@ const DisplayIdea = ({ idea, id, client, router: { push } }) => {
                           mutation={DELETE_IDEA_MUTATION}
                           refetchQueries={BUSINESSIDEAS_LIST_QUERY}
                           awaitRefetchQueries={true}
-                          onCompleted={() => push('/idea/my-ideas')}
+                          onCompleted={() =>
+                            Router.push({
+                              pathname: '/idea/my-ideas',
+                              query: {
+                                filter: id
+                              }
+                            })
+                          }
                           variables={{
                             id
                           }}
@@ -336,4 +343,4 @@ const DisplayIdea = ({ idea, id, client, router: { push } }) => {
   );
 };
 
-export default withApollo(withRouter(DisplayIdea));
+export default withApollo(DisplayIdea);
