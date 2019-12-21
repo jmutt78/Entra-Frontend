@@ -81,16 +81,16 @@ export const CREATE_BUSINESSIDEA_VOTE_MUTATION = gql`
 `;
 
 const usePageStyles = makeStyles(({ palette, spacing }) => ({
+  cardsContainer: { padding: '0 0 3rem 0.5rem' },
   container: {},
-  cardsContainer: {
-    padding: '0 0 3rem 0.5rem'
-  },
-  grid: {
-    margin: spacing(1)
-  },
-  paper: {
-    backgroundColor: '#F2F4EF',
-    padding: 30
+  grid: { margin: spacing(1) },
+  paper: { backgroundColor: '#F2F4EF', padding: 30 },
+  root: { margin: spacing(1), marginTop: 40 },
+  spreadEmWide: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    paddingRight: 20
   },
   title: {
     color: 'rgba(0, 0, 0, 0.87)',
@@ -102,10 +102,6 @@ const usePageStyles = makeStyles(({ palette, spacing }) => ({
     lineHeight: '2.7rem',
     fontWeight: 600,
     letterSpacing: '-1px'
-  },
-  root: {
-    margin: spacing(1),
-    marginTop: 40
   }
 }));
 
@@ -114,13 +110,14 @@ const DisplayIdea = ({ idea, id, client }) => {
   const [_idea, setIdea] = useState(null);
 
   const {
-    container,
     cardsContainer,
-    title,
-    titleText,
-    paper,
+    container,
     grid,
-    root
+    paper,
+    root,
+    spreadEmWide,
+    title,
+    titleText
   } = usePageStyles();
 
   const upVote = id => {
@@ -249,13 +246,36 @@ const DisplayIdea = ({ idea, id, client }) => {
                           }}
                         </Mutation>
                       </div>
-                      {hasPermissions && (
-                        <Public
-                          id={id}
-                          mutation={UPDATE_IDEA_MUTATION}
-                          status={businessIdea.status}
-                        />
-                      )}
+                      <div className={spreadEmWide}>
+                        {hasPermissions ? (
+                          <Public
+                            id={id}
+                            mutation={UPDATE_IDEA_MUTATION}
+                            status={businessIdea.status}
+                          />
+                        ) : (
+                          <div />
+                        )}
+                        <div>
+                          <Button
+                            size="small"
+                            disabled={loading}
+                            onClick={async () => {
+                              if (editing) {
+                                // mutate only if changes were made
+                                if (businessIdea.idea !== _idea) {
+                                  await updateTitle();
+                                }
+                              }
+                              setEditing(e => !e);
+                            }}
+                            style={{ color: '#ff6b6b' }}
+                            color={'primary'}
+                          >
+                            Delete
+                          </Button>
+                        </div>
+                      </div>
 
                       <div className={cardsContainer}>
                         {steps.slice(1).map((s, i) => (
