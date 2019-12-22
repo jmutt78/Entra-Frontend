@@ -16,6 +16,7 @@ import classNames from 'classnames';
 import { Mixpanel } from '../../utils/Mixpanel';
 import './Appbar.css';
 import Search from '../search/QuestionSearch';
+import Logo from './Logo';
 
 const styles = ({ layout, palette }) => ({
   root: {
@@ -48,14 +49,6 @@ const styles = ({ layout, palette }) => ({
     backgroundColor: palette.accent.grey,
     '&:hover': {
       backgroundColor: palette.accent.main
-    }
-  },
-  logo: {
-    maxHeight: 45,
-    cursor: 'pointer',
-    '@media (max-width: 780px)': {
-      maxHeight: 35,
-      marginTop: -150
     }
   },
 
@@ -205,17 +198,7 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
         <MenuIcon alt="menu" fontSize="large" style={{ color: '#85bdcb' }} />
       </div>
       <div className="appbarFlex">
-        <div className="subContainer">
-          <Typography variant="h6" className={classes.logoContainer}>
-            <Link href="/all">
-              <img
-                src="/static/logo.png"
-                className={classes.logo}
-                alt="entra logo"
-              />
-            </Link>
-          </Typography>
-        </div>
+        <Logo />
         <div className="navbarFlex">
           <div
             className={`navigationContainer ${menu === true && 'menuShown'}`}
