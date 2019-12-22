@@ -1,19 +1,8 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useWindowSize = () => {
-  const [size, setSize] = useState([0, 0]);
-  useLayoutEffect(() => {
-    const updateSize = () => {
-      setSize([window.innerWidth, window.innerHeight]);
-    };
-    window.addEventListener('resize', updateSize);
-    updateSize();
-    return () => window.removeEventListener('resize', updateSize);
-  }, []);
-  return size;
-};
+import useWindowSize from './useWindowSize';
 
 const useStyles = makeStyles({
   logo: {
