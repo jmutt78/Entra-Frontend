@@ -11,6 +11,7 @@ import './Appbar.css';
 import Avatar from '../Avatar';
 import Logo from './Logo';
 import NavBarFlexContent from './NavBarFlexContent';
+import useWindowSize from './useWindowSize';
 import { Mixpanel } from '../../utils/Mixpanel';
 
 const styles = ({ layout, palette }) => ({
@@ -79,6 +80,7 @@ function handleLogin(e) {
 
 const Appbar = ({ isLoggedIn, classes, me, router }) => {
   const [menu, setMenu] = useState(null);
+  const [width] = useWindowSize();
 
   if (me) {
     Mixpanel.identify(me.id);
@@ -87,14 +89,27 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
       $email: me.email
     });
   }
-  return (
-    <div className={classes.root}>
-      <div className="visibleOnMobile" onClick={_ => setMenu(!menu)}>
+
+  const Sandwich = () => {
+    return (
+      <div
+        onClick={_ => setMenu(!menu)}
+        style={{ flex: 1, display: 'flex', justifyContent: 'center' }}
+      >
         <MenuIcon alt="menu" fontSize="large" style={{ color: '#85bdcb' }} />
       </div>
+    );
+  };
+
+  return (
+    <div className={classes.root}>
       <div className="appbarFlex">
         <Logo />
-        <NavBarFlexContent menu={menu} curretPage={router.pathname} me={me} />
+        {width > 800 ? (
+          <NavBarFlexContent menu={menu} curretPage={router.pathname} me={me} />
+        ) : (
+          <Sandwich />
+        )}
         {me ? (
           <div component={'div'}>
             <Avatar me={me} compact={true} />
