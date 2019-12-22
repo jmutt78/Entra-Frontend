@@ -291,7 +291,7 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
         )}
         {me && (
           <div component={'div'}>
-            <Avatar me={me} />
+            <Avatar me={me} compact={true} />
           </div>
         )}
       </div>

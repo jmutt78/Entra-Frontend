@@ -89,12 +89,12 @@ class MyProfile extends React.Component {
             component={'div'}
           >
             {this.handleImage(me, classes)}
-            {this.props.small ? null : (
-              <div>
-                {me.name}
-                <ArrowDropDownIcon />
-              </div>
+
+            {this.props.small || this.props.compact ? null : (
+              <div>{me.name}</div>
             )}
+
+            {this.props.compact && <ArrowDropDownIcon />}
           </Typography>
         </div>
 
