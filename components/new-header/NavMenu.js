@@ -65,6 +65,9 @@ export default function NavMenu({
                 nClick={() => {
                   Mixpanel.track(name);
                 }}
+                style={{
+                  whiteSpace: 'nowrap'
+                }}
               >
                 {name}
               </a>
@@ -78,7 +81,12 @@ export default function NavMenu({
           <Typography
             onClick={handleClick}
             as={'div'}
-            style={{ cursor: 'pointer', display: 'flex' }}
+            style={{
+              cursor: 'pointer',
+              display: 'flex',
+              whiteSpace: 'nowrap',
+              flexWrap: 'nowrap'
+            }}
             className={selectedData ? 'buttonLink' : 'noActive'}
             aria-controls="simple-menu"
             aria-haspopup="true"

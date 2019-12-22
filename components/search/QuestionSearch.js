@@ -8,6 +8,8 @@ import { debounce } from 'lodash';
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
 
+import './index.css';
+
 export const SEARCH_QUESTIONS_QUERY = gql`
   query SEARCH_QUESTIONS_QUERY(
     $searchTerm: String!
@@ -200,11 +202,14 @@ class QuestionSearch extends React.Component {
             inputValue,
             highlightedIndex
           }) => (
-            <div>
-              <SearchIcon />
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ paddingRight: 5, marginTop: 6 }}>
+                <SearchIcon fontSize="small" style={{ color: 'grey' }} />
+              </div>
               <ApolloConsumer>
                 {client => (
                   <TextField
+                    style={{ fontSize: '1rem' }}
                     {...getInputProps({
                       type: 'search',
                       onChange: e => {
@@ -212,7 +217,7 @@ class QuestionSearch extends React.Component {
                         this.onChange(e, client);
                       },
                       id: 'search',
-                      className: loading ? 'loading' : '',
+                      className: loading ? 'loading smallInput' : 'smallInput',
                       placeholder: 'Search Questions'
                     })}
                   ></TextField>
