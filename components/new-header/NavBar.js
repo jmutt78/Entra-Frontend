@@ -14,9 +14,10 @@ import MenuBookIcon from '@material-ui/icons/MenuBook';
 import CreateIcon from '@material-ui/icons/Create';
 import classNames from 'classnames';
 import { Mixpanel } from '../../utils/Mixpanel';
-import './Appbar.css';
 import Search from '../search/QuestionSearch';
 import Logo from './Logo';
+
+import './Appbar.css';
 
 const styles = ({ layout, palette }) => ({
   root: {
@@ -247,7 +248,11 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
             <Search />
           </div>
         </div>
-        {!me && (
+        {me ? (
+          <div component={'div'}>
+            <Avatar me={me} compact={true} />
+          </div>
+        ) : (
           <Typography className={classes.subContainer}>
             <Link href="/signin">
               <Button
@@ -271,11 +276,6 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
               </Button>
             </Link>
           </Typography>
-        )}
-        {me && (
-          <div component={'div'}>
-            <Avatar me={me} compact={true} />
-          </div>
         )}
       </div>
     </div>
