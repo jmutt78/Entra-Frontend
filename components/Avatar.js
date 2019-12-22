@@ -13,14 +13,14 @@ import Signout from './auth/Signout';
 
 const useStyles = makeStyles(({ layout, palette }) => ({
   bigAvatar: {
-    margin: 15,
+    margin: ({ compact }) => (compact ? 0 : 15),
     width: 35,
     height: 35,
     backgroundColor: '#85bdcb',
     cursor: 'pointer'
   },
   smallAvatar: {
-    margin: 5,
+    margin: ({ compact }) => (compact ? 0 : 5),
     width: 25,
     height: 25
   },
@@ -36,7 +36,7 @@ const useStyles = makeStyles(({ layout, palette }) => ({
 
 const _Avatar = props => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const classes = useStyles();
+  const classes = useStyles({ compact: props.compact });
   const me = props.me;
 
   const handleClick = event => {
@@ -84,7 +84,12 @@ const _Avatar = props => {
         >
           {handleImage(me, classes)}
 
-          {props.small || props.compact ? null : <div>{me.name}</div>}
+          {props.small || props.compact ? null : (
+            <div>
+              {me.name}
+              <ArrowDropDownIcon />
+            </div>
+          )}
 
           {props.compact && <ArrowDropDownIcon />}
         </Typography>
