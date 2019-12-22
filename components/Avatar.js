@@ -27,7 +27,7 @@ const useStyles = makeStyles(({ layout, palette }) => ({
   avatarContainer: {
     display: 'flex',
     alignItems: 'center',
-    padding: '5px 35px 0 0',
+    // padding: '5px 35px 0 0',
     fontSize: '1rem',
     alignSelf: 'flex-end',
     cursor: 'pointer'
@@ -97,8 +97,8 @@ const _Avatar = props => {
 
       <Menu
         id="simple-menu"
-        anchorEl={props.anchorEl}
-        open={Boolean(props.anchorEl)}
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
         onClose={handleClose}
       >
         <Link href="/account/myaccount">
