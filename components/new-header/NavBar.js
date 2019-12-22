@@ -41,7 +41,6 @@ const styles = ({ layout, palette }) => ({
     }
   },
   loginButton: {
-    margin: 12,
     backgroundColor: palette.accent.grey,
     '&:hover': {
       backgroundColor: palette.accent.main
@@ -115,29 +114,17 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
             <Avatar me={me} compact={true} />
           </div>
         ) : (
-          <Typography className={classes.subContainer}>
-            <Link href="/signin">
-              <Button
-                variant="contained"
-                color="secondary"
-                className={classNames(classes.loginButton, 'login-btn')}
-                onClick={handleLogin}
-              >
-                Login
-              </Button>
-            </Link>
-
-            <Link href="/signup">
-              <Button
-                variant="contained"
-                color="secondary"
-                className={classes.signupButton}
-                onClick={handleSignin}
-              >
-                Sign up
-              </Button>
-            </Link>
-          </Typography>
+          <Link href="/signin">
+            <Button
+              variant="contained"
+              color="secondary"
+              className={classNames(classes.loginButton)}
+              onClick={handleLogin}
+              styles={{ margin: 0 }}
+            >
+              Login
+            </Button>
+          </Link>
         )}
       </div>
     </div>
