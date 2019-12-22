@@ -105,7 +105,7 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
     <div className={classes.root}>
       <div className="appbarFlex">
         <Logo />
-        {width > 800 ? (
+        {width > 900 ? (
           <NavBarFlexContent menu={menu} curretPage={router.pathname} me={me} />
         ) : (
           <Sandwich />

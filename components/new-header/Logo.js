@@ -7,11 +7,7 @@ import useWindowSize from './useWindowSize';
 const useStyles = makeStyles({
   logo: {
     maxHeight: 45,
-    cursor: 'pointer',
-    '@media (max-width: 780px)': {
-      maxHeight: 35,
-      marginTop: -150
-    }
+    cursor: 'pointer'
   }
 });
 
