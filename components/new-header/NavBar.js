@@ -1,23 +1,17 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
+import Link from 'next/link';
 
+import Button from '@material-ui/core/Button';
+import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
-import Button from '@material-ui/core/Button';
-import Link from 'next/link';
-import MenuIcon from '@material-ui/icons/Menu';
-import Avatar from '../Avatar';
-import NavMenu from './NavMenu';
-import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
-import MenuBookIcon from '@material-ui/icons/MenuBook';
-import CreateIcon from '@material-ui/icons/Create';
-import classNames from 'classnames';
-import { Mixpanel } from '../../utils/Mixpanel';
-import Search from '../search/QuestionSearch';
-import Logo from './Logo';
-
 import './Appbar.css';
+import Avatar from '../Avatar';
+import Logo from './Logo';
+import NavBarFlexContent from './NavBarFlexContent';
+import { Mixpanel } from '../../utils/Mixpanel';
 
 const styles = ({ layout, palette }) => ({
   root: {
@@ -85,106 +79,6 @@ function handleLogin(e) {
 
 const Appbar = ({ isLoggedIn, classes, me, router }) => {
   const [menu, setMenu] = useState(null);
-  const navLinks = [
-    {
-      name: 'Blog',
-      target: '/blog'
-    },
-    {
-      name: 'Stories',
-      target: '/stories'
-    }
-  ];
-
-  const questionLinks = [
-    {
-      name: 'My Feed',
-      target: '/myfeed'
-    },
-
-    {
-      name: 'Latest Questions',
-      target: '/all'
-    },
-    {
-      name: 'My Questions',
-      target: '/myquestions'
-    },
-    {
-      name: 'My Answers',
-      target: '/myanswers'
-    },
-    {
-      name: 'My Bookmarks',
-      target: '/mybookmarks'
-    }
-  ];
-
-  const ideaLinks = [
-    {
-      name: 'My Ideas',
-      target: '/idea/my-ideas'
-    },
-
-    {
-      name: 'Community Ideas',
-      target: '/idea/public'
-    }
-  ];
-
-  const blogLinks = [
-    {
-      name: 'Entra Tips',
-      target: '/blog'
-    },
-
-    {
-      name: 'Entra Interviews',
-      target: '/stories'
-    }
-  ];
-
-  const createLinks = [
-    {
-      name: 'Ask a Question',
-      target: isLoggedIn ? '/qa' : '/signup'
-    },
-
-    {
-      name: 'Create Idea',
-      target: isLoggedIn ? '/idea/create' : '/signup'
-    }
-  ];
-
-  const adminLinks = [
-    {
-      name: 'Approve Questions',
-      target: '/approval/question-list'
-    },
-    {
-      name: 'Approve Answers',
-      target: '/approval/answer-list'
-    }
-  ];
-
-  const ideaLinkCondition = () => {
-    if (!me) {
-      return ideaLinks.filter(link => link.name !== 'My Ideas');
-    }
-    return ideaLinks;
-  };
-
-  const tagExist = me ? me.tags.some(tags => ![' '].includes(tags)) : '';
-  const feedLink = () => {
-    if (!me) {
-      return questionLinks.filter(link => link.name === 'Latest Questions');
-    } else if (!tagExist) {
-      return questionLinks.filter(link => link.name !== 'My Feed');
-    }
-    return questionLinks;
-  };
-
-  const curretPage = router.pathname;
 
   if (me) {
     Mixpanel.identify(me.id);
@@ -200,54 +94,7 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
       </div>
       <div className="appbarFlex">
         <Logo />
-        <div className="navbarFlex">
-          <div
-            className={`navigationContainer ${menu === true && 'menuShown'}`}
-            component={'div'}
-          >
-            <NavMenu
-              me={me}
-              navLinks={feedLink()}
-              curretPage={curretPage}
-              name={`Q&A`}
-              icon={<QuestionAnswerIcon fontSize="small" />}
-            />
-            <NavMenu
-              me={me}
-              navLinks={ideaLinkCondition()}
-              curretPage={curretPage}
-              name={`Ideas`}
-              icon={<EmojiObjectsIcon fontSize="small" />}
-            />
-
-            <NavMenu
-              me={me}
-              navLinks={blogLinks}
-              curretPage={curretPage}
-              name={`Learn`}
-              icon={<MenuBookIcon fontSize="small" />}
-            />
-            <NavMenu
-              me={me}
-              navLinks={createLinks}
-              curretPage={curretPage}
-              name={`Create`}
-              icon={<CreateIcon fontSize="small" />}
-            />
-            {me &&
-              me.permissions.some(permission =>
-                ['ADMIN', 'MODERATOR'].includes(permission)
-              ) && (
-                <NavMenu
-                  me={me}
-                  navLinks={adminLinks}
-                  curretPage={curretPage}
-                  name={`Admin`}
-                />
-              )}
-            <Search />
-          </div>
-        </div>
+        <NavBarFlexContent menu={menu} curretPage={router.pathname} me={me} />
         {me ? (
           <div component={'div'}>
             <Avatar me={me} compact={true} />

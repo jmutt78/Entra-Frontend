@@ -12,6 +12,7 @@
   height: 80px;
   /* padding: 0 10px; */
   /* max-width: 1920px; */
+  flex: 1;
 }
 
 .navLink {
