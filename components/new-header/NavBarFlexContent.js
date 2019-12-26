@@ -26,7 +26,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default ({ menu, curretPage, me }) => {
+export default ({ curretPage, me }) => {
   const { root } = useStyles();
   const tagExist = me ? me.tags.some(tags => ![' '].includes(tags)) : '';
 
@@ -88,7 +88,9 @@ export default ({ menu, curretPage, me }) => {
             name={`Admin`}
           />
         )}
-      <Search />
+      <div style={{ marginTop: '-6px' }}>
+        <Search />
+      </div>
     </div>
   );
 };

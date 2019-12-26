@@ -6,7 +6,7 @@ import useWindowSize from './useWindowSize';
 
 const useStyles = makeStyles({
   logo: {
-    maxHeight: 45,
+    maxHeight: 35,
     cursor: 'pointer'
   }
 });

@@ -78,7 +78,7 @@ function handleLogin(e) {
 }
 
 const Appbar = ({ isLoggedIn, classes, me, router }) => {
-  const [menu, setMenu] = useState(null);
+  const [showMenu, setShowMenu] = useState('');
   const [width] = useWindowSize();
 
   if (me) {
@@ -92,7 +92,7 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
   const Sandwich = () => {
     return (
       <div
-        onClick={_ => setMenu(!menu)}
+        onClick={_ => setShowMenu(s => !s)}
         style={{ flex: 1, display: 'flex', justifyContent: 'center' }}
       >
         <MenuIcon alt="menu" fontSize="large" style={{ color: '#85bdcb' }} />
@@ -105,7 +105,11 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
       <div className="appbarFlex">
         <Logo />
         {width > 900 ? (
-          <NavBarFlexContent menu={menu} curretPage={router.pathname} me={me} />
+          <NavBarFlexContent
+            curretPage={router.pathname}
+            me={me}
+            mobile={false}
+          />
         ) : (
           <Sandwich />
         )}
@@ -127,6 +131,9 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
           </Link>
         )}
       </div>
+      {showMenu && width < 900 && (
+        <NavBarFlexContent curretPage={router.pathname} me={me} mobile={true} />
+      )}
     </div>
   );
 };
