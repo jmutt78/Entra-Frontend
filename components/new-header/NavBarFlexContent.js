@@ -49,13 +49,19 @@ export default ({ curretPage, me, mobile }) => {
 
   return (
     <div className={root}>
-      <NavMenu
-        me={me}
-        navLinks={feedLink()}
-        curretPage={curretPage}
-        name={`Q&A`}
-        icon={<QuestionAnswerIcon fontSize="small" />}
-      />
+      <div style={{ marginBottom: '-3px' }}>
+        <NavMenu
+          me={me}
+          navLinks={feedLink()}
+          curretPage={curretPage}
+          name={`Q&A`}
+          icon={
+            <div style={{ marginTop: 3 }}>
+              <QuestionAnswerIcon fontSize="small" />
+            </div>
+          }
+        />
+      </div>
       <NavMenu
         me={me}
         navLinks={ideaLinkCondition()}

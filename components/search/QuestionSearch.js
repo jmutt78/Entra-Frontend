@@ -90,6 +90,7 @@ const glow = keyframes`
 const SearchContainer = styled.div`
   position: relative;
   cursor: pointer;
+  margin-left: 13px;
   input {
     width: 100%;
     border: 0;
@@ -100,6 +101,7 @@ const SearchContainer = styled.div`
     }
   }
   @media (max-width: 900px) {
+    margin-left: 13px;
     padding-top: 20px;
     input {
       margin-right: 100px;
