@@ -1,17 +1,7 @@
-/* .navigationContainer { */
-/*   display: flex; */
-/*   flex: 1; */
-/*   align-items: center; */
-/* } */
-
 .navbarFlex {
   display: flex;
-  /* justify-content: space-between; */
   align-items: center;
-  /* flex-direction: row; */
   height: 80px;
-  /* padding: 0 10px; */
-  /* max-width: 1920px; */
   padding: 0 12px;
 }
 
@@ -66,6 +56,12 @@
 .visibleOnMobile {
   display: none;
   visibility: hidden;
+}
+
+@media (max-width: 900px) {
+  .navbarFlex {
+    height: 60px;
+  }
 }
 
 /* @media (max-width: 900px) { */

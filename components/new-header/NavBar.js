@@ -78,7 +78,7 @@ function handleLogin(e) {
 }
 
 const Appbar = ({ isLoggedIn, classes, me, router }) => {
-  const [showMenu, setShowMenu] = useState('');
+  const [showMenu, setShowMenu] = useState(true);
   const [width] = useWindowSize();
 
   if (me) {

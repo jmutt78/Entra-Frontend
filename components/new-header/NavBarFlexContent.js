@@ -17,17 +17,18 @@ import {
 } from './NavLinksData';
 
 const useStyles = makeStyles({
-  root: {
-    alignItems: 'center',
+  root: ({ mobile }) => ({
+    alignItems: mobile ? 'flex-start' : 'center',
+    flexDirection: mobile ? 'column' : 'row',
     display: 'flex',
     flex: 1,
-    height: '80px',
-    padding: '0 10px'
-  }
+    height: mobile ? '100% ' : '80px',
+    padding: mobile ? '0 0 35px 20px' : '0 10px'
+  })
 });
 
-export default ({ curretPage, me }) => {
-  const { root } = useStyles();
+export default ({ curretPage, me, mobile }) => {
+  const { root } = useStyles({ mobile });
   const tagExist = me ? me.tags.some(tags => ![' '].includes(tags)) : '';
 
   const feedLink = () => {
