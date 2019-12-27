@@ -63,7 +63,4 @@ class MyIdeas extends Component {
   }
 }
 
-
 export default withRouter(MyIdeas);
-export { BUSINESSIDEAS_LIST_QUERY };
-
