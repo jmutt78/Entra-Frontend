@@ -75,7 +75,7 @@ class Video extends React.Component {
           <div className="videoWrapper">
             <iframe
               title="video"
-              src="//www.youtube.com/embed/wVHDvUqcarg?autoplay=1"
+              src="//www.youtube.com/embed/S7czmN39cCE?autoplay=1"
               allowFullScreen
               frameBorder="0"
               allow="autoplay; encrypted-media"
