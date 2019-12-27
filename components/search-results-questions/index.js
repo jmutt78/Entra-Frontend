@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Query } from 'react-apollo';
 import { SEARCH_QUESTIONS_QUERY } from '../search/QuestionSearch';
 import Error from './../ErrorMessage.js';
@@ -13,6 +13,12 @@ const styles = ({ layout }) => ({
 });
 
 const SearchResultQuestions = ({ searchTerm, name, classes }) => {
+  const [hasMoreQuestions, setHasMoreQuestions] = useState(true);
+
+  const stopLoading = () => {
+    setHasMoreQuestions(false);
+  };
+
   return (
     <Query
       query={SEARCH_QUESTIONS_QUERY}
@@ -29,6 +35,7 @@ const SearchResultQuestions = ({ searchTerm, name, classes }) => {
             name={`Search Results: ${searchTerm}`}
             questions={searchQuestions}
             headerStyle={classes.noMargin}
+            hasMoreQuestions={hasMoreQuestions}
             onLoadMore={() =>
               fetchMore({
                 variables: {
@@ -37,6 +44,9 @@ const SearchResultQuestions = ({ searchTerm, name, classes }) => {
                 },
                 updateQuery: (prev, { fetchMoreResult }) => {
                   if (!fetchMoreResult) return prev;
+                  if (fetchMoreResult.searchQuestions.length === 0) {
+                    stopLoading();
+                  }
                   return Object.assign({}, prev, {
                     searchQuestions: [
                       ...prev.searchQuestions,

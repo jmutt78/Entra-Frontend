@@ -11,7 +11,7 @@ import classNames from 'classnames';
 
 const styles = ({ layout }) => ({
   table: {
-    margin: '0 0 25px 0'
+    // margin: '0 0 25px 0'
   },
   icon: {
     color: 'black'
@@ -45,7 +45,6 @@ const PageHeader = ({ classes, title, styles }) => {
           <TableCell>
             <TypographyResponsive>{title}</TypographyResponsive>
           </TableCell>
-
           {/*
               <Tooltip title="Answers" placement="top">
                 <CustomTableCell className={classes.customColumnStyle}>

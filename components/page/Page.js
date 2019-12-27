@@ -46,7 +46,6 @@ const Page = ({ children, classes, router }) => {
   return (
     <Query query={CURRENT_USER_QUERY}>
       {({ data: { me }, error, loading }) => {
-        console.log(children);
         return (
           <div className={classes.root}>
             {loading ? <CircularProgress style={{ margin: 20 }} /> : null}

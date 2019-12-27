@@ -8,6 +8,7 @@ import Why from './index/why';
 import CallToAction from './index/callToAction';
 import ViewAll from './index/AllQuestionCTA.js';
 import Layout from '../components/layout/index.js';
+import Pixel from '../utils/Pixel.js';
 
 import './index/index.css';
 
@@ -15,6 +16,7 @@ const Page = () => {
   return (
     <Layout>
       <div className="landingContainer">
+        <Pixel name="FACEBOOK_PIXEL_1" />
         <Hero />
         <Why />
         <h2 className="landingHeader sans">

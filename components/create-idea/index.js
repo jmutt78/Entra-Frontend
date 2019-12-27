@@ -12,6 +12,7 @@ import Stepper from '@material-ui/core/Stepper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
+import { BUSINESSIDEAS_LIST_QUERY } from '../my-ideas/index.js';
 import StepContent from './StepContent';
 import Error from './../ErrorMessage.js';
 import PageHeader from '../PageHeader';
@@ -90,7 +91,16 @@ export default () => {
     setInputs(inputs => ({ ...inputs, [field]: val }));
 
   return (
-    <Mutation mutation={CREATE_IDEA_MUTATION} variables={{ ...inputs }}>
+    <Mutation
+      mutation={CREATE_IDEA_MUTATION}
+      variables={{ ...inputs }}
+      refetchQueries={[
+        {
+          query: BUSINESSIDEAS_LIST_QUERY,
+          variables: { filter: 'my' }
+        }
+      ]}
+    >
       {(createIdea, { error, loading }) => {
         const submit = async () => {
           const {
