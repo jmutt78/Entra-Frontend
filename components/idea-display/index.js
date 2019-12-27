@@ -283,11 +283,17 @@ const DisplayIdea = ({ idea, id, client }) => {
                           }}
                         >
                           {(deleteIdea, { error, loading }) => {
+                            const handleDelete = () => {
+                              confirm(
+                                'Are you sure you want to delete your idea?'
+                              );
+                              return deleteIdea();
+                            };
                             return (
                               <Button
                                 color={'primary'}
                                 disabled={loading}
-                                onClick={deleteIdea}
+                                onClick={handleDelete}
                                 size="small"
                                 style={{ color: '#ff6b6b' }}
                               >
