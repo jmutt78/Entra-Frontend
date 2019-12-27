@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
+import Router from 'next/router';
 
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -19,6 +20,7 @@ import './index.css';
 import { Mixpanel } from '../../utils/Mixpanel';
 import Vote from './Vote';
 import { CURRENT_USER_QUERY } from '../auth/User';
+import { BUSINESSIDEAS_LIST_QUERY } from '../my-ideas';
 
 export const IDEA_QUERY = gql`
   query IDEA_QUERY($id: ID!) {
@@ -38,6 +40,14 @@ export const IDEA_QUERY = gql`
         display
       }
       createdAt
+    }
+  }
+`;
+
+export const DELETE_IDEA_MUTATION = gql`
+  mutation DELETE_IDEA_MUTATION($id: ID!) {
+    deleteBusinessIdea(id: $id) {
+      id
     }
   }
 `;
@@ -81,16 +91,16 @@ export const CREATE_BUSINESSIDEA_VOTE_MUTATION = gql`
 `;
 
 const usePageStyles = makeStyles(({ palette, spacing }) => ({
+  cardsContainer: { padding: '0 0 3rem 0.5rem' },
   container: {},
-  cardsContainer: {
-    padding: '0 0 3rem 0.5rem'
-  },
-  grid: {
-    margin: spacing(1)
-  },
-  paper: {
-    backgroundColor: '#F2F4EF',
-    padding: 30
+  grid: { margin: spacing(1) },
+  paper: { backgroundColor: '#F2F4EF', padding: 30 },
+  root: { margin: spacing(1), marginTop: 40 },
+  spreadEmWide: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    paddingRight: 20
   },
   title: {
     color: 'rgba(0, 0, 0, 0.87)',
@@ -102,25 +112,22 @@ const usePageStyles = makeStyles(({ palette, spacing }) => ({
     lineHeight: '2.7rem',
     fontWeight: 600,
     letterSpacing: '-1px'
-  },
-  root: {
-    margin: spacing(1),
-    marginTop: 40
   }
 }));
 
 const DisplayIdea = ({ idea, id, client }) => {
   const [editing, setEditing] = useState(false);
-  const [_idea, setIdea] = useState('');
+  const [_idea, setIdea] = useState(null);
 
   const {
-    container,
     cardsContainer,
-    title,
-    titleText,
-    paper,
+    container,
     grid,
-    root
+    paper,
+    root,
+    spreadEmWide,
+    title,
+    titleText
   } = usePageStyles();
 
   const upVote = id => {
@@ -160,7 +167,7 @@ const DisplayIdea = ({ idea, id, client }) => {
 
         const publicIdea = businessIdea.status;
 
-        if (!_idea) {
+        if (typeof _idea !== 'string') {
           setIdea(businessIdea.idea);
         }
 
@@ -249,13 +256,47 @@ const DisplayIdea = ({ idea, id, client }) => {
                           }}
                         </Mutation>
                       </div>
-                      {hasPermissions && (
-                        <Public
-                          id={id}
-                          mutation={UPDATE_IDEA_MUTATION}
-                          status={businessIdea.status}
-                        />
-                      )}
+                      <div className={spreadEmWide}>
+                        {hasPermissions ? (
+                          <Public
+                            id={id}
+                            mutation={UPDATE_IDEA_MUTATION}
+                            status={businessIdea.status}
+                          />
+                        ) : (
+                          <div />
+                        )}
+                        <Mutation
+                          mutation={DELETE_IDEA_MUTATION}
+                          refetchQueries={BUSINESSIDEAS_LIST_QUERY}
+                          awaitRefetchQueries={true}
+                          onCompleted={() =>
+                            Router.push({
+                              pathname: '/idea/my-ideas',
+                              query: {
+                                filter: id
+                              }
+                            })
+                          }
+                          variables={{
+                            id
+                          }}
+                        >
+                          {(deleteIdea, { error, loading }) => {
+                            return (
+                              <Button
+                                color={'primary'}
+                                disabled={loading}
+                                onClick={deleteIdea}
+                                size="small"
+                                style={{ color: '#ff6b6b' }}
+                              >
+                                Delete
+                              </Button>
+                            );
+                          }}
+                        </Mutation>
+                      </div>
 
                       <div className={cardsContainer}>
                         {steps.slice(1).map((s, i) => (
