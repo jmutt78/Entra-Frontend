@@ -8,8 +8,6 @@ import { debounce } from 'lodash';
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
 
-import './index.css';
-
 export const SEARCH_QUESTIONS_QUERY = gql`
   query SEARCH_QUESTIONS_QUERY(
     $searchTerm: String!
@@ -90,9 +88,10 @@ const glow = keyframes`
 const SearchContainer = styled.div`
   position: relative;
   cursor: pointer;
-  margin-left: 13px;
+  margin-left: 20px;
   input {
     width: 100%;
+    margin-right: 200px;
     border: 0;
     font-size: 1.1rem;
 
@@ -101,7 +100,7 @@ const SearchContainer = styled.div`
     }
   }
   @media (max-width: 900px) {
-    margin-left: 13px;
+    margin-left: 20px;
     padding-top: 20px;
     input {
       margin-right: 100px;
@@ -202,14 +201,11 @@ class QuestionSearch extends React.Component {
             inputValue,
             highlightedIndex
           }) => (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <div style={{ paddingRight: 5, marginTop: 6 }}>
-                <SearchIcon fontSize="small" style={{ color: 'grey' }} />
-              </div>
+            <div>
+              <SearchIcon />
               <ApolloConsumer>
                 {client => (
                   <TextField
-                    style={{ fontSize: '1rem' }}
                     {...getInputProps({
                       type: 'search',
                       onChange: e => {
@@ -217,7 +213,7 @@ class QuestionSearch extends React.Component {
                         this.onChange(e, client);
                       },
                       id: 'search',
-                      className: loading ? 'loading smallInput' : 'smallInput',
+                      className: loading ? 'loading' : '',
                       placeholder: 'Search Questions'
                     })}
                   ></TextField>

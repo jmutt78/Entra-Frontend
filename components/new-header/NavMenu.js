@@ -55,74 +55,66 @@ export default function NavMenu({
     Mixpanel.track(name);
   }
   return (
-    <div className="navbarFlex">
-      {!createdNav() && (
-        <Typography>
-          {navLinks.map(({ name, target, icon }) => (
-            <NavLink activeClassName="navLinkActive" href={target} key={name}>
-              <a
-                className="navLinkNon"
-                nClick={() => {
-                  Mixpanel.track(name);
-                }}
-                style={{
-                  whiteSpace: 'nowrap'
-                }}
-              >
-                {name}
-              </a>
-            </NavLink>
-          ))}
-        </Typography>
-      )}
-      {createdNav() && (
-        <div>
-          {' '}
-          <Typography
-            onClick={handleClick}
-            as={'div'}
-            style={{
-              cursor: 'pointer',
-              display: 'flex',
-              whiteSpace: 'nowrap',
-              flexWrap: 'nowrap'
-            }}
-            className={selectedData ? 'buttonLink' : 'noActive'}
-            aria-controls="simple-menu"
-            aria-haspopup="true"
-          >
-            <span style={{ paddingRight: 5 }}>{icon}</span>
-            <span>{selectedData ? selectedData.name : name}</span>
-            <ArrowDropDownIcon />
-          </Typography>
-          <Menu
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-            classes={{ paper: styles.paper }}
-          >
-            {navLinks.map(({ name, target }) => (
-              <MenuItem value={name} onClick={handleClose}>
-                <NavLink
-                  activeClassName="navLinkActive"
-                  href={target}
-                  key={name}
+    <div>
+      <div className="navbarFlex">
+        {!createdNav() && (
+          <Typography>
+            {navLinks.map(({ name, target, icon }) => (
+              <NavLink activeClassName="navLinkActive" href={target} key={name}>
+                <a
+                  className="navLinkNon"
+                  nClick={() => {
+                    Mixpanel.track(name);
+                  }}
                 >
-                  <a
-                    className="navLink"
-                    onClick={() => {
-                      Mixpanel.track(name);
-                    }}
-                  >
-                    {name}
-                  </a>
-                </NavLink>
-              </MenuItem>
+                  {name}
+                </a>
+              </NavLink>
             ))}
-          </Menu>
-        </div>
-      )}
+          </Typography>
+        )}
+        {createdNav() && (
+          <div>
+            {' '}
+            <Typography
+              onClick={handleClick}
+              style={{ cursor: 'pointer' }}
+              className={selectedData ? 'buttonLink' : 'noActive'}
+              aria-controls="simple-menu"
+              aria-haspopup="true"
+            >
+              {icon} {selectedData ? selectedData.name : name}
+              <ArrowDropDownIcon />
+            </Typography>
+            <Menu
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+              classes={{ paper: styles.paper }}
+            >
+              {navLinks.map(({ name, target }) => (
+                <MenuItem value={name} onClick={handleClose}>
+                  <NavLink
+                    activeClassName="navLinkActive"
+                    href={target}
+                    key={name}
+                  >
+                    <a
+                      className="navLink"
+                      onClick={() => {
+                        Mixpanel.track(name);
+                      }}
+                    >
+                      {name}
+                    </a>
+                  </NavLink>
+                </MenuItem>
+              ))}
+            </Menu>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
