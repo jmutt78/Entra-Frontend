@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
 import { withRouter } from 'next/router';
@@ -7,62 +7,61 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 import Signout from './auth/Signout';
 
-const styles = {
+const useStyles = makeStyles(({ layout, palette }) => ({
   bigAvatar: {
-    margin: 15,
+    margin: ({ compact }) => (compact ? 0 : 15),
     width: 35,
     height: 35,
     backgroundColor: '#85bdcb',
     cursor: 'pointer'
   },
   smallAvatar: {
-    margin: 5,
+    margin: ({ compact }) => (compact ? 0 : 5),
     width: 25,
     height: 25
   },
   avatarContainer: {
     display: 'flex',
     alignItems: 'center',
-    padding: '5px 35px 0 0',
+    // padding: '5px 35px 0 0',
     fontSize: '1rem',
     alignSelf: 'flex-end',
     cursor: 'pointer'
   }
-};
+}));
 
-class MyProfile extends React.Component {
-  state = {
-    anchorEl: null
-  };
+const _Avatar = props => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const classes = useStyles({ compact: props.compact });
+  const me = props.me;
 
-  handleClick = event => {
-    if (this.props.linkToId) {
-      this.props.router.push({
+  const handleClick = event => {
+    if (props.linkToId) {
+      props.router.push({
         pathname: '/user',
-        query: { id: this.props.linkToId }
+        query: { id: props.linkToId }
       });
     } else {
-      this.setState({ anchorEl: event.currentTarget });
+      setAnchorEl(event.currentTarget);
     }
   };
 
-  handleClose = () => {
-    this.setState({ anchorEl: null });
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
-  handleImage(me, classes) {
+  const handleImage = (me, classes) => {
     if (!me) {
       return null;
     }
     if (me.image == null || me.image == '') {
       return (
         <Avatar
-          className={this.props.small ? classes.smallAvatar : classes.bigAvatar}
+          className={props.small ? classes.smallAvatar : classes.bigAvatar}
         >
           {me.name[0]}
         </Avatar>
@@ -71,53 +70,50 @@ class MyProfile extends React.Component {
     return (
       <Avatar alt="Remy Sharp" src={me.image} className={classes.bigAvatar} />
     );
-  }
+  };
 
-  render() {
-    const { anchorEl } = this.state;
-    const { classes } = this.props;
-    const me = this.props.me;
-
-    return (
-      <div>
-        <div
-          className={classNames(classes.grow, 'nav-avatar')}
-          onClick={this.props.small ? null : this.handleClick}
+  return (
+    <div>
+      <div
+        className={classNames(classes.grow, 'nav-avatar')}
+        onClick={props.small ? null : handleClick}
+      >
+        <Typography
+          className={props.small ? null : classes.avatarContainer}
+          component={'div'}
         >
-          <Typography
-            className={this.props.small ? null : classes.avatarContainer}
-            component={'div'}
-          >
-            {this.handleImage(me, classes)}
-            {this.props.small ? null : (
-              <div>
-                {me.name}
-                <ArrowDropDownIcon />
-              </div>
-            )}
-          </Typography>
-        </div>
+          {handleImage(me, classes)}
 
-        <Menu
-          id="simple-menu"
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={this.handleClose}
-        >
-          <Link href="/account/myaccount">
-            <MenuItem onClick={this.handleClose}>My Profile</MenuItem>
-          </Link>
-          <Link href="/account/editaccount">
-            <MenuItem onClick={this.handleClose}>Edit Account</MenuItem>
-          </Link>
+          {props.small || props.compact ? null : (
+            <div>
+              {me.name}
+              <ArrowDropDownIcon />
+            </div>
+          )}
 
-          <MenuItem>
-            <Signout />
-          </MenuItem>
-        </Menu>
+          {props.compact && <ArrowDropDownIcon />}
+        </Typography>
       </div>
-    );
-  }
-}
 
-export default withRouter(withStyles(styles)(MyProfile));
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <Link href="/account/myaccount">
+          <MenuItem onClick={handleClose}>My Profile</MenuItem>
+        </Link>
+        <Link href="/account/editaccount">
+          <MenuItem onClick={handleClose}>Edit Account</MenuItem>
+        </Link>
+
+        <MenuItem>
+          <Signout />
+        </MenuItem>
+      </Menu>
+    </div>
+  );
+};
+
+export default withRouter(_Avatar);
