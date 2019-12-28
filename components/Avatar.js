@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
 import { withRouter } from 'next/router';
@@ -7,61 +7,62 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { makeStyles } from '@material-ui/core/styles';
+
+import { withStyles } from '@material-ui/core/styles';
 
 import Signout from './auth/Signout';
 
-const useStyles = makeStyles(({ layout, palette }) => ({
+const styles = {
   bigAvatar: {
-    margin: ({ compact }) => (compact ? 0 : 15),
+    margin: 15,
     width: 35,
     height: 35,
     backgroundColor: '#85bdcb',
     cursor: 'pointer'
   },
   smallAvatar: {
-    margin: ({ compact }) => (compact ? 0 : 5),
+    margin: 5,
     width: 25,
     height: 25
   },
   avatarContainer: {
     display: 'flex',
     alignItems: 'center',
-    // padding: '5px 35px 0 0',
+    padding: '5px 35px 0 0',
     fontSize: '1rem',
     alignSelf: 'flex-end',
     cursor: 'pointer'
   }
-}));
+};
 
-const _Avatar = props => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const classes = useStyles({ compact: props.compact });
-  const me = props.me;
+class MyProfile extends React.Component {
+  state = {
+    anchorEl: null
+  };
 
-  const handleClick = event => {
-    if (props.linkToId) {
-      props.router.push({
+  handleClick = event => {
+    if (this.props.linkToId) {
+      this.props.router.push({
         pathname: '/user',
-        query: { id: props.linkToId }
+        query: { id: this.props.linkToId }
       });
     } else {
-      setAnchorEl(event.currentTarget);
+      this.setState({ anchorEl: event.currentTarget });
     }
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  handleClose = () => {
+    this.setState({ anchorEl: null });
   };
 
-  const handleImage = (me, classes) => {
+  handleImage(me, classes) {
     if (!me) {
       return null;
     }
     if (me.image == null || me.image == '') {
       return (
         <Avatar
-          className={props.small ? classes.smallAvatar : classes.bigAvatar}
+          className={this.props.small ? classes.smallAvatar : classes.bigAvatar}
         >
           {me.name[0]}
         </Avatar>
@@ -70,50 +71,53 @@ const _Avatar = props => {
     return (
       <Avatar alt="Remy Sharp" src={me.image} className={classes.bigAvatar} />
     );
-  };
+  }
 
-  return (
-    <div>
-      <div
-        className={classNames(classes.grow, 'nav-avatar')}
-        onClick={props.small ? null : handleClick}
-      >
-        <Typography
-          className={props.small ? null : classes.avatarContainer}
-          component={'div'}
+  render() {
+    const { anchorEl } = this.state;
+    const { classes } = this.props;
+    const me = this.props.me;
+
+    return (
+      <div>
+        <div
+          className={classNames(classes.grow, 'nav-avatar')}
+          onClick={this.props.small ? null : this.handleClick}
         >
-          {handleImage(me, classes)}
+          <Typography
+            className={this.props.small ? null : classes.avatarContainer}
+            component={'div'}
+          >
+            {this.handleImage(me, classes)}
+            {this.props.small ? null : (
+              <div>
+                {me.name}
+                <ArrowDropDownIcon />
+              </div>
+            )}
+          </Typography>
+        </div>
 
-          {props.small || props.compact ? null : (
-            <div>
-              {me.name}
-              <ArrowDropDownIcon />
-            </div>
-          )}
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={this.handleClose}
+        >
+          <Link href="/account/myaccount">
+            <MenuItem onClick={this.handleClose}>My Profile</MenuItem>
+          </Link>
+          <Link href="/account/editaccount">
+            <MenuItem onClick={this.handleClose}>Edit Account</MenuItem>
+          </Link>
 
-          {props.compact && <ArrowDropDownIcon />}
-        </Typography>
+          <MenuItem>
+            <Signout />
+          </MenuItem>
+        </Menu>
       </div>
+    );
+  }
+}
 
-      <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <Link href="/account/myaccount">
-          <MenuItem onClick={handleClose}>My Profile</MenuItem>
-        </Link>
-        <Link href="/account/editaccount">
-          <MenuItem onClick={handleClose}>Edit Account</MenuItem>
-        </Link>
-
-        <MenuItem>
-          <Signout />
-        </MenuItem>
-      </Menu>
-    </div>
-  );
-};
-
-export default withRouter(_Avatar);
+export default withRouter(withStyles(styles)(MyProfile));
