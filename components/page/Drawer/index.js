@@ -74,8 +74,7 @@ const useStyles = makeStyles(theme => ({
     ...theme.mixins.toolbar
   },
   content: {
-    flexGrow: 1,
-    padding: theme.spacing(3)
+    flexGrow: 1
   }
 }));
 
@@ -137,8 +136,7 @@ export default function MiniDrawer({ children }) {
         </List>
       </Drawer>
       <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <HeaderBar handleDrawerOpen={handleDrawerOpen} />
+        <HeaderBar handleDrawerOpen={handleDrawerOpen} open={open} />
         {children}
       </main>
     </div>

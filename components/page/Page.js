@@ -15,12 +15,11 @@ import Meta from '../meta/Meta.js';
 import { CURRENT_USER_QUERY } from '../auth/User';
 
 const useStyles = makeStyles(theme => ({
-  root: {},
-  // content styles
   contentContainer: {
     display: 'flex',
     flex: 1,
-    minHeight: theme.layout.contentMinHeight
+    minHeight: theme.layout.contentMinHeight,
+    maxWidth: '100%'
   },
   scrollContainer: {
     display: 'flex',
@@ -47,7 +46,7 @@ const Page = ({ children, router }) => {
         if (error) return <Error error={error} />;
 
         return (
-          <div className={classes.root}>
+          <>
             <Meta />
             <Drawer>
               <div
@@ -72,7 +71,7 @@ const Page = ({ children, router }) => {
               </div>
             </Drawer>
             {isLanding && <Footer />}
-          </div>
+          </>
         );
       }}
     </Query>
