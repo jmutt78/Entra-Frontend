@@ -84,7 +84,6 @@ const Landingpage = () => {
         }
 
         <CallToAction />
-        <hr className="sectionbreak" />
       </div>
     </Layout>
   );

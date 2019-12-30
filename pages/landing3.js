@@ -66,7 +66,6 @@ const Page = () => {
         <ViewAll />
         <Areyou />
         <CallToAction />
-        <hr className="sectionbreak" />
       </div>
     </Layout>
   );
