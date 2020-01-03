@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 
+import StepProgressBar from './StepProgressBar';
 import BadgesDisplay from './BadgesDisplay';
+import ProgressBar from './ProgressBar';
 import Error from './../ErrorMessage.js';
 import MainInfoDisplay from './MainInfoDisplay';
 import QaDisplay from './QaDisplay';
@@ -72,11 +74,11 @@ class DisplayAccount extends Component {
                     </TableRow>
                   </TableHead>
                 </Table>
-
                 <div className={classes.contentContainer}>
                   <MainInfoDisplay user={user} />
+
                   <QaDisplay user={user} />
-                  <BadgesDisplay user={user} />
+                  <StepProgressBar user={user} />
                 </div>
               </div>
             </div>

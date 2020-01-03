@@ -64,6 +64,7 @@ const CURRENT_USER_QUERY_PROFILE = gql`
       about
       industry
       image
+      points
       myBookMarks {
         id
         questions {
@@ -77,20 +78,11 @@ const CURRENT_USER_QUERY_PROFILE = gql`
           vote
         }
       }
-      badges {
-        autobiographer
-        critic
-        patron
-        reviewer
-        analyst
-        commentor
-        frequentFlyer
-        niceAnswer
-        expert
-        teacher
-        pundit
-        powerVoter
-        provoker
+      mastery {
+        level1
+        level2
+        level3
+        level4
       }
       myAnswers {
         id

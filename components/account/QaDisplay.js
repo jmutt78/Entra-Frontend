@@ -116,16 +116,6 @@ class QaDisplay extends Component {
               </Link>
             </Typography>
           </div>
-
-          <div className={classes.elementContainer}>
-            <Typography variant="h4" align="center">
-              {this.handlePointCount(questions, answers)}
-            </Typography>
-
-            <Typography variant="h5" align="center" className={classes.link}>
-              Points
-            </Typography>
-          </div>
         </div>
       </div>
     );

@@ -1,164 +1,141 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Card from '@material-ui/core/Card'
-import { pickBy } from 'lodash'
-import LibraryBooksIcon from '@material-ui/icons/LibraryBooks'
-import ThumbDownIcon from '@material-ui/icons/ThumbDown'
-import ThumbUpIcon from '@material-ui/icons/ThumbUp'
-import RateReviewIcon from '@material-ui/icons/RateReview'
-import ThreeSixtyIcon from '@material-ui/icons/ThreeSixty'
-import CommentIcon from '@material-ui/icons/Comment'
-import FlightIcon from '@material-ui/icons/Flight'
-import HowToVote from '@material-ui/icons/HowToVote'
-import Whatshot from '@material-ui/icons/Whatshot'
-import HowToReg from '@material-ui/icons/HowToReg'
-import School from '@material-ui/icons/School'
-import Favorite from '@material-ui/icons/Favorite'
-import Cached from '@material-ui/icons/Cached'
-import Tooltip from '@material-ui/core/Tooltip'
+import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
+import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
-const styles = theme => ({
+const styles = theme => ({});
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    width: '100%'
+  },
+  backButton: {
+    marginRight: theme.spacing(1)
+  },
+  instructions: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1)
+  },
   container: {
-    width: '100%',
-    padding: 10,
+    width: '100%'
   },
-  badge: {
-    alignItems: 'center',
-  },
-  badgeTitle: {
-    marginRight: 5,
-    marginTop: -30,
-    marginBottom: 30,
-  },
+
   card: {
     width: '100%',
-    maxWidth: 1000,
+    maxWidth: 1000
   },
   title: {
     color: '#2d3436', //theme.palette.accent.dark,
     padding: '40px 0 20px 50px',
     fontWeight: 'bold',
     textAlign: 'left',
-    lineHeight: '2.5rem',
+    lineHeight: '2.5rem'
   },
-  item: {
-    width: 150,
-    padding: 30,
-    display: 'flex',
-    flexDirection: 'column',
-    justiftyContent: 'center',
-    alignItems: 'center',
-  },
-})
+  boarderContainer: {}
+}));
 
-const badgesConfig = {
-  autobiographer: {
-    title: 'Autobiographer',
-    icon: LibraryBooksIcon,
+const BorderLinearProgress = withStyles({
+  root: {
+    height: 30,
+    backgroundColor: lighten('#ff6c5c', 0.9)
   },
-  critic: {
-    title: 'Critic',
-    icon: ThumbDownIcon,
-  },
-  patron: {
-    title: 'Patron',
-    icon: ThumbUpIcon,
-  },
-  reviewer: {
-    title: 'Reviewer',
-    icon: RateReviewIcon,
-  },
-  analyst: {
-    title: 'Analyst',
-    icon: ThreeSixtyIcon,
-  },
-  commentor: {
-    title: 'Commentor',
-    icon: CommentIcon,
-  },
-  frequentFlyer: {
-    title: 'Frequent Flyer',
-    icon: FlightIcon,
-  },
-  niceAnswer: {
-    title: 'Nice Answer',
-    icon: Whatshot,
-  },
-  expert: {
-    title: 'Expert',
-    icon: HowToReg,
-  },
-  teacher: {
-    title: 'Teacher',
-    icon: School,
-  },
-  pundit: {
-    title: 'Pundit',
-    icon: Favorite,
-  },
-  powerVoter: {
-    title: 'Power Voter',
-    icon: HowToVote,
-  },
-  provoker: {
-    title: 'Provoker',
-    icon: Cached,
-  },
-}
-
-export function BadgeItem({ type, classes }) {
-  const badgeConfig = badgesConfig[type]
-
-  return badgeConfig ? (
-    <Tooltip title={`${badgeConfig.title} Badge`} placement="top">
-      <div className={classes.item}>
-        <badgeConfig.icon style={{ fontSize: 64 }} />
-        <Typography variant="h6" style={{ textAlign: 'center' }}>
-          {badgeConfig.title}
-        </Typography>
-      </div>
-    </Tooltip>
-  ) : null
-}
-
-export function BadgesList({ badges, classes }) {
-  const yourBadges = pickBy(badges, value => value === true)
-  const badgeKeys = Object.keys(yourBadges)
-  if (!badgeKeys.length) {
-    return (
-      <Typography variant="h6" style={{ padding: '0 0 30px 50px' }}>
-        No bages yet
-      </Typography>
-    )
+  bar: {
+    borderRadius: 40,
+    backgroundColor: '#ff6c5c'
   }
+})(LinearProgress);
+
+export default function BadgesDisplay({ user }) {
+  const classes = useStyles();
+
+  const handleLevel1 = () => {
+    const value = (points / 300) * 100;
+    console.log(value);
+    if (value > 100) {
+      return 100;
+    } else {
+      return value;
+    }
+  };
+  const handleLevel2 = () => {
+    const value = (points / 500) * 100;
+    console.log(value);
+    if (value > 100) {
+      return 100;
+    } else {
+      return value;
+    }
+  };
+  const handleLevel3 = () => {
+    const value = (points / 1000) * 100;
+    console.log(value);
+    if (value > 100) {
+      return 100;
+    } else {
+      return value;
+    }
+  };
+  const handleLevel4 = () => {
+    const value = (points / 2000) * 100;
+    console.log(value);
+    if (value > 100) {
+      return 100;
+    } else {
+      return value;
+    }
+  };
+
+  const points = user.points;
   return (
-    <div className="badgesContainer">
-      {badgeKeys.map(badge => (
-        <BadgeItem key={badge} type={badge} classes={classes} />
-      ))}
-    </div>
-  )
-}
-
-export class BadgesDisplay extends Component {
-  render() {
-    const { classes } = this.props
-    const user = this.props.user
-
-    return (
-      <div className={classes.container}>
-        <Card className={classes.card}>
-          <Typography variant="h4" className={classes.title}>
-            Badges
-          </Typography>
-
-          <BadgesList badges={user.badges} classes={classes} />
-        </Card>
+    <div className={classes.container}>
+      <div>
+        {points < 300 ? (
+          <div>
+            <BorderLinearProgress
+              className={classes.margin}
+              variant="determinate"
+              color="secondary"
+              value={handleLevel1()}
+            />
+          </div>
+        ) : null}
+        {points < 500 && points > 300 ? (
+          <BorderLinearProgress
+            className={classes.margin}
+            variant="determinate"
+            color="secondary"
+            value={handleLevel2()}
+          />
+        ) : null}
+        {points < 1000 && points > 500 ? (
+          <BorderLinearProgress
+            className={classes.margin}
+            variant="determinate"
+            color="secondary"
+            value={handleLevel3()}
+          />
+        ) : null}
+        <div>
+          {points <= 2000 && points > 1000 ? (
+            <div>
+              <div>
+                <div className={classes.boarderContainer}>
+                  Yo
+                  <BorderLinearProgress
+                    className={classes.margin}
+                    variant="determinate"
+                    color="secondary"
+                    value={handleLevel4()}
+                  />
+                  yo
+                </div>
+              </div>
+            </div>
+          ) : null}
+        </div>
       </div>
-    )
-  }
+    </div>
+  );
 }
-
-export default withStyles(styles)(BadgesDisplay)
