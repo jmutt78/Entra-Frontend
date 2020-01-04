@@ -24,6 +24,50 @@
   padding-top: 56.25%;
 }
 
+.youtube-boxs {
+  position: relative;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.youtube-boxs:before {
+  content: '';
+  display: block;
+  padding-top: 56.25%;
+}
+.create-idea-container > .MuiPaper-root {
+  background: #fafafa !important;
+}
+
+.ideaCreate-textFieldContainer {
+  width: 100%;
+  max-width: 800px;
+  padding: 2rem 4rem;
+}
+
+.MuiFilledInput-inputMultiline {
+  line-height: 1.4rem !important;
+}
+
+.create-idea-buttons {
+  padding: 2rem 4rem;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (max-width: 500px) {
+  .MuiStepper-root {
+    padding: 24px 4px !important;
+  }
+  .ideaCreate-textFieldContainer {
+    padding: 2rem 1rem;
+  }
+  .create-idea-buttons {
+    padding: 2rem 1rem;
+  }
+}
+
 @media (min-width: 1000px) {
   .main-welcome-container {
     padding-left: 100px;
