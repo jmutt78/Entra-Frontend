@@ -2,6 +2,10 @@
   padding-left: 0;
 }
 
+.video-container {
+  padding-left: 0;
+}
+
 .youtube-iframe {
   bottom: 0;
   height: 100%;
@@ -24,17 +28,6 @@
   padding-top: 56.25%;
 }
 
-.youtube-boxs {
-  position: relative;
-  width: 100%;
-  margin-bottom: 2rem;
-}
-
-.youtube-boxs:before {
-  content: '';
-  display: block;
-  padding-top: 56.25%;
-}
 .create-idea-container > .MuiPaper-root {
   background: #fafafa !important;
 }
@@ -72,10 +65,16 @@
   .main-welcome-container {
     padding-left: 100px;
   }
+  .video-container {
+    padding-left: 0;
+  }
 }
 
 @media (min-width: 1500px) {
   .main-welcome-container {
     padding-left: 300px;
+  }
+  .video-container {
+    padding-left: 0;
   }
 }

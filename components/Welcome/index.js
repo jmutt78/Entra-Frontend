@@ -102,10 +102,10 @@ function getStepContent(
       );
     case 1:
       return (
-        <div>
+        <div className="video-container">
           {' '}
           <Typography variant="h6" className={sectionTitle}>
-            Watch the video below to learn how to use Entra's Q&A!
+            Watch the video below to learn how to use Entra's Q&A Feature!
           </Typography>
           <div className="youtube-box">
             <iframe
@@ -121,13 +121,13 @@ function getStepContent(
       );
     case 2:
       return (
-        <div>
+        <div className="video-container">
           {' '}
           <Typography variant="h6" className={sectionTitle}>
             Watch the video below to learn how to use Entra's Business Idea
             Feature!
           </Typography>
-          <div className="youtube-boxs">
+          <div className="youtube-box">
             <iframe
               title="video"
               src="//www.youtube.com/embed/3xum5UVXH9M"
@@ -193,34 +193,31 @@ export default () => {
 
   return (
     <div className="main-welcome-container">
-      <Grid container className={container}>
-        <PageHeader title={'Welcome To Entra!'} />
-        <Stepper
-          activeStep={activeStep}
-          alternativeLabel
-          style={{ background: '#fafafa' }}
-        >
-          {steps.map(label => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-        {allStepsCompleted() ? null : (
-          <div>
-            <Typography className={classes.instructions}>
-              {getStepContent(
-                activeStep,
-                noteContainer,
-                subtitle,
-                paragraph,
-                credits,
-                sectionTitle
-              )}
-            </Typography>
-          </div>
-        )}
-      </Grid>
+      <PageHeader title={'Welcome To Entra!'} />
+      <Stepper
+        activeStep={activeStep}
+        alternativeLabel
+        style={{ background: '#fafafa' }}
+      >
+        {steps.map(label => (
+          <Step key={label}>
+            <StepLabel>{label}</StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+      {allStepsCompleted() ? null : (
+        <Grid container className={container}>
+          {getStepContent(
+            activeStep,
+            noteContainer,
+            subtitle,
+            paragraph,
+            credits,
+            sectionTitle
+          )}
+        </Grid>
+      )}
+
       <div className={buttonContainer}>
         {allStepsCompleted() ? (
           <div>
