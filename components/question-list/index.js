@@ -22,7 +22,9 @@ function QuestionList(props) {
       e.currentTarget.scrollHeight
     ) {
       setIsLoading(true);
-      onLoadMore();
+      if (isLoading === false) {
+        onLoadMore();
+      }
     }
   };
 
