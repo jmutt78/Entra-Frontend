@@ -110,6 +110,16 @@ class MyProfile extends React.Component {
           <Link href="/account/editaccount">
             <MenuItem onClick={this.handleClose}>Edit Account</MenuItem>
           </Link>
+          <Link>
+            <a
+              href="https://entra.drift.help"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: 'none', color: 'black' }}
+            >
+              <MenuItem onClick={this.handleClose}>Help</MenuItem>
+            </a>
+          </Link>
 
           <MenuItem>
             <Signout />

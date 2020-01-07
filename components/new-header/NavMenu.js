@@ -63,7 +63,7 @@ export default function NavMenu({
               <NavLink activeClassName="navLinkActive" href={target} key={name}>
                 <a
                   className="navLinkNon"
-                  nClick={() => {
+                  onClick={() => {
                     Mixpanel.track(name);
                   }}
                 >

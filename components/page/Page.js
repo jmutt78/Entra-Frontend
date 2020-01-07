@@ -70,7 +70,7 @@ const Page = ({ children, classes, router }) => {
               >
                 {children}
               </div>
-              <Drift appId="rz4xagciytry" />
+              {isLanding && <Drift appId="rz4xagciytry" />}
             </div>
             {isLanding && <Footer />}
           </div>
