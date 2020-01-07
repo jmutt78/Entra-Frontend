@@ -2,15 +2,14 @@ import React from 'react';
 import { Mutation } from 'react-apollo';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { makeStyles } from '@material-ui/core/styles';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import Section from './Section';
-import { steps } from '../create-idea';
-import PageHeader from '../PageHeader';
+
 import Error from './../ErrorMessage.js';
 import './index.css';
+import { Mixpanel } from '../../utils/Mixpanel';
+import { BUSINESSIDEAS_LIST_QUERY } from '../my-ideas/index.js';
 
 export default ({ idea, id, mutation, status }) => {
   const [state, setState] = React.useState({
@@ -19,23 +18,31 @@ export default ({ idea, id, mutation, status }) => {
 
   const handleChange = (name, updateBusinessIdea, id) => async event => {
     setState({ ...state, [name]: event.target.checked });
-    console.log(event.target.checked);
 
     if (event.target.checked === true) {
-      console.log(id);
+      confirm('Are you sure you want to make this idea public?');
       const res = await updateBusinessIdea({
         variables: {
           id,
           status: true
-        }
+        },
+        refetchQueries: [
+          { query: BUSINESSIDEAS_LIST_QUERY, variables: { filter: 'public' } }
+        ]
       });
+      Mixpanel.track('Make Idea Public');
     } else {
+      confirm('Are you sure you want to make this idea private?');
       const res = await updateBusinessIdea({
         variables: {
           id,
           status: false
-        }
+        },
+        refetchQueries: [
+          { query: BUSINESSIDEAS_LIST_QUERY, variables: { filter: 'public' } }
+        ]
       });
+      Mixpanel.track('Make Idea Private');
     }
   };
 

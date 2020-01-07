@@ -3,7 +3,7 @@ import { upperFirst } from 'lodash';
 
 import IdeaItem from './IdeaItem';
 import PageHeader from '../PageHeader';
-import Pagination from '../pagination';
+
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = ({ layout }) => ({
@@ -32,14 +32,8 @@ const styles = ({ layout }) => ({
 });
 
 function IdeaList(props) {
-  const {
-    classes,
-    businessIdeas,
-    page,
-    paginationVariables,
-    paginationQuery
-  } = props;
-  console.log();
+  const { classes, businessIdeas } = props;
+
   return (
     <div className={classes.container}>
       <PageHeader title={upperFirst(props.name) || 'Idea'} />

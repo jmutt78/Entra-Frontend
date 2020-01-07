@@ -6,7 +6,7 @@ import { format, parseISO } from 'date-fns';
 import Typography from '@material-ui/core/Typography';
 // import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-
+import Avatar from '../Avatar';
 import { Mixpanel } from '../../utils/Mixpanel';
 
 import './index.css';
@@ -24,10 +24,7 @@ const styles = ({ layout, palette }) => ({
     alignItems: 'center',
     cursor: 'pointer'
   },
-  votesCount: {
-    fontWeight: 600,
-    fontSize: '1rem'
-  },
+
   textBox: {
     display: 'flex',
     flexDirection: 'column',
@@ -81,7 +78,7 @@ const IdeaItem = ({
   display
 }) => {
   function handleTracking(e) {
-    Mixpanel.track('Question Link');
+    Mixpanel.track('Idea Link');
     router.push(linkTo);
   }
 
@@ -91,13 +88,16 @@ const IdeaItem = ({
 
   return (
     <div className={classes.container}>
+      <div className="avatarBox">
+        <Avatar me={user} small linkToId={userId} />
+      </div>
       <div className={classes.textBox}>
         <Typography
           variant="h6"
           className={classes.title}
           onClick={handleTracking}
         >
-          IDEA: {idea}
+          {idea}
         </Typography>
 
         <div style={{ padding: '5px 0 10px 0' }}>

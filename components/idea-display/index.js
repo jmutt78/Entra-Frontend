@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
+import Router from 'next/router';
 
+import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import { withApollo } from 'react-apollo';
@@ -9,15 +11,16 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
+import StepContent from '../create-idea/StepContent';
 import Section from './Section';
 import Public from './Public';
 import { steps } from '../create-idea';
-import PageHeader from '../PageHeader';
 import Error from './../ErrorMessage.js';
 import './index.css';
 import { Mixpanel } from '../../utils/Mixpanel';
 import Vote from './Vote';
 import { CURRENT_USER_QUERY } from '../auth/User';
+import { BUSINESSIDEAS_LIST_QUERY } from '../my-ideas';
 
 export const IDEA_QUERY = gql`
   query IDEA_QUERY($id: ID!) {
@@ -37,6 +40,14 @@ export const IDEA_QUERY = gql`
         display
       }
       createdAt
+    }
+  }
+`;
+
+export const DELETE_IDEA_MUTATION = gql`
+  mutation DELETE_IDEA_MUTATION($id: ID!) {
+    deleteBusinessIdea(id: $id) {
+      id
     }
   }
 `;
@@ -80,16 +91,16 @@ export const CREATE_BUSINESSIDEA_VOTE_MUTATION = gql`
 `;
 
 const usePageStyles = makeStyles(({ palette, spacing }) => ({
+  cardsContainer: { padding: '0 0 3rem 0.5rem' },
   container: {},
-  cardsContainer: {
-    padding: '0 0 3rem 0.5rem'
-  },
-  grid: {
-    margin: spacing(1)
-  },
-  paper: {
-    backgroundColor: '#F2F4EF',
-    padding: 30
+  grid: { margin: spacing(1) },
+  paper: { backgroundColor: '#F2F4EF', padding: 30 },
+  root: { margin: spacing(1), marginTop: 40 },
+  spreadEmWide: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    paddingRight: 20
   },
   title: {
     color: 'rgba(0, 0, 0, 0.87)',
@@ -101,22 +112,22 @@ const usePageStyles = makeStyles(({ palette, spacing }) => ({
     lineHeight: '2.7rem',
     fontWeight: 600,
     letterSpacing: '-1px'
-  },
-  root: {
-    margin: spacing(1),
-    marginTop: 40
   }
 }));
 
 const DisplayIdea = ({ idea, id, client }) => {
+  const [editing, setEditing] = useState(false);
+  const [_idea, setIdea] = useState(null);
+
   const {
-    container,
     cardsContainer,
-    title,
-    titleText,
-    paper,
+    container,
     grid,
-    root
+    paper,
+    root,
+    spreadEmWide,
+    title,
+    titleText
   } = usePageStyles();
 
   const upVote = id => {
@@ -156,32 +167,40 @@ const DisplayIdea = ({ idea, id, client }) => {
 
         const publicIdea = businessIdea.status;
 
+        if (typeof _idea !== 'string') {
+          setIdea(businessIdea.idea);
+        }
+
         return (
           <Query query={CURRENT_USER_QUERY}>
             {({ data: { me }, loading, error }) => {
               if (loading) return <CircularProgress style={{ margin: 20 }} />;
               if (error) return <Error error={error} />;
+              console.log(!me);
+              const ownsIdea = me ? businessIdea.createdBy.id === me.id : null;
 
-              const ownsIdea = businessIdea.createdBy.id === me.id;
-
-              const hasPermissions =
-                ownsIdea ||
-                me.permissions.some(permission =>
-                  ['ADMIN', 'MODERATOR'].includes(permission)
-                );
-
-              console.log(publicIdea);
-              console.log(ownsIdea);
-              console.log(hasPermissions);
+              const hasPermissions = me
+                ? ownsIdea ||
+                  me.permissions.some(permission =>
+                    ['ADMIN', 'MODERATOR'].includes(permission)
+                  )
+                : null;
 
               const approved = hasPermissions || publicIdea;
-              console.log(approved);
+
               return (
                 <div className={container}>
                   {approved && (
-                    <diV>
-                      <div className="titleContainer">
-                        <Typography variant="h6" className={title}>
+                    <diV style={{ width: '100%' }}>
+                      <div
+                        className="idea-titleContainer"
+                        style={{ width: '100%' }}
+                      >
+                        <Typography
+                          variant="h6"
+                          className={title}
+                          style={{ width: '100%' }}
+                        >
                           <div className="voteContainer">
                             <Vote
                               upvoteCb={() => upVote(businessIdea.id)}
@@ -190,16 +209,100 @@ const DisplayIdea = ({ idea, id, client }) => {
                               downVotes={businessIdea.downVotes}
                             />
                           </div>
-                          <div className={titleText}>{businessIdea.idea}</div>
+
+                          {editing ? (
+                            <div style={{ width: '100%' }}>
+                              <StepContent
+                                step={0}
+                                value={_idea}
+                                setField={setIdea}
+                              />
+                            </div>
+                          ) : (
+                            <div className={titleText}>{_idea}</div>
+                          )}
                         </Typography>
-                      </div>
-                      {hasPermissions && (
-                        <Public
-                          id={id}
+
+                        <Mutation
                           mutation={UPDATE_IDEA_MUTATION}
-                          status={businessIdea.status}
-                        />
-                      )}
+                          variables={{
+                            id,
+                            idea: _idea
+                          }}
+                        >
+                          {(updateTitle, { error, loading }) => {
+                            return (
+                              <div className={'hoverButtonContainer'}>
+                                {hasPermissions && (
+                                  <Button
+                                    size="small"
+                                    disabled={loading}
+                                    onClick={async () => {
+                                      if (editing) {
+                                        // mutate only if changes were made
+                                        if (businessIdea.idea !== _idea) {
+                                          await updateTitle();
+                                        }
+                                      }
+                                      setEditing(e => !e);
+                                    }}
+                                    color={'primary'}
+                                  >
+                                    {editing ? 'Save' : 'Edit'}
+                                  </Button>
+                                )}
+                              </div>
+                            );
+                          }}
+                        </Mutation>
+                      </div>
+                      <div className={spreadEmWide}>
+                        {hasPermissions ? (
+                          <Public
+                            id={id}
+                            mutation={UPDATE_IDEA_MUTATION}
+                            status={businessIdea.status}
+                          />
+                        ) : (
+                          <div />
+                        )}
+                        <Mutation
+                          mutation={DELETE_IDEA_MUTATION}
+                          refetchQueries={BUSINESSIDEAS_LIST_QUERY}
+                          awaitRefetchQueries={true}
+                          onCompleted={() =>
+                            Router.push({
+                              pathname: '/idea/my-ideas',
+                              query: {
+                                filter: id
+                              }
+                            })
+                          }
+                          variables={{
+                            id
+                          }}
+                        >
+                          {(deleteIdea, { error, loading }) => {
+                            const handleDelete = () => {
+                              confirm(
+                                'Are you sure you want to delete your idea?'
+                              );
+                              return deleteIdea();
+                            };
+                            return (
+                              <Button
+                                color={'primary'}
+                                disabled={loading}
+                                onClick={handleDelete}
+                                size="small"
+                                style={{ color: '#ff6b6b' }}
+                              >
+                                Delete
+                              </Button>
+                            );
+                          }}
+                        </Mutation>
+                      </div>
 
                       <div className={cardsContainer}>
                         {steps.slice(1).map((s, i) => (

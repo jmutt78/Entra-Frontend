@@ -4,7 +4,6 @@ import { withRouter } from 'next/router';
 import { format, parseISO } from 'date-fns';
 
 import Typography from '@material-ui/core/Typography';
-// import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
 import { Mixpanel } from '../../utils/Mixpanel';
@@ -97,7 +96,6 @@ const ListItem = ({
 }) => {
   function handleTracking(e) {
     Mixpanel.track('Question Link');
-    router.push(linkTo);
   }
 
   function handleUserTracking(e) {
@@ -115,22 +113,25 @@ const ListItem = ({
       )}
 
       <div className={classes.textBox}>
-        <Typography
-          variant="h6"
-          className={classes.title}
-          onClick={handleTracking}
-        >
-          {title}
-        </Typography>
-
+        <Link href={linkTo}>
+          <a style={{ textDecoration: 'none' }}>
+            <Typography
+              variant="h6"
+              className={classes.title}
+              onClick={handleTracking}
+            >
+              {title}
+            </Typography>
+          </a>
+        </Link>
         {body && (
-          <Typography
-            variant="p"
-            className={classes.body}
-            onClick={() => router.push(linkTo)}
-          >
-            {body}
-          </Typography>
+          <Link href={linkTo}>
+            <a style={{ textDecoration: 'none' }}>
+              <Typography variant="p" className={classes.body}>
+                {body}
+              </Typography>
+            </a>
+          </Link>
         )}
 
         <div

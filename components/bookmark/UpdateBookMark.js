@@ -53,7 +53,7 @@ class DeleteBookMark extends Component {
             <div
               onClick={() => {
                 deleteBookMark();
-                // Mixpanel.track('Delete Bookmark');
+                Mixpanel.track('Delete Bookmark');
               }}
               style={{
                 display: 'flex',

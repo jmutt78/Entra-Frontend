@@ -39,7 +39,6 @@ class AllIdeas extends Component {
         }}
       >
         {({ loading, error, data: { businessIdeas } }) => {
-          console.log(businessIdeas);
           if (loading) return <CircularProgress style={{ margin: 20 }} />;
           if (error) return <p>Error</p>;
 
@@ -47,7 +46,7 @@ class AllIdeas extends Component {
             <IdeaList
               businessIdeas={businessIdeas}
               page={page}
-              name={'ideas'}
+              name={'Community Business Ideas'}
             />
           );
         }}
