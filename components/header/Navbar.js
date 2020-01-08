@@ -6,7 +6,6 @@ import { withStyles } from '@material-ui/core/styles';
 import NavLink from './NavLink';
 
 import Avatar from '../Avatar';
-import Notification from '../Notifications';
 import { CURRENT_USER_QUERY } from '../auth/User';
 
 import './Navbar.css';
@@ -129,7 +128,6 @@ const Navbar = ({ classes }) => {
                   className={classes.avatarContainer}
                   component={'div'}
                 >
-                  <Notification me={me.myNotifications} />
                   <Avatar me={me} />
                   <div>{me.name}</div>
                 </Typography>

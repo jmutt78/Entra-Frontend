@@ -16,6 +16,7 @@ import classNames from 'classnames';
 import { Mixpanel } from '../../utils/Mixpanel';
 import './Appbar.css';
 import Search from '../search/QuestionSearch';
+import Notification from '../Notifications';
 
 const styles = ({ layout, palette }) => ({
   root: {
@@ -90,6 +91,7 @@ function handleLogin(e) {
 }
 
 const Appbar = ({ isLoggedIn, classes, me, router }) => {
+  console.log(me);
   const [menu, setMenu] = useState(null);
   const navLinks = [
     {
@@ -291,6 +293,7 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
         )}
         {me && (
           <div component={'div'}>
+            <Notification me={me.myNotifications} />
             <Avatar me={me} />
           </div>
         )}
