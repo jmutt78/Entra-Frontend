@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import { CURRENT_USER_QUERY } from '../auth/User';
 import { Query } from 'react-apollo';
 import Drift from 'react-driftjs';
+
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Error from './../ErrorMessage.js';
 
@@ -41,7 +42,13 @@ const Page = ({ children, classes, router }) => {
     router.pathname === '/myfeed' ||
     router.pathname === '/tags' ||
     router.pathname === '/users';
-  const isLanding = router.pathname === '/';
+  const isLanding =
+    router.pathname === '/' ||
+    router.pathname === '/blog' ||
+    router.pathname === '/stories' ||
+    router.pathname === '/signup' ||
+    router.pathname === '/signin' ||
+    router.pathname === '/post';
 
   return (
     <Query query={CURRENT_USER_QUERY}>
@@ -70,7 +77,7 @@ const Page = ({ children, classes, router }) => {
               >
                 {children}
               </div>
-              <Drift appId="rz4xagciytry" />
+              {isLanding && <Drift appId="rz4xagciytry" />}
             </div>
             {isLanding && <Footer />}
           </div>

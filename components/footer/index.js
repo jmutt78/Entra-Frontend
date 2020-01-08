@@ -187,10 +187,10 @@ export const FooterBar = ({ classes }) => {
 
 const Footer = ({ classes }) => {
   return (
-    <>
+    <div>
       <FooterBar classes={classes} />
       <CreditBar classes={classes} />
-    </>
+    </div>
   );
 };
 
