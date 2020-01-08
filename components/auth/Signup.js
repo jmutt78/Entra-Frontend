@@ -3,6 +3,9 @@ import Router from 'next/router';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import Table from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
@@ -78,13 +81,25 @@ class Signup extends Component {
     name: '',
     password: '',
     email: '',
-    display: ''
+    display: '',
+    checked: false
   };
   saveToState = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
+
+  saveToCheck = e => {
+    console.log(e);
+    this.setState({ [e.target.name]: e.target.checked });
+  };
+
   render() {
     const { classes } = this.props;
+    const terms = (
+      <div>
+        <Typography>I agree with our Terms and Privacy Policy</Typography>
+      </div>
+    );
     return (
       <Mutation
         mutation={SIGNUP_MUTATION}
@@ -139,6 +154,7 @@ class Signup extends Component {
                       onChange={this.saveToState}
                       variant="filled"
                       className={classes.inputField}
+                      required
                     />
                   </label>
                   <label htmlFor="email">
@@ -150,6 +166,7 @@ class Signup extends Component {
                       value={this.state.email}
                       onChange={this.saveToState}
                       className={classes.inputField}
+                      required
                     />
                   </label>
 
@@ -162,6 +179,7 @@ class Signup extends Component {
                       value={this.state.display}
                       onChange={this.saveToState}
                       className={classes.inputField}
+                      required
                     />
                   </label>
                   <label htmlFor="password">
@@ -173,9 +191,22 @@ class Signup extends Component {
                       value={this.state.password}
                       onChange={this.saveToState}
                       className={classes.inputField}
+                      required
                     />
                   </label>
-
+                  <FormControlLabel
+                    label={terms}
+                    className={classes.inputField}
+                    control={
+                      <Checkbox
+                        checked={this.state.checked}
+                        onChange={this.saveToCheck}
+                        name="checked"
+                        color="primary"
+                        required
+                      />
+                    }
+                  />
                   <div>
                     <Button
                       size="large"
