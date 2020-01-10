@@ -54,10 +54,25 @@ const BadgeTooltip = withStyles(theme => ({
   }
 }))(Tooltip);
 
-const StepBar = props => {
+const StepBar = ({
+  level1,
+  level2,
+  level3,
+  level4,
+  level,
+  points,
+  classes
+}) => {
   return (
-    <div className={props.classes.item}>
-      <ProgressBar percent={props.level} filledBackground="#85bdcb">
+    <div className={classes.item}>
+      <ProgressBar percent={level} filledBackground="#85bdcb">
+        <Step>
+          {({ accomplished, index }) => (
+            <div
+              className={`indexedStep ${accomplished ? 'accomplished' : null}`}
+            ></div>
+          )}
+        </Step>
         <Step>
           {({ accomplished, index }) => (
             <div
@@ -66,12 +81,10 @@ const StepBar = props => {
               <BadgeTooltip
                 title={
                   <React.Fragment>
-                    <Typography color="inherit">Level 1</Typography>
-                    <b>
-                      {
-                        'Amazing! You signed up for an account and ready to contribute.'
-                      }
-                    </b>
+                    <Typography color="inherit">
+                      Level 1 - 500 Points
+                    </Typography>
+                    <b>{'Share your social media handles.'}</b>
                   </React.Fragment>
                 }
               >
@@ -96,9 +109,11 @@ const StepBar = props => {
                 title={
                   <React.Fragment>
                     <Typography color="inherit">
-                      Level 2 - 500 Points
+                      Level 2 - 1000 Points
                     </Typography>
-                    <b>{'Share your social media handles.'}</b>
+                    <b>{'Share your contact info.'}</b>
+                    <br></br>
+                    <b>{'Added to the leaderboard.'}</b>
                   </React.Fragment>
                 }
               >
@@ -123,11 +138,9 @@ const StepBar = props => {
                 title={
                   <React.Fragment>
                     <Typography color="inherit">
-                      Level 3 - 1000 Points
+                      Level 3 - 1500 Points
                     </Typography>
-                    <b>{'Share your contact info.'}</b>
-                    <br></br>
-                    <b>{'Added to the leaderboard.'}</b>
+                    <b>{'Recieve Entra sticker pack.'}</b>
                   </React.Fragment>
                 }
               >
@@ -154,7 +167,7 @@ const StepBar = props => {
                     <Typography color="inherit">
                       Level 4 - 2000 Points
                     </Typography>
-                    <b>{'Recieve Entra ballcap, tee and sticker pack.'}</b>
+                    <b>{'Recieve Entra ballcap and tee.'}</b>
                     <br></br>
                     <b>{'Confirmed checkmark next to your name'}</b>
                   </React.Fragment>
@@ -181,13 +194,26 @@ export default function BadgesDisplay({ user }) {
   const classes = useStyles();
 
   const points = user.points;
+  const level1 = user.mastery.level1;
+  const level2 = user.mastery.level2;
+  const level3 = user.mastery.level3;
+  const level4 = user.mastery.level4;
+
   return (
     <div className={classes.container}>
       <Card className={classes.card}>
         <Typography variant="h4" className={classes.title}>
           Mastery
         </Typography>
-        <StepBar classes={classes} level={(points / 2000) * 100} />
+        <StepBar
+          classes={classes}
+          level={(points / 2000) * 100}
+          points={points}
+          level1={level1}
+          level2={level2}
+          level3={level3}
+          level4={level4}
+        />
         <div className={classes.badgeTitle}>
           <Typography variant="h6"></Typography>
           <CardActions>

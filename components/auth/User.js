@@ -18,6 +18,13 @@ const CURRENT_USER_QUERY = gql`
       about
       industry
       image
+      instagram
+      twitter
+      linkedIn
+      facebook
+      website
+      shareEmail
+      shareSocial
       myBookMarks {
         id
         questions {
@@ -65,6 +72,13 @@ const CURRENT_USER_QUERY_PROFILE = gql`
       industry
       image
       points
+      instagram
+      twitter
+      linkedIn
+      facebook
+      website
+      shareEmail
+      shareSocial
       myBookMarks {
         id
         questions {

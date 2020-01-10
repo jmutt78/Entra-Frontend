@@ -1,18 +1,18 @@
-import React, { Component } from "react";
-import { Query } from "react-apollo";
+import React, { Component } from 'react';
+import { Query } from 'react-apollo';
 
-import Error from "./../ErrorMessage.js";
-import QaDisplay from "../account/QaDisplay";
-import MainInfoDisplay from "../account/MainInfoDisplay";
-import BadgesDisplay from "../account/BadgesDisplay";
-import Table from "@material-ui/core/Table";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/core/styles";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import gql from "graphql-tag";
+import Error from './../ErrorMessage.js';
+import QaDisplay from '../account/QaDisplay';
+import MainInfoDisplay from '../account/MainInfoDisplay';
+import StepProgressBar from '../account/StepProgressBar';
+import Table from '@material-ui/core/Table';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import gql from 'graphql-tag';
 
 export const USER_QUERY = gql`
   query USER_QUERY($id: ID!) {
@@ -28,6 +28,14 @@ export const USER_QUERY = gql`
       about
       industry
       image
+      points
+      instagram
+      twitter
+      linkedIn
+      facebook
+      website
+      shareEmail
+      shareSocial
       myBookMarks {
         id
         questions {
@@ -41,20 +49,11 @@ export const USER_QUERY = gql`
           vote
         }
       }
-      badges {
-        autobiographer
-        critic
-        patron
-        reviewer
-        analyst
-        commentor
-        frequentFlyer
-        niceAnswer
-        expert
-        teacher
-        pundit
-        powerVoter
-        provoker
+      mastery {
+        level1
+        level2
+        level3
+        level4
       }
       myAnswers {
         id
@@ -73,33 +72,33 @@ export const USER_QUERY = gql`
 
 const styles = theme => ({
   root: {
-    width: "100%",
+    width: '100%',
     maxWidth: 800
   },
   container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center"
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   },
   title: {
-    fontSize: "40px",
-    textAlign: "Left",
-    color: "rgba(0, 0, 0, 0.87)",
-    lineHeight: "3rem"
+    fontSize: '40px',
+    textAlign: 'Left',
+    color: 'rgba(0, 0, 0, 0.87)',
+    lineHeight: '3rem'
   },
   contentContainer: {
-    width: "100%",
+    width: '100%',
     maxWidth: 1000,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center"
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center'
   },
   link: {
-    textDecoration: "none",
-    color: "rgba(0, 0, 0, 0.87)"
+    textDecoration: 'none',
+    color: 'rgba(0, 0, 0, 0.87)'
   },
   icon: {
-    color: "black"
+    color: 'black'
   }
 });
 
@@ -135,7 +134,7 @@ class DisplayUser extends Component {
                 <div className={classes.contentContainer}>
                   <MainInfoDisplay user={user} />
                   <QaDisplay user={user} />
-                  <BadgesDisplay user={user} />
+                  <StepProgressBar user={user} />
                 </div>
               </div>
             </div>

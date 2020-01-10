@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 
 import StepProgressBar from './StepProgressBar';
-import BadgesDisplay from './BadgesDisplay';
-import ProgressBar from './ProgressBar';
+
 import Error from './../ErrorMessage.js';
 import MainInfoDisplay from './MainInfoDisplay';
 import QaDisplay from './QaDisplay';
