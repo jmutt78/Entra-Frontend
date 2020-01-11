@@ -47,7 +47,7 @@ const styles = theme => ({
   },
   name: {
     paddingLeft: '1.5rem',
-    whiteSpace: 'nowrap'
+    display: 'inline-grid'
   },
   detailsContainer: {
     display: 'flex',
@@ -70,7 +70,9 @@ class MainInfoDisplay extends Component {
   handleEditTrack(e) {
     Mixpanel.track('Edit Account');
   }
+
   render() {
+    console.log(typeof 'blue');
     return (
       <Query query={CURRENT_USER_QUERY_PROFILE}>
         {({ data, loading, error }) => {
@@ -88,20 +90,23 @@ class MainInfoDisplay extends Component {
           console.log(social);
           const crown = level4 ? (
             <div>
-              <img
-                src="/static/king.svg"
-                alt="crown"
-                style={{
-                  maxWidth: 30,
-                  filter: `invert(78%) sepia(5%) saturate(3581%) hue-rotate(333deg) brightness(91%) contrast(101%)`,
-                  marginBottom: '25px',
-                  marginRight: '-30px'
-                }}
-              />
-              {user.name}
+              <Typography className={classes.name} variant="h4">
+                <img
+                  src="/static/king.svg"
+                  alt="crown"
+                  style={{
+                    maxWidth: 30,
+                    filter: `invert(78%) sepia(5%) saturate(3581%) hue-rotate(333deg) brightness(91%) contrast(101%)`,
+                    marginRight: '-30px'
+                  }}
+                />
+                {user.name}
+              </Typography>
             </div>
           ) : (
-            <div>{user.name}</div>
+            <Typography className={classes.name} variant="h4">
+              {user.name}
+            </Typography>
           );
           const dateToFormat = this.props.user.createdAt;
 
@@ -114,9 +119,7 @@ class MainInfoDisplay extends Component {
                   <Avatar className={classes.bigAvatar}>{user.name[0]}</Avatar>
                 )}
 
-                <Typography variant="h4" className={classes.name}>
-                  {crown}
-                </Typography>
+                {crown}
               </div>
               <div className={classes.detailsContainer}>
                 <Typography variant="h6">{user.display}</Typography>
@@ -126,7 +129,7 @@ class MainInfoDisplay extends Component {
                 <Typography variant="subtitle1">
                   Industry: {user.industry}
                 </Typography>
-                {emailTrue || me === user ? (
+                {(emailTrue || me === user) && (
                   <div>
                     <Typography variant="subtitle1">
                       <Link>
@@ -161,7 +164,7 @@ class MainInfoDisplay extends Component {
                       </Link>
                     </Typography>
                   </div>
-                ) : null}
+                )}
                 {social || me === user ? (
                   <div>
                     {user.instagram ? (

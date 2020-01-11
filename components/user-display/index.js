@@ -105,6 +105,7 @@ const styles = theme => ({
 class DisplayUser extends Component {
   render() {
     const { classes } = this.props;
+
     return (
       <Query
         query={USER_QUERY}
@@ -118,7 +119,7 @@ class DisplayUser extends Component {
           const user = data.user;
           return (
             <div className={classes.root}>
-              <div container className={classes.container}>
+              <div className={classes.container}>
                 <Table className={classes.table}>
                   <TableHead>
                     <TableRow>

@@ -1,21 +1,21 @@
-import { Query, Mutation } from "react-apollo";
-import React, { Component } from "react";
-import { withStyles } from "@material-ui/core/styles";
-import gql from "graphql-tag";
-import Error from "./../ErrorMessage.js";
-import PropTypes from "prop-types";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { Query, Mutation } from 'react-apollo';
+import React, { Component } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import gql from 'graphql-tag';
+import Error from './../ErrorMessage.js';
+import PropTypes from 'prop-types';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const possiblePermissions = ["ADMIN", "USER", "MODERATOR", "PERMISSIONUPDATE"];
+const possiblePermissions = ['ADMIN', 'USER', 'MODERATOR', 'PERMISSIONUPDATE'];
 
 const UPDATE_PERMISSIONS_MUTATION = gql`
   mutation updatePermissions($permissions: [Permission], $userId: ID!) {
@@ -36,16 +36,29 @@ export const ALL_USERS_QUERY = gql`
       email
       display
       permissions
+      points
+      mastery {
+        level1
+        level2
+        level3
+        level4
+      }
+      myQuestions {
+        id
+      }
+      myAnswers {
+        id
+      }
     }
   }
 `;
 
 const styles = theme => ({
   root: {
-    width: "80%",
+    width: '80%',
     margin: theme.spacing(15),
     padding: theme.spacing(1),
-    overflowX: "auto"
+    overflowX: 'auto'
   },
   table: {
     minWidth: 650
@@ -58,7 +71,7 @@ class Permissions extends Component {
     return (
       <Query query={ALL_USERS_QUERY}>
         {({ data, loading, error }) => {
-          if (loading) return <CircularProgress style={{margin: 20}} />
+          if (loading) return <CircularProgress style={{ margin: 20 }} />;
           if (error) return <p>Error</p>;
 
           return (
@@ -80,7 +93,7 @@ class Permissions extends Component {
                 ))}
               </Table>
             </Paper>
-          )
+          );
         }}
       </Query>
     );
@@ -148,7 +161,7 @@ export class UserPermissions extends React.Component {
               ))}
               <TableCell align="left">
                 <Button disabled={loading} onClick={updatePermissions}>
-                  Updat{loading ? "ing" : "e"}
+                  Updat{loading ? 'ing' : 'e'}
                 </Button>
               </TableCell>
             </TableRow>
