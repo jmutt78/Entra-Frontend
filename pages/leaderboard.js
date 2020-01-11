@@ -1,10 +1,10 @@
 import React from 'react';
-import LeaderBoard from '../components/leaderboard';
+import LeaderBoard2 from '../components/leaderboard2';
 import Layout from '../components/layout/index.js';
 
 const Leader = props => (
   <Layout>
-    <LeaderBoard />
+    <LeaderBoard2 />
   </Layout>
 );
 
