@@ -1,0 +1,80 @@
+.main-welcome-container {
+  padding-left: 0;
+}
+
+.video-container {
+  padding-left: 0;
+}
+
+.youtube-iframe {
+  bottom: 0;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+}
+
+.youtube-box {
+  position: relative;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.youtube-box:before {
+  content: '';
+  display: block;
+  padding-top: 56.25%;
+}
+
+.create-idea-container > .MuiPaper-root {
+  background: #fafafa !important;
+}
+
+.ideaCreate-textFieldContainer {
+  width: 100%;
+  max-width: 800px;
+  padding: 2rem 4rem;
+}
+
+.MuiFilledInput-inputMultiline {
+  line-height: 1.4rem !important;
+}
+
+.create-idea-buttons {
+  padding: 2rem 4rem;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (max-width: 500px) {
+  .MuiStepper-root {
+    padding: 24px 4px !important;
+  }
+  .ideaCreate-textFieldContainer {
+    padding: 2rem 1rem;
+  }
+  .create-idea-buttons {
+    padding: 2rem 1rem;
+  }
+}
+
+@media (min-width: 1000px) {
+  .main-welcome-container {
+    padding-left: 100px;
+  }
+  .video-container {
+    padding-left: 0;
+  }
+}
+
+@media (min-width: 1500px) {
+  .main-welcome-container {
+    padding-left: 300px;
+  }
+  .video-container {
+    padding-left: 0;
+  }
+}

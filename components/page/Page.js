@@ -48,6 +48,7 @@ const Page = ({ children, classes, router }) => {
     router.pathname === '/stories' ||
     router.pathname === '/signup' ||
     router.pathname === '/signin' ||
+    router.pathname === '/points' ||
     router.pathname === '/post';
 
   return (

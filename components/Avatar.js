@@ -107,10 +107,17 @@ class MyProfile extends React.Component {
           <Link href="/account/myaccount">
             <MenuItem onClick={this.handleClose}>My Profile</MenuItem>
           </Link>
-          <Link href="/account/editaccount">
-            <MenuItem onClick={this.handleClose}>Edit Account</MenuItem>
+
+          <Link href="/myquestions">
+            <MenuItem onClick={this.handleClose}>My Questions</MenuItem>
           </Link>
-          <Link>
+          <Link href="/myanswers">
+            <MenuItem onClick={this.handleClose}>My Answers</MenuItem>
+          </Link>
+          <Link href="/mybookmarks">
+            <MenuItem onClick={this.handleClose}>Bookmarks</MenuItem>
+          </Link>
+          <Link href="https://entra.drift.help">
             <a
               href="https://entra.drift.help"
               target="_blank"

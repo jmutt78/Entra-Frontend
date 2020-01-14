@@ -59,7 +59,7 @@ export default function NavMenu({
       <div className="navbarFlex">
         {!createdNav() && (
           <Typography>
-            {navLinks.map(({ name, target, icon }) => (
+            {navLinks.map(({ name, target, icon, key }) => (
               <NavLink activeClassName="navLinkActive" href={target} key={name}>
                 <a
                   className="navLinkNon"
@@ -94,7 +94,7 @@ export default function NavMenu({
               classes={{ paper: styles.paper }}
             >
               {navLinks.map(({ name, target }) => (
-                <MenuItem value={name} onClick={handleClose}>
+                <MenuItem value={name} onClick={handleClose} key={name}>
                   <NavLink
                     activeClassName="navLinkActive"
                     href={target}

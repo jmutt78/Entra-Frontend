@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   badgeTitle: {
     width: '100%',
     lineHeight: '50px',
-    padding: '0px 50px 30px 30px',
+    padding: '30px 20px 15px 30px',
 
     alignItems: 'center'
   },
@@ -84,7 +84,8 @@ const StepBar = ({
                     <Typography color="inherit">
                       Level 1 - 500 Points
                     </Typography>
-                    <b>{'Share your social media handles.'}</b>
+                    <b>{'Share social media handles.'}</b>
+                    <b>{'Added to Leaderboard.'}</b>
                   </React.Fragment>
                 }
               >
@@ -111,9 +112,8 @@ const StepBar = ({
                     <Typography color="inherit">
                       Level 2 - 1000 Points
                     </Typography>
-                    <b>{'Share your contact info.'}</b>
+                    <b>{'Share your email address and website.'}</b>
                     <br></br>
-                    <b>{'Added to the leaderboard.'}</b>
                   </React.Fragment>
                 }
               >
@@ -140,7 +140,7 @@ const StepBar = ({
                     <Typography color="inherit">
                       Level 3 - 1500 Points
                     </Typography>
-                    <b>{'Recieve Entra sticker pack.'}</b>
+                    <b>{'Receive an Entra sticker pack'}</b>
                   </React.Fragment>
                 }
               >
@@ -169,7 +169,11 @@ const StepBar = ({
                     </Typography>
                     <b>{'Recieve Entra ballcap and tee.'}</b>
                     <br></br>
-                    <b>{'Confirmed checkmark next to your name'}</b>
+                    <b>
+                      {
+                        'You are now a pro! A crown is now visible next to your name.'
+                      }
+                    </b>
                   </React.Fragment>
                 }
               >
@@ -215,16 +219,11 @@ export default function BadgesDisplay({ user }) {
           level4={level4}
         />
         <div className={classes.badgeTitle}>
-          <Typography variant="h6"></Typography>
-          <CardActions>
-            <Link href="/points">
-              <a style={{ textDecoration: 'none' }}>
-                <Button size="medium">
-                  You have {points} points! Learn More >>
-                </Button>
-              </a>
-            </Link>
-          </CardActions>
+          <Link href="/points">
+            <Button size="medium">
+              You have {points} points! Learn More >>
+            </Button>
+          </Link>
         </div>
       </Card>
     </div>

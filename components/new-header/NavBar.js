@@ -113,16 +113,8 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
       target: '/all'
     },
     {
-      name: 'My Questions',
-      target: '/myquestions'
-    },
-    {
-      name: 'My Answers',
-      target: '/myanswers'
-    },
-    {
-      name: 'My Bookmarks',
-      target: '/mybookmarks'
+      name: 'Leaderboard',
+      target: '/leaderboard'
     }
   ];
 
@@ -223,9 +215,10 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
           >
             <NavMenu
               me={me}
+              key={`Community`}
               navLinks={feedLink()}
               curretPage={curretPage}
-              name={`Q&A`}
+              name={`Community`}
               icon={<QuestionAnswerIcon fontSize="small" />}
             />
             <NavMenu
@@ -233,6 +226,7 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
               navLinks={ideaLinkCondition()}
               curretPage={curretPage}
               name={`Ideas`}
+              key={`Ideas`}
               icon={<EmojiObjectsIcon fontSize="small" />}
             />
 
@@ -241,6 +235,7 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
               navLinks={blogLinks}
               curretPage={curretPage}
               name={`Learn`}
+              key={`Learn`}
               icon={<MenuBookIcon fontSize="small" />}
             />
             <NavMenu
@@ -248,6 +243,7 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
               navLinks={createLinks}
               curretPage={curretPage}
               name={`Create`}
+              key={`Create`}
               icon={<CreateIcon fontSize="small" />}
             />
             {me &&
