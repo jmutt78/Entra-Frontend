@@ -72,7 +72,6 @@ class MainInfoDisplay extends Component {
   }
 
   render() {
-    console.log(typeof 'blue');
     return (
       <Query query={CURRENT_USER_QUERY_PROFILE}>
         {({ data, loading, error }) => {
@@ -86,8 +85,7 @@ class MainInfoDisplay extends Component {
           const me = data.me;
           const social = user.shareSocial && this.props.user.mastery.level1;
           const emailTrue = user.shareEmail && this.props.user.mastery.level2;
-          console.log(emailTrue);
-          console.log(social);
+
           const crown = level4 ? (
             <div>
               <Typography className={classes.name} variant="h4">
@@ -249,7 +247,7 @@ class MainInfoDisplay extends Component {
                         </Button>
                       </Link>
                     </Typography>
-                    <Share me={me} />
+                    <Share me={me} query={CURRENT_USER_QUERY_PROFILE} />
                   </div>
                 ) : null
               ) : null}

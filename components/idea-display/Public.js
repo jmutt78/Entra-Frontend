@@ -17,32 +17,40 @@ export default ({ idea, id, mutation, status }) => {
   });
 
   const handleChange = (name, updateBusinessIdea, id) => async event => {
-    setState({ ...state, [name]: event.target.checked });
+    const switchVote = event.target.checked;
+    if (switchVote) {
+      if (confirm('Are you sure you want to make your constact info public?')) {
+        const res = await updateBusinessIdea({
+          variables: {
+            id,
+            status: true
+          },
+          refetchQueries: [
+            { query: BUSINESSIDEAS_LIST_QUERY, variables: { filter: 'public' } }
+          ]
+        });
 
-    if (event.target.checked === true) {
-      confirm('Are you sure you want to make this idea public?');
-      const res = await updateBusinessIdea({
-        variables: {
-          id,
-          status: true
-        },
-        refetchQueries: [
-          { query: BUSINESSIDEAS_LIST_QUERY, variables: { filter: 'public' } }
-        ]
-      });
-      Mixpanel.track('Make Idea Public');
-    } else {
-      confirm('Are you sure you want to make this idea private?');
-      const res = await updateBusinessIdea({
-        variables: {
-          id,
-          status: false
-        },
-        refetchQueries: [
-          { query: BUSINESSIDEAS_LIST_QUERY, variables: { filter: 'public' } }
-        ]
-      });
-      Mixpanel.track('Make Idea Private');
+        setState({ ...state, [name]: switchVote });
+        Mixpanel.track('Make Idea Public');
+      }
+    }
+    if (!switchVote) {
+      if (
+        confirm('Are you sure you want to make your constact info private?')
+      ) {
+        const res = await updateBusinessIdea({
+          variables: {
+            id,
+            status: false
+          },
+          refetchQueries: [
+            { query: BUSINESSIDEAS_LIST_QUERY, variables: { filter: 'public' } }
+          ]
+        });
+        setState({ ...state, [name]: switchVote });
+
+        Mixpanel.track('Make Idea Private');
+      }
     }
   };
 

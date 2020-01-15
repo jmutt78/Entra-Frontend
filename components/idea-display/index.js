@@ -176,7 +176,7 @@ const DisplayIdea = ({ idea, id, client }) => {
             {({ data: { me }, loading, error }) => {
               if (loading) return <CircularProgress style={{ margin: 20 }} />;
               if (error) return <Error error={error} />;
-              console.log(!me);
+
               const ownsIdea = me ? businessIdea.createdBy.id === me.id : null;
 
               const hasPermissions = me
