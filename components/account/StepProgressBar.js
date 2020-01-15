@@ -41,6 +41,13 @@ const useStyles = makeStyles(theme => ({
     padding: '10px 50px 30px 50px',
 
     alignItems: 'center'
+  },
+  badgeItem: {
+    maxHeight: 45,
+
+    '@media (max-width: 650px)': {
+      maxHeight: 30
+    }
   }
 }));
 
@@ -91,10 +98,10 @@ const StepBar = ({
               >
                 <img
                   src="/static/winner.svg"
+                  className={classes.badgeItem}
                   alt="winner badge"
                   style={{
-                    filter: `grayscale(${accomplished ? 0 : 80}%)`,
-                    maxWidth: 45
+                    filter: `grayscale(${accomplished ? 0 : 80}%)`
                   }}
                 />
               </BadgeTooltip>
@@ -119,10 +126,10 @@ const StepBar = ({
               >
                 <img
                   src="/static/heart.svg"
+                  className={classes.badgeItem}
                   alt="heart badge"
                   style={{
-                    filter: `grayscale(${accomplished ? 0 : 80}%)`,
-                    maxWidth: 45
+                    filter: `grayscale(${accomplished ? 0 : 80}%)`
                   }}
                 />
               </BadgeTooltip>
@@ -147,9 +154,9 @@ const StepBar = ({
                 <img
                   src="/static/check.svg"
                   alt="check badge"
+                  className={classes.badgeItem}
                   style={{
-                    filter: `grayscale(${accomplished ? 0 : 80}%)`,
-                    maxWidth: 45
+                    filter: `grayscale(${accomplished ? 0 : 80}%)`
                   }}
                 />
               </BadgeTooltip>
@@ -179,10 +186,10 @@ const StepBar = ({
               >
                 <img
                   src="/static/champ.svg"
+                  className={classes.badgeItem}
                   alt="champion badge"
                   style={{
-                    filter: `grayscale(${accomplished ? 0 : 80}%)`,
-                    maxWidth: 45
+                    filter: `grayscale(${accomplished ? 0 : 80}%)`
                   }}
                 />
               </BadgeTooltip>

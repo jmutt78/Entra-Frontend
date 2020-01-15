@@ -154,7 +154,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2)
   },
   table: {
-    minWidth: 750
+    minWidth: 700
   },
   tableWrapper: {
     overflowX: 'auto'
@@ -174,13 +174,19 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 500,
     textDecoration: 'none',
     color: '#e27d60',
-    fontSize: '1rem'
+    fontSize: '1rem',
+    '@media (max-width: 650px)': {
+      fontSize: '.80rem'
+    }
   },
   pointLink: {
     fontWeight: 500,
     textDecoration: 'none',
     fontSize: '1rem',
-    color: 'black'
+    color: 'black',
+    '@media (max-width: 650px)': {
+      fontSize: '.80rem'
+    }
   }
 }));
 
