@@ -284,21 +284,28 @@ const DisplayIdea = ({ idea, id, client }) => {
                         >
                           {(deleteIdea, { error, loading }) => {
                             const handleDelete = () => {
-                              confirm(
+                              var r = confirm(
                                 'Are you sure you want to delete your idea?'
                               );
-                              return deleteIdea();
+
+                              if (r == true) {
+                                return deleteIdea();
+                              }
                             };
                             return (
-                              <Button
-                                color={'primary'}
-                                disabled={loading}
-                                onClick={handleDelete}
-                                size="small"
-                                style={{ color: '#ff6b6b' }}
-                              >
-                                Delete
-                              </Button>
+                              <div>
+                                {ownsIdea && (
+                                  <Button
+                                    color={'primary'}
+                                    disabled={loading}
+                                    onClick={handleDelete}
+                                    size="small"
+                                    style={{ color: '#ff6b6b' }}
+                                  >
+                                    Delete
+                                  </Button>
+                                )}
+                              </div>
                             );
                           }}
                         </Mutation>
