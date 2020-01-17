@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 const SINGLE_QUESTION_QUERY = gql`
   query SINGLE_QUESTION_QUERY($id: ID!) {
@@ -6,12 +6,14 @@ const SINGLE_QUESTION_QUERY = gql`
       id
       title
       description
+      bountyPoints
       approval
       askedBy {
         id
         display
         image
         name
+        points
       }
       createdAt
       bookMark {

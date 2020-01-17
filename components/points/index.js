@@ -137,6 +137,24 @@ export default () => {
           <p className={paragraph}>
             -2 Points - A community member downvotes your answer.
           </p>
+          <Typography variant="h3" className={subtitle}>
+            Bounty
+          </Typography>
+          <p className={paragraph}>
+            A bounty is a special award given to answers.
+          </p>
+          <p className={paragraph}>
+            It is funded by the points of the user who offers it, and is
+            non-refundable.
+          </p>
+          <p className={paragraph}>
+            If you see a question that has not gotten a satisfactory answer, a
+            bounty may help attract more attention and more answers.
+          </p>
+          <p className={paragraph}>
+            All bounties are paid for up front and non-refundable under any
+            circumstances.
+          </p>
         </div>
       </Grid>
     </div>

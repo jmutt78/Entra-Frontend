@@ -21,7 +21,7 @@ import CreateBookMark from '../bookmark/CreateBookMark.js';
 import DeleteQuestion from '../delete-question';
 import Error from './../ErrorMessage.js';
 import Icon from '../ui/Icon';
-
+import BountyButton from './BountyButton';
 import PromptBar from './PromptBar';
 import Vote from '../Vote';
 import questionQuery from './questionQuery';
@@ -281,15 +281,21 @@ class DisplayQuestion extends Component {
         {({ data, loading, error }) => {
           if (loading) return <CircularProgress style={{ margin: 20 }} />;
           if (error) return <Error error={error} />;
-          const user = data.me;
 
-          const askedby = question.askedBy[0] || null;
+          const user = data.me;
+          const bounty = this.props.question.bountyPoints === null;
+          const bountPoints = this.props.question.bountyPoints;
           const hasPermissions =
             !!user &&
             user.permissions.some(permission =>
               ['ADMIN', 'MODERATOR'].includes(permission)
             );
-          const ownsQuestion = !!askedby && !!user && askedby.id === user.id;
+
+          const selectedExists = () => {
+            const answers = question.answers;
+            const found = answers.some(el => el.selected === true);
+            return found;
+          };
 
           return (
             <div className={classes.container} id="tableBorderRemoveTarget">
@@ -304,6 +310,7 @@ class DisplayQuestion extends Component {
 
               <div className="subHeadingContainer">
                 <Tags tags={question.tags} router={this.props.router} />
+
                 <div
                   style={{
                     display: 'flex',
@@ -342,6 +349,14 @@ class DisplayQuestion extends Component {
                   user={question.askedBy[0]}
                   createdAt={question.createdAt}
                 />
+                {!selectedExists() && bounty ? (
+                  <BountyButton id={this.props.id} question={question} />
+                ) : null}
+                {!bounty && (
+                  <Typography
+                    style={{ paddingLeft: '15px', fontWeight: 500 }}
+                  >{`Bounty Points: ${bountPoints}`}</Typography>
+                )}
               </div>
               <div style={{ maxWidth: 1000, padding: '0px 0 20px 0' }}></div>
 
