@@ -7,6 +7,7 @@ const SINGLE_QUESTION_QUERY = gql`
       title
       description
       approval
+      notifyByEmail
       askedBy {
         id
         display

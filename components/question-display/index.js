@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Query } from 'react-apollo';
+import React, { Component, useState, useEffect } from 'react';
+import { Query, Mutation } from 'react-apollo';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'next/router';
@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 
 import Link from 'next/link';
 import Tooltip from '@material-ui/core/Tooltip';
+import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -25,7 +26,9 @@ import Icon from '../ui/Icon';
 import PromptBar from './PromptBar';
 import Vote from '../Vote';
 import questionQuery from './questionQuery';
+import questionListQuery from '../question-list/questionListQuery';
 import { CURRENT_USER_QUERY } from '../auth/User';
+import styled from 'styled-components';
 
 import './index.css';
 
@@ -77,6 +80,26 @@ const creditsStyles = ({ palette, layout }) => ({
     fontWeight: 500,
     textDecoration: 'none',
     color: '#e27d60'
+  }
+});
+
+const notifyStyles = ({ palette, layout }) => ({
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  label: {
+    color: '#2d3436',
+    fontSize: '1.2rem',
+    padding: '8px 0 5px 8px'
+  },
+  loader: {
+    display: 'flex',
+    '& > * + *': {
+      marginRight: 100
+    }
   }
 });
 
@@ -205,6 +228,79 @@ const Credits = withStyles(creditsStyles)(({ classes, user, createdAt }) => {
   );
 });
 
+const NotifyOnNewAnswer = withStyles(notifyStyles)(
+  ({ classes, user, question, ownsQuestion }) => {
+    const EMAIL_NOTIFICATIONS_TOGGLE_MUTATION = gql`
+      mutation emailNotificationsToggle($questionId: ID!) {
+        emailNotificationsToggle(questionId: $questionId)
+      }
+    `;
+
+    const { notifyByEmail, id } = question;
+    const [notify, setNotify] = useState(true);
+
+    if (!user || !ownsQuestion) {
+      return null;
+    }
+
+    useEffect(() => {
+      if (notifyByEmail === null) {
+        setNotify(true);
+      } else {
+        setNotify(notifyByEmail);
+      }
+    }, [notifyByEmail]);
+
+    const handleSwitchChange = async toggleEmailNotifications => {
+      toggleEmailNotifications();
+    };
+    return (
+      <Mutation
+        mutation={EMAIL_NOTIFICATIONS_TOGGLE_MUTATION}
+        variables={{ questionId: id }}
+        refetchQueries={[
+          {
+            query: questionQuery,
+            variables: { id: id }
+          },
+
+          { query: CURRENT_USER_QUERY },
+          {
+            query: questionListQuery,
+            variables: { filter: 'all' }
+          }
+        ]}
+      >
+        {(toggleEmailNotifications, { error, loading }) => {
+          if (error) return <Error error={error} />;
+          return (
+            <Tooltip title="Receive emails for new answers" placement="top">
+              <div className={classes.container}>
+                <Switch
+                  disabled={loading}
+                  checked={notify}
+                  onChange={() => handleSwitchChange(toggleEmailNotifications)}
+                  value="notify"
+                  color="primary"
+                  inputProps={{ 'aria-label': 'primary checkbox' }}
+                />
+                <span className={classes.label}>
+                  {notify ? 'Notify me' : `Don't notifiy me`}
+                </span>
+                {loading && (
+                  <div className={classes.loader}>
+                    <CircularProgress />
+                  </div>
+                )}
+              </div>
+            </Tooltip>
+          );
+        }}
+      </Mutation>
+    );
+  }
+);
+
 const EditSection = withStyles(editStyles)(
   ({ question, user, classes, hasPermissions }) => {
     const answers = question.answers.length;
@@ -316,6 +412,12 @@ class DisplayQuestion extends Component {
                   <Bookmark user={user} question={question} />
                   {'   '}
                   <Views views={question.views} />
+                  {'   '}
+                  <NotifyOnNewAnswer
+                    user={user}
+                    question={question}
+                    ownsQuestion={ownsQuestion}
+                  />
                 </div>
               </div>
 

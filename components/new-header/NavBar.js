@@ -79,6 +79,11 @@ const styles = ({ layout, palette }) => ({
     fontWeight: 500,
     height: layout.headerHeight,
     padding: '12px 10px 8px 10px'
+  },
+  userArea: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 });
 
@@ -91,7 +96,6 @@ function handleLogin(e) {
 }
 
 const Appbar = ({ isLoggedIn, classes, me, router }) => {
-  console.log(me);
   const [menu, setMenu] = useState(null);
   const navLinks = [
     {
@@ -292,8 +296,8 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
           </Typography>
         )}
         {me && (
-          <div component={'div'}>
-            <Notification me={me.myNotifications} />
+          <div className={classes.userArea} component={'div'}>
+            <Notification notifications={me.myNotifications} />
             <Avatar me={me} />
           </div>
         )}

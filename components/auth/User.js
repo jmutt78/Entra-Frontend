@@ -48,13 +48,19 @@ const CURRENT_USER_QUERY = gql`
       }
       myNotifications {
         id
+        createdAt
         wasSeen
         wasClicked
-        question {
+        answer {
           id
-          title
-          askedBy {
+          body
+          answeredBy {
+            id
             display
+          }
+          answeredTo {
+            id
+            title
           }
         }
       }
