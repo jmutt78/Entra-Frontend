@@ -12,7 +12,7 @@ import Answer from './Answer';
 const styles = ({ spacing, palette, layout }) => ({
   title: {
     color: '#2d3436',
-    padding: '15px 0 20px 20px',
+    padding: '15px 0 0px 20px',
     maxWidth: 800,
     fontWeight: 500,
     textAlign: 'left'

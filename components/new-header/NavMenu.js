@@ -59,7 +59,7 @@ export default function NavMenu({
       <div className="navbarFlex">
         {!createdNav() && (
           <Typography>
-            {navLinks.map(({ name, target, icon }) => (
+            {navLinks.map(({ name, target, icon, key }) => (
               <NavLink activeClassName="navLinkActive" href={target} key={name}>
                 <a
                   className="navLinkNon"
@@ -78,13 +78,16 @@ export default function NavMenu({
             {' '}
             <Typography
               onClick={handleClick}
-              style={{ cursor: 'pointer' }}
+              style={{
+                cursor: 'pointer',
+                fontSize: '0.85rem',
+                fontWeight: 600
+              }}
               className={selectedData ? 'buttonLink' : 'noActive'}
               aria-controls="simple-menu"
               aria-haspopup="true"
             >
-              {icon} {selectedData ? selectedData.name : name}
-              <ArrowDropDownIcon />
+              {selectedData ? selectedData.name : name}
             </Typography>
             <Menu
               anchorEl={anchorEl}
@@ -94,7 +97,7 @@ export default function NavMenu({
               classes={{ paper: styles.paper }}
             >
               {navLinks.map(({ name, target }) => (
-                <MenuItem value={name} onClick={handleClose}>
+                <MenuItem value={name} onClick={handleClose} key={name}>
                   <NavLink
                     activeClassName="navLinkActive"
                     href={target}

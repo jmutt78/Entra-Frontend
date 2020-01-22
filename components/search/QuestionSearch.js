@@ -87,32 +87,44 @@ const glow = keyframes`
 
 const SearchContainer = styled.div`
   position: relative;
+  display: flex;
   cursor: pointer;
   margin-left: 20px;
   input {
-    width: 100%;
-    margin-right: 200px;
+    width: 500px;
+
+    margin-left: 25px;
     border: 0;
-    font-size: 1.1rem;
+    font-size: 1rem;
 
     &.loading {
       animation: ${glow} 0.5s ease-in-out infinite alternate;
     }
   }
-  @media (max-width: 900px) {
-    margin-left: 20px;
-    padding-top: 20px;
+  @media (max-width: 767px) {
     input {
-      margin-right: 100px;
+      width: 200px;
     }
+`;
+
+//mobile style
+const DropDown = styled.div`
+  position: absolute;
+  width: 50%;
+  z-index: 2;
+  border: 1px solid #ebebeb;
+  @media (max-width: 767px) {
+    width: 90%;
   }
 `;
 
-const DropDown = styled.div`
+const Search = styled.div`
+  height: 100%;
   position: absolute;
-  width: 100%;
-  z-index: 2;
-  border: 1px solid #ebebeb;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const DropDownItem = styled.div`
@@ -126,7 +138,7 @@ const DropDownItem = styled.div`
 
   border-left: 10px solid ${props => (props.highlighted ? '#EBEBEB' : 'white')};
   img {
-    margin-right: 10px;
+    margin-right: 0px;
   }
 `;
 
@@ -190,8 +202,12 @@ class QuestionSearch extends React.Component {
     resetIdCounter();
     return (
       <SearchContainer>
+        <Search>
+          <SearchIcon />
+        </Search>
         <Downshift
           onChange={this.routeToQuestion}
+          inputProps={{ 'aria-label': 'search' }}
           itemToString={question => (question === null ? '' : question.title)}
         >
           {({
@@ -202,7 +218,6 @@ class QuestionSearch extends React.Component {
             highlightedIndex
           }) => (
             <div>
-              <SearchIcon />
               <ApolloConsumer>
                 {client => (
                   <TextField

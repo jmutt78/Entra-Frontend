@@ -7,21 +7,21 @@ import { format, parseISO } from 'date-fns';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-
 import Link from 'next/link';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-
-import Answers from '../answers-display';
-import ApproveQuestion from '../approval/AppoveQuestion.js';
+import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Answers from '../answers-display';
+
+import ApproveQuestion from '../approval/AppoveQuestion.js';
 import CreateAnswer from '../create-answer';
 import CreateBookMark from '../bookmark/CreateBookMark.js';
 import DeleteQuestion from '../delete-question';
 import Error from './../ErrorMessage.js';
 import Icon from '../ui/Icon';
-
+import BountyButton from './BountyButton';
 import PromptBar from './PromptBar';
 import Vote from '../Vote';
 import questionQuery from './questionQuery';
@@ -281,15 +281,21 @@ class DisplayQuestion extends Component {
         {({ data, loading, error }) => {
           if (loading) return <CircularProgress style={{ margin: 20 }} />;
           if (error) return <Error error={error} />;
-          const user = data.me;
 
-          const askedby = question.askedBy[0] || null;
+          const user = data.me;
+          const bounty = this.props.question.bountyPoints === null;
+          const bountPoints = this.props.question.bountyPoints;
           const hasPermissions =
             !!user &&
             user.permissions.some(permission =>
               ['ADMIN', 'MODERATOR'].includes(permission)
             );
-          const ownsQuestion = !!askedby && !!user && askedby.id === user.id;
+
+          const selectedExists = () => {
+            const answers = question.answers;
+            const found = answers.some(el => el.selected === true);
+            return found;
+          };
 
           return (
             <div className={classes.container} id="tableBorderRemoveTarget">
@@ -304,6 +310,7 @@ class DisplayQuestion extends Component {
 
               <div className="subHeadingContainer">
                 <Tags tags={question.tags} router={this.props.router} />
+
                 <div
                   style={{
                     display: 'flex',
@@ -323,7 +330,7 @@ class DisplayQuestion extends Component {
                 {user ? <div /> : <PromptBar />}
               </div>
 
-              <div
+              <Paper
                 style={{
                   background: '#f2f4ef',
                   padding: '3px 0 5px 0',
@@ -331,18 +338,40 @@ class DisplayQuestion extends Component {
                   marginRight: 15
                 }}
               >
-                {question.description && (
-                  <div className="QuestionDetail-body">
+                <div
+                  className="QuestionDetail-body"
+                  style={{ paddingTop: `${question.description ? null : 0}` }}
+                >
+                  {question.description && (
                     <div className={classes.bodyText}>
                       {question.description}
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
                 <Credits
                   user={question.askedBy[0]}
                   createdAt={question.createdAt}
                 />
-              </div>
+                {user && (
+                  <div>
+                    {question.askedBy[0].id === user.id && (
+                      <div>
+                        {!selectedExists() && bounty ? (
+                          <BountyButton
+                            id={this.props.id}
+                            question={question}
+                          />
+                        ) : null}
+                      </div>
+                    )}
+                  </div>
+                )}
+                {!bounty && (
+                  <Typography
+                    style={{ paddingLeft: '15px', fontWeight: 500 }}
+                  >{`Bounty Points: ${bountPoints}`}</Typography>
+                )}
+              </Paper>
               <div style={{ maxWidth: 1000, padding: '0px 0 20px 0' }}></div>
 
               <EditSection

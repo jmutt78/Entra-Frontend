@@ -1,21 +1,21 @@
-import { Query, Mutation } from "react-apollo";
-import React, { Component } from "react";
-import { withStyles } from "@material-ui/core/styles";
-import gql from "graphql-tag";
-import Error from "./../ErrorMessage.js";
-import PropTypes from "prop-types";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { Query, Mutation } from 'react-apollo';
+import React, { Component } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import gql from 'graphql-tag';
 
-const possiblePermissions = ["ADMIN", "USER", "MODERATOR", "PERMISSIONUPDATE"];
+import PropTypes from 'prop-types';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Error from './../ErrorMessage.js';
+const possiblePermissions = ['ADMIN', 'USER', 'MODERATOR', 'PERMISSIONUPDATE'];
 
 const UPDATE_PERMISSIONS_MUTATION = gql`
   mutation updatePermissions($permissions: [Permission], $userId: ID!) {
@@ -29,23 +29,59 @@ const UPDATE_PERMISSIONS_MUTATION = gql`
 `;
 
 export const ALL_USERS_QUERY = gql`
-  query {
-    users {
+  query ALL_USERS_QUERY($filter: String) {
+    users(filter: $filter) {
       id
       name
-      email
       display
+      email
       permissions
+      points
+      mastery {
+        level1
+        level2
+        level3
+        level4
+      }
+      myQuestions {
+        id
+      }
+      myAnswers {
+        id
+      }
+    }
+  }
+`;
+
+export const ALL_LEADERBOARD_USERS_QUERY = gql`
+  query ALL_LEADERBOARD_USERS_QUERY($filter: String) {
+    users(filter: $filter, orderBy: points_DESC) {
+      id
+      name
+      display
+      points
+      mastery {
+        level1
+        level2
+        level3
+        level4
+      }
+      myQuestions {
+        id
+      }
+      myAnswers {
+        id
+      }
     }
   }
 `;
 
 const styles = theme => ({
   root: {
-    width: "80%",
+    width: '80%',
     margin: theme.spacing(15),
     padding: theme.spacing(1),
-    overflowX: "auto"
+    overflowX: 'auto'
   },
   table: {
     minWidth: 650
@@ -56,10 +92,15 @@ class Permissions extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <Query query={ALL_USERS_QUERY}>
+      <Query
+        query={ALL_USERS_QUERY}
+        variables={{
+          filter: ' '
+        }}
+      >
         {({ data, loading, error }) => {
-          if (loading) return <CircularProgress style={{margin: 20}} />
-          if (error) return <p>Error</p>;
+          if (loading) return <CircularProgress style={{ margin: 20 }} />;
+          if (error) return <Error error={error} />;
 
           return (
             <Paper className={classes.root}>
@@ -80,7 +121,7 @@ class Permissions extends Component {
                 ))}
               </Table>
             </Paper>
-          )
+          );
         }}
       </Query>
     );
@@ -148,7 +189,7 @@ export class UserPermissions extends React.Component {
               ))}
               <TableCell align="left">
                 <Button disabled={loading} onClick={updatePermissions}>
-                  Updat{loading ? "ing" : "e"}
+                  Updat{loading ? 'ing' : 'e'}
                 </Button>
               </TableCell>
             </TableRow>

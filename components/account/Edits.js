@@ -29,6 +29,11 @@ const UPDATE_USER_MUTATION = gql`
     $about: String
     $industry: String
     $image: String
+    $website: String
+    $instagram: String
+    $twitter: String
+    $linkedIn: String
+    $facebook: String
   ) {
     updateUser(
       id: $id
@@ -39,6 +44,11 @@ const UPDATE_USER_MUTATION = gql`
       about: $about
       industry: $industry
       image: $image
+      website: $website
+      instagram: $instagram
+      twitter: $twitter
+      linkedIn: $linkedIn
+      facebook: $facebook
     ) {
       id
       email
@@ -119,7 +129,12 @@ class UpdateUser extends Component {
     name: this.props.data.me.name,
     email: this.props.data.me.email,
     display: this.props.data.me.display,
-    uploadingFile: null
+    uploadingFile: null,
+    website: this.props.data.me.website,
+    instagram: this.props.data.me.instagram,
+    twitter: this.props.data.me.twitter,
+    linkedIn: this.props.data.me.linkedIn,
+    facebook: this.props.data.me.facebook
   };
 
   handleChange = e => {
@@ -200,7 +215,7 @@ class UpdateUser extends Component {
     const id = this.props.data.me.id;
     const image = this.state.image;
     const { classes } = this.props;
-
+    console.log(user);
     const { uploadingFile } = this.state;
 
     return (
@@ -314,6 +329,76 @@ class UpdateUser extends Component {
                     rowsMax="4"
                     variant="filled"
                     defaultValue={this.returnblank(user.industry)}
+                    onChange={this.handleChange}
+                    className={classes.inputField}
+                  />
+                </label>
+
+                <label htmlFor="website">
+                  <TextField
+                    label="website"
+                    type="link"
+                    name="website"
+                    multiline
+                    rowsMax="4"
+                    variant="filled"
+                    defaultValue={this.returnblank(user.website)}
+                    onChange={this.handleChange}
+                    className={classes.inputField}
+                  />
+                </label>
+
+                <label htmlFor="instagram">
+                  <TextField
+                    label="instagram handle"
+                    type="text"
+                    name="instagram"
+                    multiline
+                    rowsMax="4"
+                    variant="filled"
+                    defaultValue={this.returnblank(user.instagram)}
+                    onChange={this.handleChange}
+                    className={classes.inputField}
+                  />
+                </label>
+
+                <label htmlFor="twitter">
+                  <TextField
+                    label="twitter handle"
+                    type="text"
+                    name="twitter"
+                    multiline
+                    rowsMax="4"
+                    variant="filled"
+                    defaultValue={this.returnblank(user.twitter)}
+                    onChange={this.handleChange}
+                    className={classes.inputField}
+                  />
+                </label>
+
+                <label htmlFor="linkedIn">
+                  <TextField
+                    label="linkedIn handle"
+                    type="text"
+                    name="linkedIn"
+                    multiline
+                    rowsMax="4"
+                    variant="filled"
+                    defaultValue={this.returnblank(user.linkedIn)}
+                    onChange={this.handleChange}
+                    className={classes.inputField}
+                  />
+                </label>
+
+                <label htmlFor="facebook">
+                  <TextField
+                    label="facebook handle"
+                    type="text"
+                    name="facebook"
+                    multiline
+                    rowsMax="4"
+                    variant="filled"
+                    defaultValue={this.returnblank(user.facebook)}
                     onChange={this.handleChange}
                     className={classes.inputField}
                   />

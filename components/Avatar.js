@@ -2,21 +2,32 @@ import React from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
 import { withRouter } from 'next/router';
+
+import Button from '@material-ui/core/Button';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import { makeStyles } from '@material-ui/core/styles';
+import Divider from '@material-ui/core/Divider';
+import Avatar from '@material-ui/core/Avatar';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Typography from '@material-ui/core/Typography';
-import Avatar from '@material-ui/core/Avatar';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 
 import { withStyles } from '@material-ui/core/styles';
-
 import Signout from './auth/Signout';
 
-const styles = {
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex'
+  },
+
   bigAvatar: {
     margin: 15,
-    width: 35,
-    height: 35,
+    width: 45,
+    height: 45,
     backgroundColor: '#85bdcb',
     cursor: 'pointer'
   },
@@ -28,42 +39,50 @@ const styles = {
   avatarContainer: {
     display: 'flex',
     alignItems: 'center',
-    padding: '5px 35px 0 0',
+    padding: '5px 17px 0 0',
     fontSize: '1rem',
     alignSelf: 'flex-end',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    fontWeight: 600
+  },
+  menu: {
+    fontSize: '0.85rem',
+    fontWeight: 600,
+    color: '#6f6f6f'
   }
-};
+}));
 
-class MyProfile extends React.Component {
-  state = {
-    anchorEl: null
+export default function MyProfile({ me, small }) {
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
+
+  const handleToggle = () => {
+    setOpen(prevOpen => !prevOpen);
   };
 
-  handleClick = event => {
-    if (this.props.linkToId) {
-      this.props.router.push({
-        pathname: '/user',
-        query: { id: this.props.linkToId }
-      });
-    } else {
-      this.setState({ anchorEl: event.currentTarget });
+  const handleClose = event => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
     }
+
+    setOpen(false);
   };
 
-  handleClose = () => {
-    this.setState({ anchorEl: null });
-  };
+  function handleListKeyDown(event) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setOpen(false);
+    }
+  }
 
-  handleImage(me, classes) {
+  function handleImage(me, classes) {
     if (!me) {
       return null;
     }
     if (me.image == null || me.image == '') {
       return (
-        <Avatar
-          className={this.props.small ? classes.smallAvatar : classes.bigAvatar}
-        >
+        <Avatar className={small ? classes.smallAvatar : classes.bigAvatar}>
           {me.name[0]}
         </Avatar>
       );
@@ -73,61 +92,114 @@ class MyProfile extends React.Component {
     );
   }
 
-  render() {
-    const { anchorEl } = this.state;
-    const { classes } = this.props;
-    const me = this.props.me;
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = React.useRef(open);
+  React.useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
 
-    return (
+    prevOpen.current = open;
+  }, [open]);
+
+  return (
+    <div className={classes.root}>
       <div>
         <div
           className={classNames(classes.grow, 'nav-avatar')}
-          onClick={this.props.small ? null : this.handleClick}
+          onClick={small ? null : handleToggle}
+          ref={anchorRef}
+          aria-controls={open ? 'menu-list-grow' : undefined}
+          aria-haspopup="true"
         >
           <Typography
-            className={this.props.small ? null : classes.avatarContainer}
+            className={small ? null : classes.avatarContainer}
             component={'div'}
           >
-            {this.handleImage(me, classes)}
-            {this.props.small ? null : (
+            {handleImage(me, classes)}
+            {small ? null : (
               <div>
-                {me.name}
                 <ArrowDropDownIcon />
               </div>
             )}
           </Typography>
         </div>
 
-        <Menu
-          id="simple-menu"
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={this.handleClose}
+        <Popper
+          open={open}
+          anchorEl={anchorRef.current}
+          role={undefined}
+          transition
+          disablePortal
         >
-          <Link href="/account/myaccount">
-            <MenuItem onClick={this.handleClose}>My Profile</MenuItem>
-          </Link>
-          <Link href="/account/editaccount">
-            <MenuItem onClick={this.handleClose}>Edit Account</MenuItem>
-          </Link>
-          <Link>
-            <a
-              href="https://entra.drift.help"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ textDecoration: 'none', color: 'black' }}
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              style={{
+                transformOrigin:
+                  placement === 'bottom' ? 'center top' : 'center bottom'
+              }}
             >
-              <MenuItem onClick={this.handleClose}>Help</MenuItem>
-            </a>
-          </Link>
+              <Paper>
+                <ClickAwayListener onClickAway={handleClose}>
+                  <MenuList
+                    autoFocusItem={open}
+                    id="menu-list-grow"
+                    onKeyDown={handleListKeyDown}
+                  >
+                    <Link href="/account/myaccount">
+                      <MenuItem className={classes.menu} onClick={handleClose}>
+                        My Profile
+                      </MenuItem>
+                    </Link>
+                    <Divider />
+                    <Link href="/myquestions">
+                      <MenuItem className={classes.menu} onClick={handleClose}>
+                        My Questions
+                      </MenuItem>
+                    </Link>
+                    <Link href="/myanswers">
+                      <MenuItem className={classes.menu} onClick={handleClose}>
+                        My Answers
+                      </MenuItem>
+                    </Link>
+                    <Link href="/mybookmarks">
+                      <MenuItem className={classes.menu} onClick={handleClose}>
+                        Bookmarks
+                      </MenuItem>
+                    </Link>
+                    <Divider />
+                    <Link href="https://entra.drift.help">
+                      <a
+                        href="https://entra.drift.help"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          textDecoration: 'none',
+                          fontSize: '0.85rem',
+                          fontWeight: 600,
+                          color: '#6f6f6f'
+                        }}
+                      >
+                        <MenuItem
+                          className={classes.menu}
+                          onClick={handleClose}
+                        >
+                          Help
+                        </MenuItem>
+                      </a>
+                    </Link>
 
-          <MenuItem>
-            <Signout />
-          </MenuItem>
-        </Menu>
+                    <MenuItem className={classes.menu}>
+                      <Signout />
+                    </MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
       </div>
-    );
-  }
+    </div>
+  );
 }
-
-export default withRouter(withStyles(styles)(MyProfile));

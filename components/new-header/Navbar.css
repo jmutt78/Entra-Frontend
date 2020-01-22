@@ -11,6 +11,7 @@
   flex-direction: row;
   height: 80px;
   padding: 0 10px;
+  color: #6f6f6f;
   max-width: 1920px;
 }
 
@@ -18,19 +19,21 @@
   height: 20px;
   display: flex;
   align-items: center;
-  font-size: 1rem;
-  color: rgba(0, 0, 0, 0.87);
+  font-size: 0.85rem;
+  color: #6f6f6f;
   padding: 12px 10px 20px 15px;
   text-decoration: none;
+  font-weight: 600;
 }
 
 .navLinkNon {
   height: 20px;
   display: flex;
   align-items: center;
-  font-size: 1rem;
-  color: rgba(0, 0, 0, 0.87);
+  font-size: 0.85rem;
+  color: #6f6f6f;
   text-decoration: none;
+  font-weight: 600;
 }
 
 .navLink:hover {
@@ -42,7 +45,7 @@
   display: flex;
   align-items: center;
   color: #85bdcb;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .buttonLink {
