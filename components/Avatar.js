@@ -42,7 +42,13 @@ const useStyles = makeStyles(theme => ({
     padding: '5px 17px 0 0',
     fontSize: '1rem',
     alignSelf: 'flex-end',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    fontWeight: 600
+  },
+  menu: {
+    fontSize: '0.85rem',
+    fontWeight: 600,
+    color: '#6f6f6f'
   }
 }));
 
@@ -142,17 +148,25 @@ export default function MyProfile({ me, small }) {
                     onKeyDown={handleListKeyDown}
                   >
                     <Link href="/account/myaccount">
-                      <MenuItem onClick={handleClose}>My Profile</MenuItem>
+                      <MenuItem className={classes.menu} onClick={handleClose}>
+                        My Profile
+                      </MenuItem>
                     </Link>
                     <Divider />
                     <Link href="/myquestions">
-                      <MenuItem onClick={handleClose}>My Questions</MenuItem>
+                      <MenuItem className={classes.menu} onClick={handleClose}>
+                        My Questions
+                      </MenuItem>
                     </Link>
                     <Link href="/myanswers">
-                      <MenuItem onClick={handleClose}>My Answers</MenuItem>
+                      <MenuItem className={classes.menu} onClick={handleClose}>
+                        My Answers
+                      </MenuItem>
                     </Link>
                     <Link href="/mybookmarks">
-                      <MenuItem onClick={handleClose}>Bookmarks</MenuItem>
+                      <MenuItem className={classes.menu} onClick={handleClose}>
+                        Bookmarks
+                      </MenuItem>
                     </Link>
                     <Divider />
                     <Link href="https://entra.drift.help">
@@ -162,14 +176,21 @@ export default function MyProfile({ me, small }) {
                         rel="noopener noreferrer"
                         style={{
                           textDecoration: 'none',
-                          color: 'black'
+                          fontSize: '0.85rem',
+                          fontWeight: 600,
+                          color: '#6f6f6f'
                         }}
                       >
-                        <MenuItem onClick={handleClose}>Help</MenuItem>
+                        <MenuItem
+                          className={classes.menu}
+                          onClick={handleClose}
+                        >
+                          Help
+                        </MenuItem>
                       </a>
                     </Link>
 
-                    <MenuItem>
+                    <MenuItem className={classes.menu}>
                       <Signout />
                     </MenuItem>
                   </MenuList>

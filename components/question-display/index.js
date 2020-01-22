@@ -352,11 +352,18 @@ class DisplayQuestion extends Component {
                   user={question.askedBy[0]}
                   createdAt={question.createdAt}
                 />
-                {question.askedBy[0].id === user.id && (
+                {user && (
                   <div>
-                    {!selectedExists() && bounty ? (
-                      <BountyButton id={this.props.id} question={question} />
-                    ) : null}
+                    {question.askedBy[0].id === user.id && (
+                      <div>
+                        {!selectedExists() && bounty ? (
+                          <BountyButton
+                            id={this.props.id}
+                            question={question}
+                          />
+                        ) : null}
+                      </div>
+                    )}
                   </div>
                 )}
                 {!bounty && (

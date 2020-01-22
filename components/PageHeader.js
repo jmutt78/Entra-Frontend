@@ -43,7 +43,7 @@ const PageHeader = ({ classes, title, styles }) => {
     <Table className={classNames(classes.table, styles)}>
       <TableHead>
         <TableRow style={{ marginRight: 10 }}>
-          <TableCell>
+          <TableCell style={{ borderBottom: 'none' }}>
             <TypographyResponsive>{title}</TypographyResponsive>
           </TableCell>
         </TableRow>
