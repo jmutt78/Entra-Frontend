@@ -70,13 +70,37 @@
   visibility: hidden;
 }
 
+.logo {
+  max-height: 45px;
+  cursor: pointer;
+}
+
+.sectionMobile {
+  display: none;
+}
+
 @media (max-width: 900px) {
   .navbarFlex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 30px;
+    padding: 0px;
+    color: #6f6f6f;
+  }
+
+  .navigationContainer {
     display: none;
+  }
+  .logo {
+    max-height: 35px;
+    margin-left: 15px;
+    margin-top: 10px;
   }
 
   .buttonLink {
-    padding: 15px 0px 10px 25px;
+    padding: 15px 0px 10px 15px;
   }
 
   .noActive {
@@ -98,14 +122,14 @@
 
   .navLink {
   }
+
+  .sectionMobile {
+    display: flex;
+  }
+
   .visibleOnMobile {
     visibility: visible;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 80px;
-    height: 50px;
-    cursor: pointer;
   }
   .menuShown {
     display: flex;

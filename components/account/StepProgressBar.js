@@ -6,7 +6,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import { ProgressBar, Step } from 'react-step-progress-bar';
 import Link from 'next/link';
-import CardActions from '@material-ui/core/CardActions';
+
 import Button from '@material-ui/core/Button';
 
 import './Step.css';

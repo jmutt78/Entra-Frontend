@@ -342,23 +342,19 @@ export default function Appbar({ isLoggedIn, me, router }) {
     <div>
       <AppBar position="static" className={classes.root}>
         <Toolbar>
-          <div className={classes.sectionMobile}>
+          <div className="sectionMobile">
             <MenuIcon onClick={toggleDrawer('left', true)}></MenuIcon>
           </div>
           <div className="subContainer">
             <Typography variant="h6" className={classes.logoContainer}>
               <Link href="/all">
-                <img
-                  src="/static/logo.png"
-                  className={classes.logo}
-                  alt="entra logo"
-                />
+                <img src="/static/logo.png" className="logo" alt="entra logo" />
               </Link>
             </Typography>
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <div className="navbarFlex">
+            <div className="navigationContainer">
               <NavMenu
                 me={me}
                 key={`Community`}
