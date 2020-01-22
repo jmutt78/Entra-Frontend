@@ -72,12 +72,7 @@
 
 @media (max-width: 900px) {
   .navbarFlex {
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column-reverse;
-    padding-left: 10px;
-    height: 100%;
-    width: 100%;
+    display: none;
   }
 
   .buttonLink {

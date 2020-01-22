@@ -22,6 +22,7 @@ import './Appbar.css';
 import classNames from 'classnames';
 import Avatar from '../Avatar';
 import NavMenu from './NavMenu';
+import './Navbar.css';
 
 const useStyles = makeStyles(theme => ({
   grow: {
