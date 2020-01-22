@@ -11,7 +11,7 @@ import classNames from 'classnames';
 
 const styles = ({ layout }) => ({
   table: {
-    // margin: '0 0 25px 0'
+    borderBottom: 'none'
   },
   icon: {
     color: 'black'
@@ -23,6 +23,7 @@ const TypographyResponsive = styled.p`
   text-align: left;
   color: rgba(0, 0, 0, 0.87);
   text-transform: capitalize;
+  border: none;
   font-weight: bold;
   margin: 8px 0;
   @media (max-width: 767px) {
@@ -45,28 +46,6 @@ const PageHeader = ({ classes, title, styles }) => {
           <TableCell>
             <TypographyResponsive>{title}</TypographyResponsive>
           </TableCell>
-          {/*
-              <Tooltip title="Answers" placement="top">
-                <CustomTableCell className={classes.customColumnStyle}>
-                  <QuestionAnswer className={classes.icon} />
-              </CustomTableCell>
-            </Tooltip>
-              <Tooltip title="Views" placement="top">
-                <CustomTableCell className={classes.customColumnStyle}>
-                  <img src="/static/visibility.svg" />
-              </CustomTableCell>
-            </Tooltip>
-              <Tooltip title="Up Votes" placement="top">
-                <CustomTableCell className={classes.customColumnStyle}>
-                  <img src="/static/thumb_up.svg" />
-              </CustomTableCell>
-            </Tooltip>
-              <Tooltip title="Down Votes" placement="top">
-                <CustomTableCell className={classes.customColumnStyle}>
-                  <img src="/static/thumb_down.svg" />
-              </CustomTableCell>
-            </Tooltip>
-            */}
         </TableRow>
       </TableHead>
     </Table>

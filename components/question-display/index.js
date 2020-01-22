@@ -7,15 +7,15 @@ import { format, parseISO } from 'date-fns';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-
 import Link from 'next/link';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-
-import Answers from '../answers-display';
-import ApproveQuestion from '../approval/AppoveQuestion.js';
+import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Answers from '../answers-display';
+
+import ApproveQuestion from '../approval/AppoveQuestion.js';
 import CreateAnswer from '../create-answer';
 import CreateBookMark from '../bookmark/CreateBookMark.js';
 import DeleteQuestion from '../delete-question';
@@ -330,7 +330,7 @@ class DisplayQuestion extends Component {
                 {user ? <div /> : <PromptBar />}
               </div>
 
-              <div
+              <Paper
                 style={{
                   background: '#f2f4ef',
                   padding: '3px 0 5px 0',
@@ -338,26 +338,33 @@ class DisplayQuestion extends Component {
                   marginRight: 15
                 }}
               >
-                {question.description && (
-                  <div className="QuestionDetail-body">
+                <div
+                  className="QuestionDetail-body"
+                  style={{ paddingTop: `${question.description ? null : 0}` }}
+                >
+                  {question.description && (
                     <div className={classes.bodyText}>
                       {question.description}
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
                 <Credits
                   user={question.askedBy[0]}
                   createdAt={question.createdAt}
                 />
-                {!selectedExists() && bounty ? (
-                  <BountyButton id={this.props.id} question={question} />
-                ) : null}
+                {question.askedBy[0].id === user.id && (
+                  <div>
+                    {!selectedExists() && bounty ? (
+                      <BountyButton id={this.props.id} question={question} />
+                    ) : null}
+                  </div>
+                )}
                 {!bounty && (
                   <Typography
                     style={{ paddingLeft: '15px', fontWeight: 500 }}
                   >{`Bounty Points: ${bountPoints}`}</Typography>
                 )}
-              </div>
+              </Paper>
               <div style={{ maxWidth: 1000, padding: '0px 0 20px 0' }}></div>
 
               <EditSection

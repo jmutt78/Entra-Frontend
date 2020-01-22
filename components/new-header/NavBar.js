@@ -15,20 +15,72 @@ import CreateIcon from '@material-ui/icons/Create';
 import classNames from 'classnames';
 import { Mixpanel } from '../../utils/Mixpanel';
 import './Appbar.css';
-import Search from '../search/QuestionSearch';
 
-const styles = ({ layout, palette }) => ({
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
+
+import IconButton from '@material-ui/core/IconButton';
+
+import InputBase from '@material-ui/core/InputBase';
+import Badge from '@material-ui/core/Badge';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+
+import SearchIcon from '@material-ui/icons/Search';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import MoreIcon from '@material-ui/icons/MoreVert';
+
+const useStyles = makeStyles(theme => ({
+  grow: {
+    flexGrow: 1,
+    backgroundColor: 'rgb(242, 244, 239)'
+  },
+  drawer: {
+    backgroundColor: 'rgb(242, 244, 239)'
+  },
+  list: {
+    width: 300,
+    backgroundColor: 'rgb(242, 244, 239)'
+  },
+
+  sectionDesktop: {
+    display: 'none',
+    [theme.breakpoints.up('901')]: {
+      display: 'flex'
+    }
+  },
+  sectionMobile: {
+    display: 'flex',
+    [theme.breakpoints.up('901')]: {
+      display: 'none'
+    }
+  },
   root: {
-    width: layout.width,
-    minHeight: layout.headerHeight,
-    backgroundColor: palette.secondary.main,
-    boxShadow:
-      '0px 2px 4px -4px rgba(0, 0, 0, 0.2), 0px 4px 5px -5px rgba(0, 0, 0, 0.14), 0px 1px 10px -10px rgba(0, 0, 0, 0.12)'
+    width: theme.layout.width,
+    minHeight: theme.layout.headerHeight,
+    backgroundColor: 'rgb(242, 244, 239)'
   },
   subContainer: {
     display: 'flex',
-    height: '33%',
-    alignItems: 'center'
+
+    alignItems: 'center',
+    '@media (max-width: 901px)': {
+      maxHeight: 35,
+      marginTop: 20
+    }
   },
   hidden: {
     visibility: 'hidden'
@@ -38,48 +90,49 @@ const styles = ({ layout, palette }) => ({
   },
   signupButton: {
     backgroundColor: '#E27D60',
-    margin: 12,
+    color: 'white',
+    margin: '10px 5px 10px 5px ',
     '&:hover': {
-      backgroundColor: palette.accent.main
+      backgroundColor: theme.palette.accent.main
     }
   },
   loginButton: {
-    margin: 12,
-    backgroundColor: palette.accent.grey,
+    margin: '10px 5px 10px 5px ',
+    backgroundColor: theme.palette.accent.grey,
     '&:hover': {
-      backgroundColor: palette.accent.main
+      backgroundColor: theme.palette.accent.main
     }
   },
   logo: {
     maxHeight: 45,
     cursor: 'pointer',
-    '@media (max-width: 780px)': {
+    '@media (max-width: 901px)': {
       maxHeight: 35,
-      marginTop: -150
+      marginTop: 20,
+      marginLeft: 15
     }
   },
 
   navLink: {
     display: 'flex',
     alignItems: 'center',
-    color: palette.accent.dark,
+    color: theme.palette.accent.dark,
     fontSize: '1.2rem',
     padding: '12px 10px 8px 10px',
     textDecoration: 'none',
     '&:hover': {
-      color: palette.primary.dark
+      color: theme.palette.primary.dark
     }
   },
   navLinkActive: {
     alignItems: 'center',
-    color: palette.accent.dark,
     display: 'flex',
     fontSize: '1.2rem',
     fontWeight: 500,
-    height: layout.headerHeight,
+    height: theme.layout.headerHeight,
     padding: '12px 10px 8px 10px'
   }
-});
+}));
 
 function handleSignin(e) {
   Mixpanel.track('Signup');
@@ -89,8 +142,12 @@ function handleLogin(e) {
   Mixpanel.track('Login');
 }
 
-const Appbar = ({ isLoggedIn, classes, me, router }) => {
-  const [menu, setMenu] = useState(null);
+export default function Appbar({ isLoggedIn, me, router }) {
+  const classes = useStyles();
+
+  const [state, setState] = React.useState({
+    left: false
+  });
   const navLinks = [
     {
       name: 'Blog',
@@ -165,6 +222,114 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
     }
   ];
 
+  const toggleDrawer = (side, open) => event => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+
+    setState({ ...state, [side]: open });
+  };
+
+  const sideList = side => (
+    <div
+      className={classes.list}
+      role="presentation"
+      onKeyDown={toggleDrawer(side, false)}
+    >
+      <List>
+        <ListItem>
+          <ListItemIcon>
+            <QuestionAnswerIcon />
+          </ListItemIcon>
+          <ListItemText
+            primary={
+              <NavMenu
+                me={me}
+                key={`Community`}
+                navLinks={feedLink()}
+                curretPage={curretPage}
+                name={`Community`}
+              />
+            }
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemIcon>
+            <EmojiObjectsIcon />
+          </ListItemIcon>
+          <ListItemText
+            primary={
+              <NavMenu
+                me={me}
+                navLinks={ideaLinkCondition()}
+                curretPage={curretPage}
+                name={`Ideas`}
+                key={`Ideas`}
+              />
+            }
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemIcon>
+            <MenuBookIcon />
+          </ListItemIcon>
+          <ListItemText
+            primary={
+              <NavMenu
+                me={me}
+                navLinks={blogLinks}
+                curretPage={curretPage}
+                name={`Learn`}
+                key={`Learn`}
+              />
+            }
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemIcon>
+            <CreateIcon />
+          </ListItemIcon>
+          <ListItemText
+            primary={
+              <NavMenu
+                me={me}
+                navLinks={createLinks}
+                curretPage={curretPage}
+                name={`Create`}
+                key={`Create`}
+              />
+            }
+          />
+        </ListItem>
+
+        {me &&
+          me.permissions.some(permission =>
+            ['ADMIN', 'MODERATOR'].includes(permission)
+          ) && (
+            <ListItem>
+              <ListItemIcon>
+                <CreateIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={
+                  <NavMenu
+                    me={me}
+                    navLinks={adminLinks}
+                    curretPage={curretPage}
+                    name={`Admin`}
+                  />
+                }
+              />
+            </ListItem>
+          )}
+      </List>
+    </div>
+  );
+
   const ideaLinkCondition = () => {
     if (!me) {
       return ideaLinks.filter(link => link.name !== 'My Ideas');
@@ -191,108 +356,116 @@ const Appbar = ({ isLoggedIn, classes, me, router }) => {
       $email: me.email
     });
   }
+
   return (
-    <div className={classes.root}>
-      <div className="visibleOnMobile" onClick={_ => setMenu(!menu)}>
-        <MenuIcon alt="menu" fontSize="large" style={{ color: '#85bdcb' }} />
-      </div>
-      <div className="appbarFlex">
-        <div className="subContainer">
-          <Typography variant="h6" className={classes.logoContainer}>
-            <Link href="/all">
-              <img
-                src="/static/logo.png"
-                className={classes.logo}
-                alt="entra logo"
-              />
-            </Link>
-          </Typography>
-        </div>
-        <div className="navbarFlex">
-          <div
-            className={`navigationContainer ${menu === true && 'menuShown'}`}
-            component={'div'}
-          >
-            <NavMenu
-              me={me}
-              key={`Community`}
-              navLinks={feedLink()}
-              curretPage={curretPage}
-              name={`Community`}
-              icon={<QuestionAnswerIcon fontSize="small" />}
-            />
-            <NavMenu
-              me={me}
-              navLinks={ideaLinkCondition()}
-              curretPage={curretPage}
-              name={`Ideas`}
-              key={`Ideas`}
-              icon={<EmojiObjectsIcon fontSize="small" />}
-            />
-
-            <NavMenu
-              me={me}
-              navLinks={blogLinks}
-              curretPage={curretPage}
-              name={`Learn`}
-              key={`Learn`}
-              icon={<MenuBookIcon fontSize="small" />}
-            />
-            <NavMenu
-              me={me}
-              navLinks={createLinks}
-              curretPage={curretPage}
-              name={`Create`}
-              key={`Create`}
-              icon={<CreateIcon fontSize="small" />}
-            />
-            {me &&
-              me.permissions.some(permission =>
-                ['ADMIN', 'MODERATOR'].includes(permission)
-              ) && (
-                <NavMenu
-                  me={me}
-                  navLinks={adminLinks}
-                  curretPage={curretPage}
-                  name={`Admin`}
+    <div>
+      <AppBar position="static" className={classes.root}>
+        <Toolbar>
+          <div className={classes.sectionMobile}>
+            <MenuIcon onClick={toggleDrawer('left', true)}></MenuIcon>
+          </div>
+          <div className="subContainer">
+            <Typography variant="h6" className={classes.logoContainer}>
+              <Link href="/all">
+                <img
+                  src="/static/logo.png"
+                  className={classes.logo}
+                  alt="entra logo"
                 />
-              )}
-            <Search />
+              </Link>
+            </Typography>
           </div>
-        </div>
-        {!me && (
-          <Typography className={classes.subContainer}>
-            <Link href="/signin">
-              <Button
-                variant="contained"
-                color="secondary"
-                className={classNames(classes.loginButton, 'login-btn')}
-                onClick={handleLogin}
-              >
-                Login
-              </Button>
-            </Link>
+          <div className={classes.grow} />
+          <div className={classes.sectionDesktop}>
+            <div className="navbarFlex">
+              <NavMenu
+                me={me}
+                key={`Community`}
+                navLinks={feedLink()}
+                curretPage={curretPage}
+                name={`Community`}
+                icon={<QuestionAnswerIcon fontSize="small" />}
+              />
+              <NavMenu
+                me={me}
+                navLinks={ideaLinkCondition()}
+                curretPage={curretPage}
+                name={`Ideas`}
+                key={`Ideas`}
+                icon={<EmojiObjectsIcon fontSize="small" />}
+              />
 
-            <Link href="/signup">
-              <Button
-                variant="contained"
-                color="secondary"
-                className={classes.signupButton}
-                onClick={handleSignin}
-              >
-                Sign up
-              </Button>
-            </Link>
-          </Typography>
-        )}
-        {me && (
-          <div component={'div'}>
-            <Avatar me={me} />
+              <NavMenu
+                me={me}
+                navLinks={blogLinks}
+                curretPage={curretPage}
+                name={`Learn`}
+                key={`Learn`}
+                icon={<MenuBookIcon fontSize="small" />}
+              />
+              <NavMenu
+                me={me}
+                navLinks={createLinks}
+                curretPage={curretPage}
+                name={`Create`}
+                key={`Create`}
+                icon={<CreateIcon fontSize="small" />}
+              />
+              {me &&
+                me.permissions.some(permission =>
+                  ['ADMIN', 'MODERATOR'].includes(permission)
+                ) && (
+                  <NavMenu
+                    me={me}
+                    navLinks={adminLinks}
+                    curretPage={curretPage}
+                    name={`Admin`}
+                  />
+                )}
+            </div>
           </div>
-        )}
-      </div>
+          {!me && (
+            <div className={classes.subContainer}>
+              <Link href="/signin">
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  size="small"
+                  className={classNames(classes.loginButton, 'login-btn')}
+                  onClick={handleLogin}
+                >
+                  Login
+                </Button>
+              </Link>
+
+              <Link href="/signup">
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  size="small"
+                  className={classes.signupButton}
+                  onClick={handleSignin}
+                >
+                  Sign up
+                </Button>
+              </Link>
+            </div>
+          )}
+          {me && (
+            <div component={'div'}>
+              <Avatar me={me} />
+            </div>
+          )}
+        </Toolbar>
+        <SwipeableDrawer
+          classes={{ paper: classes.drawer }}
+          open={state.left}
+          onClose={toggleDrawer('left', false)}
+          onOpen={toggleDrawer('left', true)}
+        >
+          {sideList('left')}
+        </SwipeableDrawer>
+      </AppBar>
     </div>
   );
-};
-
-export default withStyles(styles)(Appbar);
+}

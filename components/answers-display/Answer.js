@@ -2,13 +2,14 @@ import React from 'react';
 import Link from 'next/link';
 import { format, parseISO } from 'date-fns';
 import classNames from 'classnames';
+import gql from 'graphql-tag';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 
 import ApproveAnswer from '../approval/AppoveAnswer.js';
 import DeleteAnswer from '../delete-answer';
@@ -16,7 +17,6 @@ import SelectAnswer from '../approval/SelectAnswer';
 import questionQuery from '../question-display/questionQuery';
 import Vote from './Vote';
 import { Mixpanel } from '../../utils/Mixpanel';
-
 import './Answers.css';
 
 export const CREATE_ANSWER_VOTE_MUTATION = gql`
@@ -51,7 +51,7 @@ const styles = ({ spacing, palette }) => ({
     color: '#2d3436'
   },
   detailContainer: {
-    padding: '5px 15px'
+    padding: '5px 0px'
   },
   buttonTop: {
     backgroundColor: '#E27D60',
@@ -235,12 +235,13 @@ const Answer = ({ answer, classes, user, client, question }) => {
 
   return (
     <div className={classes.detailContainer}>
-      <div
+      <Paper
         style={{
           background: '#f2f4ef',
           padding: '10px 0 10px 15px',
           marginLeft: 15,
-          marginRight: 15
+          marginRight: 15,
+          marginTop: 15
         }}
       >
         <div>
@@ -300,7 +301,7 @@ const Answer = ({ answer, classes, user, client, question }) => {
             </div>
           </div>
         </div>
-      </div>
+      </Paper>
       <Controls
         user={user}
         question={question}

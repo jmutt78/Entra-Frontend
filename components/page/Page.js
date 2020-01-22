@@ -9,7 +9,7 @@ import { CURRENT_USER_QUERY } from '../auth/User';
 import { Query } from 'react-apollo';
 import Drift from 'react-driftjs';
 
-import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Error from './../ErrorMessage.js';
 
 import './Page.css';
@@ -56,10 +56,11 @@ const Page = ({ children, classes, router }) => {
       {({ data: { me }, error, loading }) => {
         return (
           <div className={classes.root}>
-            {loading ? <CircularProgress style={{ margin: 20 }} /> : null}
-            {error ? <Error error={error} /> : null}
             <Meta />
-            <Header me={me} />
+            <Header me={me} loading={loading} />
+            {loading ? <LinearProgress variant="determinate" /> : null}
+            {error ? <Error error={error} /> : null}
+
             <div
               className={classNames(
                 isLanding || isSearchResultPage || isScrollablePage
