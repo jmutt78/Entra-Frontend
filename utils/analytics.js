@@ -1,6 +1,9 @@
 import ReactGA from 'react-ga';
+const google = 'UA-145851763-1';
+//const google = '/////////';
+
 export const initGA = () => {
-  ReactGA.initialize('UA-145851763-1');
+  ReactGA.initialize(google);
 };
 export const logPageView = () => {
   ReactGA.set({ page: window.location.pathname });
