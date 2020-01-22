@@ -34,6 +34,11 @@ class Signout extends React.Component {
             <div>
               <Error error={error} />
               <Typography
+                style={{
+                  fontSize: '0.85rem',
+                  fontWeight: 600,
+                  color: '#6f6f6f'
+                }}
                 className="signout-btn"
                 onClick={e => this.handleSignout(e, signout)}
               >
