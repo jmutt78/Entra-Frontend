@@ -187,7 +187,8 @@ const useStyles = makeStyles(theme => ({
     '@media (max-width: 650px)': {
       fontSize: '.80rem'
     }
-  }
+  },
+  pagination: { marginLeft: 0 }
 }));
 
 export default function EnhancedTable() {
@@ -322,6 +323,7 @@ export default function EnhancedTable() {
                 </Table>
               </div>
               <TablePagination
+                classes={{ actions: classes.pagination }}
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
                 count={rows.length}
