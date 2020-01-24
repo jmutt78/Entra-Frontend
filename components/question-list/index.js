@@ -3,22 +3,44 @@ import { upperFirst } from 'lodash';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 
+import styled from 'styled-components';
+import Card from '@material-ui/core/Card';
+import FooterBar from '../footer';
 import ListItem from '../ListItem';
 import PageHeader from '../PageHeader';
 import Search from '../search/QuestionSearch';
 import { QuestionListContainer } from '../../src/styledComponents';
 
-const useStyles = makeStyles(theme => ({
-  search: {
-    padding: '5px 0px 5px 35px'
+const Container = styled.div`
+  padding-top: 15px;
+  display: flex;
+`;
+
+const QuestionContainer = styled.div`
+  max-width: 800px;
+  flex: 2;
+  @media (max-width: 769px) {
   }
-}));
+`;
+
+const FooterContainer = styled.div`
+  max-width: 500px;
+  margin-left: 50px;
+  margin-right: 50px;
+  flex: 1;
+  @media (max-width: 1193px) {
+    display: none;
+  }
+`;
+
+const SearchContainer = styled.div`
+  padding: '5px 0px 5px 20px';
+`;
 
 function QuestionList(props) {
   const { questions, onLoadMore, name, hasMoreQuestions } = props;
   const [isLoading, setIsLoading] = useState(false);
 
-  const classes = useStyles();
   useEffect(() => {
     setIsLoading(false);
   }, [questions]);
@@ -39,29 +61,44 @@ function QuestionList(props) {
   return (
     <QuestionListContainer>
       <PageHeader title={upperFirst(name)} />
-      <div className={classes.search}>
+      <SearchContainer>
         <Search />
-      </div>
-      <ul onScroll={e => handleScroll(e, onLoadMore)}>
-        {questions &&
-          questions.map(question => {
-            return (
-              <ListItem
-                item={question}
-                user={question.askedBy[0]}
-                userId={question.askedBy[0].id}
-                linkTo={{
-                  pathname: '/question',
-                  query: { id: question.id }
-                }}
-                showDetails={true}
-                name={name}
-                key={question.id}
-                display={question.askedBy[0].display}
-              />
-            );
-          })}
+      </SearchContainer>
+
+      <ul
+        onScroll={e => handleScroll(e, onLoadMore)}
+        style={{ paddingLeft: 20 }}
+      >
+        <Container>
+          <QuestionContainer>
+            {questions &&
+              questions.map(question => {
+                return (
+                  <ListItem
+                    item={question}
+                    user={question.askedBy[0]}
+                    userId={question.askedBy[0].id}
+                    linkTo={{
+                      pathname: '/question',
+                      query: { id: question.id }
+                    }}
+                    showDetails={true}
+                    name={name}
+                    key={question.id}
+                    display={question.askedBy[0].display}
+                  />
+                );
+              })}
+          </QuestionContainer>
+
+          <FooterContainer>
+            <Card>
+              <FooterBar />
+            </Card>
+          </FooterContainer>
+        </Container>
       </ul>
+
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         {isLoading && hasMoreQuestions && (
           <CircularProgress

@@ -103,7 +103,7 @@ const SearchContainer = styled.div`
   }
   @media (max-width: 767px) {
     input {
-      width: 200px;
+      width: 320px;
     }
 `;
 

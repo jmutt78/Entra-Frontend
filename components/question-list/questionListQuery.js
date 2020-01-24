@@ -13,6 +13,7 @@ const QUESTION_LIST_QUERY = gql`
       description
       createdAt
       approval
+      bountyPoints
       answers {
         id
         body
@@ -28,6 +29,7 @@ const QUESTION_LIST_QUERY = gql`
         id
         name
         display
+        image
       }
       bookMark {
         id
