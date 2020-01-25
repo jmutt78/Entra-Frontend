@@ -41,7 +41,6 @@ const Page = ({ children, classes, router }) => {
     router.pathname === '/all' ||
     router.pathname === '/myfeed' ||
     router.pathname === '/tags' ||
-    router.pathname === '/myquestions' ||
     router.pathname === '/users';
   const isLanding =
     router.pathname === '/' ||

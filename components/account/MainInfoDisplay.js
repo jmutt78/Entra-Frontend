@@ -130,32 +130,36 @@ class MainInfoDisplay extends Component {
                 {(emailTrue || me === user) && (
                   <div>
                     <Typography variant="subtitle1">
-                      <a
-                        href={`mailto: ${user.email}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          textDecoration: 'none',
-                          color: '#85BDCB',
-                          fontWeight: 'bold'
-                        }}
-                      >
-                        {user.email}
-                      </a>
+                      <Link>
+                        <a
+                          href={`mailto: ${user.email}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            textDecoration: 'none',
+                            color: '#85BDCB',
+                            fontWeight: 'bold'
+                          }}
+                        >
+                          {user.email}
+                        </a>
+                      </Link>
                     </Typography>
                     <Typography variant="subtitle1">
-                      <a
-                        href={`http://${user.website}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          textDecoration: 'none',
-                          color: '#85BDCB',
-                          fontWeight: 'bold'
-                        }}
-                      >
-                        {user.website}
-                      </a>
+                      <Link>
+                        <a
+                          href={`http://${user.website}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            textDecoration: 'none',
+                            color: '#85BDCB',
+                            fontWeight: 'bold'
+                          }}
+                        >
+                          {user.website}
+                        </a>
+                      </Link>
                     </Typography>
                   </div>
                 )}

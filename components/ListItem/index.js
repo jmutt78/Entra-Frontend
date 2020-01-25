@@ -3,13 +3,8 @@ import Link from 'next/link';
 import { withRouter } from 'next/router';
 import { format, parseISO } from 'date-fns';
 
-import Tooltip from '@material-ui/core/Tooltip';
-import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import Button from '@material-ui/core/Button';
-import ClampLines from 'react-clamp-lines';
 
 import { Mixpanel } from '../../utils/Mixpanel';
 import Avatar from '../Avatar';
@@ -20,26 +15,33 @@ const styles = ({ layout, palette }) => ({
   container: {
     display: 'flex',
     alignItems: 'center',
-    padding: '5px 10px',
-    maxWidth: '800px',
-    height: '160px',
-    borderRadius: 0,
-    borderBottom: '1px solid #e8e8e8'
+    padding: '5px 10px'
   },
-
-  textBox: {
-    flex: 10,
+  votesBox: {
+    display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-around'
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    cursor: 'pointer'
+  },
+  votesCount: {
+    fontWeight: 600,
+    fontSize: '1rem'
+  },
+  textBox: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    alignItems: 'flex-start'
   },
 
   title: {
     padding: 0,
     margin: 0,
-    color: '#333',
+    color: '#2d3436',
     maxWidth: 800,
     fontWeight: 'bold',
-    fontSize: '1rem',
+    lineHeight: '1.9rem',
     textAlign: 'left',
     cursor: 'pointer'
   },
@@ -47,49 +49,23 @@ const styles = ({ layout, palette }) => ({
   body: {
     padding: 0,
     margin: 0,
-    color: '#6f6f6f',
-    fontSize: '.75rem',
+    color: '#2d3436',
+    maxWidth: 800,
+    lineHeight: '1.8rem',
+    fontSize: '1.1rem',
     textAlign: 'left',
     cursor: 'pointer',
     fontWeight: 500
   },
+  // tags: {},
 
   nameLink: {
     fontWeight: 500,
     textDecoration: 'none',
     color: '#e27d60'
   },
-  credits: {
-    fontSize: '.75rem',
-    fontWeight: 500,
-    order: 2
-  },
-
-  voteBox: {
-    flex: 1
-  },
-
-  answerContainer: {
-    paddingTop: 5,
-    order: 3,
-    color: '#6f6f6f',
-    fontWeight: 'bold'
-  },
-  icon: {
-    paddingTop: 5,
-    verticalAlign: 'text-bottom',
-    marginLeft: 10,
-    color: '#6f6f6f',
-    fontWeight: 'bold'
-  },
-  bounty: {
-    color: '#85bdcb',
-    fontSize: '.65rem',
-    borderColor: '#85bdcb',
-    fontWeight: 'bold',
-    pointerEvents: 'none',
-    marginTop: 5,
-    marginBottom: 5
+  button: {
+    // /color: palette.primary.dark
   }
 });
 
@@ -108,11 +84,9 @@ const ListItem = ({
     tags,
     title,
     upVotes,
-    views,
-    bountyPoints
+    views
   },
   classes,
-  isLoading,
   router,
   linkTo,
   user,
@@ -127,24 +101,17 @@ const ListItem = ({
   function handleUserTracking(e) {
     Mixpanel.track('User Profile');
   }
-
   return (
-    <Card
-      className={classes.container}
-      style={bountyPoints ? { border: '1px solid #85bdcb' } : null}
-    >
-      <div>
-        <Link
-          href={{
-            pathname: '/user',
-            query: { id: userId }
-          }}
-        >
-          <a style={{ textDecoration: 'none' }}>
-            {<Avatar me={user} small linkToId={userId} />}
-          </a>
-        </Link>
+    <div className={classes.container}>
+      <div className="avatarBox">
+        <Avatar me={user} small linkToId={userId} />
       </div>
+      {answers && (
+        <div className="votesBox">
+          <Vote id={id} />
+        </div>
+      )}
+
       <div className={classes.textBox}>
         <Link href={linkTo}>
           <a style={{ textDecoration: 'none' }}>
@@ -153,50 +120,52 @@ const ListItem = ({
               className={classes.title}
               onClick={handleTracking}
             >
-              <ClampLines
-                text={title}
-                id="really-unique-id"
-                lines={2}
-                ellipsis="..."
-                className="custom-class"
-                innerElement="p"
-                buttons={false}
-              />
+              {title}
             </Typography>
           </a>
         </Link>
-
-        <div>
-          <div className={classes.credits}>
-            <Link
-              href={{
-                pathname: '/user',
-                query: { id: userId }
-              }}
-            >
-              <a className={classes.nameLink} onClick={handleUserTracking}>
-                {display}
-              </a>
-            </Link>{' '}
-            on <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
-            <Tooltip title="Answers" placement="bottom">
-              <QuestionAnswerIcon className={classes.icon} />
-            </Tooltip>{' '}
-            <span className={classes.answerContainer}>{answers.length}</span>
-          </div>
-        </div>
-        {bountyPoints && (
-          <Button size="small" variant="outlined" className={classes.bounty}>
-            Bounty Points: {bountyPoints}
-          </Button>
+        {body && (
+          <Link href={linkTo}>
+            <a style={{ textDecoration: 'none' }}>
+              <Typography variant="p" className={classes.body}>
+                {body}
+              </Typography>
+            </a>
+          </Link>
         )}
-      </div>
-      {answers && (
-        <div className={classes.voteBox}>
-          <Vote id={id} />
+
+        <div
+          style={
+            answers ? { padding: '5px 0 0 0' } : { padding: '5px 0 10px 0' }
+          }
+        >
+          {answers ? 'Asked by' : 'Answered by'}{' '}
+          <Link
+            href={{
+              pathname: '/user',
+              query: { id: userId }
+            }}
+          >
+            <a className={classes.nameLink} onClick={handleUserTracking}>
+              {display}
+            </a>
+          </Link>{' '}
+          on <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
+          <span> · </span>
+          {answers ? (
+            <span>
+              {answers.length} Answer{answers.length === 1 ? '' : 's'}
+            </span>
+          ) : (
+            <span>
+              {Math.abs(upVotes - downVotes)}{' '}
+              {upVotes - downVotes < 0 ? 'Down' : 'Up'}vote
+              {Math.abs(upVotes - downVotes) === 1 ? '' : 's'}
+            </span>
+          )}
         </div>
-      )}
-    </Card>
+      </div>
+    </div>
   );
 };
 
