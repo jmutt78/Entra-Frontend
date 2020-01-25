@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { upperFirst } from 'lodash';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { makeStyles } from '@material-ui/core/styles';
-
 import styled from 'styled-components';
-import Card from '@material-ui/core/Card';
-import FooterBar from '../footer';
+
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Typography from '@material-ui/core/Typography';
+
 import ListItem from '../ListItem';
 import PageHeader from '../PageHeader';
 import Search from '../search/QuestionSearch';
 import { QuestionListContainer } from '../../src/styledComponents';
+import BlogFeatured from '../featured-story/index.js';
 
 const Container = styled.div`
   padding-top: 15px;
@@ -34,7 +34,7 @@ const FooterContainer = styled.div`
 `;
 
 const SearchContainer = styled.div`
-  padding: '5px 0px 5px 20px';
+  padding: 5px 0px 5px 0px;
 `;
 
 function QuestionList(props) {
@@ -67,7 +67,7 @@ function QuestionList(props) {
 
       <ul
         onScroll={e => handleScroll(e, onLoadMore)}
-        style={{ paddingLeft: 20 }}
+        style={{ paddingLeft: 5 }}
       >
         <Container>
           <QuestionContainer>
@@ -92,16 +92,19 @@ function QuestionList(props) {
           </QuestionContainer>
 
           <FooterContainer>
-            <Card>
-              <FooterBar />
-            </Card>
+            <Typography
+              variant="h6"
+              style={{ paddingLeft: 30, fontWeight: 'bold' }}
+            >
+              Story of the Month
+            </Typography>
+            <BlogFeatured />
           </FooterContainer>
         </Container>
       </ul>
-
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         {isLoading && hasMoreQuestions && (
-          <CircularProgress
+          <LinearProgress
             style={{ marginBottom: 20, position: 'absolute', bottom: 0 }}
           />
         )}

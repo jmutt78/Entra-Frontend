@@ -89,7 +89,7 @@ const SearchContainer = styled.div`
   position: relative;
   display: flex;
   cursor: pointer;
-  margin-left: 20px;
+  margin-left: 5px;
   input {
     width: 500px;
 

@@ -113,7 +113,7 @@ const Vote = ({ classes, client, id }) => {
                 ? data.question.upVotes - data.question.downVotes
                 : null}
             </div>
-            <Tooltip title="vote down" placement="top" onClick={downVote}>
+            <Tooltip title="vote down" placement="bottom" onClick={downVote}>
               <ArrowDropDownIcon
                 style={hasVoted < 0 ? { color: '#85bdcb' } : {}}
                 fontSize="large"
