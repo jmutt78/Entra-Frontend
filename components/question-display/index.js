@@ -43,7 +43,7 @@ const styles = ({ palette, layout }) => ({
     alignItems: 'center'
   },
   titleText: {
-    fontSize: '25px',
+    fontSize: '33px',
     lineHeight: '2.7rem',
     fontWeight: 600,
     letterSpacing: '-1px'
@@ -300,11 +300,11 @@ class DisplayQuestion extends Component {
           return (
             <div className={classes.container} id="tableBorderRemoveTarget">
               <div className="titleContainer">
-                <Typography variant="h6" className="title">
+                <Typography variant="h6" className={classes.title}>
                   <div className="voteContainer">
                     <Vote id={question.id} />
                   </div>
-                  <div className="titleText">{question.title}</div>
+                  <div className={classes.titleText}>{question.title}</div>
                 </Typography>
               </div>
 
