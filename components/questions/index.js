@@ -27,10 +27,9 @@ class Questions extends Component {
           limit: questoinsPerScroll
         }}
       >
-        {({ data, loading, error, fetchMore }) => {
+        {({ data: { questions }, loading, error, fetchMore }) => {
           if (loading) return <CircularProgress style={{ margin: 20 }} />;
           if (error) return <Error error={error} />;
-          const { questions } = data;
 
           return (
             <QuestionList

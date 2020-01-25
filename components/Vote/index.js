@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import DownIcon from '@material-ui/icons/KeyboardArrowDown';
+
 import Tooltip from '@material-ui/core/Tooltip';
-import UpIcon from '@material-ui/icons/KeyboardArrowUp';
+
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
@@ -88,12 +90,11 @@ const Vote = ({ classes, client, id }) => {
   return (
     <Query query={questionQuery} variables={{ id }}>
       {({ data, loading, error }) => {
-        if (loading) return <CircularProgress />;
         if (error) return <Error error={error} />;
         return (
           <div className={classes.container}>
             <Tooltip title="vote up" placement="top" onClick={upVote}>
-              <UpIcon
+              <ArrowDropUpIcon
                 style={hasVoted > 0 ? { color: '#e8a77f' } : {}}
                 fontSize="large"
               />
@@ -112,8 +113,8 @@ const Vote = ({ classes, client, id }) => {
                 ? data.question.upVotes - data.question.downVotes
                 : null}
             </div>
-            <Tooltip title="vote down" placement="top" onClick={downVote}>
-              <DownIcon
+            <Tooltip title="vote down" placement="bottom" onClick={downVote}>
+              <ArrowDropDownIcon
                 style={hasVoted < 0 ? { color: '#85bdcb' } : {}}
                 fontSize="large"
               />
