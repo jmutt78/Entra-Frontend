@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import DownIcon from '@material-ui/icons/KeyboardArrowDown';
+
 import Tooltip from '@material-ui/core/Tooltip';
-import UpIcon from '@material-ui/icons/KeyboardArrowUp';
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = ({ layout, palette }) => ({
@@ -35,7 +36,7 @@ const Vote = ({ classes, upvoteCb, downvoteCb, upVotes, downVotes }) => {
   return (
     <div className={classes.container}>
       <Tooltip title="vote up" placement="top" onClick={() => vote('up')}>
-        <UpIcon
+        <ArrowDropUpIcon
           style={hasVoted > 0 ? { color: '#e8a77f' } : {}}
           fontSize="large"
         />
@@ -53,7 +54,7 @@ const Vote = ({ classes, upvoteCb, downvoteCb, upVotes, downVotes }) => {
         {upVotes - downVotes}
       </div>
       <Tooltip title="vote down" placement="top" onClick={() => vote('down')}>
-        <DownIcon
+        <ArrowDropDownIcon
           style={hasVoted < 0 ? { color: '#85bdcb' } : {}}
           fontSize="large"
         />

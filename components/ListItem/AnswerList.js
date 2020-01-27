@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { withRouter } from 'next/router';
 import { format, parseISO } from 'date-fns';
 
-import Tooltip from '@material-ui/core/Tooltip';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
@@ -29,19 +28,9 @@ const styles = ({ layout, palette }) => ({
 
   textBox: {
     flex: 10,
+
     flexDirection: 'column',
     justifyContent: 'space-around'
-  },
-
-  title: {
-    padding: 0,
-    margin: 0,
-    color: '#333',
-    maxWidth: 800,
-    fontWeight: 'bold',
-    fontSize: '1rem',
-    textAlign: 'left',
-    cursor: 'pointer'
   },
 
   body: {
@@ -60,40 +49,14 @@ const styles = ({ layout, palette }) => ({
     color: '#e27d60'
   },
   credits: {
+    paddingTop: 10,
     fontSize: '.75rem',
     fontWeight: 500,
     order: 2
-  },
-
-  voteBox: {
-    flex: 1
-  },
-
-  answerContainer: {
-    paddingTop: 5,
-    order: 3,
-    color: '#6f6f6f',
-    fontWeight: 'bold'
-  },
-  icon: {
-    paddingTop: 5,
-    verticalAlign: 'text-bottom',
-    marginLeft: 10,
-    color: '#6f6f6f',
-    fontWeight: 'bold'
-  },
-  bounty: {
-    color: '#85bdcb',
-    fontSize: '.65rem',
-    borderColor: '#85bdcb',
-    fontWeight: 'bold',
-    pointerEvents: 'none',
-    marginTop: 5,
-    marginBottom: 5
   }
 });
 
-const ListItem = ({
+const AnswerListItem = ({
   question,
   client,
   item: {
@@ -112,7 +75,6 @@ const ListItem = ({
     bountyPoints
   },
   classes,
-  isLoading,
   router,
   linkTo,
   user,
@@ -127,12 +89,9 @@ const ListItem = ({
   function handleUserTracking(e) {
     Mixpanel.track('User Profile');
   }
-
+  console.log(bountyPoints);
   return (
-    <Card
-      className={classes.container}
-      style={bountyPoints ? { border: '1px solid #85bdcb' } : null}
-    >
+    <Card className={classes.container}>
       <div>
         <Link
           href={{
@@ -148,24 +107,17 @@ const ListItem = ({
       <div className={classes.textBox}>
         <Link href={linkTo}>
           <a style={{ textDecoration: 'none' }}>
-            <Typography
-              variant="h6"
-              className={classes.title}
-              onClick={handleTracking}
-            >
-              <ClampLines
-                text={title}
-                id="really-unique-id"
-                lines={2}
-                ellipsis="..."
-                className="custom-class"
-                innerElement="p"
-                buttons={false}
-              />
-            </Typography>
+            <ClampLines
+              className={classes.body}
+              text={body}
+              id="really-unique-id"
+              lines={3}
+              ellipsis="..."
+              innerElement="p"
+              buttons={false}
+            />
           </a>
         </Link>
-
         <div>
           <div className={classes.credits}>
             <Link
@@ -178,26 +130,18 @@ const ListItem = ({
                 {display}
               </a>
             </Link>{' '}
-            on <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
-            <Tooltip title="Answers" placement="bottom">
-              <QuestionAnswerIcon className={classes.icon} />
-            </Tooltip>{' '}
-            <span className={classes.answerContainer}>{answers.length}</span>
+            on <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')} </span>
+            <span style={{ fontWeight: 'bold' }}>
+              {' · '}
+              {Math.abs(upVotes - downVotes)}{' '}
+              {upVotes - downVotes < 0 ? 'Down' : 'Up'}vote
+              {Math.abs(upVotes - downVotes) === 1 ? '' : 's'}
+            </span>
           </div>
         </div>
-        {bountyPoints && (
-          <Button size="small" variant="outlined" className={classes.bounty}>
-            Bounty Points: {bountyPoints}
-          </Button>
-        )}
       </div>
-      {answers && (
-        <div className={classes.voteBox}>
-          <Vote id={id} />
-        </div>
-      )}
     </Card>
   );
 };
 
-export default withRouter(withStyles(styles)(ListItem));
+export default withRouter(withStyles(styles)(AnswerListItem));
