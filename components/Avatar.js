@@ -32,9 +32,11 @@ const useStyles = makeStyles(theme => ({
     cursor: 'pointer'
   },
   smallAvatar: {
-    margin: 5,
-    width: 25,
-    height: 25
+    margin: 15,
+    width: 45,
+    height: 45,
+    backgroundColor: '#85bdcb',
+    cursor: 'pointer'
   },
   avatarContainer: {
     display: 'flex',

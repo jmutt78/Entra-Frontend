@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Pagination from '../pagination';
 import PageHeader from '../PageHeader';
 import { upperFirst } from 'lodash';
-import ListItem from '../ListItem';
+import AnswerListItem from '../ListItem/AnswerList';
 
 const styles = ({ layout }) => ({
   container: {
@@ -40,9 +40,10 @@ class AnswerList extends Component {
         <PageHeader title={upperFirst(this.props.name) || 'Answers'} />
         {answers.map(answer => {
           return (
-            <ListItem
+            <AnswerListItem
               key={answer.id}
               item={answer}
+              user={answer.answeredBy}
               linkTo={{
                 pathname: '/question',
                 query: { id: answer.answeredTo[0].id }
