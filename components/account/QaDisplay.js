@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
 
+import './index.css';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
