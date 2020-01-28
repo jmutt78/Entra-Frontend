@@ -44,6 +44,7 @@
     "i": "^0.3.6",
     "jest-matcher-one-of": "^1.0.2",
     "jss": "latest",
+    "jss-global": "^3.0.0",
     "jss-rtl": "^0.2.3",
     "lodash": "^4.17.15",
     "lodash.debounce": "^4.0.8",

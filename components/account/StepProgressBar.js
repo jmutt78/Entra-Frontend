@@ -6,7 +6,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import { ProgressBar, Step } from 'react-step-progress-bar';
 import Link from 'next/link';
-
+import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 
 import './Step.css';
@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   badgeTitle: {
     width: '100%',
     lineHeight: '50px',
-    padding: '30px 20px 15px 30px',
+    padding: '0px 50px 30px 30px',
 
     alignItems: 'center'
   },
@@ -41,13 +41,6 @@ const useStyles = makeStyles(theme => ({
     padding: '10px 50px 30px 50px',
 
     alignItems: 'center'
-  },
-  badgeItem: {
-    maxHeight: 45,
-
-    '@media (max-width: 650px)': {
-      maxHeight: 30
-    }
   }
 }));
 
@@ -91,17 +84,16 @@ const StepBar = ({
                     <Typography color="inherit">
                       Level 1 - 500 Points
                     </Typography>
-                    <b>{'Share social media handles.'}</b>
-                    <b>{'Added to Leaderboard.'}</b>
+                    <b>{'Share your social media handles.'}</b>
                   </React.Fragment>
                 }
               >
                 <img
                   src="/static/winner.svg"
-                  className={classes.badgeItem}
                   alt="winner badge"
                   style={{
-                    filter: `grayscale(${accomplished ? 0 : 80}%)`
+                    filter: `grayscale(${accomplished ? 0 : 80}%)`,
+                    maxWidth: 45
                   }}
                 />
               </BadgeTooltip>
@@ -119,17 +111,18 @@ const StepBar = ({
                     <Typography color="inherit">
                       Level 2 - 1000 Points
                     </Typography>
-                    <b>{'Share your email address and website.'}</b>
+                    <b>{'Share your contact info.'}</b>
                     <br></br>
+                    <b>{'Added to the leaderboard.'}</b>
                   </React.Fragment>
                 }
               >
                 <img
                   src="/static/heart.svg"
-                  className={classes.badgeItem}
                   alt="heart badge"
                   style={{
-                    filter: `grayscale(${accomplished ? 0 : 80}%)`
+                    filter: `grayscale(${accomplished ? 0 : 80}%)`,
+                    maxWidth: 45
                   }}
                 />
               </BadgeTooltip>
@@ -147,16 +140,16 @@ const StepBar = ({
                     <Typography color="inherit">
                       Level 3 - 1500 Points
                     </Typography>
-                    <b>{'Receive an Entra sticker pack'}</b>
+                    <b>{'Recieve Entra sticker pack.'}</b>
                   </React.Fragment>
                 }
               >
                 <img
                   src="/static/check.svg"
                   alt="check badge"
-                  className={classes.badgeItem}
                   style={{
-                    filter: `grayscale(${accomplished ? 0 : 80}%)`
+                    filter: `grayscale(${accomplished ? 0 : 80}%)`,
+                    maxWidth: 45
                   }}
                 />
               </BadgeTooltip>
@@ -176,20 +169,16 @@ const StepBar = ({
                     </Typography>
                     <b>{'Recieve Entra ballcap and tee.'}</b>
                     <br></br>
-                    <b>
-                      {
-                        'You are now a pro! A crown is now visible next to your name.'
-                      }
-                    </b>
+                    <b>{'Confirmed checkmark next to your name'}</b>
                   </React.Fragment>
                 }
               >
                 <img
                   src="/static/champ.svg"
-                  className={classes.badgeItem}
                   alt="champion badge"
                   style={{
-                    filter: `grayscale(${accomplished ? 0 : 80}%)`
+                    filter: `grayscale(${accomplished ? 0 : 80}%)`,
+                    maxWidth: 45
                   }}
                 />
               </BadgeTooltip>
@@ -226,11 +215,16 @@ export default function BadgesDisplay({ user }) {
           level4={level4}
         />
         <div className={classes.badgeTitle}>
-          <Link href="/points">
-            <Button size="medium">
-              You have {points} points! Learn More >>
-            </Button>
-          </Link>
+          <Typography variant="h6"></Typography>
+          <CardActions>
+            <Link href="/points">
+              <a style={{ textDecoration: 'none' }}>
+                <Button size="medium">
+                  You have {points} points! Learn More >>
+                </Button>
+              </a>
+            </Link>
+          </CardActions>
         </div>
       </Card>
     </div>

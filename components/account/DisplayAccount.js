@@ -74,10 +74,15 @@ class DisplayAccount extends Component {
                   </TableHead>
                 </Table>
                 <div className={classes.contentContainer}>
-                  <MainInfoDisplay user={user} />
-
-                  <QaDisplay user={user} />
-                  <StepProgressBar user={user} />
+                  <div>
+                    <MainInfoDisplay user={user} />
+                  </div>
+                  <div>
+                    <QaDisplay user={user} />
+                  </div>
+                  <div>
+                    <StepProgressBar user={user} />
+                  </div>
                 </div>
               </div>
             </div>

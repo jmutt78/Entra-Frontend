@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { upperFirst } from 'lodash';
 import styled from 'styled-components';
 
-import LinearProgress from '@material-ui/core/LinearProgress';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 
 import ListItem from '../ListItem';
@@ -104,7 +104,7 @@ function QuestionList(props) {
       </ul>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         {isLoading && hasMoreQuestions && (
-          <LinearProgress
+          <CircularProgress
             style={{ marginBottom: 20, position: 'absolute', bottom: 0 }}
           />
         )}
