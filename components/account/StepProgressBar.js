@@ -84,16 +84,18 @@ const StepBar = ({
                     <Typography color="inherit">
                       Level 1 - 500 Points
                     </Typography>
-                    <b>{'Share your social media handles.'}</b>
+                    <b>{'Share social media handles.'}</b>
+                    <br></br>
+                    <b>{'Added to Leaderboard.'}</b>
                   </React.Fragment>
                 }
               >
                 <img
+                  className="img-container"
                   src="/static/winner.svg"
                   alt="winner badge"
                   style={{
-                    filter: `grayscale(${accomplished ? 0 : 80}%)`,
-                    maxWidth: 45
+                    filter: `grayscale(${accomplished ? 0 : 80}%)`
                   }}
                 />
               </BadgeTooltip>
@@ -112,17 +114,15 @@ const StepBar = ({
                       Level 2 - 1000 Points
                     </Typography>
                     <b>{'Share your contact info.'}</b>
-                    <br></br>
-                    <b>{'Added to the leaderboard.'}</b>
                   </React.Fragment>
                 }
               >
                 <img
+                  className="img-container"
                   src="/static/heart.svg"
                   alt="heart badge"
                   style={{
-                    filter: `grayscale(${accomplished ? 0 : 80}%)`,
-                    maxWidth: 45
+                    filter: `grayscale(${accomplished ? 0 : 80}%)`
                   }}
                 />
               </BadgeTooltip>
@@ -145,11 +145,11 @@ const StepBar = ({
                 }
               >
                 <img
+                  className="img-container"
                   src="/static/check.svg"
                   alt="check badge"
                   style={{
-                    filter: `grayscale(${accomplished ? 0 : 80}%)`,
-                    maxWidth: 45
+                    filter: `grayscale(${accomplished ? 0 : 80}%)`
                   }}
                 />
               </BadgeTooltip>
@@ -169,16 +169,20 @@ const StepBar = ({
                     </Typography>
                     <b>{'Recieve Entra ballcap and tee.'}</b>
                     <br></br>
-                    <b>{'Confirmed checkmark next to your name'}</b>
+                    <b>
+                      {
+                        'You are now a pro! A crown is now visible next to your name.'
+                      }
+                    </b>
                   </React.Fragment>
                 }
               >
                 <img
+                  className="img-container"
                   src="/static/champ.svg"
                   alt="champion badge"
                   style={{
-                    filter: `grayscale(${accomplished ? 0 : 80}%)`,
-                    maxWidth: 45
+                    filter: `grayscale(${accomplished ? 0 : 80}%)`
                   }}
                 />
               </BadgeTooltip>
@@ -194,6 +198,7 @@ export default function BadgesDisplay({ user }) {
   const classes = useStyles();
 
   const points = user.points;
+  const stepPoints = (points / 2000) * 100;
   const level1 = user.mastery.level1;
   const level2 = user.mastery.level2;
   const level3 = user.mastery.level3;
@@ -207,7 +212,7 @@ export default function BadgesDisplay({ user }) {
         </Typography>
         <StepBar
           classes={classes}
-          level={(points / 2000) * 100}
+          level={stepPoints >= 100 ? 100 : stepPoints}
           points={points}
           level1={level1}
           level2={level2}

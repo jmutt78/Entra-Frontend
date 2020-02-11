@@ -16,7 +16,7 @@
   line-height: 2.5rem;
 }
 
-.container {
+.container-box {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -26,13 +26,16 @@
   border-bottom: 0;
 }
 
-
 .badgesContainer {
   padding: 0 20px 20px 20px;
   width: 100%;
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
+}
+
+.img-container {
+  max-width: 45px;
 }
 
 @media (max-width: 700px) {
@@ -45,5 +48,8 @@
   }
   .badgesContainer {
     justify-content: center;
+  }
+  .img-container {
+    max-width: 30px;
   }
 }

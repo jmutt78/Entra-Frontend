@@ -59,7 +59,7 @@ const Page = ({ children, classes, router }) => {
           <div className={classes.root}>
             <Meta />
             <Header me={me} loading={loading} />
-            {loading ? <LinearProgress variant="determinate" /> : null}
+            {loading ? <LinearProgress variant="query" /> : null}
             {error ? <Error error={error} /> : null}
 
             <div

@@ -144,11 +144,7 @@ export default function MyProfile({ me, small }) {
             >
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList
-                    autoFocusItem={open}
-                    id="menu-list-grow"
-                    onKeyDown={handleListKeyDown}
-                  >
+                  <MenuList id="menu-list-grow" onKeyDown={handleListKeyDown}>
                     <Link href="/account/myaccount">
                       <MenuItem className={classes.menu} onClick={handleClose}>
                         My Profile
@@ -171,26 +167,22 @@ export default function MyProfile({ me, small }) {
                       </MenuItem>
                     </Link>
                     <Divider />
-                    <Link href="https://entra.drift.help">
-                      <a
-                        href="https://entra.drift.help"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          textDecoration: 'none',
-                          fontSize: '0.85rem',
-                          fontWeight: 600,
-                          color: '#6f6f6f'
-                        }}
-                      >
-                        <MenuItem
-                          className={classes.menu}
-                          onClick={handleClose}
-                        >
-                          Help
-                        </MenuItem>
-                      </a>
-                    </Link>
+
+                    <a
+                      href="https://entra.drift.help"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        textDecoration: 'none',
+                        fontSize: '0.85rem',
+                        fontWeight: 600,
+                        color: '#6f6f6f'
+                      }}
+                    >
+                      <MenuItem className={classes.menu} onClick={handleClose}>
+                        Help
+                      </MenuItem>
+                    </a>
 
                     <MenuItem className={classes.menu}>
                       <Signout />

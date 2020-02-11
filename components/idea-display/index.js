@@ -191,7 +191,7 @@ const DisplayIdea = ({ idea, id, client }) => {
               return (
                 <div className={container}>
                   {approved && (
-                    <diV style={{ width: '100%' }}>
+                    <div style={{ width: '100%' }}>
                       <div
                         className="idea-titleContainer"
                         style={{ width: '100%' }}
@@ -268,7 +268,6 @@ const DisplayIdea = ({ idea, id, client }) => {
                         )}
                         <Mutation
                           mutation={DELETE_IDEA_MUTATION}
-                          refetchQueries={BUSINESSIDEAS_LIST_QUERY}
                           awaitRefetchQueries={true}
                           onCompleted={() =>
                             Router.push({
@@ -314,6 +313,7 @@ const DisplayIdea = ({ idea, id, client }) => {
                       <div className={cardsContainer}>
                         {steps.slice(1).map((s, i) => (
                           <Section
+                            key={s}
                             edit={hasPermissions}
                             step={s}
                             sectionContent={businessIdea[s]}
@@ -325,7 +325,7 @@ const DisplayIdea = ({ idea, id, client }) => {
                           />
                         ))}
                       </div>
-                    </diV>
+                    </div>
                   )}
 
                   {!approved && (
