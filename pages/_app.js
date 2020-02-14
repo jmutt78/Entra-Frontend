@@ -1,4 +1,4 @@
-import App, { Container } from 'next/app';
+import App from 'next/app';
 import { ApolloProvider } from 'react-apollo';
 
 import withApolloClient from '../lib/with-apollo-client';
@@ -47,22 +47,20 @@ class MyApp extends App {
   render() {
     const { Component, pageProps, apolloClient } = this.props;
     return (
-      <Container>
-        <ApolloProvider client={apolloClient}>
-          <JssProvider
-            registry={this.pageContext.sheetsRegistry}
-            generateClassName={this.pageContext.generateClassName}
-          >
-            <MuiThemeProvider theme={this.pageContext.theme}>
-              <CssBaseline />
+      <ApolloProvider client={apolloClient}>
+        <JssProvider
+          registry={this.pageContext.sheetsRegistry}
+          generateClassName={this.pageContext.generateClassName}
+        >
+          <MuiThemeProvider theme={this.pageContext.theme}>
+            <CssBaseline />
 
-              <Page>
-                <Component pageContext={this.pageContext} {...pageProps} />
-              </Page>
-            </MuiThemeProvider>
-          </JssProvider>
-        </ApolloProvider>
-      </Container>
+            <Page>
+              <Component pageContext={this.pageContext} {...pageProps} />
+            </Page>
+          </MuiThemeProvider>
+        </JssProvider>
+      </ApolloProvider>
     );
   }
 }
