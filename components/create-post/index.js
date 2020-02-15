@@ -113,7 +113,7 @@ export default () => {
             <div className={noteContainer}>
               <p className={paragraph}>
                 Welcome to the community. Entra is a place to connect, help, and
-                learn from other entreprenurs. Now is your chance to introduce
+                learn from other entrepreneurs. Now is your chance to introduce
                 yourself to the community and make connections right away.
               </p>
             </div>

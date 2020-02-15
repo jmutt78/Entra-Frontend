@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import { perPage } from '../../config.js';
 import IdeaList from './IdeaList';
+import Error from '../ErrorMessage';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import gql from 'graphql-tag';
@@ -40,7 +41,7 @@ class AllIdeas extends Component {
       >
         {({ loading, error, data: { businessIdeas } }) => {
           if (loading) return <CircularProgress style={{ margin: 20 }} />;
-          if (error) return <p>Error</p>;
+          if (error) return <Error error={error} />;
 
           return (
             <IdeaList
