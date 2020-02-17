@@ -2,6 +2,7 @@ import React from 'react';
 
 import Grid from './Grid';
 import Demo from './Demo';
+import styled from 'styled-components';
 import Hero from './Hero';
 import VideoCTA from './VideoCTA';
 import CallToAction from './callToAction';
@@ -10,11 +11,13 @@ import Layout from '../../components/layout/index.js';
 import Pixel from '../../utils/Pixel.js';
 import './index.css';
 
+const LandingContainer = styled.div``;
+
 const Landingpage = () => {
   return (
     <Layout>
       <div className="landingContainer">
-        <Pixel name="FACEBOOK_PIXEL_1" />
+        {/* <Pixel name="FACEBOOK_PIXEL_1" /> */}
         <Hero />
 
         <h2 className="landingHeader sans">

@@ -1,7 +1,7 @@
-
-import DisplayAccount from "../../components/account/DisplayAccount";
-import PleaseSignIn from "../../components/auth/PleaseSignIn";
-import Layout from "../../components/layout/index.js";
+import React from 'react';
+import DisplayAccount from '../../components/account/DisplayAccount';
+import PleaseSignIn from '../../components/auth/PleaseSignIn';
+import Layout from '../../components/layout/index.js';
 
 const Account = () => (
   <Layout>
@@ -9,5 +9,4 @@ const Account = () => (
   </Layout>
 );
 
-
-export default Account
+export default Account;

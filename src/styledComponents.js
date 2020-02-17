@@ -25,3 +25,7 @@ export const QuestionListContainer = styled.div`
     }
   }
 `;
+
+export const ScrollablePageContainer = styled.div`
+  overflow: hidden;
+`;

@@ -26,7 +26,8 @@ export default {
       dark: '#2d3436',
       // for secondary buttons etc
       grey: '#b2bec3',
-      blue: '#85bdcb'
+      blue: '#85bdcb',
+      main: '#ffeaa7'
     }
   },
   typography: {

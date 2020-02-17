@@ -1,145 +1,171 @@
 import React from 'react';
 import Link from 'next/link';
-import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import './footer.css';
+import styled from 'styled-components';
 
-const styles = ({ palette }) => ({
-  creditBarContainer: {
-    background: '#2d3436',
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  creditBarText: {
-    color: '#85bdcb', //palette.accent.blue,
-    padding: '1.5rem 2rem',
-    fontSize: 18,
-    fontWeight: 'bold'
-  },
-  paddingLeft: {
-    width: '10vw'
-  },
-  paddingRight: {
-    width: '6vw'
-  },
-  listItem: {
-    padding: '0.8rem 0'
-  },
+const CreditBarContainer = styled.div`
+  background: #2d3436;
+  display: flex;
+  justify-content: center;
+`;
 
-  heading: {
-    color: '#85bdcb', //palette.accent.blue,
-    fontSize: 17,
-    fontWeight: 'bold'
-  },
-  link: {
-    fontSize: 16,
-    color: '#2d3436',
-    textDecoration: 'none',
-    fontWeight: 500,
-    cursor: 'pointer',
-    '&:hover': {
-      color: '#85bdcb' //palette.accent.blue,
-    }
-  },
-  img: {
-    marginRight: 15,
-    width: 30,
-    color: 'grey'
+const CopyrightText = styled(Typography)`
+  color: #85bdcb;
+  padding: 1.5rem 2rem;
+  font-size: 18;
+  font-weight: bold;
+`;
+
+const FooterBarContainer = styled.div`
+  display: flex;
+  background: #f2f4ef;
+  flex-direction: row;
+  justify-content: center;
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+    padding-left: 2rem;
   }
-});
+`;
 
-export const CreditBar = ({ classes }) => {
+const FooterSection = styled.div`
+  width: 28vw;
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  @media (max-width: 700px) {
+    width: 100%;
+  }
+`;
+
+const HeadingText = styled(Typography)`
+  &&& {
+    color: #85bdcb;
+    font-size: 17px;
+    font-weight: bold;
+  }
+`;
+
+const ListItemStyled = styled(ListItem)`
+  &&& {
+    padding: 0.8rem 0;
+  }
+`;
+
+const TextLink = styled.span`
+  font-size: 16px;
+  color: #2d3436;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+
+  :hover {
+    color: #85bdcb;
+  }
+`;
+
+const StyledAnchor = styled.a`
+  font-size: 16px;
+  color: #2d3436;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+
+  :hover {
+    color: #85bdcb;
+  }
+`;
+
+const StyledImg = styled.img`
+  margin-right: 15px;
+  width: 30px;
+  color: grey;
+`;
+
+export const CreditBar = () => {
   return (
-    <div className={classes.creditBarContainer}>
-      <Typography color="secondary" className={classes.creditBarText}>
+    <CreditBarContainer>
+      <CopyrightText color="secondary">
         &copy; Copyright {new Date().getFullYear()} Entra
-      </Typography>
-    </div>
+      </CopyrightText>
+    </CreditBarContainer>
   );
 };
 
-export const FooterBar = ({ classes }) => {
+export const FooterBar = () => {
   return (
-    <div className="footerBarContainer">
-      <div className={classes.paddingLeft} />
-
-      <div className="footerSection">
-        <Typography color="secondary" className={classes.heading}>
-          LEGAL
-        </Typography>
+    <FooterBarContainer>
+      <FooterSection>
+        <HeadingText>LEGAL</HeadingText>
 
         <List component="nav">
-          <ListItem className={classes.listItem}>
+          <ListItemStyled>
             <Typography>
               <Link href="/terms">
-                <span className={classes.link}>Terms and Conditions</span>
+                <TextLink>Terms and Conditions</TextLink>
               </Link>
             </Typography>
-          </ListItem>
+          </ListItemStyled>
 
-          <ListItem className={classes.listItem}>
+          <ListItemStyled>
             <Typography>
               <Link href="/privacy">
-                <span className={classes.link}>GDPR Privacy Policy</span>
+                <TextLink>GDPR Privacy Policy</TextLink>
               </Link>
             </Typography>
-          </ListItem>
+          </ListItemStyled>
         </List>
-      </div>
+      </FooterSection>
 
-      <div className="footerSection">
-        <Typography color="secondary" className={classes.heading}>
-          COMMUNITY
-        </Typography>
+      <FooterSection>
+        <HeadingText>COMMUNITY</HeadingText>
 
         <List component="nav">
-          <ListItem className={classes.listItem}>
+          <ListItemStyled>
             <Typography>
               <Link href="/blog">
-                <span className={classes.link}>Blog</span>
+                <TextLink>Blog</TextLink>
               </Link>
             </Typography>
-          </ListItem>
+          </ListItemStyled>
 
-          <ListItem className={classes.listItem}>
+          <ListItemStyled>
             <Typography>
               <Link href="/why">
-                <span className={classes.link}>Our Why</span>
+                <TextLink>Our Why</TextLink>
               </Link>
             </Typography>
-          </ListItem>
+          </ListItemStyled>
 
-          <ListItem className={classes.listItem}>
+          <ListItemStyled>
             <Typography>
-              <a
+              <StyledAnchor
                 href="https://entra.drift.help/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={classes.link}
               >
                 Help
-              </a>
+              </StyledAnchor>
             </Typography>
-          </ListItem>
+          </ListItemStyled>
         </List>
-      </div>
+      </FooterSection>
 
-      <div className="footerSection">
-        <Typography color="secondary" className={classes.heading}>
-          CONNECT WITH US
-        </Typography>
+      <FooterSection>
+        <HeadingText>CONNECT WITH US</HeadingText>
 
         <List component="nav">
-          <ListItem className={classes.listItem}>
+          <ListItemStyled>
             <a
               href="https://www.facebook.com/Entra-463274424415901"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img
-                className={classes.img}
+              <StyledImg
                 src="/static/icons8-facebook-circled-48.png"
                 alt="facebook icon"
               />
@@ -149,8 +175,7 @@ export const FooterBar = ({ classes }) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img
-                className={classes.img}
+              <StyledImg
                 src="/static/icons8-instagram-old-50.png"
                 alt="instagram icon"
               />
@@ -160,8 +185,7 @@ export const FooterBar = ({ classes }) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img
-                className={classes.img}
+              <StyledImg
                 src="/static/icons8-linkedin-48.png"
                 alt="linkedin icon"
               />
@@ -171,27 +195,25 @@ export const FooterBar = ({ classes }) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img
-                className={classes.img}
+              <StyledImg
                 src="/static/icons8-twitter-squared-48.png"
                 alt="twitter icon"
               />
             </a>
-          </ListItem>
+          </ListItemStyled>
         </List>
-      </div>
-      <div className={classes.paddingRight} />
-    </div>
+      </FooterSection>
+    </FooterBarContainer>
   );
 };
 
-const Footer = ({ classes }) => {
+const Footer = () => {
   return (
     <div>
-      <FooterBar classes={classes} />
-      <CreditBar classes={classes} />
+      <FooterBar />
+      <CreditBar />
     </div>
   );
 };
 
-export default withStyles(styles)(Footer);
+export default Footer;

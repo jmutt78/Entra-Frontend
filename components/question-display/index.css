@@ -75,7 +75,6 @@
   align-items: center;
 }
 
-,
 @media (max-width: 500px) {
   .itemFooter {
     flex-direction: column-reverse;

@@ -75,9 +75,9 @@
   cursor: pointer;
 }
 
-.sectionMobile {
+/* .sectionMobile {
   display: none;
-}
+} */
 
 @media (max-width: 900px) {
   .navbarFlex {
@@ -123,9 +123,9 @@
   .navLink {
   }
 
-  .sectionMobile {
+  /* .sectionMobile {
     display: flex;
-  }
+  } */
 
   .visibleOnMobile {
     visibility: visible;

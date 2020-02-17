@@ -1,11 +1,14 @@
-import React from "react";
-import Questions from "../components/questions";
-import Layout from "../components/layout/index.js";
+import React from 'react';
+import Questions from '../components/questions';
+import Layout from '../components/layout/index.js';
+import { ScrollablePageContainer } from '../src/styledComponents';
 
 function All(props) {
   return (
     <Layout>
-      <Questions page={parseFloat(props.query.page) || 1} />
+      <ScrollablePageContainer>
+        <Questions page={parseFloat(props.query.page) || 1} />
+      </ScrollablePageContainer>
     </Layout>
   );
 }

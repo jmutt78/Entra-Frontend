@@ -1,10 +1,13 @@
-import React from "react";
-import UserList from "../components/user-list";
-import Layout from "../components/layout/index.js";
+import React from 'react';
+import UserList from '../components/user-list';
+import Layout from '../components/layout/index.js';
+import { ScrollablePageContainer } from '../src/styledComponents';
 
 const MyQA = props => (
   <Layout>
-    <UserList page={parseFloat(props.query.page) || 1} id={props.query.id} />
+    <ScrollablePageContainer>
+      <UserList page={parseFloat(props.query.page) || 1} id={props.query.id} />
+    </ScrollablePageContainer>
   </Layout>
 );
 

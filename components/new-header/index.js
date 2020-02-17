@@ -1,5 +1,4 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'next/router';
 import NProgress from 'nprogress';
 
@@ -18,21 +17,8 @@ Router.onRouteChangeError = () => {
   NProgress.done();
 };
 
-const styles = ({ layout }) => {
-  return {
-    root: {
-      minWidth: '100%', //layout.width,
-      width: '100%'
-    }
-  };
-};
-
 const Header = ({ classes, router, me }) => {
-  return (
-    <div className={classes.root}>
-      <NavBar isLoggedIn={!!me} me={me} router={router} />
-    </div>
-  );
+  return <NavBar isLoggedIn={!!me} me={me} router={router} />;
 };
 
-export default withRouter(withStyles(styles)(Header));
+export default withRouter(Header);

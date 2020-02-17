@@ -1,5 +1,6 @@
 import App, { Container } from 'next/app';
 import { ApolloProvider } from 'react-apollo';
+import { ThemeProvider } from 'styled-components';
 
 import withApolloClient from '../lib/with-apollo-client';
 import Page from '../components/page/Page';
@@ -56,9 +57,11 @@ class MyApp extends App {
             <MuiThemeProvider theme={this.pageContext.theme}>
               <CssBaseline />
 
-              <Page>
-                <Component pageContext={this.pageContext} {...pageProps} />
-              </Page>
+              <ThemeProvider theme={this.pageContext.theme}>
+                <Page>
+                  <Component pageContext={this.pageContext} {...pageProps} />
+                </Page>
+              </ThemeProvider>
             </MuiThemeProvider>
           </JssProvider>
         </ApolloProvider>

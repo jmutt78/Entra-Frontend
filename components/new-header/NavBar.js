@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
 import Link from 'next/link';
+import styled from 'styled-components';
 
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
@@ -18,102 +17,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 
 import { Mixpanel } from '../../utils/Mixpanel';
-import './Appbar.css';
-import classNames from 'classnames';
 import Avatar from '../Avatar';
 import NavMenu from './NavMenu';
-import './Navbar.css';
-
-const useStyles = makeStyles(theme => ({
-  grow: {
-    flexGrow: 1,
-    backgroundColor: 'rgb(242, 244, 239)'
-  },
-  drawer: {
-    backgroundColor: 'rgb(242, 244, 239)'
-  },
-  list: {
-    width: 300,
-    backgroundColor: 'rgb(242, 244, 239)'
-  },
-
-  sectionDesktop: {
-    display: 'flex',
-    '@media (max-width: 901px)': {
-      display: 'none'
-    }
-  },
-  sectionMobile: {
-    display: 'none',
-    '@media (max-width: 901px)': {
-      display: 'flex'
-    }
-  },
-  root: {
-    width: theme.layout.width,
-    minHeight: theme.layout.headerHeight,
-    backgroundColor: 'rgb(242, 244, 239)'
-  },
-  subContainer: {
-    display: 'flex',
-
-    alignItems: 'center',
-    '@media (max-width: 901px)': {
-      maxHeight: 35,
-      marginTop: 20
-    }
-  },
-  hidden: {
-    visibility: 'hidden'
-  },
-  button: {
-    margin: 12
-  },
-  signupButton: {
-    backgroundColor: '#E27D60',
-    color: 'white',
-    margin: '10px 5px 10px 5px ',
-    '&:hover': {
-      backgroundColor: theme.palette.accent.main
-    }
-  },
-  loginButton: {
-    margin: '10px 5px 10px 5px ',
-    backgroundColor: theme.palette.accent.grey,
-    '&:hover': {
-      backgroundColor: theme.palette.accent.main
-    }
-  },
-  logo: {
-    maxHeight: 45,
-    cursor: 'pointer',
-    '@media (max-width: 901px)': {
-      maxHeight: 35,
-      marginTop: 20,
-      marginLeft: 15
-    }
-  },
-
-  navLink: {
-    display: 'flex',
-    alignItems: 'center',
-    color: theme.palette.accent.dark,
-    fontSize: '1.2rem',
-    padding: '12px 10px 8px 10px',
-    textDecoration: 'none',
-    '&:hover': {
-      color: theme.palette.primary.dark
-    }
-  },
-  navLinkActive: {
-    alignItems: 'center',
-    display: 'flex',
-    fontSize: '1.2rem',
-    fontWeight: 500,
-    height: theme.layout.headerHeight,
-    padding: '12px 10px 8px 10px'
-  }
-}));
 
 function handleSignin(e) {
   Mixpanel.track('Signup');
@@ -123,9 +28,97 @@ function handleLogin(e) {
   Mixpanel.track('Login');
 }
 
-export default function Appbar({ isLoggedIn, me, router }) {
-  const classes = useStyles();
+const NavBarContainer = styled(AppBar)`
+  &&& {
+    width: ${props => props.theme.layout.width};
+    min-height: ${props => props.theme.layout.headerHeight};
+    background-color: rgb(242, 244, 239);
+  }
+`;
 
+const ToggleDrawer = styled.div`
+  display: none;
+
+  @media (max-width: 900px) {
+    display: flex;
+  }
+`;
+
+const LogoImg = styled.img`
+  height: 45px;
+  cursor: pointer;
+
+  @media (max-width: 900px) {
+    height: 35px;
+    margin-left: 15px;
+  }
+`;
+
+const GrowPlaceholder = styled.div`
+  flex-grow: 1;
+  background-color: rgb(242, 244, 239);
+`;
+
+const SectionDesktop = styled.div`
+  display: flex;
+  @media (max-width: 901px) {
+    display: none;
+  }
+`;
+
+const NavigationContainer = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: center;
+
+  @media (max-width: 900px) {
+    align-items: flex-start;
+    width: 100%;
+    padding: 0;
+    flex-direction: column;
+    display: none;
+  }
+`;
+
+const SubContainer = styled.div`
+  display: flex;
+  align-items: center;
+  @media (max-width: 901px) {
+    max-height: 35px;
+  }
+`;
+
+const SignupButton = styled(Button)`
+  &&& {
+    background-color: #e27d60;
+    color: white;
+    margin: 10px 5px 10px 5px;
+    white-space: nowrap;
+    :hover {
+      background-color: ${props => props.theme.palette.accent.main};
+    }
+  }
+`;
+
+const LoginButton = styled(Button)`
+  &&& {
+    margin: 10px 5px 10px 5px;
+    background-color: ${props => props.theme.palette.accent.grey};
+    :hover {
+      background-color: ${props => props.theme.palette.accent.main};
+    }
+  }
+`;
+
+const DrawerList = styled(List)`
+  &&& {
+    width: 300px;
+    height: 100%;
+    background-color: rgb(242, 244, 239);
+  }
+`;
+
+export default function Appbar({ isLoggedIn, me, router }) {
   const [state, setState] = React.useState({
     left: false
   });
@@ -216,11 +209,7 @@ export default function Appbar({ isLoggedIn, me, router }) {
   };
 
   const sideList = side => (
-    <div
-      className={classes.list}
-      role="presentation"
-      onKeyDown={toggleDrawer(side, false)}
-    >
+    <DrawerList role="presentation" onKeyDown={toggleDrawer(side, false)}>
       <List>
         <ListItem>
           <ListItemIcon>
@@ -308,7 +297,7 @@ export default function Appbar({ isLoggedIn, me, router }) {
             </ListItem>
           )}
       </List>
-    </div>
+    </DrawerList>
   );
 
   const ideaLinkCondition = () => {
@@ -339,110 +328,97 @@ export default function Appbar({ isLoggedIn, me, router }) {
   }
 
   return (
-    <div>
-      <AppBar position="static" className={classes.root}>
-        <Toolbar>
-          <div className="sectionMobile">
-            <MenuIcon onClick={toggleDrawer('left', true)}></MenuIcon>
-          </div>
-          <div className="subContainer">
-            <Typography variant="h6" className={classes.logoContainer}>
-              <Link href="/all">
-                <img src="/static/logo.png" className="logo" alt="entra logo" />
-              </Link>
-            </Typography>
-          </div>
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <div className="navigationContainer">
-              <NavMenu
-                me={me}
-                key={`Community`}
-                navLinks={feedLink()}
-                curretPage={curretPage}
-                name={`Community`}
-                icon={<QuestionAnswerIcon fontSize="small" />}
-              />
-              <NavMenu
-                me={me}
-                navLinks={ideaLinkCondition()}
-                curretPage={curretPage}
-                name={`Ideas`}
-                key={`Ideas`}
-                icon={<EmojiObjectsIcon fontSize="small" />}
-              />
+    <NavBarContainer position="static">
+      <Toolbar>
+        <ToggleDrawer>
+          <MenuIcon onClick={toggleDrawer('left', true)}></MenuIcon>
+        </ToggleDrawer>
+        <Link href="/all">
+          <LogoImg src="/static/logo.png" alt="entra logo" />
+        </Link>
+        <GrowPlaceholder />
+        <SectionDesktop>
+          <NavigationContainer>
+            <NavMenu
+              me={me}
+              key={`Community`}
+              navLinks={feedLink()}
+              curretPage={curretPage}
+              name={`Community`}
+              icon={<QuestionAnswerIcon fontSize="small" />}
+            />
+            <NavMenu
+              me={me}
+              navLinks={ideaLinkCondition()}
+              curretPage={curretPage}
+              name={`Ideas`}
+              key={`Ideas`}
+              icon={<EmojiObjectsIcon fontSize="small" />}
+            />
 
-              <NavMenu
-                me={me}
-                navLinks={blogLinks}
-                curretPage={curretPage}
-                name={`Learn`}
-                key={`Learn`}
-                icon={<MenuBookIcon fontSize="small" />}
-              />
-              <NavMenu
-                me={me}
-                navLinks={createLinks}
-                curretPage={curretPage}
-                name={`Create`}
-                key={`Create`}
-                icon={<CreateIcon fontSize="small" />}
-              />
-              {me &&
-                me.permissions.some(permission =>
-                  ['ADMIN', 'MODERATOR'].includes(permission)
-                ) && (
-                  <NavMenu
-                    me={me}
-                    navLinks={adminLinks}
-                    curretPage={curretPage}
-                    name={`Admin`}
-                  />
-                )}
-            </div>
-          </div>
-          {!me && (
-            <div className={classes.subContainer}>
-              <Link href="/signin">
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  size="small"
-                  className={classNames(classes.loginButton, 'login-btn')}
-                  onClick={handleLogin}
-                >
-                  Login
-                </Button>
-              </Link>
+            <NavMenu
+              me={me}
+              navLinks={blogLinks}
+              curretPage={curretPage}
+              name={`Learn`}
+              key={`Learn`}
+              icon={<MenuBookIcon fontSize="small" />}
+            />
+            <NavMenu
+              me={me}
+              navLinks={createLinks}
+              curretPage={curretPage}
+              name={`Create`}
+              key={`Create`}
+              icon={<CreateIcon fontSize="small" />}
+            />
+            {me &&
+              me.permissions.some(permission =>
+                ['ADMIN', 'MODERATOR'].includes(permission)
+              ) && (
+                <NavMenu
+                  me={me}
+                  navLinks={adminLinks}
+                  curretPage={curretPage}
+                  name={`Admin`}
+                />
+              )}
+          </NavigationContainer>
+        </SectionDesktop>
+        {!me && (
+          <SubContainer>
+            <Link href="/signin">
+              <LoginButton
+                variant="contained"
+                color="secondary"
+                size="small"
+                onClick={handleLogin}
+              >
+                Login
+              </LoginButton>
+            </Link>
 
-              <Link href="/signup">
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  size="small"
-                  className={classes.signupButton}
-                  onClick={handleSignin}
-                >
-                  Sign up
-                </Button>
-              </Link>
-            </div>
-          )}
-          {me && (
-            <div component={'div'}>
-              <Avatar me={me} />
-            </div>
-          )}
-        </Toolbar>
-        <SwipeableDrawer
-          classes={{ paper: classes.drawer }}
-          open={state.left}
-          onClose={toggleDrawer('left', false)}
-          onOpen={toggleDrawer('left', true)}
-        >
-          {sideList('left')}
-        </SwipeableDrawer>
-      </AppBar>
-    </div>
+            <Link href="/signup">
+              <SignupButton
+                variant="contained"
+                color="secondary"
+                size="small"
+                onClick={handleSignin}
+              >
+                Sign up
+              </SignupButton>
+            </Link>
+          </SubContainer>
+        )}
+        {me && <Avatar me={me} />}
+      </Toolbar>
+      <SwipeableDrawer
+        open={state.left}
+        onClose={toggleDrawer('left', false)}
+        onOpen={toggleDrawer('left', true)}
+      >
+        {sideList('left')}
+      </SwipeableDrawer>
+    </NavBarContainer>
   );
 }
