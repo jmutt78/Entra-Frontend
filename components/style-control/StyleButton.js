@@ -1,28 +1,21 @@
-import React from "react";
-import {
-  Editor,
-  EditorState,
-  RichUtils,
-  convertToRaw,
-  convertFromRaw
-} from "draft-js";
-import { withStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+import React from 'react';
+
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   RichEditorStyleButton: {
-    color: "#999",
-    cursor: "pointer",
-    marginRight: "16px",
-    padding: "2px 0",
-    display: "inline-block"
+    color: '#999',
+    cursor: 'pointer',
+    marginRight: '16px',
+    padding: '2px 0',
+    display: 'inline-block'
   },
   RichEditorActiveButton: {
-    color: "#5890ff",
-    cursor: "pointer",
-    marginRight: "16px",
-    padding: "2px 0",
-    display: "inline-block"
+    color: '#5890ff',
+    cursor: 'pointer',
+    marginRight: '16px',
+    padding: '2px 0',
+    display: 'inline-block'
   }
 });
 

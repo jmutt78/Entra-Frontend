@@ -4,21 +4,14 @@ import styled from 'styled-components';
 import { Query, Mutation } from 'react-apollo';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
-import { format, parseISO } from 'date-fns';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
 
 import { Mixpanel } from '../../utils/Mixpanel';
-// import Avatar from '../Avatar';
+import CreateComment from './CreateComment';
 import Error from './../ErrorMessage.js';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -70,6 +63,7 @@ export const Root = styled.div`
 
 export const CreditContainer = styled.div`
   flex-grow: 1;
+  padding-bottom: 20px;
   margin: 0 auto;
   position: relative;
   width: auto;
@@ -126,63 +120,59 @@ export default function Intro({ id }) {
 
         return (
           <Root>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <CreditContainer>
-                  <AvatarContainer>
-                    <Link
-                      href={{
-                        pathname: '/user',
-                        query: { id: user.id }
-                      }}
-                    >
-                      {user.image === null || user.image === '' ? (
-                        <Avatar className={classes.avatar}>
-                          {user.display[0]}
-                        </Avatar>
-                      ) : (
-                        <Avatar
-                          alt={user.name}
-                          src={user.image}
-                          className={classes.avatar}
-                        />
-                      )}
-                    </Link>
-                  </AvatarContainer>
-                  <NameContainer>
-                    Welcome{' '}
-                    <Link
-                      href={{
-                        pathname: '/user',
-                        query: { id: userId }
-                      }}
-                    >
-                      <a
-                        className={classes.nameLink}
-                        onClick={handleUserTracking}
-                      >
-                        {display}
-                      </a>
-                    </Link>{' '}
-                    to the community!
-                  </NameContainer>
-                </CreditContainer>
-              </Grid>
-              <Grid item xs={12}>
-                <Paper
-                  style={{
-                    background: '#f2f4ef',
-                    padding: '30px',
-                    marginLeft: 15,
-                    marginRight: 15
+            <CreditContainer>
+              <AvatarContainer>
+                <Link
+                  href={{
+                    pathname: '/user',
+                    query: { id: user.id }
                   }}
                 >
-                  <Typography>{introduction}</Typography>
-                  <Typography>{about}</Typography>
-                  <Typography>{challenges}</Typography>
-                </Paper>
-              </Grid>
-            </Grid>
+                  {user.image === null || user.image === '' ? (
+                    <Avatar className={classes.avatar}>
+                      {user.display[0]}
+                    </Avatar>
+                  ) : (
+                    <Avatar
+                      alt={user.name}
+                      src={user.image}
+                      className={classes.avatar}
+                    />
+                  )}
+                </Link>
+              </AvatarContainer>
+              <NameContainer>
+                Welcome{' '}
+                <Link
+                  href={{
+                    pathname: '/user',
+                    query: { id: userId }
+                  }}
+                >
+                  <a className={classes.nameLink} onClick={handleUserTracking}>
+                    {display}
+                  </a>
+                </Link>{' '}
+                to the community!
+              </NameContainer>
+            </CreditContainer>
+
+            <Paper
+              style={{
+                background: '#f2f4ef',
+                padding: '30px',
+                marginLeft: 15,
+                marginRight: 15
+              }}
+            >
+              <h3>Introduction </h3>
+              <p>{introduction}</p>
+              <h3>Challenges </h3>
+              <p>{challenges}</p>
+              <h3>How can the community help? </h3>
+              <p>{about}</p>
+            </Paper>
+            <CreateComment id={id} />
           </Root>
         );
       }}
