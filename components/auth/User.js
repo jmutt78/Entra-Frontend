@@ -31,6 +31,12 @@ const CURRENT_USER_QUERY = gql`
           id
         }
       }
+      myComments {
+        id
+        commentTo {
+          id
+        }
+      }
       myQuestions {
         id
         questionVote {

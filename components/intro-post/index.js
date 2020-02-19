@@ -9,9 +9,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
+import { CURRENT_USER_QUERY } from '../auth/User';
 import { Mixpanel } from '../../utils/Mixpanel';
 import CreateComment from './CreateComment';
+import Comment from './Comment';
 import Error from './../ErrorMessage.js';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -34,6 +37,7 @@ export const INTRO_QUERY = gql`
       comments {
         approval
         body
+        createdAt
         commentBy {
           display
           id
@@ -45,15 +49,7 @@ export const INTRO_QUERY = gql`
   }
 `;
 
-const useStyles = makeStyles({
-  avatar: {
-    width: 100,
-    height: 100,
-    cursor: 'pointer'
-  }
-});
-
-export const Root = styled.div`
+const Root = styled.div`
   flex-grow: 1;
   max-width: 900px;
   padding-top: 50px;
@@ -89,91 +85,134 @@ export const NameContainer = styled.div`
   }
 `;
 
+export const CommentTitle = styled.div`
+  max-width: 850px;
+  padding-left: 10px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
 function handleUserTracking(e) {
   Mixpanel.track('User Profile');
 }
 
 export default function Intro({ id }) {
-  const classes = useStyles();
-
   return (
-    <Query
-      query={INTRO_QUERY}
-      variables={{
-        id
-      }}
-    >
-      {({ data: { intro }, loading, error }) => {
+    <Query query={CURRENT_USER_QUERY}>
+      {({ data: { me }, loading, error }) => {
         if (loading) return <CircularProgress style={{ margin: 20 }} />;
         if (error) return <Error error={error} />;
-
-        const user = intro.postedBy[0];
-        const userId = intro.postedBy[0].id;
-        const display = intro.postedBy[0].display;
-
-        const introduction = intro.introduction;
-        const about = intro.about;
-        const challenges = intro.challenges;
-
-        const createdAt = intro.createdAt;
-        const approval = intro.approval;
-
         return (
-          <Root>
-            <CreditContainer>
-              <AvatarContainer>
-                <Link
-                  href={{
-                    pathname: '/user',
-                    query: { id: user.id }
-                  }}
-                >
-                  {user.image === null || user.image === '' ? (
-                    <Avatar className={classes.avatar}>
-                      {user.display[0]}
-                    </Avatar>
-                  ) : (
-                    <Avatar
-                      alt={user.name}
-                      src={user.image}
-                      className={classes.avatar}
-                    />
-                  )}
-                </Link>
-              </AvatarContainer>
-              <NameContainer>
-                Welcome{' '}
-                <Link
-                  href={{
-                    pathname: '/user',
-                    query: { id: userId }
-                  }}
-                >
-                  <a className={classes.nameLink} onClick={handleUserTracking}>
-                    {display}
-                  </a>
-                </Link>{' '}
-                to the community!
-              </NameContainer>
-            </CreditContainer>
+          <Query
+            query={INTRO_QUERY}
+            variables={{
+              id
+            }}
+          >
+            {({ data: { intro }, loading, error }) => {
+              if (loading) return <CircularProgress style={{ margin: 20 }} />;
+              if (error) return <Error error={error} />;
 
-            <Paper
-              style={{
-                background: '#f2f4ef',
-                padding: '30px',
-                marginLeft: 15,
-                marginRight: 15
-              }}
-            >
-              <h3>Introduction </h3>
-              <p>{introduction}</p>
-              <h3>Challenges </h3>
-              <p>{challenges}</p>
-              <h3>How can the community help? </h3>
-              <p>{about}</p>
-            </Paper>
-            <CreateComment id={id} />
-          </Root>
+              const user = intro.postedBy[0];
+              const userId = intro.postedBy[0].id;
+              const display = intro.postedBy[0].display;
+              const introduction = intro.introduction;
+              const about = intro.about;
+              const challenges = intro.challenges;
+              const createdAt = intro.createdAt;
+              const approval = intro.approval;
+              const comments = intro.comments;
+
+              return (
+                <Root>
+                  <CreditContainer>
+                    <AvatarContainer>
+                      <Link
+                        href={{
+                          pathname: '/user',
+                          query: { id: user.id }
+                        }}
+                      >
+                        {user.image === null || user.image === '' ? (
+                          <Avatar
+                            style={{
+                              width: 100,
+                              height: 100,
+                              cursor: 'pointer'
+                            }}
+                          >
+                            {user.display[0]}
+                          </Avatar>
+                        ) : (
+                          <Avatar
+                            alt={user.name}
+                            src={user.image}
+                            style={{
+                              width: 100,
+                              height: 100,
+                              cursor: 'pointer'
+                            }}
+                          />
+                        )}
+                      </Link>
+                    </AvatarContainer>
+                    <NameContainer>
+                      Welcome{' '}
+                      <Link
+                        href={{
+                          pathname: '/user',
+                          query: { id: userId }
+                        }}
+                      >
+                        <a onClick={handleUserTracking}>{display}</a>
+                      </Link>{' '}
+                      to the community!
+                    </NameContainer>
+                  </CreditContainer>
+
+                  <Paper
+                    style={{
+                      background: '#f2f4ef',
+                      padding: '30px',
+                      marginLeft: 15,
+                      marginRight: 15
+                    }}
+                  >
+                    <h3>Introduction </h3>
+                    <p>{introduction}</p>
+                    <h3>Challenges </h3>
+                    <p>{challenges}</p>
+                    <h3>How can the community help? </h3>
+                    <p>{about}</p>
+                  </Paper>
+                  <CreateComment id={id} me={me} intro={intro} />
+                  <CommentTitle>
+                    {comments === null ||
+                    comments === '' ||
+                    !comments.length ? null : (
+                      <Typography variant="h5">
+                        {comments.filter(({ approval }) => approval).length}{' '}
+                        Comment
+                        {comments.filter(({ approval }) => approval).length ===
+                        1
+                          ? ''
+                          : 's'}
+                      </Typography>
+                    )}
+                  </CommentTitle>
+                  {comments.map(comments => (
+                    <Comment
+                      user={user}
+                      key={comments.commentBy.id}
+                      me={me}
+                      comments={comments}
+                      commentBy={comments.commentBy}
+                    />
+                  ))}
+                </Root>
+              );
+            }}
+          </Query>
         );
       }}
     </Query>
