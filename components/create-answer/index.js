@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mutation, Query } from 'react-apollo';
-import Error from './../ErrorMessage.js';
 import gql from 'graphql-tag';
+
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
@@ -11,6 +11,7 @@ import questionQuery from '../question-display/questionQuery';
 import { CURRENT_USER_QUERY } from '../auth/User';
 import answersListQuery from '../answer-list/answerListQuery';
 import { Mixpanel } from '../../utils/Mixpanel';
+import Error from './../ErrorMessage.js';
 
 const styles = ({ spacing, palette }) => ({
   container: {

@@ -1,6 +1,5 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import { Mutation, Query } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import styled from 'styled-components';
 import gql from 'graphql-tag';
 import {
@@ -9,23 +8,19 @@ import {
   BLOCK_TYPE,
   INLINE_STYLE
 } from 'draftail';
-import { convertToRaw, convertFromRaw } from 'draft-js';
-import { convertFromHTML, convertToHTML } from 'draft-convert';
 
 import 'draft-js/dist/Draft.css';
 import 'draftail/dist/draftail.css';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import LinkSource from '../draft-entities/LinkSource';
 import Link from '../draft-entities/Links';
-import questionQuery from '../question-display/questionQuery';
-import { CURRENT_USER_QUERY } from '../auth/User';
-import answersListQuery from '../answer-list/answerListQuery';
+import { toHTML } from '../draft-entities/toHTML';
 import { Mixpanel } from '../../utils/Mixpanel';
 import Error from './../ErrorMessage.js';
+import { INTRO_QUERY } from './index';
+import { CURRENT_USER_QUERY } from '../auth/User';
 
 export const CREATE_COMMENT = gql`
   mutation createIntroComment(
@@ -40,7 +35,7 @@ export const CREATE_COMMENT = gql`
   }
 `;
 
-const FormContainer = styled.div`
+export const FormContainer = styled.div`
   padding-bottom: 1.5rem;
   padding: 10px;
   @media screen and (min-width: 768px) {
@@ -61,44 +56,7 @@ const FormContainer = styled.div`
 //1. Onsave is only saving the last charcter until you hit space background
 //2. Sanatize the html
 
-const exporterConfig = {
-  blockToHTML: block => {
-    if (block.type === BLOCK_TYPE.BLOCKQUOTE) {
-      return <blockquote />;
-    }
-
-    // Discard atomic blocks, as they get converted based on their entity.
-    if (block.type === BLOCK_TYPE.ATOMIC) {
-      return {
-        start: '',
-        end: ''
-      };
-    }
-
-    return null;
-  },
-
-  entityToHTML: (entity, originalText) => {
-    if (entity.type === ENTITY_TYPE.LINK) {
-      return <a href={entity.data.url}>{originalText}</a>;
-    }
-
-    if (entity.type === ENTITY_TYPE.IMAGE) {
-      return <img src={entity.data.src} alt={entity.data.alt} />;
-    }
-
-    if (entity.type === ENTITY_TYPE.HORIZONTAL_RULE) {
-      return <hr />;
-    }
-
-    return originalText;
-  }
-};
-
-const toHTML = raw =>
-  raw ? convertToHTML(exporterConfig)(convertFromRaw(raw)) : '';
-
-const Editor = ({ id, me, intro }) => {
+const Editor = ({ id, me, intro, introId }) => {
   const [body, setBody] = React.useState();
   const myComments = me.myComments;
 
@@ -135,6 +93,13 @@ const Editor = ({ id, me, intro }) => {
       variables={{
         body
       }}
+      refetchQueries={[
+        {
+          query: INTRO_QUERY,
+          variables: { id: introId }
+        },
+        { query: CURRENT_USER_QUERY }
+      ]}
     >
       {(createIntroComment, { error, loading }) => {
         if (loading) return <CircularProgress style={{ margin: 20 }} />;
@@ -162,7 +127,10 @@ const Editor = ({ id, me, intro }) => {
                         'M256 1012c-65.176 0-126.45-25.38-172.534-71.464-95.134-95.136-95.134-249.934 0-345.070l87.764-87.764c20.308-20.306 53.234-20.306 73.54 0 20.308 20.306 20.308 53.232 0 73.54l-87.764 87.764c-54.586 54.586-54.586 143.406 0 197.992 26.44 26.44 61.598 41.002 98.994 41.002s72.552-14.562 98.998-41.006l192-191.998c54.584-54.586 54.584-143.406 0-197.992-20.308-20.308-20.306-53.232 0-73.54 20.306-20.306 53.232-20.306 73.54 0.002 95.132 95.134 95.132 249.932 0.002 345.068l-192.002 192c-46.090 46.088-107.364 71.466-172.538 71.466z'
                       ],
                       source: LinkSource,
-                      decorator: Link
+                      decorator: Link,
+                      whitelist: {
+                        href: '^(?![#/])'
+                      }
                     }
                   ]}
                   blockTypes={[
@@ -182,11 +150,12 @@ const Editor = ({ id, me, intro }) => {
                   ]}
                 />
                 <Button
-                  color="primary"
+                  style={{ marginTop: '20px' }}
                   onClick={e => submitForm(e, createIntroComment)}
                   variant="contained"
+                  disabled={loading}
                 >
-                  Submit
+                  Sav{loading ? 'ing' : 'e'} Changes
                 </Button>
               </div>
             )}

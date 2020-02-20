@@ -35,6 +35,7 @@ export const INTRO_QUERY = gql`
         name
       }
       comments {
+        id
         approval
         body
         createdAt
@@ -185,7 +186,7 @@ export default function Intro({ id }) {
                     <h3>How can the community help? </h3>
                     <p>{about}</p>
                   </Paper>
-                  <CreateComment id={id} me={me} intro={intro} />
+                  <CreateComment id={id} me={me} intro={intro} introId={id} />
                   <CommentTitle>
                     {comments === null ||
                     comments === '' ||
@@ -202,6 +203,7 @@ export default function Intro({ id }) {
                   </CommentTitle>
                   {comments.map(comments => (
                     <Comment
+                      introId={id}
                       user={user}
                       key={comments.commentBy.id}
                       me={me}
