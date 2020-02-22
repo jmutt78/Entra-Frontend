@@ -39,7 +39,6 @@ function IdeaList(props) {
       <PageHeader title={upperFirst(props.name) || 'Introductions'} />
       {introes &&
         introes.map(introes => {
-          console.log(introes);
           return (
             <PostItem
               item={introes}

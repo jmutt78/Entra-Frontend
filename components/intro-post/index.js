@@ -14,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { CURRENT_USER_QUERY } from '../auth/User';
 import { Mixpanel } from '../../utils/Mixpanel';
 import CreateComment from './CreateComment';
-import Comment from './Comment';
+import IntroCommnet from './Comment';
 import Error from './../ErrorMessage.js';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -180,11 +180,13 @@ export default function Intro({ id }) {
                     }}
                   >
                     <h3>Introduction </h3>
-                    <p>{introduction}</p>
+                    <p dangerouslySetInnerHTML={{ __html: introduction }} />
+
                     <h3>Challenges </h3>
-                    <p>{challenges}</p>
+                    <p dangerouslySetInnerHTML={{ __html: challenges }} />
+
                     <h3>How can the community help? </h3>
-                    <p>{about}</p>
+                    <p dangerouslySetInnerHTML={{ __html: about }} />
                   </Paper>
                   <CreateComment id={id} me={me} intro={intro} introId={id} />
                   <CommentTitle>
@@ -202,9 +204,8 @@ export default function Intro({ id }) {
                     )}
                   </CommentTitle>
                   {comments.map(comments => (
-                    <Comment
+                    <IntroCommnet
                       introId={id}
-                      user={user}
                       key={comments.commentBy.id}
                       me={me}
                       comments={comments}

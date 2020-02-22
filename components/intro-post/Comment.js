@@ -12,6 +12,7 @@ import Avatar from '@material-ui/core/Avatar';
 
 import { INTRO_QUERY } from './index';
 import { CURRENT_USER_QUERY } from '../auth/User';
+import ApproveComment from '../approval/AppoveComment.js';
 import EditComment from './EditComment';
 import Error from './../ErrorMessage';
 
@@ -45,21 +46,28 @@ export const ButtonContainer = styled.div`
   padding: 0px 0 20px 0;
 `;
 
-// TODO:
-//controls for edit and delete
-//add the days control for delete and edit on back and front end
-//fix memory leak
-
-export default function Intro({ user, me, comments, commentBy, introId }) {
+export default function IntroComment({ me, comments, commentBy, introId }) {
   const [editing, setEditing] = useState(false);
 
   const handleClick = () => {
     setEditing(true);
   };
 
-  const callback = edit => {
-    setEditing(edit);
-  };
+  const setField = (field, val) => setEditing(false);
+
+  const dateChecker =
+    parseInt(
+      (new Date() - new Date(comments.createdAt)) / (1000 * 60 * 60 * 24)
+    ) <= 2;
+  const ownsComment = me && commentBy.id === me.id;
+  const hasPermissions =
+    me &&
+    me.permissions.some(permission =>
+      ['ADMIN', 'MODERATOR'].includes(permission)
+    );
+
+  const canUpdate =
+    (dateChecker && ownsComment) || (dateChecker && hasPermissions);
 
   return (
     <Root>
@@ -110,70 +118,78 @@ export default function Intro({ user, me, comments, commentBy, introId }) {
               </span>
             </NameContainer>
           </div>
-          <ButtonContainer>
-            <Mutation
-              mutation={DELETE_INTRO_COMMENT_MUTATION}
-              variables={{
-                id: comments.id
-              }}
-              refetchQueries={[
-                {
-                  query: INTRO_QUERY,
-                  variables: { id: introId }
-                },
-                { query: CURRENT_USER_QUERY }
-              ]}
-            >
-              {(deleteIntroComment, { error, loading }) => {
-                if (loading) return <CircularProgress style={{ margin: 20 }} />;
-                if (error) return <Error error={error} />;
-                const handleDelete = () => {
-                  var r = confirm(
-                    'Are you sure you want to delete your comment?'
+          {canUpdate && (
+            <ButtonContainer>
+              <div>
+                <ApproveComment
+                  isApproved={comments.approval === true}
+                  hasPermissions={hasPermissions}
+                  approval={comments.approval}
+                  id={comments.id}
+                  introId={introId}
+                />
+              </div>
+              <Mutation
+                mutation={DELETE_INTRO_COMMENT_MUTATION}
+                variables={{
+                  id: comments.id
+                }}
+                refetchQueries={[
+                  {
+                    query: INTRO_QUERY,
+                    variables: { id: introId }
+                  },
+                  { query: CURRENT_USER_QUERY }
+                ]}
+              >
+                {(deleteIntroComment, { error, loading }) => {
+                  if (loading)
+                    return <CircularProgress style={{ margin: 20 }} />;
+                  if (error) return <Error error={error} />;
+                  const handleDelete = () => {
+                    var r = confirm(
+                      'Are you sure you want to delete your comment?'
+                    );
+
+                    if (r == true) {
+                      return deleteIntroComment();
+                    }
+                  };
+                  return (
+                    <div>
+                      <Button
+                        color={'primary'}
+                        disabled={loading}
+                        onClick={handleDelete}
+                        size="small"
+                        style={{ float: 'right', color: 'red' }}
+                      >
+                        Delete
+                      </Button>
+                    </div>
                   );
+                }}
+              </Mutation>
 
-                  if (r == true) {
-                    return deleteIntroComment();
-                  }
-                };
-                return (
-                  <div>
-                    <Button
-                      color={'primary'}
-                      disabled={loading}
-                      onClick={handleDelete}
-                      size="small"
-                      style={{ float: 'right', color: 'red' }}
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                );
-              }}
-            </Mutation>
-
-            <Button
-              size="small"
-              style={{ float: 'right' }}
-              onClick={handleClick}
-            >
-              Edit
-            </Button>
-          </ButtonContainer>
+              <Button
+                size="small"
+                style={{ float: 'right' }}
+                onClick={handleClick}
+              >
+                Edit
+              </Button>
+            </ButtonContainer>
+          )}
         </Paper>
       )}
       {editing && (
-        <EditComment parentCallback={callback} comments={comments} me={me} />
+        <EditComment
+          setEditing={setField.bind(null)}
+          comments={comments}
+          me={me}
+          introId={introId}
+        />
       )}
     </Root>
   );
 }
-
-// onCompleted={() =>
-//   Router.push({
-//     pathname: '/idea/my-ideas',
-//     query: {
-//       filter: id
-//     }
-//   })
-// }

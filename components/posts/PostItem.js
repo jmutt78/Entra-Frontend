@@ -2,15 +2,13 @@ import React from 'react';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
 import { format, parseISO } from 'date-fns';
+import styled from 'styled-components';
 
-import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import { withStyles } from '@material-ui/core/styles';
-import ClampLines from 'react-clamp-lines';
 
 import Avatar from '../Avatar';
 import { Mixpanel } from '../../utils/Mixpanel';
-
 import './index.css';
 
 const styles = ({ layout, palette }) => ({
@@ -23,13 +21,6 @@ const styles = ({ layout, palette }) => ({
     borderRadius: 0,
     borderBottom: '1px solid #e8e8e8'
   },
-  votesBox: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    cursor: 'pointer'
-  },
 
   textBox: {
     display: 'flex',
@@ -38,37 +29,10 @@ const styles = ({ layout, palette }) => ({
     alignItems: 'flex-start'
   },
 
-  title: {
-    padding: 0,
-    margin: 0,
-    color: '#333',
-    maxWidth: 800,
-    fontWeight: 'bold',
-    fontSize: '1rem',
-    textAlign: 'left',
-    cursor: 'pointer'
-  },
-
-  body: {
-    padding: 0,
-    margin: 0,
-    color: '#6f6f6f',
-    maxWidth: 800,
-    lineHeight: '1.8rem',
-    fontSize: '.75rem',
-    textAlign: 'left',
-    cursor: 'pointer',
-    fontWeight: 500
-  },
-  // tags: {},
-
   nameLink: {
     fontWeight: 500,
     textDecoration: 'none',
     color: '#e27d60'
-  },
-  button: {
-    // /color: palette.primary.dark
   }
 });
 
@@ -99,21 +63,10 @@ const IdeaItem = ({
       <div className={classes.textBox}>
         <Link href={linkTo}>
           <a style={{ textDecoration: 'none' }}>
-            <Typography
-              variant="h6"
-              className={classes.title}
-              onClick={handleTracking}
-            >
-              <ClampLines
-                text={introduction}
-                id="really-unique-id"
-                lines={3}
-                ellipsis="..."
-                className="custom-class"
-                innerElement="p"
-                buttons={false}
-              />
-            </Typography>
+            <div
+              className="giveMeEllipsis"
+              dangerouslySetInnerHTML={{ __html: introduction }}
+            />
           </a>
         </Link>
         <div style={{ padding: '5px 0 10px 0', fontSize: '.75rem' }}>

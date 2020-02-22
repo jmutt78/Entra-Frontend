@@ -14,6 +14,8 @@ import Link from '../draft-entities/Links';
 import { fromHTML } from '../draft-entities/fromHtml';
 import { toHTML } from '../draft-entities/toHTML';
 import { FormContainer } from './CreateComment';
+import { INTRO_QUERY } from './index';
+import { CURRENT_USER_QUERY } from '../auth/User';
 
 import Button from '@material-ui/core/Button';
 import Error from './../ErrorMessage.js';
@@ -44,8 +46,7 @@ export const NameContainer = styled.div`
   }
 `;
 
-const EditComment = ({ parentCallback, comments, me }) => {
-  const [childEdit, setChildEdit] = useState();
+const EditComment = ({ comments, me, introId, setEditing }) => {
   const [body, setBody] = React.useState();
   const content = comments.body;
   const id = comments.id;
@@ -61,8 +62,7 @@ const EditComment = ({ parentCallback, comments, me }) => {
     });
 
     console.log('Updated!!');
-    setChildEdit(false);
-    parentCallback(false);
+    setEditing();
   };
 
   const onSave = content => {
@@ -75,6 +75,13 @@ const EditComment = ({ parentCallback, comments, me }) => {
       variables={{
         body
       }}
+      refetchQueries={[
+        {
+          query: INTRO_QUERY,
+          variables: { id: introId }
+        },
+        { query: CURRENT_USER_QUERY }
+      ]}
     >
       {(updateIntroComment, { error, loading }) => {
         if (loading) return <CircularProgress style={{ margin: 20 }} />;

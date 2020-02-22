@@ -36,13 +36,15 @@ export const CREATE_COMMENT = gql`
 `;
 
 export const FormContainer = styled.div`
-  padding-bottom: 1.5rem;
-  padding: 10px;
+  padding: 10px 10px 1.5rem 10px;
+
   @media screen and (min-width: 768px) {
     margin-top: -2rem;
     padding-left: 10px;
-    padding-top: 40px;
-    max-width: 900px;
+    padding-top: 50px;
+    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .Draftail-Toolbar {
     min-height: 48px;
@@ -52,13 +54,9 @@ export const FormContainer = styled.div`
   }
 `;
 
-// TODO:
-//1. Onsave is only saving the last charcter until you hit space background
-//2. Sanatize the html
-
 const Editor = ({ id, me, intro, introId }) => {
   const [body, setBody] = React.useState();
-  const myComments = me.myComments;
+  const myComments = me && me.myComments;
 
   const onSave = content => {
     setBody(toHTML(content));
@@ -84,6 +82,7 @@ const Editor = ({ id, me, intro, introId }) => {
       arr.push(comments);
     }
     const num = arr.some(element => element[0].id === id);
+
     return num;
   };
 
