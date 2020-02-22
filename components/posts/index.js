@@ -7,7 +7,7 @@ import Error from './../ErrorMessage.js';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import gql from 'graphql-tag';
 
-const INTROS_QUERY = gql`
+export const INTROS_QUERY = gql`
   query INTROS_QUERY($skip: Int = 0, $first: Int = ${perPage}) {
     introes(first: $first, skip: $skip, orderBy: createdAt_DESC) {
     about
@@ -39,7 +39,7 @@ class Posts extends Component {
         {({ loading, error, data: { introes } }) => {
           if (loading) return <CircularProgress style={{ margin: 20 }} />;
           if (error) return <Error error={error} />;
-          console.log(introes);
+
           return (
             <PostList introes={introes} page={page} name={'Introductions'} />
           );

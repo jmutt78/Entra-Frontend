@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { Query, Mutation } from 'react-apollo';
 import Link from 'next/link';
-import { withRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -12,6 +12,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 import { CURRENT_USER_QUERY } from '../auth/User';
+import { INTROS_QUERY } from '../posts';
+import ApproveIntro from '../approval/AppoveIntro';
 import { Mixpanel } from '../../utils/Mixpanel';
 import CreateComment from './CreateComment';
 import IntroCommnet from './Comment';
@@ -46,6 +48,14 @@ export const INTRO_QUERY = gql`
           image
         }
       }
+    }
+  }
+`;
+
+export const DELETE_INTRO_MUTATION = gql`
+  mutation DELETE_INTRO_MUTATION($id: ID!) {
+    deleteIntro(id: $id) {
+      id
     }
   }
 `;
@@ -86,6 +96,10 @@ export const NameContainer = styled.div`
   }
 `;
 
+export const ButtonContainer = styled.div`
+  padding: 0px 0 20px 0;
+`;
+
 export const CommentTitle = styled.div`
   max-width: 850px;
   padding-left: 10px;
@@ -98,6 +112,7 @@ function handleUserTracking(e) {
 }
 
 export default function Intro({ id }) {
+  const router = useRouter();
   return (
     <Query query={CURRENT_USER_QUERY}>
       {({ data: { me }, loading, error }) => {
@@ -123,6 +138,21 @@ export default function Intro({ id }) {
               const createdAt = intro.createdAt;
               const approval = intro.approval;
               const comments = intro.comments;
+              console.log(intro);
+
+              const dateChecker =
+                parseInt(
+                  (new Date() - new Date(createdAt)) / (1000 * 60 * 60 * 24)
+                ) <= 2;
+              const ownsComment = me && id === me.id;
+              const hasPermissions =
+                me &&
+                me.permissions.some(permission =>
+                  ['ADMIN', 'MODERATOR'].includes(permission)
+                );
+
+              const canUpdate =
+                (dateChecker && ownsComment) || (dateChecker && hasPermissions);
 
               return (
                 <Root>
@@ -187,7 +217,67 @@ export default function Intro({ id }) {
 
                     <h3>How can the community help? </h3>
                     <p dangerouslySetInnerHTML={{ __html: about }} />
+                    {canUpdate && (
+                      <ButtonContainer>
+                        <div>
+                          <ApproveIntro
+                            isApproved={approval === true}
+                            hasPermissions={hasPermissions}
+                            approval={approval}
+                            id={id}
+                          />
+                        </div>
+                        <Mutation
+                          mutation={DELETE_INTRO_MUTATION}
+                          variables={{
+                            id
+                          }}
+                          refetchQueries={[
+                            {
+                              query: INTROS_QUERY
+                            }
+                          ]}
+                        >
+                          {(deleteIntro, { error, loading }) => {
+                            if (loading)
+                              return (
+                                <CircularProgress style={{ margin: 20 }} />
+                              );
+                            if (error) return <Error error={error} />;
+                            const handleDelete = () => {
+                              var r = confirm(
+                                'Are you sure you want to delete your comment?'
+                              );
+
+                              if (r == true) {
+                                return deleteIntro().then(() =>
+                                  router.push('/posts')
+                                );
+                              }
+                            };
+                            return (
+                              <div>
+                                <Button
+                                  color={'primary'}
+                                  disabled={loading}
+                                  onClick={handleDelete}
+                                  size="small"
+                                  style={{ float: 'right', color: 'red' }}
+                                >
+                                  Delete
+                                </Button>
+                              </div>
+                            );
+                          }}
+                        </Mutation>
+
+                        <Button size="small" style={{ float: 'right' }}>
+                          Edit
+                        </Button>
+                      </ButtonContainer>
+                    )}
                   </Paper>
+
                   <CreateComment id={id} me={me} intro={intro} introId={id} />
                   <CommentTitle>
                     {comments === null ||

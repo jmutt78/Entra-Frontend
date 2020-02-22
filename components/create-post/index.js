@@ -90,9 +90,7 @@ export const FormContainer = styled.div`
     background: #f2f4ef;
     min-height: 48px;
   }
-  .Draftail-Editor {
-    background: rgba(0, 0, 0, 0.09);
-  }
+
   .Draftail-block--header-one:first-child {
     padding-top: 1.45rem;
   }
@@ -137,6 +135,7 @@ export default () => {
     <Mutation
       mutation={CREATE_INTRO_MUTATION}
       variables={{
+        approval: false,
         introduction: inputs.introduction,
         about: inputs.challenges,
         challenges: inputs.help

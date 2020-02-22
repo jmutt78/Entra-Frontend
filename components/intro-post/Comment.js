@@ -17,7 +17,7 @@ import EditComment from './EditComment';
 import Error from './../ErrorMessage';
 
 export const DELETE_INTRO_COMMENT_MUTATION = gql`
-  mutation DELETE_IDEA_MUTATION($id: ID!) {
+  mutation DELETE_INTRO_COMMENT_MUTATION($id: ID!) {
     deleteIntroComment(id: $id) {
       id
     }
