@@ -16,7 +16,9 @@ const Page = () => {
   return (
     <Layout>
       <div className="landingContainer">
-        <Pixel name="FACEBOOK_PIXEL_1" />
+        {process.env.NODE_ENV === 'production' && (
+          <Pixel name="FACEBOOK_PIXEL_1" />
+        )}
         <Hero />
         <Why />
         <h2 className="landingHeader sans">

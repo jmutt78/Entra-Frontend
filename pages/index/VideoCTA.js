@@ -1,11 +1,20 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
 import { withRouter } from 'next/router';
-import Router from 'next/router';
+import styled from 'styled-components';
 
 import Video from './Video';
 import User from '../../components/auth/User';
 import { Mixpanel } from '../../utils/Mixpanel';
+import { HeroSignupButton, HeroSignupButtonText } from './styledComponents';
+
+const YoutubeVideoButton = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  text-align: center;
+  padding: 0 15px 4rem 15px;
+`;
 
 class VideoCTA extends React.Component {
   state = {
@@ -25,23 +34,18 @@ class VideoCTA extends React.Component {
     return (
       <User>
         {({ data: { me } }) => (
-          <div className="youTubeVideoButton">
+          <YoutubeVideoButton>
             {me ? null : (
-              <button
-                className="heroSignupButton"
-                onClick={this.openCreateTagModal}
-              >
-                <Typography className="heroSignupButtonText">
-                  SEE HOW IT WORKS!
-                </Typography>
-              </button>
+              <HeroSignupButton onClick={this.openCreateTagModal}>
+                <HeroSignupButtonText>SEE HOW IT WORKS!</HeroSignupButtonText>
+              </HeroSignupButton>
             )}
 
             <Video
               open={showCreateTagModal}
               onClose={this.closeCreateTagModal}
             />
-          </div>
+          </YoutubeVideoButton>
         )}
       </User>
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import styled from 'styled-components';
 import { withStyles } from '@material-ui/core/styles';
 
 import Dialog from '@material-ui/core/Dialog';
@@ -12,37 +12,19 @@ import Typography from '@material-ui/core/Typography';
 
 import './index.css';
 
-const DialogTitle = withStyles(theme => ({
-  root: {
-    margin: 0,
-    paddingTop: theme.spacing(2),
-    paddingLeft: theme.spacing(50),
-    paddingRight: theme.spacing(50),
-    paddingBottom: theme.spacing(4)
-  },
-  closeButton: {
-    position: 'absolute',
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500]
-  }
-}))(props => {
-  const { children, classes, onClose } = props;
+const DialogTitle = props => {
+  const { children, onClose } = props;
   return (
-    <MuiDialogTitle disableTypography className={classes.root}>
+    <DialogTitleContainer disableTypography>
       <Typography variant="h4">{children}</Typography>
       {onClose ? (
-        <IconButton
-          aria-label="Close"
-          className={classes.closeButton}
-          onClick={onClose}
-        >
+        <CloseIconButton aria-label="Close" onClick={onClose}>
           <CloseIcon />
-        </IconButton>
+        </CloseIconButton>
       ) : null}
-    </MuiDialogTitle>
+    </DialogTitleContainer>
   );
-});
+};
 
 const DialogContent = withStyles(theme => ({
   root: {}
@@ -51,6 +33,42 @@ const DialogContent = withStyles(theme => ({
 const DialogActions = withStyles(theme => ({
   root: {}
 }))(MuiDialogActions);
+
+const DialogTitleContainer = styled(MuiDialogTitle)`
+  &&& {
+    margin: 0;
+    padding-top: ${props => props.theme.spacing(2)}px;
+    padding-left: ${props => props.theme.spacing(50)}px;
+    padding-right: ${props => props.theme.spacing(50)}px;
+    padding-bottom: ${props => props.theme.spacing(4)}px;
+  }
+`;
+
+const CloseIconButton = styled(IconButton)`
+  &&& {
+    position: absolute;
+    right: ${props => props.theme.spacing(1)}px;
+    top: ${props => props.theme.spacing(1)}px;
+    color: ${props => props.theme.palette.grey[500]};
+  }
+`;
+
+const VideoWrapper = styled.div`
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  padding-top: 5px;
+  height: 0;
+  overflow: hidden;
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+`;
 
 class Video extends React.Component {
   videoOnReady(event) {
@@ -72,7 +90,7 @@ class Video extends React.Component {
           onClose={onClose}
         ></DialogTitle>{' '}
         <DialogContent>
-          <div className="videoWrapper">
+          <VideoWrapper>
             <iframe
               title="video"
               src="//www.youtube.com/embed/S7czmN39cCE?autoplay=1"
@@ -80,7 +98,7 @@ class Video extends React.Component {
               frameBorder="0"
               allow="autoplay; encrypted-media"
             ></iframe>
-          </div>
+          </VideoWrapper>
         </DialogContent>
       </Dialog>
     );

@@ -1,29 +1,53 @@
 import React from 'react';
-
+import styled from 'styled-components';
 import Grid from './Grid';
 import Demo from './Demo';
-import styled from 'styled-components';
 import Hero from './Hero';
 import VideoCTA from './VideoCTA';
 import CallToAction from './callToAction';
 import Layout from '../../components/layout/index.js';
+import { SectionBreak } from './styledComponents';
 
 import Pixel from '../../utils/Pixel.js';
 import './index.css';
 
-const LandingContainer = styled.div``;
+const LandingContainer = styled.div`
+  width: 100%;
+  background: #f2f4ef;
+`;
+
+const LandingHeader = styled.h2`
+  font-size: 2em;
+  font-weight: 700;
+  color: #343434;
+  font-variant-ligatures: common-ligatures;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 25px 50px 30px 50px;
+  font-family: Montserrat, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol';
+
+  @media (max-width: 800px) {
+    font-size: 1.5em;
+    padding: 5;
+  }
+`;
 
 const Landingpage = () => {
   return (
     <Layout>
-      <div className="landingContainer">
-        {/* <Pixel name="FACEBOOK_PIXEL_1" /> */}
+      <LandingContainer>
+        {process.env.NODE_ENV === 'production' && (
+          <Pixel name="FACEBOOK_PIXEL_1" />
+        )}
         <Hero />
-
-        <h2 className="landingHeader sans">
+        <LandingHeader>
           We build products that support entrepreneurs and connect them to a
           community so they can inspire, learn, and grow from one another.
-        </h2>
+        </LandingHeader>
         <VideoCTA />
         <Grid
           head={'Ask questions, get answers'}
@@ -85,10 +109,9 @@ const Landingpage = () => {
         {
           // <Demo />
         }
-
         <CallToAction />
-        <hr className="sectionbreak" />
-      </div>
+        <SectionBreak />
+      </LandingContainer>
     </Layout>
   );
 };

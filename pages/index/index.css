@@ -1,30 +1,30 @@
-.sans {
+/* .sans {
   font-family: Montserrat, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol';
-}
+} */
 
-.serif {
+/* .serif {
   font-family: Lora, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol';
-}
+} */
 
-.videoWrapper {
+/* .videoWrapper {
   position: relative;
-  padding-bottom: 56.25%; /* 16:9 */
+  padding-bottom: 56.25%;
   padding-top: 5px;
   height: 0;
   overflow: hidden;
-}
-.videoWrapper iframe {
+} */
+/* .videoWrapper iframe {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
-}
+} */
 
 .container {
   padding: 0;
@@ -34,12 +34,12 @@
   color: #343434;
 }
 
-.landingContainer {
+/* .landingContainer {
   width: 100%;
   background: #f2f4ef;
-}
+} */
 
-.heroContainer {
+/* .heroContainer {
   background: content-box
       radial-gradient(rgb(37, 37, 37, 0.5), rgb(37, 37, 37, 0.5)),
     url(/static/paula-may-AJqeO_-ifx0-unsplash.jpg) center center no-repeat;
@@ -56,18 +56,18 @@
   color: white;
   text-align: center;
   padding: 5rem 15px 10rem 15px;
-}
+} */
 
-.youTubeVideoButton {
+/* .youTubeVideoButton {
   display: flex;
   flex-direction: column;
   align-items: center;
   color: white;
   text-align: center;
   padding: 0 15px 4rem 15px;
-}
+} */
 
-.heroHeader {
+/* .heroHeader {
   font-size: 6rem;
   text-transform: uppercase;
   margin-top: 0;
@@ -78,9 +78,9 @@
   font-size: 2rem;
   font-weight: bold;
   padding: 0 70px 0px 70px;
-}
+} */
 
-.heroSignupButton {
+/* .heroSignupButton {
   cursor: pointer;
   width: 300px;
   height: 3.5rem;
@@ -90,9 +90,9 @@
   background: #e27d60;
   margin-top: 2rem;
   margin-bottom: 2rem;
-}
+} */
 
-.veiwButton {
+/* .veiwButton {
   cursor: pointer;
   width: 300px;
   height: 3.5rem;
@@ -103,7 +103,7 @@
   margin-top: 2rem;
   margin-bottom: 2rem;
   padding: 5px;
-}
+} */
 
 .viewAllButton {
   cursor: pointer;
@@ -115,16 +115,16 @@
   background: #85bdcb;
 }
 
-.heroSignupButtonText {
+/* .heroSignupButtonText {
   color: white;
   font-weight: 500 !important;
-}
+} */
 
-.whyContainer {
+/* .whyContainer {
   width: 100vw;
   background: #f2f4ef;
   overflow: hidden;
-}
+} */
 
 .whyContent {
   display: flex;
@@ -134,7 +134,7 @@
   padding: 30px 0;
 }
 
-.landingHeader {
+/* .landingHeader {
   font-size: 2em;
   font-weight: 700;
   color: #343434;
@@ -144,15 +144,15 @@
   align-items: center;
   text-align: center;
   padding: 25px 50px 30px 50px;
-}
+} */
 
-.callToActionContent {
+/* .callToActionContent {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   padding: 60px 0;
-}
+} */
 
 .viewAllContent {
   display: flex;
@@ -217,12 +217,12 @@
   text-align: left;
   font-size: 1.6rem;
 }
-.sectionbreak {
+/* .sectionbreak {
   width: 90%;
   margin-top: 2.2rem;
-}
+} */
 
-.gridContainer {
+/* .gridContainer {
   display: flex;
 }
 
@@ -232,28 +232,25 @@
 
 .gridContainerRight {
   flex-direction: row-reverse;
-}
+} */
 
-.gridContent {
+/* .gridContent {
   width: 50%;
   background: #f2f4ef;
   padding: 0 10% 4rem 10%;
-}
+} */
 
-.gridImageContainer {
+/* .gridImageContainer {
   width: 50%;
-  /* background-size: cover; */
   background-size: cover;
-  /* min-height: 100%; */
   background-color: #f2f4ef;
   background-position: center;
   background-attachment: scroll;
-  /* background-size: auto; */
   background-origin: padding-box;
   background-clip: border-box;
-}
+} */
 
-.gridHeader {
+/* .gridHeader {
   font-size: 1.8rem;
   display: inline-block;
   position: relative;
@@ -268,10 +265,10 @@
   bottom: -0.5em;
   left: 50%;
   transform: translate(-50%);
-}
+} */
 
-.light {
-}
+/* .light {
+} */
 
 .gridSubHeader {
   color: #767676;
@@ -293,10 +290,10 @@
   font-weight: 600;
 }
 
-.gridSectionBody {
+/* .gridSectionBody {
   color: #767676;
   font-size: 1.2rem;
-}
+} */
 
 @media (max-width: 800px) {
   .whyHeader {
@@ -321,11 +318,11 @@
   .sectionbreak {
     margin-bottom: 50px;
   }
-  .gridContent {
+  /* .gridContent {
     width: 100%;
     background: #f2f4ef;
     padding: 1rem 10% 4rem 10%;
-  }
+  } */
 
   .whyText {
     color: #767676;
@@ -334,36 +331,36 @@
     text-align: left;
     margin: 0;
   }
-
+  /*
   .gridImageContainer {
     width: 100%;
     height: 400px;
-  }
+  } */
 
-  .gridContainerLeft {
+  /* .gridContainerLeft {
     flex-direction: column-reverse;
   }
 
   .gridContainerRight {
     flex-direction: column-reverse;
-  }
+  } */
 
-  .heroContent {
+  /* .heroContent {
     padding: 2rem 15px;
-  }
+  } */
   .areyouContainer {
     background: content-box
         radial-gradient(rgb(37, 37, 37, 0.5), rgb(37, 37, 37, 0.5)),
       url(/static/areyou.jpg) center center no-repeat scroll;
   }
 
-  .heroText {
+  /* .heroText {
     font-size: 1.4rem;
     font-weight: bold;
     padding: 0;
-  }
-  .landingHeader {
+  } */
+  /* .landingHeader {
     font-size: 1.5em;
     padding: 5;
-  }
+  } */
 }
