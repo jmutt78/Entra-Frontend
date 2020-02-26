@@ -1,0 +1,40 @@
+.tagButtons {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0 10px;
+}
+
+.avatarBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 10px 15px;
+}
+
+.votesBox {
+  padding: 0 1.5rem 0 1rem;
+}
+
+.giveMeEllipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  height: 35px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  font-weight: 500;
+  text-decoration: none;
+  color: #333;
+}
+
+@media (max-width: 700px) {
+  .avatarBox {
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .votesBox {
+    padding: 0 1rem 0 0.5rem;
+  }
+}

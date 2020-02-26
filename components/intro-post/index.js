@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { Query, Mutation } from 'react-apollo';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { withApollo } from 'react-apollo';
 
-import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
@@ -14,6 +14,8 @@ import Typography from '@material-ui/core/Typography';
 import { CURRENT_USER_QUERY } from '../auth/User';
 import { INTROS_QUERY } from '../posts';
 import ApproveIntro from '../approval/AppoveIntro';
+import Content from './Content';
+import Welcome from './Welcome';
 import { Mixpanel } from '../../utils/Mixpanel';
 import CreateComment from './CreateComment';
 import IntroCommnet from './Comment';
@@ -29,7 +31,7 @@ export const INTRO_QUERY = gql`
       challenges
       createdAt
       introduction
-
+      welcomeCount
       postedBy {
         id
         display
@@ -55,6 +57,14 @@ export const INTRO_QUERY = gql`
 export const DELETE_INTRO_MUTATION = gql`
   mutation DELETE_INTRO_MUTATION($id: ID!) {
     deleteIntro(id: $id) {
+      id
+    }
+  }
+`;
+
+export const CREATE_WELCOME_MUTATION = gql`
+  mutation CREATE_WELCOME_MUTATION($id: ID!, $welcome: String) {
+    createIntroWelcome(id: $id, welcome: $welcome) {
       id
     }
   }
@@ -111,8 +121,21 @@ function handleUserTracking(e) {
   Mixpanel.track('User Profile');
 }
 
-export default function Intro({ id }) {
+const Intro = ({ id, client }) => {
   const router = useRouter();
+
+  const upVote = id => {
+    client.mutate({
+      mutation: CREATE_WELCOME_MUTATION,
+      variables: {
+        id: id,
+        welcome: 'up'
+      },
+      refetchQueries: [{ query: INTRO_QUERY, variables: { id } }]
+    });
+    Mixpanel.track('Idea upVote');
+  };
+
   return (
     <Query query={CURRENT_USER_QUERY}>
       {({ data: { me }, loading, error }) => {
@@ -132,14 +155,10 @@ export default function Intro({ id }) {
               const user = intro.postedBy[0];
               const userId = intro.postedBy[0].id;
               const display = intro.postedBy[0].display;
-              const introduction = intro.introduction;
-              const about = intro.about;
-              const challenges = intro.challenges;
               const createdAt = intro.createdAt;
               const approval = intro.approval;
               const comments = intro.comments;
               console.log(intro);
-
               const dateChecker =
                 parseInt(
                   (new Date() - new Date(createdAt)) / (1000 * 60 * 60 * 24)
@@ -151,8 +170,24 @@ export default function Intro({ id }) {
                   ['ADMIN', 'MODERATOR'].includes(permission)
                 );
 
-              const canUpdate =
-                (dateChecker && ownsComment) || (dateChecker && hasPermissions);
+              const canUpdate = (dateChecker && ownsComment) || hasPermissions;
+              const introContent = [
+                {
+                  title: 'Introduction',
+                  content: intro.introduction,
+                  label: 'introduction'
+                },
+                {
+                  title: 'Challenges',
+                  content: intro.about,
+                  label: 'about'
+                },
+                {
+                  title: 'How can the community help?',
+                  content: intro.challenges,
+                  label: 'challenges'
+                }
+              ];
 
               return (
                 <Root>
@@ -209,14 +244,25 @@ export default function Intro({ id }) {
                       marginRight: 15
                     }}
                   >
-                    <h3>Introduction </h3>
-                    <p dangerouslySetInnerHTML={{ __html: introduction }} />
+                    {introContent.map(introContent => {
+                      return (
+                        <Content
+                          key={introContent.title}
+                          introContent={introContent}
+                          loading={loading}
+                          ownsComment={ownsComment}
+                          hasPermissions={hasPermissions}
+                          dateChecker={dateChecker}
+                          canUpdate={canUpdate}
+                          id={id}
+                        />
+                      );
+                    })}
+                    <Welcome
+                      upvoteCb={() => upVote(id)}
+                      upVotes={intro.welcomeCount}
+                    />
 
-                    <h3>Challenges </h3>
-                    <p dangerouslySetInnerHTML={{ __html: challenges }} />
-
-                    <h3>How can the community help? </h3>
-                    <p dangerouslySetInnerHTML={{ __html: about }} />
                     {canUpdate && (
                       <ButtonContainer>
                         <div>
@@ -270,10 +316,6 @@ export default function Intro({ id }) {
                             );
                           }}
                         </Mutation>
-
-                        <Button size="small" style={{ float: 'right' }}>
-                          Edit
-                        </Button>
                       </ButtonContainer>
                     )}
                   </Paper>
@@ -310,4 +352,6 @@ export default function Intro({ id }) {
       }}
     </Query>
   );
-}
+};
+
+export default withApollo(Intro);

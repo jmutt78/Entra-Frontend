@@ -25,9 +25,9 @@ export const INTROS_QUERY = gql`
 }
 `;
 
-class Posts extends Component {
+class PostsApproval extends Component {
   render() {
-    const filter = 'all';
+    const filter = 'approval';
     const { page } = this.props;
     return (
       <Query
@@ -51,4 +51,4 @@ class Posts extends Component {
   }
 }
 
-export default Posts;
+export default PostsApproval;

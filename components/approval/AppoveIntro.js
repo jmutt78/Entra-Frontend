@@ -68,7 +68,6 @@ class ApproveIntro extends Component {
     const isApproved = this.props.isApproved;
     const approval = this.props.approval;
 
-    console.log(this.props.id);
     if (!hasPermissions) {
       return null;
     }

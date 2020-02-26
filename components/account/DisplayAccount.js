@@ -61,7 +61,7 @@ class DisplayAccount extends Component {
 
           return (
             <div className={classes.root}>
-              <div container className={classes.box}>
+              <div className={classes.box}>
                 <Table className={classes.table}>
                   <TableHead>
                     <TableRow>

@@ -66,8 +66,7 @@ export default function IntroComment({ me, comments, commentBy, introId }) {
       ['ADMIN', 'MODERATOR'].includes(permission)
     );
 
-  const canUpdate =
-    (dateChecker && ownsComment) || (dateChecker && hasPermissions);
+  const canUpdate = (dateChecker && ownsComment) || hasPermissions;
 
   return (
     <Root>

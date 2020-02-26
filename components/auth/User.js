@@ -31,6 +31,9 @@ const CURRENT_USER_QUERY = gql`
           id
         }
       }
+      myIntro {
+        id
+      }
       myComments {
         id
         commentTo {
@@ -103,6 +106,9 @@ const CURRENT_USER_QUERY_PROFILE = gql`
         level2
         level3
         level4
+      }
+      myIntro {
+        id
       }
       myAnswers {
         id

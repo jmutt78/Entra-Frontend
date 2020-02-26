@@ -200,6 +200,14 @@ export default function Appbar({ isLoggedIn, me, router }) {
     {
       name: 'Approve Answers',
       target: '/approval/answer-list'
+    },
+    {
+      name: 'Approve Posts',
+      target: '/approval/post-list'
+    },
+    {
+      name: 'Approve Comments',
+      target: '/approval/comment-list'
     }
   ];
 
