@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
-
+import DOMPurify from 'dompurify';
+import styled from 'styled-components';
 import {
   DraftailEditor,
   ENTITY_TYPE,
@@ -37,6 +38,16 @@ export const UPDATE_INTRO_MUTATION = gql`
     ) {
       id
     }
+  }
+`;
+
+const Inner = styled.div`
+  font-size: 1rem;
+  white-space: pre-wrap;
+
+  a {
+    text-decoration: none;
+    color: #e27d60;
   }
 `;
 
@@ -88,12 +99,13 @@ export default function Content({
       {(updateIntro, { error, loading }) => {
         if (loading) return <CircularProgress style={{ margin: 20 }} />;
         if (error) return <Error error={error} />;
+        const html = DOMPurify.sanitize(content);
         return (
           <div>
             <h3>{title} </h3>
             {!editing && (
               <div>
-                <p dangerouslySetInnerHTML={{ __html: content }} />
+                <Inner dangerouslySetInnerHTML={{ __html: html }} />
                 {canUpdate && (
                   <Button
                     color={'primary'}

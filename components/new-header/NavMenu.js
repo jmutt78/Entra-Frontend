@@ -87,7 +87,7 @@ export default function NavMenu({
               aria-controls="simple-menu"
               aria-haspopup="true"
             >
-              {selectedData ? selectedData.name : name}
+              {name}
             </Typography>
             <Menu
               anchorEl={anchorEl}
@@ -121,3 +121,5 @@ export default function NavMenu({
     </div>
   );
 }
+
+// {selectedData ? selectedData.name : name}

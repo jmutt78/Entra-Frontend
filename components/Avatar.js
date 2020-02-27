@@ -150,22 +150,7 @@ export default function MyProfile({ me, small }) {
                         My Profile
                       </MenuItem>
                     </Link>
-                    <Divider />
-                    <Link href="/myquestions">
-                      <MenuItem className={classes.menu} onClick={handleClose}>
-                        My Questions
-                      </MenuItem>
-                    </Link>
-                    <Link href="/myanswers">
-                      <MenuItem className={classes.menu} onClick={handleClose}>
-                        My Answers
-                      </MenuItem>
-                    </Link>
-                    <Link href="/mybookmarks">
-                      <MenuItem className={classes.menu} onClick={handleClose}>
-                        Bookmarks
-                      </MenuItem>
-                    </Link>
+
                     <Divider />
 
                     <a

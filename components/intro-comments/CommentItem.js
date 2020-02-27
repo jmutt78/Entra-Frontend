@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { withRouter } from 'next/router';
 import { format, parseISO } from 'date-fns';
 import styled from 'styled-components';
+import DOMPurify from 'dompurify';
 
 import Card from '@material-ui/core/Card';
 import { withStyles } from '@material-ui/core/styles';
@@ -54,6 +55,7 @@ const IdeaItem = ({
   function handleUserTracking(e) {
     Mixpanel.track('User Profile');
   }
+  const html = DOMPurify.sanitize(body);
 
   return (
     <Card className={classes.container}>
@@ -65,7 +67,7 @@ const IdeaItem = ({
           <a style={{ textDecoration: 'none' }}>
             <div
               className="giveMeEllipsis"
-              dangerouslySetInnerHTML={{ __html: body }}
+              dangerouslySetInnerHTML={{ __html: html }}
             />
           </a>
         </Link>

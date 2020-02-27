@@ -4,6 +4,7 @@ import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import Link from 'next/link';
 import { format, parseISO } from 'date-fns';
+import DOMPurify from 'dompurify';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
@@ -46,6 +47,16 @@ export const ButtonContainer = styled.div`
   padding: 0px 0 20px 0;
 `;
 
+const Inner = styled.div`
+  font-size: 1rem;
+  white-space: pre-wrap;
+
+  a {
+    text-decoration: none;
+    color: #e27d60;
+  }
+`;
+
 export default function IntroComment({ me, comments, commentBy, introId }) {
   const [editing, setEditing] = useState(false);
 
@@ -67,7 +78,7 @@ export default function IntroComment({ me, comments, commentBy, introId }) {
     );
 
   const canUpdate = (dateChecker && ownsComment) || hasPermissions;
-
+  const html = DOMPurify.sanitize(comments.body);
   return (
     <Root>
       {!editing && (
@@ -79,7 +90,7 @@ export default function IntroComment({ me, comments, commentBy, introId }) {
             marginRight: 15
           }}
         >
-          <div dangerouslySetInnerHTML={{ __html: comments.body }} />
+          <Inner dangerouslySetInnerHTML={{ __html: html }} />
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {commentBy.image === null || commentBy.image === '' ? (
               <Avatar

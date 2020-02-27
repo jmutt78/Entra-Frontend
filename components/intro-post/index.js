@@ -158,7 +158,7 @@ const Intro = ({ id, client }) => {
               const createdAt = intro.createdAt;
               const approval = intro.approval;
               const comments = intro.comments;
-              console.log(intro);
+
               const dateChecker =
                 parseInt(
                   (new Date() - new Date(createdAt)) / (1000 * 60 * 60 * 24)

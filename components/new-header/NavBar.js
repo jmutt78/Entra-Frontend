@@ -129,26 +129,15 @@ export default function Appbar({ isLoggedIn, me, router }) {
   const [state, setState] = React.useState({
     left: false
   });
-  const navLinks = [
-    {
-      name: 'Blog',
-      target: '/blog'
-    },
-    {
-      name: 'Stories',
-      target: '/stories'
-    }
-  ];
 
-  const questionLinks = [
-    {
-      name: 'My Feed',
-      target: '/myfeed'
-    },
-
+  const communityLinks = [
     {
       name: 'Latest Questions',
       target: '/all'
+    },
+    {
+      name: 'Community Ideas',
+      target: '/idea/public'
     },
     {
       name: 'Leaderboard',
@@ -156,15 +145,23 @@ export default function Appbar({ isLoggedIn, me, router }) {
     }
   ];
 
-  const ideaLinks = [
+  const userLinks = [
     {
-      name: 'My Ideas',
-      target: '/idea/my-ideas'
+      name: 'My Feed',
+      target: '/myfeed'
     },
 
     {
-      name: 'Community Ideas',
-      target: '/idea/public'
+      name: '  My Questions',
+      target: '/myquestions'
+    },
+    {
+      name: 'Bookmarks',
+      target: '/mybookmarks'
+    },
+    {
+      name: 'My Ideas',
+      target: '/idea/my-ideas'
     }
   ];
 
@@ -230,6 +227,24 @@ export default function Appbar({ isLoggedIn, me, router }) {
       onKeyDown={toggleDrawer(side, false)}
     >
       <List>
+        {me && (
+          <ListItem>
+            <ListItemIcon>
+              <EmojiObjectsIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary={
+                <NavMenu
+                  me={me}
+                  key={`My`}
+                  navLinks={feedLink()}
+                  curretPage={curretPage}
+                  name={`My Entra`}
+                />
+              }
+            />
+          </ListItem>
+        )}
         <ListItem>
           <ListItemIcon>
             <QuestionAnswerIcon />
@@ -238,26 +253,10 @@ export default function Appbar({ isLoggedIn, me, router }) {
             primary={
               <NavMenu
                 me={me}
-                key={`Community`}
-                navLinks={feedLink()}
+                navLinks={communityLinkCondition()}
                 curretPage={curretPage}
                 name={`Community`}
-              />
-            }
-          />
-        </ListItem>
-        <ListItem>
-          <ListItemIcon>
-            <EmojiObjectsIcon />
-          </ListItemIcon>
-          <ListItemText
-            primary={
-              <NavMenu
-                me={me}
-                navLinks={ideaLinkCondition()}
-                curretPage={curretPage}
-                name={`Ideas`}
-                key={`Ideas`}
+                key={`Community`}
               />
             }
           />
@@ -319,21 +318,20 @@ export default function Appbar({ isLoggedIn, me, router }) {
     </div>
   );
 
-  const ideaLinkCondition = () => {
-    if (!me) {
-      return ideaLinks.filter(link => link.name !== 'My Ideas');
-    }
-    return ideaLinks;
-  };
-
   const tagExist = me ? me.tags.some(tags => ![' '].includes(tags)) : '';
   const feedLink = () => {
-    if (!me) {
-      return questionLinks.filter(link => link.name === 'Latest Questions');
+    if (me) {
+      return userLinks;
     } else if (!tagExist) {
-      return questionLinks.filter(link => link.name !== 'My Feed');
+      return userLinks.filter(link => link.name !== 'My Feed');
     }
-    return questionLinks;
+  };
+
+  const communityLinkCondition = () => {
+    if (!me) {
+      return communityLinks.filter(link => link.name === 'Latest Questions');
+    }
+    return communityLinks;
   };
 
   const curretPage = router.pathname;
@@ -363,21 +361,23 @@ export default function Appbar({ isLoggedIn, me, router }) {
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <div className="navigationContainer">
+              {me && (
+                <NavMenu
+                  me={me}
+                  navLinks={feedLink()}
+                  curretPage={curretPage}
+                  name={`My Entra`}
+                  key={`My`}
+                  icon={<EmojiObjectsIcon fontSize="small" />}
+                />
+              )}
               <NavMenu
                 me={me}
                 key={`Community`}
-                navLinks={feedLink()}
+                navLinks={communityLinkCondition()}
                 curretPage={curretPage}
                 name={`Community`}
                 icon={<QuestionAnswerIcon fontSize="small" />}
-              />
-              <NavMenu
-                me={me}
-                navLinks={ideaLinkCondition()}
-                curretPage={curretPage}
-                name={`Ideas`}
-                key={`Ideas`}
-                icon={<EmojiObjectsIcon fontSize="small" />}
               />
 
               <NavMenu
