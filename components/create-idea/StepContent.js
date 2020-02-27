@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import styled from 'styled-components';
 
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,14 +14,13 @@ const stepNames = [
   `What's the value you're creating?`
 ];
 
-const useStepStyles = makeStyles(({ palette }) => ({
-  inputField: {
-    width: '100%'
+const StyledTextField = styled(TextField)`
+  &&& {
+    width: 100%;
   }
-}));
+`;
 
 export default ({ step, value, setField }) => {
-  const { inputField } = useStepStyles();
   const rows = (step => {
     switch (step) {
       case 0:
@@ -32,7 +31,6 @@ export default ({ step, value, setField }) => {
   })(step);
 
   const fieldprops = {
-    className: classNames(inputField),
     label: stepNames[step],
     multiline: true,
     name: steps[step],
@@ -43,5 +41,5 @@ export default ({ step, value, setField }) => {
     variant: 'filled'
   };
 
-  return <TextField {...fieldprops} />;
+  return <StyledTextField {...fieldprops} />;
 };

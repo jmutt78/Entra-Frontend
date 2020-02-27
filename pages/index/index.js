@@ -6,10 +6,9 @@ import Hero from './Hero';
 import VideoCTA from './VideoCTA';
 import CallToAction from './callToAction';
 import Layout from '../../components/layout/index.js';
-import { SectionBreak } from './styledComponents';
+import { SectionBreak } from '../../src/styledComponents';
 
 import Pixel from '../../utils/Pixel.js';
-import './index.css';
 
 const LandingContainer = styled.div`
   width: 100%;

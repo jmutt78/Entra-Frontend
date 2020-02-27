@@ -1,44 +1,18 @@
 import React, { useState } from 'react';
 import { capitalize } from 'lodash';
 import { Mutation } from 'react-apollo';
+import styled from 'styled-components';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 
 import './index.css';
 import Error from './../ErrorMessage.js';
 import StepContent from '../create-idea/StepContent';
 import { Mixpanel } from '../../utils/Mixpanel';
-
-const useSectionStyles = makeStyles(({ palette }) => ({
-  cardContainer: {
-    padding: '1rem 0'
-  },
-  card: {
-    minWidth: 275,
-    maxWidth: 800
-  },
-  title: {
-    fontWeight: 500
-  },
-  content: {
-    fontSize: 17,
-    whiteSpace: 'pre-wrap'
-  },
-  buttonContainer: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'flex-end',
-    paddingRight: '1rem'
-  },
-  stepContentContainer: {
-    padding: '1.5rem 0 0 0'
-  }
-}));
 
 const updateField = async (mutate, id, newState) => {
   await mutate({
@@ -48,6 +22,41 @@ const updateField = async (mutate, id, newState) => {
     }
   });
 };
+
+const StepContentContainer = styled.div`
+  padding: 1.5rem 0 0 0;
+`;
+
+const CardContaier = styled.div`
+  padding: 1rem 0;
+`;
+
+const StyledCard = styled(Card)`
+  &&& {
+    min-width: 275px;
+    max-width: 800px;
+  }
+`;
+
+const StyledTitle = styled(Typography)`
+  &&& {
+    font-weight: 500;
+  }
+`;
+
+const StyledContent = styled(Typography)`
+  &&& {
+    font-size: 17px;
+    white-space: pre-wrap;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 1rem;
+`;
 
 export default ({
   step,
@@ -60,20 +69,12 @@ export default ({
   downVotes,
   client
 }) => {
-  const {
-    cardContainer,
-    card,
-    title,
-    content,
-    buttonContainer,
-    stepContentContainer
-  } = useSectionStyles();
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(sectionContent);
 
   return (
-    <div className={cardContainer}>
-      <Card className={card}>
+    <CardContaier>
+      <StyledCard>
         <Mutation
           mutation={mutation}
           variables={{
@@ -86,37 +87,31 @@ export default ({
               <>
                 <CardContent>
                   <Error error={error} />
-                  <Typography
-                    gutterBottom
-                    variant="h5"
-                    component="h2"
-                    className={title}
-                  >
+                  <StyledTitle gutterBottom variant="h5" component="h2">
                     {capitalize(step)}
-                  </Typography>
+                  </StyledTitle>
 
                   {editing ? (
-                    <div className={stepContentContainer}>
+                    <StepContentContainer>
                       <StepContent
                         step={index}
                         value={value}
                         setField={setValue}
                       />
-                    </div>
+                    </StepContentContainer>
                   ) : (
-                    <Typography
+                    <StyledContent
                       variant="body2"
                       color="textSecondary"
                       component="p"
-                      className={content}
                     >
                       {sectionContent}
-                    </Typography>
+                    </StyledContent>
                   )}
                 </CardContent>
                 <CardActions>
                   {edit && (
-                    <div className={buttonContainer}>
+                    <ButtonContainer>
                       {editing && (
                         <Button
                           style={{ color: 'rgba(0, 0, 0, 0.54)' }}
@@ -145,14 +140,14 @@ export default ({
                       >
                         {editing ? 'Save' : 'Edit'}
                       </Button>
-                    </div>
+                    </ButtonContainer>
                   )}
                 </CardActions>
               </>
             );
           }}
         </Mutation>
-      </Card>
-    </div>
+      </StyledCard>
+    </CardContaier>
   );
 };

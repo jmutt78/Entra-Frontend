@@ -3,7 +3,10 @@ import styled from 'styled-components';
 import { withRouter } from 'next/router';
 import User from '../../components/auth/User';
 import { Mixpanel } from '../../utils/Mixpanel';
-import { HeroSignupButton, HeroSignupButtonText } from './styledComponents';
+import {
+  HeroSignupButton,
+  HeroSignupButtonText
+} from '../../src/styledComponents';
 
 const WhyContainer = styled.div`
   width: 100vw;

@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
 import Router from 'next/router';
+import styled from 'styled-components';
+import { VoteContainer } from '../../src/styledComponents';
 
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { makeStyles } from '@material-ui/core/styles';
 import { withApollo } from 'react-apollo';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -16,7 +17,7 @@ import Section from './Section';
 import Public from './Public';
 import { steps } from '../create-idea';
 import Error from './../ErrorMessage.js';
-import './index.css';
+// import './index.css';
 import { Mixpanel } from '../../utils/Mixpanel';
 import Vote from './Vote';
 import { CURRENT_USER_QUERY } from '../auth/User';
@@ -90,45 +91,75 @@ export const CREATE_BUSINESSIDEA_VOTE_MUTATION = gql`
   }
 `;
 
-const usePageStyles = makeStyles(({ palette, spacing }) => ({
-  cardsContainer: { padding: '0 0 3rem 0.5rem' },
-  container: {},
-  grid: { margin: spacing(1) },
-  paper: { backgroundColor: '#F2F4EF', padding: 30 },
-  root: { margin: spacing(1), marginTop: 40 },
-  spreadEmWide: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'space-between',
-    paddingRight: 20
-  },
-  title: {
-    color: 'rgba(0, 0, 0, 0.87)',
-    display: 'flex',
-    alignItems: 'center'
-  },
-  titleText: {
-    fontSize: '33px',
-    lineHeight: '2.7rem',
-    fontWeight: 600,
-    letterSpacing: '-1px'
+const Container = styled.div`
+  width: 100%;
+`;
+
+const GridRoot = styled(Grid)`
+  &&& {
+    margin: ${props => props.theme.spacing(1)}px;
+    margin-top: 40px;
   }
-}));
+`;
+
+const StyledGrid = styled(Grid)`
+  &&& {
+    margin: ${props => props.theme.spacing(1)}px;
+  }
+`;
+
+const IdeaTitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0 20px 0 20px;
+  width: '100%';
+
+  @media (max-width) {
+    padding: 0 5px 0 5px;
+  }
+`;
+
+const TitleTypography = styled(Typography)`
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  align-items: center;
+  width: 100%;
+`;
+
+const TitleText = styled.div`
+  font-size: 33px;
+  line-height: 2.7rem;
+  font-weight: 600px;
+  letter-spacing: -1px;
+`;
+
+const HoverButtonContainer = styled.div`
+  &:hover {
+    visibility: visible;
+  }
+`;
+
+const SpreadEmWide = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 20px;
+`;
+
+const CardsContainer = styled.div`
+  padding: 0 0 3rem 0.5rem;
+`;
+
+const StyledPaper = styled(Paper)`
+  &&& {
+    background-color: #f2f4ef;
+    padding: 30px;
+  }
+`;
 
 const DisplayIdea = ({ idea, id, client }) => {
   const [editing, setEditing] = useState(false);
   const [_idea, setIdea] = useState(null);
-
-  const {
-    cardsContainer,
-    container,
-    grid,
-    paper,
-    root,
-    spreadEmWide,
-    title,
-    titleText
-  } = usePageStyles();
 
   const upVote = id => {
     client.mutate({
@@ -189,26 +220,19 @@ const DisplayIdea = ({ idea, id, client }) => {
               const approved = hasPermissions || publicIdea;
 
               return (
-                <div className={container}>
+                <>
                   {approved && (
-                    <diV style={{ width: '100%' }}>
-                      <div
-                        className="idea-titleContainer"
-                        style={{ width: '100%' }}
-                      >
-                        <Typography
-                          variant="h6"
-                          className={title}
-                          style={{ width: '100%' }}
-                        >
-                          <div className="voteContainer">
+                    <Container>
+                      <IdeaTitleContainer>
+                        <TitleTypography variant="h6">
+                          <VoteContainer>
                             <Vote
                               upvoteCb={() => upVote(businessIdea.id)}
                               downvoteCb={() => downVote(businessIdea.id)}
                               upVotes={businessIdea.upVotes}
                               downVotes={businessIdea.downVotes}
                             />
-                          </div>
+                          </VoteContainer>
 
                           {editing ? (
                             <div style={{ width: '100%' }}>
@@ -219,9 +243,9 @@ const DisplayIdea = ({ idea, id, client }) => {
                               />
                             </div>
                           ) : (
-                            <div className={titleText}>{_idea}</div>
+                            <TitleText>{_idea}</TitleText>
                           )}
-                        </Typography>
+                        </TitleTypography>
 
                         <Mutation
                           mutation={UPDATE_IDEA_MUTATION}
@@ -232,7 +256,7 @@ const DisplayIdea = ({ idea, id, client }) => {
                         >
                           {(updateTitle, { error, loading }) => {
                             return (
-                              <div className={'hoverButtonContainer'}>
+                              <HoverButtonContainer>
                                 {hasPermissions && (
                                   <Button
                                     size="small"
@@ -251,12 +275,12 @@ const DisplayIdea = ({ idea, id, client }) => {
                                     {editing ? 'Save' : 'Edit'}
                                   </Button>
                                 )}
-                              </div>
+                              </HoverButtonContainer>
                             );
                           }}
                         </Mutation>
-                      </div>
-                      <div className={spreadEmWide}>
+                      </IdeaTitleContainer>
+                      <SpreadEmWide>
                         {hasPermissions ? (
                           <Public
                             id={id}
@@ -309,9 +333,9 @@ const DisplayIdea = ({ idea, id, client }) => {
                             );
                           }}
                         </Mutation>
-                      </div>
+                      </SpreadEmWide>
 
-                      <div className={cardsContainer}>
+                      <CardsContainer>
                         {steps.slice(1).map((s, i) => (
                           <Section
                             edit={hasPermissions}
@@ -324,29 +348,27 @@ const DisplayIdea = ({ idea, id, client }) => {
                             mutation={UPDATE_IDEA_MUTATION}
                           />
                         ))}
-                      </div>
-                    </diV>
+                      </CardsContainer>
+                    </Container>
                   )}
 
                   {!approved && (
                     <div>
                       {' '}
-                      <Grid container className={root} spacing={3}>
+                      <GridRoot container spacing={3}>
                         <Grid item xs />
-                        <Grid item xs={7} className={grid}>
-                          <Paper className={paper}>
-                            <div>
-                              <Typography>
-                                Sorry, this idea is no longer public
-                              </Typography>
-                            </div>
-                          </Paper>
-                        </Grid>
+                        <StyledGrid item xs={7}>
+                          <StyledPaper>
+                            <Typography>
+                              Sorry, this idea is no longer public
+                            </Typography>
+                          </StyledPaper>
+                        </StyledGrid>
                         <Grid item xs />
-                      </Grid>
+                      </GridRoot>
                     </div>
                   )}
-                </div>
+                </>
               );
             }}
           </Query>

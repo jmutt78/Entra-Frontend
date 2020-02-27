@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'next/router';
 import styled from 'styled-components';
 import { Mixpanel } from '../../utils/Mixpanel';
-import { HeroSignupButtonText } from './styledComponents';
+import { HeroSignupButtonText } from '../../src/styledComponents';
 
 const GridContainer = styled.div`
   display: flex;

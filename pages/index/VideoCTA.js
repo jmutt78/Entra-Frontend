@@ -5,7 +5,10 @@ import styled from 'styled-components';
 import Video from './Video';
 import User from '../../components/auth/User';
 import { Mixpanel } from '../../utils/Mixpanel';
-import { HeroSignupButton, HeroSignupButtonText } from './styledComponents';
+import {
+  HeroSignupButton,
+  HeroSignupButtonText
+} from '../../src/styledComponents';
 
 const YoutubeVideoButton = styled.div`
   display: flex;

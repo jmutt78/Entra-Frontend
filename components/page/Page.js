@@ -11,8 +11,6 @@ import styled from 'styled-components';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Error from './../ErrorMessage.js';
 
-import './Page.css';
-
 const Root = styled.div`
   display: flex;
   width: ${props => props.theme.layout.width};
