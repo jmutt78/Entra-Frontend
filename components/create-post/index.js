@@ -135,10 +135,10 @@ export default () => {
     <Mutation
       mutation={CREATE_INTRO_MUTATION}
       variables={{
-        approval: false,
         introduction: inputs.introduction,
         about: inputs.challenges,
-        challenges: inputs.help
+        challenges: inputs.help,
+        approval: false
       }}
     >
       {(createIntro, { error, loading }) => {

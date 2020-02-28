@@ -89,14 +89,14 @@ class BlogFeatured extends Component {
           const post = data.posts.edges[0];
 
           return (
-            <div>
+            <div style={{ padding: '2rem 0' }}>
               <Link
                 href={{
                   pathname: '/post',
                   query: { id: post.node.id }
                 }}
               >
-                <Card className="card">
+                <Card>
                   <CardHeader
                     avatar={
                       <div className="postAvatar">

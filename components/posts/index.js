@@ -20,6 +20,7 @@ export const INTROS_QUERY = gql`
       id
       display
       name
+      image
     }
   }
 }
