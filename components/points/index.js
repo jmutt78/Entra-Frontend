@@ -51,7 +51,7 @@ const useStyles = makeStyles(({ layout, palette }) => ({
   }
 }));
 
-export default () => {
+export default props => {
   const {
     container,
     credits,
@@ -61,7 +61,7 @@ export default () => {
     subtitle
   } = useStyles();
   return (
-    <div className="main-welcome-container">
+    <div className={props.welcome ? null : 'main-welcome-container'}>
       <PageHeader title={'Points and Mastery System'} />
       <Grid container className={container}>
         <div className={noteContainer}>

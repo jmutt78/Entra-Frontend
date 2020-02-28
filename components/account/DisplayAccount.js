@@ -21,7 +21,7 @@ const styles = theme => ({
     width: '100%',
     maxWidth: 800
   },
-  container: {
+  box: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
@@ -61,7 +61,7 @@ class DisplayAccount extends Component {
 
           return (
             <div className={classes.root}>
-              <div container className={classes.container}>
+              <div container className={classes.box}>
                 <Table className={classes.table}>
                   <TableHead>
                     <TableRow>

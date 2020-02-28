@@ -2,31 +2,25 @@ import React from 'react';
 import { withRouter } from 'next/router';
 import { format, parseISO } from 'date-fns';
 
+import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
-// import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import Link from 'next/link';
 
 import { Mixpanel } from '../../utils/Mixpanel';
-
 import './index.css';
 
 const styles = ({ layout, palette }) => ({
   container: {
     display: 'flex',
     alignItems: 'center',
-    padding: '5px 10px'
+    padding: '5px 10px',
+    maxWidth: '1000px',
+    height: '160px',
+    borderRadius: 0,
+    borderBottom: '1px solid #e8e8e8'
   },
-  votesBox: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    cursor: 'pointer'
-  },
-  votesCount: {
-    fontWeight: 600,
-    fontSize: '1rem'
-  },
+
   textBox: {
     display: 'flex',
     flexDirection: 'column',
@@ -35,36 +29,14 @@ const styles = ({ layout, palette }) => ({
   },
 
   title: {
-    padding: 0,
+    padding: '0px 0px 0px 15px',
     margin: 0,
-    color: '#2d3436',
+    color: '#333',
     maxWidth: 800,
     fontWeight: 'bold',
-    lineHeight: '1.9rem',
+    fontSize: '1rem',
     textAlign: 'left',
     cursor: 'pointer'
-  },
-
-  body: {
-    padding: 0,
-    margin: 0,
-    color: '#2d3436',
-    maxWidth: 800,
-    lineHeight: '1.8rem',
-    fontSize: '1.1rem',
-    textAlign: 'left',
-    cursor: 'pointer',
-    fontWeight: 500
-  },
-  // tags: {},
-
-  nameLink: {
-    fontWeight: 500,
-    textDecoration: 'none',
-    color: '#e27d60'
-  },
-  button: {
-    // /color: palette.primary.dark
   }
 });
 
@@ -81,25 +53,27 @@ const IdeaItem = ({
 }) => {
   function handleTracking(e) {
     Mixpanel.track('My Idea Link');
-    router.push(linkTo);
   }
 
   return (
-    <div className={classes.container}>
+    <Card className={classes.container}>
       <div className={classes.textBox}>
-        <Typography
-          variant="h6"
-          className={classes.title}
-          onClick={handleTracking}
-        >
-          {idea}
-        </Typography>
-
-        <div style={{ padding: '5px 0 10px 0' }}>
+        <Link href={linkTo}>
+          <a style={{ textDecoration: 'none' }}>
+            <Typography
+              variant="h6"
+              className={classes.title}
+              onClick={handleTracking}
+            >
+              {idea}
+            </Typography>
+          </a>
+        </Link>
+        <div style={{ padding: '5px 0 10px 15px' }}>
           Created On <span>{format(parseISO(createdAt), 'MMMM dd, yyyy')}</span>
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
 

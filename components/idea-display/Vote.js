@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import DownIcon from '@material-ui/icons/KeyboardArrowDown';
 import Tooltip from '@material-ui/core/Tooltip';
-import UpIcon from '@material-ui/icons/KeyboardArrowUp';
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 const Container = styled.div`
   display: flex;
@@ -36,7 +36,7 @@ const Vote = ({ upvoteCb, downvoteCb, upVotes, downVotes }) => {
   return (
     <Container>
       <Tooltip title="vote up" placement="top" onClick={() => vote('up')}>
-        <UpIcon
+        <ArrowDropUpIcon
           style={hasVoted > 0 ? { color: '#e8a77f' } : {}}
           fontSize="large"
         />
@@ -53,7 +53,7 @@ const Vote = ({ upvoteCb, downvoteCb, upVotes, downVotes }) => {
         {upVotes - downVotes}
       </VotesCount>
       <Tooltip title="vote down" placement="top" onClick={() => vote('down')}>
-        <DownIcon
+        <ArrowDropDownIcon
           style={hasVoted < 0 ? { color: '#85bdcb' } : {}}
           fontSize="large"
         />

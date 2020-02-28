@@ -34,8 +34,8 @@ const Page = ({ children, classes, router }) => {
         return (
           <Root>
             <Meta />
-            <Header me={me} />
-            {loading ? <LinearProgress variant="determinate" /> : null}
+            <Header me={me} loading={loading} />
+            {loading ? <LinearProgress variant="query" /> : null}
             {error ? <Error error={error} /> : null}
             {children}
             {isLanding && <Drift appId="rz4xagciytry" />}

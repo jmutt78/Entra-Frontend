@@ -87,7 +87,7 @@ class BlogFeatured extends Component {
           if (error) return <Error error={error} />;
 
           const post = data.posts.edges[0];
-          console.log(post.node.featuredImage.sourceUrl);
+
           return (
             <div>
               <Link

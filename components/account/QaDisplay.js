@@ -62,7 +62,7 @@ class QaDisplay extends Component {
           Activity
         </Typography>
 
-        <div className="container">
+        <div className="container-box">
           <div className={classes.elementContainer}>
             <Typography variant="h4" align="center">
               {user.myQuestions.length}

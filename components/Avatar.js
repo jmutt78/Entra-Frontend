@@ -20,15 +20,17 @@ const Root = styled.div`
 `;
 
 const AvatarContainer = styled(Typography)`
-  ${({ small }) =>
-    small !== null &&
-    `display: flex;
-    align-items: center;
-    padding: 5px 17px 0 0;
-    font-size: 1rem;
-    align-self: flex-end;
-    cursor: pointer;
-    font-weight: 600;`}
+  &&& {
+    ${({ small }) =>
+      small !== null &&
+      `display: flex;
+      align-items: center;
+      padding: 5px 17px 0 0;
+      font-size: 1rem;
+      align-self: flex-end;
+      cursor: pointer;
+      font-weight: 600;`}
+  }
 `;
 
 const StyledAvatar = styled(Avatar)`
@@ -116,7 +118,6 @@ export default function MyProfile({ me, small }) {
           )}
         </AvatarContainer>
       </div>
-
       <Popper
         open={open}
         anchorEl={anchorRef.current}

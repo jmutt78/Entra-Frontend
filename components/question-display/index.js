@@ -51,6 +51,9 @@ const styles = ({ palette, layout }) => ({
   bodyText: {
     whiteSpace: 'pre-wrap',
     fontSize: '1rem'
+  },
+  editButton: {
+    backgroundColor: palette.accent.blue
   }
 });
 
@@ -77,12 +80,6 @@ const creditsStyles = ({ palette, layout }) => ({
     fontWeight: 500,
     textDecoration: 'none',
     color: '#e27d60'
-  }
-});
-
-const editStyles = ({ palette, layout }) => ({
-  editButton: {
-    backgroundColor: palette.accent.blue
   }
 });
 
@@ -205,57 +202,55 @@ const Credits = withStyles(creditsStyles)(({ classes, user, createdAt }) => {
   );
 });
 
-const EditSection = withStyles(editStyles)(
-  ({ question, user, classes, hasPermissions }) => {
-    const answers = question.answers.length;
-    const date1 = new Date(question.createdAt);
-    const date2 = new Date();
-    const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
+const EditSection = ({ question, user, classes, hasPermissions }) => {
+  const answers = question.answers.length;
+  const date1 = new Date(question.createdAt);
+  const date2 = new Date();
+  const diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24));
 
-    return (user &&
-      question.askedBy[0].id === user.id &&
-      diffDays <= 1 &&
-      !answers) ||
-      hasPermissions ? (
-      <>
-        <Typography className="editSection-container" component={'div'}>
-          {user &&
-            question.askedBy[0].id === user.id &&
-            diffDays <= 1 &&
-            !answers && (
-              <>
-                <Link
-                  href={{
-                    pathname: '/edit-question',
-                    query: { id: question.id }
-                  }}
+  return (user &&
+    question.askedBy[0].id === user.id &&
+    diffDays <= 1 &&
+    !answers) ||
+    hasPermissions ? (
+    <>
+      <Typography className="editSection-container" component={'div'}>
+        {user &&
+          question.askedBy[0].id === user.id &&
+          diffDays <= 1 &&
+          !answers && (
+            <>
+              <Link
+                href={{
+                  pathname: '/edit-question',
+                  query: { id: question.id }
+                }}
+              >
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  className={classes.editButton}
                 >
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    className={classes.editButton}
-                  >
-                    EDIT
-                  </Button>
-                </Link>
-                <DeleteQuestion id={question.id} />
-              </>
-            )}
-          {hasPermissions && (
-            <div style={{ display: 'inline', paddingLeft: 5 }}>
-              <ApproveQuestion
-                hasPermissions={hasPermissions}
-                isApproved={question.approval === true}
-                id={question.id}
-                approval={question.approval}
-              />
-            </div>
+                  EDIT
+                </Button>
+              </Link>
+              <DeleteQuestion id={question.id} />
+            </>
           )}
-        </Typography>
-      </>
-    ) : null;
-  }
-);
+        {hasPermissions && (
+          <div style={{ display: 'inline', paddingLeft: 5 }}>
+            <ApproveQuestion
+              hasPermissions={hasPermissions}
+              isApproved={question.approval === true}
+              id={question.id}
+              approval={question.approval}
+            />
+          </div>
+        )}
+      </Typography>
+    </>
+  ) : null;
+};
 
 class DisplayQuestion extends Component {
   componentDidMount() {

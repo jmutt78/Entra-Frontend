@@ -9,6 +9,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
+
+import Points from '../points/index.js';
 import { Mixpanel } from '../../utils/Mixpanel';
 import './index.css';
 
@@ -48,6 +50,14 @@ const useStyles = makeStyles(({ layout, palette }) => ({
     padding: '1rem 0.5rem',
     borderRadius: 2
   },
+
+  pointsContainer: {
+    marginTop: '2rem',
+    marginBottom: '2rem',
+    background: palette.secondary.main,
+    padding: '1rem 0.5rem',
+    borderRadius: 2
+  },
   buttonContainer: {
     width: '100%',
     display: 'flex',
@@ -61,7 +71,8 @@ function getSteps() {
     'A Note from our founder',
     `Entra's Q&A`,
     `Entra's Business Idea
-  Feature`
+  Feature`,
+    `Mastery System`
   ];
 }
 
@@ -71,7 +82,8 @@ function getStepContent(
   subtitle,
   paragraph,
   credits,
-  sectionTitle
+  sectionTitle,
+  pointsContainer
 ) {
   switch (stepIndex) {
     case 0:
@@ -139,6 +151,8 @@ function getStepContent(
           </div>
         </div>
       );
+    case 3:
+      return <Points welcome={true} />;
 
     default:
       return 'Unknown stepIndex';
@@ -236,7 +250,7 @@ export default () => {
                 Back
               </Button>
 
-              {activeStep !== 2 ? (
+              {activeStep !== 3 ? (
                 <Button
                   variant="contained"
                   onClick={handleNext}
@@ -254,7 +268,7 @@ export default () => {
                   }}
                   style={{ margin: '0.5rem' }}
                 >
-                  {activeStep === 2 ? 'Finish' : 'Skip'}
+                  {activeStep === 3 ? 'Finish' : 'Skip'}
                 </Button>
               </Link>
             </div>

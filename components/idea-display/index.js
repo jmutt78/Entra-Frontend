@@ -112,7 +112,7 @@ const IdeaTitleContainer = styled.div`
   display: flex;
   align-items: center;
   padding: 0 20px 0 20px;
-  width: '100%';
+  /* width: '100%'; */
 
   @media (max-width) {
     padding: 0 5px 0 5px;
@@ -292,7 +292,6 @@ const DisplayIdea = ({ idea, id, client }) => {
                         )}
                         <Mutation
                           mutation={DELETE_IDEA_MUTATION}
-                          refetchQueries={BUSINESSIDEAS_LIST_QUERY}
                           awaitRefetchQueries={true}
                           onCompleted={() =>
                             Router.push({
@@ -338,6 +337,7 @@ const DisplayIdea = ({ idea, id, client }) => {
                       <CardsContainer>
                         {steps.slice(1).map((s, i) => (
                           <Section
+                            key={s}
                             edit={hasPermissions}
                             step={s}
                             sectionContent={businessIdea[s]}

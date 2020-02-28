@@ -4,8 +4,9 @@ import { withRouter } from 'next/router';
 import { format, parseISO } from 'date-fns';
 
 import Typography from '@material-ui/core/Typography';
-// import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
 import { withStyles } from '@material-ui/core/styles';
+
 import Avatar from '../Avatar';
 import { Mixpanel } from '../../utils/Mixpanel';
 
@@ -15,7 +16,11 @@ const styles = ({ layout, palette }) => ({
   container: {
     display: 'flex',
     alignItems: 'center',
-    padding: '5px 10px'
+    padding: '5px 10px',
+    maxWidth: '1000px',
+    height: '160px',
+    borderRadius: 0,
+    borderBottom: '1px solid #e8e8e8'
   },
   votesBox: {
     display: 'flex',
@@ -35,10 +40,10 @@ const styles = ({ layout, palette }) => ({
   title: {
     padding: 0,
     margin: 0,
-    color: '#2d3436',
+    color: '#333',
     maxWidth: 800,
     fontWeight: 'bold',
-    lineHeight: '1.9rem',
+    fontSize: '1rem',
     textAlign: 'left',
     cursor: 'pointer'
   },
@@ -46,10 +51,10 @@ const styles = ({ layout, palette }) => ({
   body: {
     padding: 0,
     margin: 0,
-    color: '#2d3436',
+    color: '#6f6f6f',
     maxWidth: 800,
     lineHeight: '1.8rem',
-    fontSize: '1.1rem',
+    fontSize: '.75rem',
     textAlign: 'left',
     cursor: 'pointer',
     fontWeight: 500
@@ -79,7 +84,6 @@ const IdeaItem = ({
 }) => {
   function handleTracking(e) {
     Mixpanel.track('Idea Link');
-    router.push(linkTo);
   }
 
   function handleUserTracking(e) {
@@ -87,20 +91,23 @@ const IdeaItem = ({
   }
 
   return (
-    <div className={classes.container}>
+    <Card className={classes.container}>
       <div className="avatarBox">
         <Avatar me={user} small linkToId={userId} />
       </div>
       <div className={classes.textBox}>
-        <Typography
-          variant="h6"
-          className={classes.title}
-          onClick={handleTracking}
-        >
-          {idea}
-        </Typography>
-
-        <div style={{ padding: '5px 0 10px 0' }}>
+        <Link href={linkTo}>
+          <a style={{ textDecoration: 'none' }}>
+            <Typography
+              variant="h6"
+              className={classes.title}
+              onClick={handleTracking}
+            >
+              {idea}
+            </Typography>
+          </a>
+        </Link>
+        <div style={{ padding: '5px 0 10px 0', fontSize: '.75rem' }}>
           Created by {}
           <Link
             href={{
@@ -116,7 +123,7 @@ const IdeaItem = ({
           <span> · </span>
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
 
