@@ -161,7 +161,7 @@ export default () => {
               }}
             >
               {introFeilds.map(({ input, title, placeholder }) => (
-                <FormContainer>
+                <FormContainer key={title}>
                   <h3>{title}</h3>
                   <DraftailEditor
                     rawContentState={null}

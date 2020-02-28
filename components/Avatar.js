@@ -50,7 +50,8 @@ const useStyles = makeStyles(theme => ({
   menu: {
     fontSize: '0.85rem',
     fontWeight: 600,
-    color: '#6f6f6f'
+    color: '#6f6f6f',
+    textDecoration: 'none'
   }
 }));
 
@@ -145,11 +146,11 @@ export default function MyProfile({ me, small }) {
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                    <Link href="/account/myaccount">
-                      <MenuItem className={classes.menu} onClick={handleClose}>
-                        My Profile
-                      </MenuItem>
-                    </Link>
+                    <MenuItem onClick={handleClose}>
+                      <Link href="/account/myaccount">
+                        <a className={classes.menu}>My Profile</a>
+                      </Link>
+                    </MenuItem>
 
                     <Divider />
 

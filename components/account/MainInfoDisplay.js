@@ -81,7 +81,7 @@ class MainInfoDisplay extends Component {
           const { classes } = this.props;
 
           const user = this.props.user;
-          const introId = user.myIntro[0].id;
+          const introId = user.myIntro[0];
           const level4 = this.props.user.mastery.level4;
           const me = data.me;
           const social = user.shareSocial && this.props.user.mastery.level1;
@@ -128,24 +128,34 @@ class MainInfoDisplay extends Component {
                 <Typography variant="subtitle1">
                   Industry: {user.industry}
                 </Typography>
-                <Link
-                  href={{
-                    pathname: '/intro-post',
-                    query: { id: introId }
-                  }}
-                >
-                  <Typography
-                    variant="subtitle1"
-                    style={{
-                      textDecoration: 'none',
-                      color: '#85BDCB',
-                      fontWeight: 'bold',
-                      cursor: 'pointer'
+                {introId ? (
+                  <Link
+                    href={{
+                      pathname: '/intro-post',
+                      query: { id: introId }
                     }}
                   >
-                    Introduction
+                    <Typography
+                      variant="subtitle1"
+                      style={{
+                        textDecoration: 'none',
+                        color: '#85BDCB',
+                        fontWeight: 'bold',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Introduction
+                    </Typography>
+                  </Link>
+                ) : (
+                  <Typography style={{ padding: '10px 0 10px 0' }}>
+                    <Link href="/create-post">
+                      <Button variant="contained" type="button">
+                        CREATE INTRODUCTION
+                      </Button>
+                    </Link>
                   </Typography>
-                </Link>
+                )}
                 {(emailTrue || me === user) && (
                   <div>
                     <Typography variant="subtitle1">

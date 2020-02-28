@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 
 import ListItem from '../ListItem';
 import PageHeader from '../PageHeader';
@@ -11,6 +12,7 @@ import Search from '../search/QuestionSearch';
 import { QuestionListContainer } from '../../src/styledComponents';
 import BlogFeatured from '../featured-story';
 import NewMembers from '../new-members';
+import HomeFooter from '../footer/HomeFooter';
 
 const Container = styled.div`
   padding-top: 15px;
@@ -107,6 +109,8 @@ function QuestionList(props) {
               Story of the Month
             </Typography>
             <BlogFeatured />
+            <Divider />
+            <HomeFooter />
           </FooterContainer>
         </Container>
       </ul>

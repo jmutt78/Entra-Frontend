@@ -71,7 +71,7 @@ const updateUser = async (e, user, updateUserMutation, tags) => {
     refetchQueries: [{ query: CURRENT_USER_QUERY }]
   });
   Router.push({
-    pathname: '/myfeed'
+    pathname: '/create-post'
   });
   Mixpanel.track('Tag Save');
 };
@@ -118,6 +118,7 @@ export default ({ user, _tags }) => {
               <div className={formContainer}>
                 {_tags.map(tag => (
                   <div
+                    key={tag.id}
                     className="tag-select-target"
                     onMouseEnter={() => setHoverState(tag.id)}
                     onMouseLeave={() => setHoverState(null)}

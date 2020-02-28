@@ -142,6 +142,10 @@ export default function Appbar({ isLoggedIn, me, router }) {
     {
       name: 'Leaderboard',
       target: '/leaderboard'
+    },
+    {
+      name: 'Member Inroductions',
+      target: '/posts'
     }
   ];
 
@@ -319,11 +323,20 @@ export default function Appbar({ isLoggedIn, me, router }) {
   );
 
   const tagExist = me ? me.tags.some(tags => ![' '].includes(tags)) : '';
+
   const feedLink = () => {
-    if (me) {
-      return userLinks;
-    } else if (!tagExist) {
+    if (!tagExist) {
       return userLinks.filter(link => link.name !== 'My Feed');
+    } else {
+      return userLinks;
+    }
+  };
+
+  const createLink = () => {
+    if (intros) {
+      return userLinks.filter(link => link.name !== 'My Feed');
+    } else {
+      return userLinks;
     }
   };
 
