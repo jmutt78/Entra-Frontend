@@ -1,4 +1,5 @@
 import React from 'react';
+import Head from 'next/head';
 import Header from '../new-header';
 import Meta from '../meta/Meta.js';
 import Footer from '../footer';
@@ -53,12 +54,33 @@ const Page = ({ children, classes, router }) => {
     router.pathname === '/points' ||
     router.pathname === '/post';
 
+  const toUpperFirst = string => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  const getPageName = () => {
+    let pageName = '';
+    const pathWords = router.pathname.split('/');
+    if (router.pathname === '/') {
+      pageName = 'Home';
+    } else {
+      pathWords.forEach(w => {
+        pageName += toUpperFirst(w);
+        pageName += ' ';
+      });
+    }
+    return pageName;
+  };
+
   return (
     <Query query={CURRENT_USER_QUERY}>
       {({ data: { me }, error, loading }) => {
         return (
           <div className={classes.root}>
             <Meta />
+            <Head>
+              <title>ENTRA - {getPageName()}</title>
+            </Head>
             <Header me={me} loading={loading} />
             {loading ? <LinearProgress variant="query" /> : null}
             {error ? <Error error={error} /> : null}
