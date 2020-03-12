@@ -1,6 +1,7 @@
 import mixpanel from 'mixpanel-browser';
 const mix = '59a5230bfd7a84ed31296264899ab6e6';
 //const mix = '//////////';
+mixpanel.init(mix);
 
 let actions = {
   identify: id => {
