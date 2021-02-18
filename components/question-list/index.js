@@ -9,7 +9,6 @@ import ListItem from '../ListItem';
 import PageHeader from '../PageHeader';
 import Search from '../search/QuestionSearch';
 import { QuestionListContainer } from '../../src/styledComponents';
-import BlogFeatured from '../featured-story/index.js';
 
 const Container = styled.div`
   padding-top: 15px;
@@ -90,16 +89,6 @@ function QuestionList(props) {
                 );
               })}
           </QuestionContainer>
-
-          <FooterContainer>
-            <Typography
-              variant="h6"
-              style={{ paddingLeft: 30, fontWeight: 'bold' }}
-            >
-              Story of the Month
-            </Typography>
-            <BlogFeatured />
-          </FooterContainer>
         </Container>
       </ul>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
