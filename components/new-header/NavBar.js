@@ -374,14 +374,6 @@ export default function Appbar({ isLoggedIn, me, router }) {
 
               <NavMenu
                 me={me}
-                navLinks={blogLinks}
-                curretPage={curretPage}
-                name={`Learn`}
-                key={`Learn`}
-                icon={<MenuBookIcon fontSize="small" />}
-              />
-              <NavMenu
-                me={me}
                 navLinks={createLinks}
                 curretPage={curretPage}
                 name={`Create`}
